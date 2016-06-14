@@ -1,0 +1,22 @@
+{
+  "name": "admin-code-editor",
+  "description": "Admin Code Editor WordPress Plugin",
+  "main": "gulpfile.js",
+  "authors": [
+    "Steve Puddick"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/spuddick/admin-code-editor",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  }
+}
