@@ -1,0 +1,21 @@
+[submodule "lib/ace"]
+	path = lib/ace
+	url = https://github.com/ajaxorg/ace
+[submodule "lib/lessphp"]
+	path = lib/lessphp
+	url = https://github.com/leafo/lessphp
+[submodule "lib/scssphp"]
+	path = lib/scssphp
+	url = https://github.com/leafo/scssphp
+[submodule "lib/coffeescript-php"]
+	path = lib/coffeescript-php
+	url = https://github.com/alxlit/coffeescript-php
+[submodule "lib/HamlPHP"]
+	path = lib/HamlPHP
+	url = https://github.com/hamlphp/HamlPHP
+[submodule "lib/php-markdown"]
+	path = lib/php-markdown
+	url = https://github.com/michelf/php-markdown
+[submodule "lib/Stylus.php"]
+	path = lib/Stylus.php
+	url = https://github.com/AustP/Stylus.php
