@@ -153,6 +153,11 @@ class Admin_Code_Editor {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		
+		$this->loader->add_action( 'add_meta_boxes', 				$plugin_admin, 'code_editor_add_meta_box' );
+		$this->loader->add_action( 'save_post', 						$plugin_admin, 'code_editor_save' );
+		$this->loader->add_action( 'default_hidden_meta_boxes', $plugin_admin, 'hide_code_meta_box' );
+		$this->loader->add_action( 'admin_notices', 				$plugin_admin, 'sass_compile_notice' );
 
 	}
 
@@ -167,9 +172,13 @@ class Admin_Code_Editor {
 
 		$plugin_public = new Admin_Code_Editor_Public( $this->get_admin_code_editor(), $this->get_version() );
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'wp_enqueue_scripts', 	$plugin_public, 'enqueue_styles' );
+		$this->loader->add_action( 'wp_enqueue_scripts', 	$plugin_public, 'enqueue_scripts' );
 
+		$this->loader->add_action( 'the_content', 				$plugin_public, 'append_code_to_content' );
+		$this->loader->add_action( 'wp_footer', 					$plugin_public, 'insert_script_in_footer' );
+		$this->loader->add_action( 'wp_head', 						$plugin_public, 'insert_script_in_head' );
+	
 	}
 
 	/**
