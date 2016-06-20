@@ -73,18 +73,37 @@ class Admin_Code_Editor_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->admin_code_editor, plugin_dir_url( __FILE__ ) . 'css/admin-code-editor-admin.css', array(), $this->version, 'all' );
-		wp_register_style( 'bootstrap-style', plugins_url( 'css/bootstrap.css', __FILE__ ), null, filemtime(plugin_dir_path( __FILE__ ) .'css/bootstrap.css')  );
-	 	wp_enqueue_style( 'bootstrap-style' );
-
-		wp_register_style( 'bootstrap-theme-style', plugins_url( 'css/bootstrap-theme.css', __FILE__ ), null, filemtime(plugin_dir_path( __FILE__ ) .'css/bootstrap-theme.css')  );
-	 	wp_enqueue_style( 'bootstrap-theme-style' );
-
-		wp_register_style( 'highlight-admin-style', plugins_url( 'liberal-admin-code-highlight.css', __FILE__ ), null, filemtime(plugin_dir_path( __FILE__ ) .'/liberal-admin-code-highlight.css')  );
-	 	wp_enqueue_style( 'highlight-admin-style' );
-
-		wp_register_style( 'font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
-	 	wp_enqueue_style( 'font-awesome' );	 	
+		wp_enqueue_style( $this->admin_code_editor, 
+			plugin_dir_url( __FILE__ ) . 'css/admin-code-editor-admin.css', 
+			array(), 
+			filemtime(plugin_dir_path( __FILE__ ) . 'css/admin-code-editor-admin.css'), 
+			'all' 
+		);
+		
+		wp_enqueue_style( 
+			'wp-ace-bootstrap', 
+			plugin_dir_url( __FILE__ ) . 'css/bootstrap.css', 
+			array(), 
+			filemtime(plugin_dir_path( __FILE__ ) . 'css/bootstrap.css'), 
+			'all' 
+		);
+		
+		wp_enqueue_style( 
+			'wp-ace-bootstrap-theme', 
+			plugin_dir_url( __FILE__ ) . 'css/bootstrap-theme.css', 
+			array('wp-ace-bootstrap'), 
+			filemtime(plugin_dir_path( __FILE__ ) . 'css/bootstrap-theme.css'), 
+			'all' 
+		);
+		
+		wp_enqueue_style( 
+			'wp-ace-font-awesome',
+			'//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css', 
+			array(), 
+			'4.6.3', 
+			'all' 
+		);
+	
 	}
 
 	/**
@@ -106,21 +125,37 @@ class Admin_Code_Editor_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->admin_code_editor, plugin_dir_url( __FILE__ ) . 'js/admin-code-editor-admin.js', array( 'jquery' ), $this->version, false );
-		wp_register_script( 'ace-highlight-src', plugins_url( 'ace-builds/src-min/ace.js', __FILE__ ), array('jquery') );
-	 	wp_enqueue_script( 'ace-highlight-src' );
-		wp_register_script( 'ace-highlight-admin', plugins_url( 'admin-code-highlight.js', __FILE__ ), array('ace-highlight-src'), filemtime(plugin_dir_path( __FILE__ ) .'/admin-code-highlight.js') );
-	 	wp_enqueue_script( 'ace-highlight-admin' );
-		wp_register_script( 'bootstrap-script', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js' );
-	 	wp_enqueue_script( 'bootstrap-script' );
+		wp_enqueue_script( 
+			'wp-ace-editor-js', 
+			plugins_url( 'ace-builds/src-min/ace.js', __FILE__ ), 
+			array('jquery'), 
+			filemtime(plugin_dir_path( __FILE__ ) . 'ace-builds/src-min/ace.js')
+		);
+		
+		wp_enqueue_script( 
+			'wp-ace-bootstrap-js',
+			'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js' , 
+			array('jquery'), 
+			'3.3.6'
+		);
+
+		wp_enqueue_script( 
+			$this->admin_code_editor, 
+			plugin_dir_url( __FILE__ ) . 'js/admin-code-editor-admin.js', 
+			array( 'jquery', 'wp-ace-bootstrap-js', 'wp-ace-editor-js' ), 
+			filemtime(plugin_dir_path( __FILE__ ) . 'js/admin-code-editor-admin.js')
+		);
+		
+
 	}
 
 
 	function code_editor_add_meta_box() {
 		// add the metabox to posts and pages
 		
-		$screens = array( 'post', 'page', 'wwsf-commitment', 'home-page-feature', 'home-page-slider', 'con-policy' );
-		
+		// $screens = array( 'post', 'page', 'wwsf-commitment', 'home-page-feature', 'home-page-slider', 'con-policy' );
+		// need to iterate through specified post types from settings page
+
 		foreach ( $screens as $screen ) {
 
 			add_meta_box(
@@ -145,13 +180,14 @@ class Admin_Code_Editor_Admin {
 	function code_editor_section_callback( $post ) {
 
 		// Add a nonce field so we can check for it later.
-		wp_nonce_field( 'code_highlight_box', 'code_highlight_box_nonce' );
+		// wp_nonce_field( 'code_highlight_box', 'code_highlight_box_nonce' );
 
 		/*
 		 * Use get_post_meta() to retrieve an existing value
 		 * from the database and use the value for the form.
 		 */
 		
+		/*
 		$code_insert_mode = get_post_meta( $post->ID, '_code_insert_mode', true );
 		if (empty($code_insert_mode)) {
 			$code_insert_mode = 'append_bottom';
@@ -167,7 +203,7 @@ class Admin_Code_Editor_Admin {
         $html_header_footer_class_output = '';
         break;
 		}
-
+		 
 
 		$html_code 		= get_post_meta( $post->ID, '_html_code', true );
 		$html_header_code 		= get_post_meta( $post->ID, '_html_header_code', true );
@@ -183,7 +219,8 @@ class Admin_Code_Editor_Admin {
 		$js_height 		= get_post_meta( $post->ID, '_js_field_height', true );
 
 		$css_compile_error =  get_post_meta( $post->ID, '_compiled_css_error_msg', true);
-		
+
+		*/
 		/**
 		*
 		* We want to have the option to use the english CSS and javascript on both the english and french.
@@ -191,6 +228,8 @@ class Admin_Code_Editor_Admin {
 		* Some checks are needed first to determine what message should be displayed.
 		*
 		**/
+		
+		/*
 		if (ICL_LANGUAGE_CODE == 'fr') {
 			$french_post_id = $post->ID;
 		} else {
@@ -232,6 +271,7 @@ class Admin_Code_Editor_Admin {
 		if (empty($js_height)) {
 			$js_height = 500;
 		}
+		*/
 	
 		require_once('partials/admin-code-editor-admin.php');
 	
@@ -370,7 +410,7 @@ class Admin_Code_Editor_Admin {
 		} else {
 			try {
 				
-				require_once plugin_dir_path( __FILE__ )."scssphp/scss.inc.php";
+				//require_once plugin_dir_path( __FILE__ )."scssphp/scss.inc.php";
 				//echo 'after require';
 				$scss = new scssc();
 				//echo 'before update' . "\r\n";
@@ -390,6 +430,192 @@ class Admin_Code_Editor_Admin {
 			}			
 		}
 
+	}
+
+
+  /**
+   * Create the Notes post type
+   * 
+   * @since 0.1.0
+   */
+    function wp_ace_post_type_init() {
+
+      $labels = array(
+      'name'               => _x( 'Notes', 'post type general name', 'wp-notes-widget' ),
+      'singular_name'      => _x( 'Note', 'post type singular name', 'wp-notes-widget' ),
+      'menu_name'          => _x( 'Notes', 'admin menu', 'wp-notes-widget' ),
+      'name_admin_bar'     => _x( 'Note', 'add new on admin bar', 'wp-notes-widget' ),
+      'add_new'            => _x( 'Add New', 'nw-item', 'wp-notes-widget' ),
+      'add_new_item'       => __( 'Add New Note', 'wp-notes-widget' ),
+      'new_item'           => __( 'New Note', 'wp-notes-widget' ),
+      'edit_item'          => __( 'Edit Note', 'wp-notes-widget' ),
+      'view_item'          => __( 'View Note', 'wp-notes-widget' ),
+      'all_items'          => __( 'All Notes', 'wp-notes-widget' ),
+      'search_items'       => __( 'Search Notes', 'wp-notes-widget' ),
+      'parent_item_colon'  => __( 'Parent Notes:', 'wp-notes-widget' ),
+      'not_found'          => __( 'No notes found.', 'wp-notes-widget' ),
+      'not_found_in_trash' => __( 'No notes found in Trash.', 'wp-notes-widget' )
+    );
+
+    $args = array(
+      'labels'                => $labels,
+      'public'                => false,
+      'publicly_queryable'    => false,
+      'exclude_from_search'   => true,
+      'show_ui'               => true, 
+      'show_in_menu'          => true, 
+      'query_var'             => true,
+      'rewrite'               => false,
+      'capability_type'       => 'post',
+      'has_archive'           => false, 
+      'hierarchical'          => false,
+      'menu_position'         => null,
+      'supports'              => array('title','page-attributes')
+    ); 
+
+    register_post_type('nw-item',$args);
+
+  } // end notes_post_type_init
+
+
+	/**
+	 *
+	 * Add options page for Custom Ratings Settings
+	 *
+	 * @since 1.0.0 
+	 */
+	function options_menu() {
+		add_options_page( 
+			'Custom Rating Settings',
+			'Custom Ratings',
+			'manage_options',
+			'custom-ratings-options-page',
+			array(&$this,'custom_ratings_settings_page')
+		);
+	}
+
+
+	/**
+	 *
+	 * Custom Ratings Settings Page Callback
+	 *
+	 * @since 1.0.0 
+	 */
+	function custom_ratings_settings_page() {
+		?>
+			<div class="wrap">
+				<h1><?php _e('Custom Ratings Settings', 'custom-ratings'); ?></h1>
+				<form method="post" action="options.php">
+					<?php
+						do_settings_sections("custom-ratings-options-page"); 
+						settings_fields("custom-ratings-settings");
+						     
+						submit_button(); 
+					?>          
+				</form>
+			</div>
+		<?php
+	}
+
+
+	/**
+	 *
+	 * Option field for 'report text'. This contains placeholder values for the number of votes and rating average.
+	 *
+	 * @since 1.0.0 
+	 */
+	function display_report_text_field_element() {
+		?>
+			
+			<input type="text" name="wpcr_report_text" id="wpcr_report_text" class="wpcr__text" value="<?php echo get_option('wpcr_report_text'); ?>" placeholder="<?php _e('%TOTAL_VOTES% votes with an average of %AVG%.', 'custom-ratings') ?>" />
+			<p><small><?php _e('Use the placeholders of %AVG% and %TOTAL_VOTES% in your text.', 'custom-ratings') ?></small></p>
+		<?php
+	}
+
+
+	/**
+	 *
+	 * Option field to choose which post types 'custom ratings' are applied to.
+	 *
+	 * @since 1.0.0
+	 */
+	function display_post_type_choice_element() {
+		
+		$args = array(
+			'public'   => true
+		);
+
+		$post_types 					= get_post_types( $args, 'objects' ); 
+		$selected_post_types 	= get_option('wpcr_post_types');
+		
+		$is_selected_post_type = function($post_type_name) use ($selected_post_types) {
+			if (!empty($selected_post_types) && in_array($post_type_name, $selected_post_types) ) {
+				return ' selected ';
+			}
+		};
+		print '<p><small>' . __('To select multiple post types hold down CTRL (windows) or CMD (mac) while clicking.', 'custom-ratings') . '</small></p>';
+		print '<select id="wpcr_post_types" name="wpcr_post_types[]" multiple >';
+		foreach ( $post_types as $post_type ) {
+			echo '<option value="'. $post_type->name .'" '. $is_selected_post_type($post_type->name) .' >' . $post_type->labels->name . '</option>';
+		}
+		print '</select>';
+
+	}
+
+
+	function display_theme_panel_fields() {
+		
+		// Set up subsections for settings page
+		add_settings_section("general-section", "General Settings", null, "custom-ratings-options-page");
+		add_settings_section("text-section", 		"Text Settings", 		null, "custom-ratings-options-page");
+		
+		// General settings fields
+		add_settings_field("wpcr_star_type", 								__('Choose Your Star Type', 'custom-rating'), 																			array(&$this,"display_star_type_field_element"), 					"custom-ratings-options-page", "general-section");		
+		add_settings_field("wpcr_image_upload_id", 					__('Upload an image (select "custom" above)', 'custom-rating'), 										array(&$this,"display_image_upload_field_element"), 			"custom-ratings-options-page", "general-section");
+		add_settings_field("wpcr_post_types", 							__('What post types should custom ratings be applied to?', 'custom-rating'), 				array(&$this,"display_post_type_choice_element"), 				"custom-ratings-options-page", "general-section");
+		add_settings_field("wpcr_excerpt_output_type", 			__('Rating Tally Display Position', 'custom-rating'), 															array(&$this,"display_excerpt_output_field_element"), 		"custom-ratings-options-page", "general-section");
+		add_settings_field("wpcr_content_output_type", 			__('Vote Display Position', 'custom-rating'), 																			array(&$this,"display_content_output_field_element"), 		"custom-ratings-options-page", "general-section");
+		add_settings_field("wpcr_spectrum_color", 					__('Select Color', 'custom-rating'), 																								array(&$this,"display_color_selector_field_element"), 		"custom-ratings-options-page", "general-section");
+		add_settings_field("wpcr_show_top_border", 					__('Display Top Border', 'custom-rating'), 																					array(&$this,"display_top_border_field_element"), 				"custom-ratings-options-page", "general-section");
+		add_settings_field("wpcr_show_bottom_border", 			__('Display Buttom Border', 'custom-rating'), 																			array(&$this,"display_bottom_border_field_element"), 			"custom-ratings-options-page", "general-section");
+		add_settings_field("wpcr_only_on_main_query", 			__('Main Query', 'custom-rating'), 																			array(&$this,"display_main_query_field_element"), 			"custom-ratings-options-page", "general-section");
+		add_settings_field("wpcr_ajax_get_caching_time", 		__('Caching', 'custom-rating'), 																										array(&$this,"display_ajax_get_caching_field_element"), 			"custom-ratings-options-page", "general-section");
+		add_settings_field("wpcr_use_own_css", 							__('CSS', 'custom-rating'), 																												array(&$this,"display_use_own_css_field_element"), 				"custom-ratings-options-page", "general-section");
+		add_settings_field("wpcr_hide_on_front_page", 			__('Front Page', 'custom-rating'), 																									array(&$this,"display_hide_front_page_field_element"), 		"custom-ratings-options-page", "general-section");
+		
+		
+		// Text settings fields
+		add_settings_field("wpcr_intro_text", 							__('Intro Text', 'custom-rating'), 																									array(&$this,"display_intro_text_field_element"), 				"custom-ratings-options-page", "text-section");
+		add_settings_field("wpcr_loading_text", 						__('Loading Text', 'custom-rating'), 																								array(&$this,"display_loading_text_field_element"), 			"custom-ratings-options-page", "text-section");
+		add_settings_field("wpcr_error_text", 							__('Add Vote Error Text', 'custom-rating'), 																				array(&$this,"display_error_text_field_element"), 				"custom-ratings-options-page", "text-section");
+		add_settings_field("wpcr_first_vote_text", 					__('First Vote Text', 'custom-rating'), 																						array(&$this,"display_first_vote_text_field_element"),		"custom-ratings-options-page", "text-section");
+		add_settings_field("wpcr_adding_vote_text", 				__('Adding Vote Text', 'custom-rating'), 																						array(&$this,"display_adding_vote_text_field_element"), 	"custom-ratings-options-page", "text-section");
+		add_settings_field("wpcr_thank_you_text", 					__('Thank You Text', 'custom-rating'), 																							array(&$this,"display_thank_you_text_field_element"), 		"custom-ratings-options-page", "text-section");
+		add_settings_field("wpcr_report_text", 							__('Rating Report Text', 'custom-rating'), 																					array(&$this,"display_report_text_field_element"), 				"custom-ratings-options-page", "text-section");
+		
+		// Register general settings
+		register_setting("custom-ratings-settings", "wpcr_star_type");
+		register_setting("custom-ratings-settings", "wpcr_post_types");
+		register_setting("custom-ratings-settings", "wpcr_excerpt_output_type");
+		register_setting("custom-ratings-settings", "wpcr_content_output_type");
+		register_setting("custom-ratings-settings", "wpcr_image_upload_id");
+		register_setting("custom-ratings-settings", "wpcr_color");
+		register_setting("custom-ratings-settings", "wpcr_top_border");
+		register_setting("custom-ratings-settings", "wpcr_bottom_border");
+		register_setting("custom-ratings-settings", "wpcr_only_on_main_query");
+		register_setting("custom-ratings-settings", "wpcr_ajax_get_caching_time");
+		register_setting("custom-ratings-settings", "wpcr_use_own_css");
+		register_setting("custom-ratings-settings", "wpcr_hide_on_front_page");
+
+		// Register text settings
+		register_setting("custom-ratings-settings", "wpcr_intro_text");
+		register_setting("custom-ratings-settings", "wpcr_loading_text");
+		register_setting("custom-ratings-settings", "wpcr_error_text");
+		register_setting("custom-ratings-settings", "wpcr_first_vote_text");
+		register_setting("custom-ratings-settings", "wpcr_adding_vote_text");
+		register_setting("custom-ratings-settings", "wpcr_thank_you_text");
+		register_setting("custom-ratings-settings", "wpcr_report_text");
+		
 	}
 
 }
