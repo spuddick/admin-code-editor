@@ -621,18 +621,30 @@ class Admin_Code_Editor_Admin {
 		$post_types 					= get_post_types( $args, 'objects' ); 
 		$selected_post_types 	= get_option('wpcr_post_types');
 		
-		$is_selected_post_type = function($post_type_name) use ($selected_post_types) {
+		$is_checked_post_type = function($post_type_name) use ($selected_post_types) {
 			if (!empty($selected_post_types) && in_array($post_type_name, $selected_post_types) ) {
-				return ' selected ';
+				return ' checked ';
 			}
 		};
-		print '<p><small>' . __('To select multiple post types hold down CTRL (windows) or CMD (mac) while clicking.', 'custom-ratings') . '</small></p>';
-		print '<select id="wpcr_post_types" name="wpcr_post_types[]" multiple >';
-		foreach ( $post_types as $post_type ) {
-			echo '<option value="'. $post_type->name .'" '. $is_selected_post_type($post_type->name) .' >' . $post_type->labels->name . '</option>';
-		}
-		print '</select>';
 
+		?>
+			<div class="wp-ace-bootstrap">
+				<?php
+
+					foreach ( $post_types as $post_type ) {
+				?>
+				<div class="checkbox">
+					<label for="wp-ace__enable-post-type-<?php echo $post_type->name; ?>" > 
+						<input type="checkbox" id="wp-ace__enable-post-type-<?php echo $post_type->name; ?>" name="wp-ace-enable-post-type[]" value="<?php echo $post_type->name; ?>" <?php echo $is_checked_post_type($post_type->name); ?> /><?php echo $post_type->labels->name; ?>
+					</label>
+				</div>
+				<?php
+				}
+
+				?>
+			</div>
+
+		<?php
 	}
 
 
@@ -643,26 +655,47 @@ class Admin_Code_Editor_Admin {
 	 * @since 1.0.0
 	 */
 	function display_default_preprocessors_field_element() {
-		
-		$args = array(
-			'public'   => true
-		);
+		?>
 
-		$post_types 					= get_post_types( $args, 'objects' ); 
-		$selected_post_types 	= get_option('wpcr_post_types');
-		
-		$is_selected_post_type = function($post_type_name) use ($selected_post_types) {
-			if (!empty($selected_post_types) && in_array($post_type_name, $selected_post_types) ) {
-				return ' selected ';
-			}
-		};
-		print '<p><small>' . __('To select multiple post types hold down CTRL (windows) or CMD (mac) while clicking.', 'custom-ratings') . '</small></p>';
-		print '<select id="wpcr_post_types" name="wpcr_post_types[]" multiple >';
-		foreach ( $post_types as $post_type ) {
-			echo '<option value="'. $post_type->name .'" '. $is_selected_post_type($post_type->name) .' >' . $post_type->labels->name . '</option>';
-		}
-		print '</select>';
+			<div class="wp-ace-bootstrap">
+				<div class="input-group">
+					<div class="radio">
+						<label for="wp-ace__enable-haml" >
+							<input type="radio" id="wp-ace__enable-haml" name="wp-ace-enable-preprocessor" value="haml"  /><?php _e('HAML', 'admin-code-editor') ?>
+						</label>
+					</div>
+					<div class="radio">
+						<label for="wp-ace__enable-coffee-script" >
+							<input type="radio" id="wp-ace__enable-coffee-script" name="wp-ace-enable-preprocessor" value="coffee-script"  /><?php _e('Coffee Script', 'admin-code-editor') ?>
+						</label>
+					</div>
+					<div class="radio">
+						<label for="wp-ace__enable-less" >
+							<input type="radio" id="wp-ace__enable-less" name="wp-ace-enable-preprocessor" value="less"  /><?php _e('LESS', 'admin-code-editor') ?>
+						</label>
+					</div>
+				</div>
+				<div class="input-group">
+					<div class="radio">
+						<label for="wp-ace__enable-markdown" >
+							<input type="radio" id="wp-ace__enable-markdown" name="wp-ace-enable-preprocessor" value="markdown"  /><?php _e('Markdown', 'admin-code-editor') ?>
+						</label>
+					</div>
+					<div class="radio">
+						<label for="wp-ace__enable-sass" >
+							<input type="radio" id="wp-ace__enable-sass" name="wp-ace-enable-preprocessor" value="sass"  /><?php _e('Sass', 'admin-code-editor') ?>
+						</label>
+					</div>
+					<div class="radio">
+						<label for="wp-ace__enable-stylus" >
+							<input type="radio" id="wp-ace__enable-stylus" name="wp-ace-enable-preprocessor" value="stylus"  /><?php _e('Stylus', 'admin-code-editor') ?>
+						</label>
+					</div>
+				</div>
 
+			</div>
+
+		<?php
 	}
 
 
@@ -675,32 +708,43 @@ class Admin_Code_Editor_Admin {
 	function display_enable_preprocessors_field_element() {
 		
 		?>
-			
-			<ul>
-				<li>
-					<input type="radio" id="wp-ace__enable-html" name="wp-ace-enable-preprocessor" value="above" <?php checked('above', get_option('wp_ace_default_html_pos') ); ?> />
-					<label for="wp-ace__default-html-pos-above" ><?php _e('Above Content', 'admin-code-editor') ?></label>
-				</li>
-				<li>
-					<input type="radio" id="wp-ace__default-html-pos-below" name="wp-ace-default-html-pos" value="below" <?php checked('below', get_option('wp_ace_default_html_pos') ); ?> />
-					<label for="wp-ace__default-html-pos-below" ><?php _e('Below Content', 'admin-code-editor') ?></label>
-				</li>
-			</ul>
+
 			<div class="wp-ace-bootstrap">
-				<div class="checkbox">
-				  <label><input type="checkbox" value="">Option 1</label>
+				<div class="input-group">
+					<div class="checkbox">
+						<label for="wp-ace__enable-haml" >
+							<input type="checkbox" id="wp-ace__enable-haml" name="wp-ace-enable-preprocessor" value="haml"  /><?php _e('HAML', 'admin-code-editor') ?>
+						</label>
+					</div>
+					<div class="checkbox">
+						<label for="wp-ace__enable-coffee-script" >
+							<input type="checkbox" id="wp-ace__enable-coffee-script" name="wp-ace-enable-preprocessor" value="coffee-script"  /><?php _e('Coffee Script', 'admin-code-editor') ?>
+						</label>
+					</div>
+					<div class="checkbox">
+						<label for="wp-ace__enable-less" >
+							<input type="checkbox" id="wp-ace__enable-less" name="wp-ace-enable-preprocessor" value="less"  /><?php _e('LESS', 'admin-code-editor') ?>
+						</label>
+					</div>
 				</div>
-				<div class="checkbox">
-				  <label><input type="checkbox" value="">Option 2</label>
-				</div>
-				<div class="checkbox disabled">
-				  <label><input type="checkbox" value="" disabled>Option 3</label>
+				<div class="input-group">
+					<div class="checkbox">
+						<label for="wp-ace__enable-markdown" >
+							<input type="checkbox" id="wp-ace__enable-markdown" name="wp-ace-enable-preprocessor" value="markdown"  /><?php _e('Markdown', 'admin-code-editor') ?>
+						</label>
+					</div>
+					<div class="checkbox">
+						<label for="wp-ace__enable-sass" >
+							<input type="checkbox" id="wp-ace__enable-sass" name="wp-ace-enable-preprocessor" value="sass"  /><?php _e('Sass', 'admin-code-editor') ?>
+						</label>
+					</div>
+					<div class="checkbox">
+						<label for="wp-ace__enable-stylus" >
+							<input type="checkbox" id="wp-ace__enable-stylus" name="wp-ace-enable-preprocessor" value="stylus"  /><?php _e('Stylus', 'admin-code-editor') ?>
+						</label>
+					</div>
 				</div>
 
-				<div class="input-group">
-				  <span class="input-group-addon" id="basic-addon1">@</span>
-				  <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
-				</div>
 			</div>
 
 
@@ -718,16 +762,18 @@ class Admin_Code_Editor_Admin {
 	function display_default_html_position_field_element() {
 		?>
 			
-			<ul>
-				<li>
-					<input type="radio" id="wp-ace__default-html-pos-above" name="wp-ace-default-html-pos" value="above" <?php checked('above', get_option('wp_ace_default_html_pos') ); ?> />
-					<label for="wp-ace__default-html-pos-above ><?php _e('Above Content', 'admin-code-editor') ?></label>
-				</li>
-				<li>
-					<input type="radio" id="wp-ace__default-html-pos-below" name="wp-ace-default-html-pos" value="below" <?php checked('below', get_option('wp_ace_default_html_pos') ); ?> />
-					<label for="wp-ace__default-html-pos-below" ><?php _e('Below Content', 'admin-code-editor') ?></label>
-				</li>
-			</ul>
+
+
+			<div class="wp-ace-bootstrap">
+				<div class="radio">
+					
+					<label for="wp-ace__default-html-pos-above" ><input type="radio" id="wp-ace__default-html-pos-above" name="wp-ace-default-html-pos" value="above" <?php checked('above', get_option('wp_ace_default_html_pos') ); ?> /><?php _e('Above Content', 'admin-code-editor') ?></label>
+				</div>
+				<div class="radio">
+					
+					<label for="wp-ace__default-html-pos-below" ><input type="radio" id="wp-ace__default-html-pos-below" name="wp-ace-default-html-pos" value="below" <?php checked('below', get_option('wp_ace_default_html_pos') ); ?> /><?php _e('Below Content', 'admin-code-editor') ?></label>
+				</div>
+			</div>
 
 		<?php
 	}	
@@ -764,7 +810,7 @@ class Admin_Code_Editor_Admin {
 
 		add_settings_field(
 			"wp_ace_default_html_position",
-			__('Enable Preprocessors', 'admin-code-editor'),
+			__('Default Position', 'admin-code-editor'),
 			array(&$this,"display_default_html_position_field_element"),
 			"admin-code-editor-options-page", 
 			"general-section"
