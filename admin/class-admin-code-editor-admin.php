@@ -154,7 +154,7 @@ class Admin_Code_Editor_Admin {
 	function code_editor_add_meta_box() {
 		// add the metabox to posts and pages
 		
-		// $screens = array( 'post', 'page', 'wwsf-commitment', 'home-page-feature', 'home-page-slider', 'con-policy' );
+		 $screens = array( 'post', 'page');
 		// need to iterate through specified post types from settings page
 
 		foreach ( $screens as $screen ) {
@@ -274,7 +274,7 @@ class Admin_Code_Editor_Admin {
 		}
 		*/
 	
-		require_once('partials/admin-code-editor-admin.php');
+		require_once('partials/admin-code-editor-admin-post-edit.php');
 	
 	}	
 
