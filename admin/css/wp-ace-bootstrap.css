@@ -311,11 +311,9 @@
 }
 
 @font-face {
-	.wp-ace-bootstrap {
 		font-family: 'Glyphicons Halflings';
 		src: url("../fonts/glyphicons-halflings-regular.eot");
 		src: url("../fonts/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("../fonts/glyphicons-halflings-regular.woff2") format("woff2"), url("../fonts/glyphicons-halflings-regular.woff") format("woff"), url("../fonts/glyphicons-halflings-regular.ttf") format("truetype"), url("../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
-	}
 }
 
 .wp-ace-bootstrap .glyphicon {
@@ -7209,7 +7207,7 @@
 	box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
 }
 
-.wp-ace-bootstrap .modal-backdrop {
+.modal-backdrop {
 	position: fixed;
 	top: 0;
 	right: 0;
@@ -7219,12 +7217,12 @@
 	background-color: #000;
 }
 
-.wp-ace-bootstrap .modal-backdrop.fade {
+.modal-backdrop.fade {
 	filter: alpha(opacity=0);
 	opacity: 0;
 }
 
-.wp-ace-bootstrap .modal-backdrop.in {
+.modal-backdrop.in {
 	filter: alpha(opacity=50);
 	opacity: .5;
 }
