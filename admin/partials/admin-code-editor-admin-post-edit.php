@@ -66,15 +66,32 @@
 					      <div class="modal-body">
 	      					<div>
 										<h4>General</h4>
-										<label class="checkbox"><input type="checkbox" value="">Disable wpautop <span class="text-muted">(automatically wraps in paragraph tag)</span></label>
+										<label class="checkbox">
+											<input type="checkbox" value="">
+											Disable wpautop 
+											<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Automatically wraps in paragraph tag" aria-hidden="true"  ></span>
+										</label>
+										
 										<label class="checkbox"><input type="checkbox" value="">Only display on single template</label>
 
 										<h4>Position</h4>
 										<label class="radio"><input type="radio" value="">before post content </label>
 										<label class="radio"><input type="radio" value="">after post content</label>
-										<label class="radio"><input type="radio" value="">do not display <span class="text-muted">(only the post content is displayed)</span></label>
-										<label class="radio"><input type="radio" value="">display exclusively <span class="text-muted">(post content will be hidden)</span></label>
-										<label class="radio"><input type="radio" value="">embed with shortcode [wp-ace-html] <span class="text-muted">(code will be inserted where shortcode is placed)</span></label>
+										
+										<label class="radio"><input type="radio" value="">
+											do not display 
+											<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Only the post content is displayed" aria-hidden="true"  ></span>
+										</label>
+										
+										<label class="radio"><input type="radio" value="">
+											display exclusively 
+											<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Post content will be hidden" aria-hidden="true"  ></span>
+										</label>
+										
+										<label class="radio"><input type="radio" value="">
+											embed with shortcode [wp-ace-html] 
+											<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Code will be inserted where shortcode is placed" aria-hidden="true"  ></span>
+										</label>
 
 										<h4>Pre Processor</h4>
 										<label class="radio"><input type="radio" value="">Option 1</label>

@@ -28,5 +28,11 @@
 	 * Although scripts in the WordPress core, Plugins and Themes may be
 	 * practising this, we should strive to set a better example in our own work.
 	 */
-
+	 
+	 //$('[data-toggle="tooltip"]').tooltip();
 })( jQuery );
+
+jQuery(document).ready(function(){
+	console.log('loading file 2');
+    jQuery('[data-toggle="tooltip"]').tooltip(); 
+});

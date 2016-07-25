@@ -143,7 +143,7 @@ class Admin_Code_Editor_Admin {
 		wp_enqueue_script( 
 			$this->admin_code_editor, 
 			plugin_dir_url( __FILE__ ) . 'js/admin-code-editor-admin.js', 
-			array( 'jquery', 'wp-ace-bootstrap-js', 'wp-ace-editor-js' ), 
+			array( 'jquery', 'wp-ace-bootstrap-js' ), 
 			filemtime(plugin_dir_path( __FILE__ ) . 'js/admin-code-editor-admin.js')
 		);
 		
