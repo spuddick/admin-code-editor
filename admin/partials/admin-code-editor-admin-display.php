@@ -51,10 +51,11 @@
 				<div class="code-content-container" >
 
 					<h4>HTML</h4>
-					<pre id="html-code" style="height:<?php echo $html_height ?>px" class="code-content" ><?php echo htmlentities($html_code) ?></pre>
-					<input type="hidden" id="html-field" name="html-field" value="<?php echo htmlentities($html_code) ?>" >
+					<pre id="html-code" style="height:400px<?php //echo $html_height ?>px" class="code-content" ><?php // echo htmlentities($html_code) ?></pre>
+					<input type="hidden" id="html-field" name="html-field" value="<?php // echo htmlentities($html_code) ?>" >
 					<input type="hidden" id="html-field-height" name="html-field-height" class="field-height"  value="<?php echo $html_height ?>" >
 					<p>&nbsp;</p>
+				
 				</div>    	
 
 	    </div>

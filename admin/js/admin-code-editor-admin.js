@@ -32,7 +32,33 @@
 	 //$('[data-toggle="tooltip"]').tooltip();
 })( jQuery );
 
+var html_editor;
+var $html_field = jQuery('#html-field');
+
 jQuery(document).ready(function(){
 	console.log('loading file 2');
-    jQuery('[data-toggle="tooltip"]').tooltip(); 
+  jQuery('[data-toggle="tooltip"]').tooltip(); 
+
+  if (jQuery('#html-code').length ) {
+	  html_editor = ace.edit("html-code");
+	  html_editor.setTheme("ace/theme/monokai");
+	  html_editor.getSession().setMode("ace/mode/html");
+	  html_editor.getSession().setUseWrapMode(true);
+	  html_editor.getSession().setTabSize(2);
+	  jQuery('#html-code').css('font-size', '13px');
+
+  }
+	//jQuery('.code-content').resizable();
+  
+	jQuery('.code-content').resizable({
+    ghost: true,
+    handles: "s",
+    stop: function( event, ui ) {
+    	html_editor.resize();
+    	
+    	height = ui.element.height();
+    	//ui.element.siblings('.field-height').val(height);
+    }
+  });
+	
 });

@@ -103,6 +103,14 @@ class Admin_Code_Editor_Admin {
 			'4.6.3', 
 			'all' 
 		);
+
+		wp_enqueue_style( 
+			'wp-ace-jquery-ui',
+			'//code.jquery.com/ui/1.11.4/themes/black-tie/jquery-ui.css', 
+			array(), 
+			'1.11.4', 
+			'all' 
+		);
 	
 	}
 
@@ -124,14 +132,15 @@ class Admin_Code_Editor_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		/*
+		wp_enqueue_script( 'jquery-ui-core' );
+		wp_enqueue_script( 'jquery-ui-resizable' );
 		wp_enqueue_script( 
 			'wp-ace-editor-js', 
-			plugins_url( 'ace-builds/src-min/ace.js', __FILE__ ), 
+			plugin_dir_url( __FILE__ ) . 'js/ace-src-min-noconflict/ace.js', 
 			array('jquery'), 
-			filemtime(plugin_dir_path( __FILE__ ) . 'ace-builds/src-min/ace.js')
+			filemtime(plugin_dir_path( __FILE__ ) . 'js/ace-src-min-noconflict/ace.js')
 		);
-		*/
+		
 	
 		wp_enqueue_script( 
 			'wp-ace-bootstrap-js',
@@ -143,11 +152,10 @@ class Admin_Code_Editor_Admin {
 		wp_enqueue_script( 
 			$this->admin_code_editor, 
 			plugin_dir_url( __FILE__ ) . 'js/admin-code-editor-admin.js', 
-			array( 'jquery', 'wp-ace-bootstrap-js' ), 
+			array( 'jquery', 'wp-ace-bootstrap-js', 'wp-ace-editor-js', 'jquery-ui-resizable' ), 
 			filemtime(plugin_dir_path( __FILE__ ) . 'js/admin-code-editor-admin.js')
 		);
 		
-
 	}
 
 

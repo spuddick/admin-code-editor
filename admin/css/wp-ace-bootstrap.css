@@ -113,21 +113,21 @@
 	-moz-box-sizing: content-box;
 	box-sizing: content-box;
 }
-
+/*
 .wp-ace-bootstrap pre {
 	overflow: auto;
 }
-
+*/
 .wp-ace-bootstrap code,
   .wp-ace-bootstrap kbd,
-  .wp-ace-bootstrap pre,
+  /* .wp-ace-bootstrap pre, */
   .wp-ace-bootstrap samp {
 	font-family: monospace, monospace;
 	font-size: 1em;
 }
 
 .wp-ace-bootstrap button,
-  .wp-ace-bootstrap input,
+  .wp-ace-bootstrap input:not(.ace_search_field),
   .wp-ace-bootstrap optgroup,
   .wp-ace-bootstrap select,
   .wp-ace-bootstrap textarea {
@@ -250,13 +250,13 @@
     .wp-ace-bootstrap a[href^="javascript:"]:after {
 		content: "";
 	}
-
+	/*
 	.wp-ace-bootstrap pre,
     .wp-ace-bootstrap blockquote {
 		border: 1px solid #999;
 		page-break-inside: avoid;
 	}
-
+	*/
 	.wp-ace-bootstrap thead {
 		display: table-header-group;
 	}
@@ -1377,14 +1377,14 @@
 	content: "\e260";
 }
 
-.wp-ace-bootstrap * {
+.wp-ace-bootstrap :not(.wp-ace-editor)  * {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
-.wp-ace-bootstrap *:before,
-  .wp-ace-bootstrap *:after {
+.wp-ace-bootstrap *:before:not(.ace_search_field),
+  .wp-ace-bootstrap *:after:not(.ace_search_field) {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -1927,7 +1927,7 @@
 
 .wp-ace-bootstrap code,
   .wp-ace-bootstrap kbd,
-  .wp-ace-bootstrap pre,
+  /* .wp-ace-bootstrap pre, */
   .wp-ace-bootstrap samp {
 	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
@@ -1957,7 +1957,7 @@
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
-
+/*
 .wp-ace-bootstrap pre {
 	display: block;
 	padding: 9.5px;
@@ -1980,6 +1980,7 @@
 	background-color: transparent;
 	border-radius: 0;
 }
+*/
 
 .wp-ace-bootstrap .pre-scrollable {
 	max-height: 340px;
