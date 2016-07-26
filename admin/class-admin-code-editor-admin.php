@@ -301,12 +301,12 @@ class Admin_Code_Editor_Admin {
 		 */
 
 		// Check if our nonce is set.
-		if ( ! isset( $_POST['code_highlight_box_nonce'] ) ) {
+		if ( ! isset( $_POST['wp-ace-editor-nonce'] ) ) {
 			return;
 		}
 
 		// Verify that the nonce is valid.
-		if ( ! wp_verify_nonce( $_POST['code_highlight_box_nonce'], 'code_highlight_box' ) ) {
+		if ( ! wp_verify_nonce( $_POST['wp-ace-editor-nonce'], 'wp-ace-editor-nonce' ) ) {
 			return;
 		}
 
@@ -329,70 +329,34 @@ class Admin_Code_Editor_Admin {
 			}
 		}
 
-		/* OK, it's safe for us to save the data now. */
-		$code_data = array(
-			'html' 	=> array( 
-				'post-field' => 'html-field', 
-				'data-field' => '_html_code',
-				'height-data' => '_html_field_height',
-				'height-field' => 'html-field-height'),
-			'html-header' 	=> array( 
-				'post-field' => 'html-header-field', 
-				'data-field' => '_html_header_code',
-				'height-data' => '_html_header_field_height',
-				'height-field' => 'html-header-field-height'),
-			'html-footer' 	=> array( 
-				'post-field' => 'html-footer-field', 
-				'data-field' => '_html_footer_code',
-				'height-data' => '_html_footer_field_height',
-				'height-field' => 'html-footer-field-height'),
-			'css' 	=> array( 
-				'post-field' => 'css-field', 
-				'data-field' => '_css_code',
-				'height-data' => '_css_field_height',
-				'height-field' => 'css-field-height'),
-			'js' 	=> array( 
-				'post-field' => 'js-field', 
-				'data-field' => '_js_code',
-				'height-data' => '_js_field_height',
-				'height-field' => 'js-field-height'
-			)
-		);
+		$incoming_html_hash = hash($html + $editor_height + $preprocessor + $insertion_pos);
+		$cur_html_hash = get_post_meta($post_id, '"_html_hash');
 
+		if ($incoming_html_hash != $cur_html_hash) {
+			// hashes don't match, we need to update
+			
+			$html_post_code_id = get_post_meta($post_id, '_html_code_post_id');
+			if (!$html_post_code_id) {
+				$html_post_code_id = new_post('html_code_post');
+				set_post_meta($post_id, '_html_code_post_id', $html_post_code_id);
+			}
+			set_post_meta($post_id, '_html_hash', $incoming_html_hash);
 
-		// Make sure that it is set.
-		if ((! isset( $_POST['html-field'])) || (! isset( $_POST['css-field'])) || (! isset( $_POST['js-field'])) ) {
-			return;
-		}
+			set_post_content($html_post_code_id, $html);
+			$compiled_html = compile($html);
+			set_post_meta($html_post_code_id, '_wp_ace_status', $compiled_html.status );
+			if ($compiled_html.status != 'error') {
+				set_post_meta($html_post_code_id, '_wp_ace_compiled', $compiled_html.code );
+			}
 
-		update_post_meta( $post_id, '_code_insert_mode', $_POST['editor_mode']);
+			set_post_meta($html_post_code_id, '_wp_ace_editor_height', $editor_height );
+			set_post_meta($html_post_code_id, '_wp_ace_preprocessor', $preprocessor );
+			set_post_meta($html_post_code_id, '_wp_ace_insertion_pos', $insertion_pos );
+		} 
 
 
 
-		$count = 0;
-		foreach ($code_data as &$code_data_item) {
-	    if ($code_data_item['post-field'] == 'css-field') {
-		    // if it is the CSS field we need to handle things differently due to parsing of SCSS to CSS
-	    	//echo 'post revision?: ' . wp_is_post_revision( $post_id);
-		    
-	    	//echo 'post id: ' . $post_id;
-		    //echo 'post set? : ' . isset($_POST[$code_data_item['post-field']]);
-		    $code 	= $_POST[$code_data_item['post-field']];
-		  	//echo 'before compile: ' . $code;
-		    $this->compile_sass($post_id, $code);
-				//echo 'after compile: ' . $code;
-	    } else {
-		    $code 	= $_POST[$code_data_item['post-field']];
-		    $result = update_post_meta( $post_id, $code_data_item['data-field'], $code  );	    	
-	    }
-
-
-	    $height 	= $_POST[$code_data_item['height-field']];
-	    update_post_meta( $post_id, $code_data_item['height-data'], $height  );
-	    $count++;
-		}
-
-		
+		/*		
 		if ( $parent_id = wp_is_post_revision( $post_id ) ) {
 			$parent  = get_post( $parent_id );
 			foreach ($code_data as &$code_data_item) {
@@ -403,7 +367,8 @@ class Admin_Code_Editor_Admin {
 		    }       	
 			}
 	  }
-		
+		*/
+	
 	}
 
 	function compile_sass($post_id, $code) {
