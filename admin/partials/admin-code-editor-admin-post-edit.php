@@ -125,9 +125,9 @@
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="javascript-edit">
 					<div class="wp-ace-editor">
-						<pre id="javascript-code" style="height:400<?php // echo $html_height ?>px" class="code-content" ><?php // echo htmlentities($html_code) ?></pre>
-						<input type="hidden" id="javascript-field" name="javascript-field" value="<?php // echo htmlentities($html_code) ?>" >
-						<input type="hidden" id="javascript-field-height" name="javascript-field-height" class="field-height"  value="<?php echo $javascript_height ?>" >
+						<pre id="js-code" style="height:400<?php // echo $html_height ?>px" class="code-content" ><?php // echo htmlentities($html_code) ?></pre>
+						<input type="hidden" id="js-field" name="js-field" value="<?php // echo htmlentities($html_code) ?>" >
+						<input type="hidden" id="js-field-height" name="js-field-height" class="field-height"  value="<?php echo $js_height ?>" >
 					</div>
 
 		    	<div class="clearfix" >
@@ -135,7 +135,7 @@
 						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Proprocessing with <strong>Coffee Script</strong>. Enquede <strong>in header</strong>. <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-preprocessor-modal">Change Settings</a></p>
 					  </div>
 					</div>
-											    	
+
 	    </div>
 	    <div role="tabpanel" class="tab-pane active" id="html-compiled">
 	    	

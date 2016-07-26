@@ -32,33 +32,87 @@
 	 //$('[data-toggle="tooltip"]').tooltip();
 })( jQuery );
 
-var html_editor;
-var $html_field = jQuery('#html-field');
+var wpAceInterface = (function() {
+ 
+    // Private variables and functions
+    const ACE_THEME = "ace/theme/monokai";
+    const ACE_WRAP_MODE = true;
+    const ACE_TAB_SIZE = 2;
+    const ACE_FONT_SIZE = '13px';
+
+    var html_editor, css_editor, js_editor;
+ 
+    var init = function() {
+
+    	/**
+    	 *
+    	 * Initialize Bootstrap tooltips
+    	 *
+    	 */
+		  jQuery('[data-toggle="tooltip"]').tooltip(); 
+
+
+		  /**
+		   *
+		   * Initialize ACE code editors
+		   *
+		   */
+		  if (jQuery('#html-code').length ) {
+			  html_editor = ace.edit("html-code");
+			  html_editor.setTheme(ACE_THEME);
+			  html_editor.getSession().setMode("ace/mode/html");
+			  html_editor.getSession().setUseWrapMode(ACE_WRAP_MODE);
+			  html_editor.getSession().setTabSize(ACE_TAB_SIZE);
+			  jQuery('#html-code').css('font-size', ACE_FONT_SIZE);
+		  }
+		  
+		  if (jQuery('#css-code').length ) {
+			  html_editor = ace.edit("css-code");
+			  html_editor.setTheme(ACE_THEME);
+			  html_editor.getSession().setMode("ace/mode/scss");
+			  html_editor.getSession().setUseWrapMode(ACE_WRAP_MODE);
+			  html_editor.getSession().setTabSize(ACE_TAB_SIZE);
+			  jQuery('#css-code').css('font-size', ACE_FONT_SIZE);
+		  }
+
+		  if (jQuery('#js-code').length ) {
+			  html_editor = ace.edit("js-code");
+			  html_editor.setTheme(ACE_THEME);
+			  html_editor.getSession().setMode("ace/mode/javascript");
+			  html_editor.getSession().setUseWrapMode(ACE_WRAP_MODE);
+			  html_editor.getSession().setTabSize(ACE_TAB_SIZE);
+			  jQuery('#js-code').css('font-size', ACE_FONT_SIZE);
+		  }
+
+		  /**
+		   *
+		   * Resizable code editor areas
+		   *
+		   */
+			jQuery('.code-content').resizable({
+		    ghost: true,
+		    handles: "s",
+		    stop: function( event, ui ) {
+		    	html_editor.resize();
+		    	
+		    	height = ui.element.height();
+		    	//ui.element.siblings('.field-height').val(height);
+		    }
+		  });
+
+
+
+    };
+ 
+    // Public API
+    return {
+        init: init
+    };
+})();
+
 
 jQuery(document).ready(function(){
-	console.log('loading file 2');
-  jQuery('[data-toggle="tooltip"]').tooltip(); 
-
-  if (jQuery('#html-code').length ) {
-	  html_editor = ace.edit("html-code");
-	  html_editor.setTheme("ace/theme/monokai");
-	  html_editor.getSession().setMode("ace/mode/html");
-	  html_editor.getSession().setUseWrapMode(true);
-	  html_editor.getSession().setTabSize(2);
-	  jQuery('#html-code').css('font-size', '13px');
-
-  }
-	//jQuery('.code-content').resizable();
-  
-	jQuery('.code-content').resizable({
-    ghost: true,
-    handles: "s",
-    stop: function( event, ui ) {
-    	html_editor.resize();
-    	
-    	height = ui.element.height();
-    	//ui.element.siblings('.field-height').val(height);
-    }
-  });
 	
+	wpAceInterface.init();
+
 });
