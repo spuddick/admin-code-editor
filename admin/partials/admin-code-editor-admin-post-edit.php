@@ -103,22 +103,39 @@
 
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="css-edit">
-		    	<div class="clearfix" >
-					  <div class="" >
-						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Proprocessing with <strong>Sass</strong>. Positioned <strong>in header</strong>. <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-preprocessor-modal">Change Settings</a></p>
-					  </div>
 
-					</div>
 					<div class="clearfix" style="background-color:#f5f5f5;padding:10px;" >
 					  <button type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save and Compile Sass</button>
 						<p class="pull-right text-success" ><span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span> Saved</p>
 					</div>
 
+					<div class="wp-ace-editor">
+						<pre id="css-code" style="height:400<?php // echo $html_height ?>px" class="code-content" ><?php // echo htmlentities($html_code) ?></pre>
+						<input type="hidden" id="css-field" name="css-field" value="<?php // echo htmlentities($html_code) ?>" >
+						<input type="hidden" id="css-field-height" name="css-field-height" class="field-height"  value="<?php echo $css_height ?>" >
+					</div>
 
+		    	<div class="clearfix" >
+					  <div class="" >
+						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Proprocessing with <strong>Sass</strong>. Enquede <strong>in header</strong>. <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-preprocessor-modal">Change Settings</a></p>
+					  </div>
+
+					</div>
 
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="javascript-edit">
-	    	
+					<div class="wp-ace-editor">
+						<pre id="javascript-code" style="height:400<?php // echo $html_height ?>px" class="code-content" ><?php // echo htmlentities($html_code) ?></pre>
+						<input type="hidden" id="javascript-field" name="javascript-field" value="<?php // echo htmlentities($html_code) ?>" >
+						<input type="hidden" id="javascript-field-height" name="javascript-field-height" class="field-height"  value="<?php echo $javascript_height ?>" >
+					</div>
+
+		    	<div class="clearfix" >
+					  <div class="" >
+						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Proprocessing with <strong>Coffee Script</strong>. Enquede <strong>in header</strong>. <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-preprocessor-modal">Change Settings</a></p>
+					  </div>
+					</div>
+											    	
 	    </div>
 	    <div role="tabpanel" class="tab-pane active" id="html-compiled">
 	    	
