@@ -329,29 +329,67 @@ class Admin_Code_Editor_Admin {
 			}
 		}
 
-		$incoming_html_hash = hash($html + $editor_height + $preprocessor + $insertion_pos);
-		$cur_html_hash = get_post_meta($post_id, '"_html_hash');
+		// TODO: Check is post type is WP ACE enabled
+
+		$html_pre 					= $_POST['wp-ace-html-post-field']; // TODO: suitable filter for html content
+		$html_editor_height = sanitize_text_field($_POST['wp-ace-html-post-field-height']);
+		$html_preprocessor 	= sanitize_text_field($_POST['wp-ace-html-post-preprocessor']);
+		$html_cursor_pos 		= 0;
+		$html_editor_active = 0;
+
+		$incoming_html_hash = md5($html_pre . $html_editor_height . $html_preprocessor . $html_cursor_pos . $html_editor_active);
+		$cur_html_hash = get_post_meta($post_id, '_wp_ace_html_hash');
 
 		if ($incoming_html_hash != $cur_html_hash) {
-			// hashes don't match, we need to update
+			// Hashes don't match so settings or code has changed. We need to update.
 			
-			$html_post_code_id = get_post_meta($post_id, '_html_code_post_id');
-			if (!$html_post_code_id) {
-				$html_post_code_id = new_post('html_code_post');
-				set_post_meta($post_id, '_html_code_post_id', $html_post_code_id);
-			}
-			set_post_meta($post_id, '_html_hash', $incoming_html_hash);
+			$html_code_post_id = get_post_meta($post_id, '_wp_ace_html_code_post_id');
+			if (!$html_code_post_id) {
+				// if no existing post for HTML code, create one
 
-			set_post_content($html_post_code_id, $html);
-			$compiled_html = compile($html);
-			set_post_meta($html_post_code_id, '_wp_ace_status', $compiled_html.status );
+				$html_code_post = array(
+					  'post_title'    => wp_strip_all_tags( $_POST['post_title'] ),
+					  'post_content'  => $_POST['post_content'],
+					  'post_status'   => 'publish',
+					  'post_author'   => 1,
+					  'post_category' => array( 8,39 )
+					);
+ 
+				$html_code_post_id = wp_insert_post( $html_code_post );
+
+				set_post_meta($post_id, '_wp_ace_html_code_post_id', $html_code_post_id);
+			} else {
+				// if an existing post for HTML exists, update it
+
+				$post_id = wp_update_post( $current_item, true );						  
+				if (is_wp_error($post_id)) {
+					$errors = $post_id->get_error_messages();
+					foreach ($errors as $error) {
+						echo $error;
+					}
+				}
+			}
+
+			// update the current hash with the new one
+			update_post_meta($post_id, '_wp_ace_html_hash', $incoming_html_hash);
+
+			// compile pre code and save it as meta data for the associated code post
+			$compiled_html = compile($html); // TODO: Write compile function with return vals
+			set_post_meta($html_post_code_id, '_wp_ace_wp_ace_status', $compiled_html.status );
+			
+			// update compile error status and message
 			if ($compiled_html.status != 'error') {
-				set_post_meta($html_post_code_id, '_wp_ace_compiled', $compiled_html.code );
+				set_post_meta($html_post_code_id, '_wp_ace_wp_ace_compiled', $compiled_html.code );
+				delete_post_meta($html_post_code_id, '_wp_ace_wp_ace_error_msg');
+			} else {
+				set_post_meta($html_post_code_id, '_wp_ace_wp_ace_error_msg', $compiled_html.error_msg );
 			}
 
-			set_post_meta($html_post_code_id, '_wp_ace_editor_height', $editor_height );
-			set_post_meta($html_post_code_id, '_wp_ace_preprocessor', $preprocessor );
-			set_post_meta($html_post_code_id, '_wp_ace_insertion_pos', $insertion_pos );
+			// update other basic meta data
+			update_post_meta($html_post_code_id, '_wp_ace_editor_height', $html_editor_height );
+			update_post_meta($html_post_code_id, '_wp_ace_preprocessor', $html_preprocessor );
+			update_post_meta($html_post_code_id, '_wp_ace_insertion_pos', $html_cursor_pos );
+			update_post_meta($html_post_code_id, '_wp_ace_is_html_active', $html_editor_active );
 		} 
 
 
