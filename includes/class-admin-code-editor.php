@@ -154,12 +154,12 @@ class Admin_Code_Editor {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'init',                  $plugin_admin, 'wp_ace_post_type_init');
-		$this->loader->add_action( 'add_meta_boxes', 				$plugin_admin, 'code_editor_add_meta_box' );
-		//$this->loader->add_action( 'save_post', 						$plugin_admin, 'code_editor_save' );
+		$this->loader->add_action( 'add_meta_boxes', 		$plugin_admin, 'code_editor_add_meta_box' );
+		$this->loader->add_action( 'save_post', 			$plugin_admin, 'code_editor_save' );
 		//$this->loader->add_action( 'default_hidden_meta_boxes', $plugin_admin, 'hide_code_meta_box' );
 		//$this->loader->add_action( 'admin_notices', 				$plugin_admin, 'sass_compile_notice' );
-		$this->loader->add_action( 'admin_menu', 						$plugin_admin, 'options_menu' );
-		$this->loader->add_action( 'admin_init', 						$plugin_admin, 'display_theme_panel_fields' );
+		$this->loader->add_action( 'admin_menu', 			$plugin_admin, 'options_menu' );
+		$this->loader->add_action( 'admin_init', 			$plugin_admin, 'display_theme_panel_fields' );
 	}
 
 	/**
