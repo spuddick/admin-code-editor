@@ -118,7 +118,7 @@ var wpAceInterface = (function() {
     }
  
     var mapEditorCodetoInput = function(editor_obj) {
-			$editor_input = jQuery(editor_obj.hidden_input_id);
+			$editor_input = jQuery('#' + editor_obj.hidden_input_id);
 
 			if ( (typeof editor_obj !== 'undefined') && $editor_input.val() != editor_obj.getSession().getValue() ) {
 				console.log('updating html code');

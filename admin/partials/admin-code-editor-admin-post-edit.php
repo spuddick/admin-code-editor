@@ -51,11 +51,11 @@
 
 					<div class="wp-ace-editor">
 						<pre id="wp-ace-html-php-pre-code-editor" style="height:<?php echo $html_php_pre_code_editor_height; ?>px" class="code-content" ><?php echo htmlentities($html_php_pre_code); ?></pre>
-						<input type="hidden" id="wp-ace-html-php-pre-code" name="wp-ace-html-php-pre-code" value="<?php echo htmlentities($html_php_pre_code); ?>" >
-						<input type="hidden" id="wp-ace-html-php-field-height" name="wp-ace-html-php-field-height" class="field-height" value="<?php echo $html_php_pre_code_editor_height; ?>" >
-						<input type="hidden" id="wp-ace-html-php-preprocessor" name="wp-ace-html-php-preprocessor" class="field-preprocessor" value="<?php echo $html_php_preprocessor; ?>" >
-						<input type="hidden" id="wp-ace-html-php-editor-has-focus" name="wp-ace-html-php-editor-has-focus" class="field-has-focus" value="<?php echo $html_php_editor_has_focus; ?>" >
-						<input type="hidden" id="wp-ace-html-php-editor-cursor-position" name="wp-ace-html-php-editor-cursor-position" class="field-editor-cursor-position" value="<?php echo $html_php_editor_cursor_position ?>" >
+						<input type="hidden" id="wp-ace-html-php-pre-code" name="wp-ace-html-php-pre-code" value="1<?php echo htmlentities($html_php_pre_code); ?>" >
+						<input type="hidden" id="wp-ace-html-php-field-height" name="wp-ace-html-php-field-height" class="field-height" value="1<?php echo $html_php_pre_code_editor_height; ?>" >
+						<input type="hidden" id="wp-ace-html-php-preprocessor" name="wp-ace-html-php-preprocessor" class="field-preprocessor" value="1<?php echo $html_php_preprocessor; ?>" >
+						<input type="hidden" id="wp-ace-html-php-editor-has-focus" name="wp-ace-html-php-editor-has-focus" class="field-has-focus" value="1<?php echo $html_php_editor_has_focus; ?>" >
+						<input type="hidden" id="wp-ace-html-php-editor-cursor-position" name="wp-ace-html-php-editor-cursor-position" class="field-editor-cursor-position" value="1<?php echo $html_php_editor_cursor_position ?>" >
 					</div>
 
 		    	<div class="clearfix" >
