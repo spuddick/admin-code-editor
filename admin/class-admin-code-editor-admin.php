@@ -315,6 +315,14 @@ class Admin_Code_Editor_Admin {
 			return;
 		}
 
+		$wp_ace_code_content_types = array("wp-ace-html", "wp-ace-css", "wp-ace-js");
+		if ( (isset( $_POST['post_type'] ) && in_array($_POST['post_type'], $wp_ace_code_content_types)) ||
+		  in_array(get_post_type( get_the_ID() ), $wp_ace_code_content_types) ) {
+
+			return;
+
+		}		
+
 		// Check the user's permissions.
 		if ( isset( $_POST['post_type'] ) && 'page' == $_POST['post_type'] ) {
 

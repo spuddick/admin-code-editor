@@ -52,8 +52,8 @@
 
 					<div class="wp-ace-editor">
 						<pre id="html-code" style="height:400<?php //echo $html_height ?>px" class="code-content" ><?php // echo htmlentities($html_code) ?></pre>
-						<input type="hidden" id="html-field" name="html-field" value="<?php // echo htmlentities($html_code) ?>" >
-						<input type="hidden" id="html-field-height" name="html-field-height" class="field-height"  value="<?php echo $html_height ?>" >
+						<input type="hidden" id="wp-ace-html-post-field" name="wp-ace-html-post-field" value="<?php // echo htmlentities($html_code) ?>" >
+						<input type="hidden" id="wp-ace-html-post-field-height" name="wp-ace-html-post-field-height" class="field-height"  value="<?php echo $html_height ?>" >
 					</div>
 
 		    	<div class="clearfix" >
