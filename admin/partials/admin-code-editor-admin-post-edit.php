@@ -43,17 +43,19 @@
 					<div class="alert alert-warning" role="alert">
 					  <strong>Warning!</strong> Better check yourself, you're not looking too good.
 					</div>	    	
-		    	
-
+	
 					<div class="clearfix" style="background-color:#f5f5f5;padding:10px;" >
 					  <button type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save and Compile HTML</button>
 						<p class="pull-right text-success" ><span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span> Saved</p>
 					</div>
 
 					<div class="wp-ace-editor">
-						<pre id="html-code" style="height:400<?php //echo $html_height ?>px" class="code-content" ><?php // echo htmlentities($html_code) ?></pre>
-						<input type="hidden" id="wp-ace-html-post-field" name="wp-ace-html-post-field" value="<?php // echo htmlentities($html_code) ?>" >
-						<input type="hidden" id="wp-ace-html-post-field-height" name="wp-ace-html-post-field-height" class="field-height"  value="<?php echo $html_height ?>" >
+						<pre id="wp-ace-html-php-pre-code-editor" style="height:<?php echo $html_php_pre_code_editor_height; ?>px" class="code-content" ><?php echo htmlentities($html_php_pre_code); ?></pre>
+						<input type="hidden" id="wp-ace-html-php-pre-code" name="wp-ace-html-php-pre-code" value="<?php echo htmlentities($html_php_pre_code); ?>" >
+						<input type="hidden" id="wp-ace-html-php-field-height" name="wp-ace-html-php-field-height" class="field-height" value="<?php echo $html_php_pre_code_editor_height; ?>" >
+						<input type="hidden" id="wp-ace-html-php-preprocessor" name="wp-ace-html-php-preprocessor" class="field-preprocessor" value="<?php echo $html_php_preprocessor; ?>" >
+						<input type="hidden" id="wp-ace-html-php-editor-has-focus" name="wp-ace-html-php-editor-has-focus" class="field-has-focus" value="<?php echo $html_php_editor_has_focus; ?>" >
+						<input type="hidden" id="wp-ace-html-php-editor-cursor-position" name="wp-ace-html-php-editor-cursor-position" class="field-editor-cursor-position" value="<?php echo $html_php_editor_cursor_position ?>" >
 					</div>
 
 		    	<div class="clearfix" >
