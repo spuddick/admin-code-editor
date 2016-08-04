@@ -284,17 +284,17 @@ class Admin_Code_Editor_Admin {
 	
 		//$html_code 		= get_post_meta( $post->ID, '_html_code', true );
 		wp_nonce_field( 'wp-ace-editor-nonce', 'wp-ace-editor-nonce' );
-		$html_php_pre_code_editor_height = get_post_meta($post->ID, '_wp_ace_html_php_editor_height');
-		$html_php_code_post_id = get_post_meta($post->ID, '_wp_ace_html_php_code_post_id');
-		$html_php_pre_code = '';
+		
+		$html_php_pre_code_editor_height 	= get_post_meta($post->ID, '_wp_ace_html_php_editor_height');
+		$html_php_code_post_id 						= get_post_meta($post->ID, '_wp_ace_html_php_code_post_id');
+		$html_php_pre_code 								= '';
 		if (!$html_php_pre_code_editor_height) {
 			$html_php_pre_code_editor_height = 400;
 		}
 		if ($html_php_code_post_id) {
-			// if no existing post for HTML code, create one
-			$html_php_post_obj = get_post( $html_php_code_post_id ); 
-			$content = $html_php_post_obj->post_content;
-			$html_php_pre_code = $content;
+			$html_php_post_obj 	= get_post( $html_php_code_post_id ); 
+			$content 						= $html_php_post_obj->post_content;
+			$html_php_pre_code 	= $content;
 		}
 		require_once('partials/admin-code-editor-admin-post-edit.php');
 	
@@ -333,7 +333,8 @@ class Admin_Code_Editor_Admin {
 		$wp_ace_code_content_types = array("wp-ace-html", "wp-ace-css", "wp-ace-js");
 		$post_type = get_post_type( $post_id );
 		if ( in_array(get_post_type( $post_id ), $wp_ace_code_content_types) ) {
-			// since wp_insert_post also calls code_editor_save, we need to check if this is a code content type and exit. An infinite loop will occur otherwise. 
+			// since wp_insert_post also calls code_editor_save, we need to check if this is a code content type and exit. 
+			// An infinite loop will occur otherwise. 
 			return;
 
 		}		
@@ -353,7 +354,7 @@ class Admin_Code_Editor_Admin {
 		}
 
 		// TODO: Check if post type is WP ACE enabled
-
+		
 		$html_php_pre 										= $_POST['wp-ace-html-php-pre-code']; // TODO: suitable filter for html content
 		$html_php_editor_height						= sanitize_text_field($_POST['wp-ace-html-php-field-height']);
 		$html_php_preprocessor						= sanitize_text_field($_POST['wp-ace-html-php-preprocessor']);
@@ -432,22 +433,33 @@ class Admin_Code_Editor_Admin {
 			update_post_meta($html_php_code_post_id, '_wp_ace_html_php_preprocessor', $html_php_preprocessor );
 			update_post_meta($html_php_code_post_id, '_wp_ace_html_php_insertion_pos', $html_php_editor_cursor_position );
 			update_post_meta($html_php_code_post_id, '_wp_ace_html_php_is_html_active', $html_php_editor_has_focus );
+
+
+			// manually add metadata to revision
+			if ( $parent_id ) {
+				// only adding relevant metadata to revision, to minimize database size
+
+				add_metadata( 'post', $post_id, '_wp_ace_html_php_preprocessor', $html_php_preprocessor );
+				add_metadata( 'post', $post_id, '_wp_ace_html_php_editor_height', $html_php_editor_height );
+		  }
+
 		} 
 
-
-		/*		
-		if ( $parent_id = wp_is_post_revision( $post_id ) ) {
-			$parent  = get_post( $parent_id );
-			foreach ($code_data as &$code_data_item) {
-		    $code = get_post_meta( $parent->ID, $code_data_item['data-field'], true );
-		    
-		    if ( false !== $code ) {
-		    	add_metadata( 'post', $post_id, $code_data_item['data-field'], $code );
-		    }       	
-			}
-	  }
-		*/
 	
+	}
+
+	function restore_code_revision( $post_id, $revision_id ) {
+
+	}
+
+	function function code_revision_fields( $fields ) {
+
+	}
+	function code_revision_field__wp_ace_html_php_preprocessor( $value, $field ) {
+
+	}
+	function code_revision_field__wp_ace_html_php_editor_height( $value, $field ) {
+
 	}
 
 	private function compile($pre_code, $preprocessor) {

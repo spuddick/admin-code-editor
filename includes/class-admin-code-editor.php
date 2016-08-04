@@ -160,6 +160,11 @@ class Admin_Code_Editor {
 		//$this->loader->add_action( 'admin_notices', 				$plugin_admin, 'sass_compile_notice' );
 		$this->loader->add_action( 'admin_menu', 			$plugin_admin, 'options_menu' );
 		$this->loader->add_action( 'admin_init', 			$plugin_admin, 'display_theme_panel_fields' );
+		
+		$this->loader->add_action( 'wp_restore_post_revision', 			$plugin_admin, 'restore_code_revision' );
+		$this->loader->add_action( '_wp_post_revision_fields', 			$plugin_admin, 'code_revision_fields' );
+		$this->loader->add_action( '_wp_post_revision_field__wp_ace_html_php_preprocessor', 			$plugin_admin, 'code_revision_field__wp_ace_html_php_preprocessor' );
+		$this->loader->add_action( '_wp_post_revision_field__wp_ace_html_php_editor_height', 			$plugin_admin, 'code_revision_field__wp_ace_html_php_editor_height' );
 	}
 
 	/**
