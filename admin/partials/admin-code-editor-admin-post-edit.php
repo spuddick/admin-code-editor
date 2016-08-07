@@ -112,9 +112,12 @@
 					</div>
 
 					<div class="wp-ace-editor">
-						<pre id="css-code" style="height:400<?php // echo $html_height ?>px" class="code-content" ><?php // echo htmlentities($html_code) ?></pre>
-						<input type="hidden" id="css-field" name="css-field" value="<?php // echo htmlentities($html_code) ?>" >
-						<input type="hidden" id="css-field-height" name="css-field-height" class="field-height"  value="<?php echo $css_height ?>" >
+						<pre id="wp-ace-css-pre-code-editor" style="height:<?php echo $css_pre_code_editor_height; ?>px" class="code-content" ><?php echo htmlentities($css_pre_code); ?></pre>
+						<input type="hidden" id="wp-ace-css-pre-code" name="wp-ace-css-pre-code" value="1<?php echo htmlentities($css_pre_code); ?>" >
+						<input type="hidden" id="wp-ace-css-field-height" name="wp-ace-css-field-height" class="field-height" value="1<?php echo $css_pre_code_editor_height; ?>" >
+						<input type="hidden" id="wp-ace-css-preprocessor" name="wp-ace-css-preprocessor" class="field-preprocessor" value="1<?php echo $css_preprocessor; ?>" >
+						<input type="hidden" id="wp-ace-css-editor-has-focus" name="wp-ace-css-editor-has-focus" class="field-has-focus" value="1<?php echo $css_editor_has_focus; ?>" >
+						<input type="hidden" id="wp-ace-css-editor-cursor-position" name="wp-ace-css-editor-cursor-position" class="field-editor-cursor-position" value="1<?php echo $css_editor_cursor_position ?>" >
 					</div>
 
 		    	<div class="clearfix" >
@@ -126,10 +129,14 @@
 
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="javascript-edit">
+
 					<div class="wp-ace-editor">
-						<pre id="js-code" style="height:400<?php // echo $html_height ?>px" class="code-content" ><?php // echo htmlentities($html_code) ?></pre>
-						<input type="hidden" id="js-field" name="js-field" value="<?php // echo htmlentities($html_code) ?>" >
-						<input type="hidden" id="js-field-height" name="js-field-height" class="field-height"  value="<?php echo $js_height ?>" >
+						<pre id="wp-ace-js-pre-code-editor" style="height:<?php echo $js_pre_code_editor_height; ?>px" class="code-content" ><?php echo htmlentities($js_pre_code); ?></pre>
+						<input type="hidden" id="wp-ace-js-pre-code" name="wp-ace-js-pre-code" value="1<?php echo htmlentities($js_pre_code); ?>" >
+						<input type="hidden" id="wp-ace-js-field-height" name="wp-ace-js-field-height" class="field-height" value="1<?php echo $js_pre_code_editor_height; ?>" >
+						<input type="hidden" id="wp-ace-js-preprocessor" name="wp-ace-js-preprocessor" class="field-preprocessor" value="1<?php echo $js_preprocessor; ?>" >
+						<input type="hidden" id="wp-ace-js-editor-has-focus" name="wp-ace-js-editor-has-focus" class="field-has-focus" value="1<?php echo $js_editor_has_focus; ?>" >
+						<input type="hidden" id="wp-ace-js-editor-cursor-position" name="wp-ace-js-editor-cursor-position" class="field-editor-cursor-position" value="1<?php echo $js_editor_cursor_position ?>" >
 					</div>
 
 		    	<div class="clearfix" >
@@ -146,7 +153,13 @@
 	    	
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="javascript-compiled">
-	    	
+	    		
+	    		<div class="wp-ace-editor">
+						<pre id="wp-ace-js-compiled-code-" style="height:<?php echo $js_compiled_code_height; ?>px" class="code-content" ><?php echo htmlentities($js_compiled_code); ?></pre>
+						<input type="hidden" id="wp-ace-js-compiled-code" name="wp-ace-js-compiled-code" value="1<?php echo htmlentities($js_compiled_code); ?>" >
+						<input type="hidden" id="wp-ace-js-compiled-field-height" name="wp-ace-js-compiled-field-height" class="field-height" value="1<?php echo $js_pre_compiled_code_height; ?>" >
+					</div>
+
 	    </div>
 	  </div>
 
