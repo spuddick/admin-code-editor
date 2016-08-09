@@ -452,7 +452,7 @@ class Admin_Code_Editor_Admin {
 
 	}
 
-	function function code_revision_fields( $fields ) {
+	function code_revision_fields( $fields ) {
 
 	}
 	function code_revision_field__wp_ace_html_php_preprocessor( $value, $field ) {
