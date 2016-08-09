@@ -285,8 +285,9 @@ class Admin_Code_Editor_Admin {
 		//$html_code 		= get_post_meta( $post->ID, '_html_code', true );
 		wp_nonce_field( 'wp-ace-editor-nonce', 'wp-ace-editor-nonce' );
 		
-		$html_php_pre_code_editor_height 	= get_post_meta($post->ID, '_wp_ace_html_php_editor_height');
-		$html_php_code_post_id 						= get_post_meta($post->ID, '_wp_ace_html_php_code_post_id');
+		$html_php_pre_code_editor_height 	= get_post_meta($post->ID, '_wp_ace_html_php_editor_height', true);
+		$html_php_pre_code_editor_height 	= 400;
+		$html_php_code_post_id 						= get_post_meta($post->ID, '_wp_ace_html_php_code_post_id', true);
 		$html_php_pre_code 								= '';
 		if (!$html_php_pre_code_editor_height) {
 			$html_php_pre_code_editor_height = 400;
@@ -328,7 +329,9 @@ class Admin_Code_Editor_Admin {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
 		}
-
+		
+		if ( false !== wp_is_post_revision( $post_id ) )
+        return;
 
 		$wp_ace_code_content_types = array("wp-ace-html", "wp-ace-css", "wp-ace-js");
 		$post_type = get_post_type( $post_id );
@@ -361,33 +364,32 @@ class Admin_Code_Editor_Admin {
 		$html_php_editor_cursor_position 	= 0;
 		$html_php_editor_has_focus 				= 0;
 
+		$html_php_editor_height						= 350;
+		$html_php_preprocessor						= 'haml';
+
 		$incoming_html_php_hash = md5($html_php_pre . $html_php_editor_height . $html_php_preprocessor . $html_php_editor_cursor_position . $html_php_editor_has_focus);
-		$cur_html_php_hash = get_post_meta($post_id, '_wp_ace_html_php_hash');
+		$cur_html_php_hash = get_post_meta($post_id, '_wp_ace_html_php_hash', true);
 
 		if ($incoming_html_php_hash != $cur_html_php_hash) {
 			// Hashes don't match so settings or code has changed. We need to update.
 			
-			$html_php_code_post_id = get_post_meta($post_id, '_wp_ace_html_php_code_post_id');
+			$html_php_code_post_id = get_post_meta($post_id, '_wp_ace_html_php_code_post_id', true);
 			
 
 			// get the appropriate post name text depending on whether this is the initial post or a revision
-			$parent_id = wp_is_post_revision( $post_id );
-			if (!$parent_id) {
-				$parent_id = $post_id;
-				$post_name_text = 'wp-ace-html-and-php-code-for-' . $parent_id;
-			} else {
-				$post_name_text = 'wp-ace-html-and-php-code-for-' . $parent_id . '--rev-' . $post_id;
-			}
-			
+			$post_name_text = 'wp-ace-html-and-php-code-for-' . $post_id;
+			$post_title = get_the_title($post_id);
+			$post_title_text = 'WP ACE HTML and PHP code for: Post ID ' . $post_id . ' (' . $post_title . ')';
 
-			if (!$html_php_code_post_id) {
+			if (empty($html_php_code_post_id)) {
 				// if no existing post for HTML code, create one
 
 				$html_php_code_post = array(
 					  'post_name'    	=> $post_name_text, 
 					  'post_content'  => $html_php_pre,
 					  'post_status'   => 'publish',
-					  'post_type'			=> 'wp-ace-html'
+					  'post_type'			=> 'wp-ace-html',
+					  'post_title'		=>	$post_title_text
 					);
  
 				$html_php_code_post_id = wp_insert_post( $html_php_code_post );
@@ -401,7 +403,8 @@ class Admin_Code_Editor_Admin {
 		      'post_name'    	=> $post_name_text,
 				  'post_content'  => $html_php_pre,
 				  'post_status'   => 'publish',
-				  'post_type'			=> 'wp-ace-html'
+				  'post_type'			=> 'wp-ace-html',
+					'post_title'		=>	$post_title_text
 			  );
 				
 				$html_php_code_post_id = wp_update_post( $html_php_code_post_settings, true );						  
@@ -409,6 +412,18 @@ class Admin_Code_Editor_Admin {
 					$errors = $html_php_code_post_id->get_error_messages();
 					foreach ($errors as $error) {
 						echo $error;
+					}
+				} else {
+					$latest_revision = current(wp_get_post_revisions($html_php_code_post_id));
+
+					if ($latest_revision) {
+					   // do stuff with the latest revision
+					   // $latest_revision->ID will contain the latest revision
+						$html_php_preprocessor_old = get_post_meta($html_php_code_post_id, '_wp_ace_html_php_preprocessor', true);
+						$html_php_editor_height_old = get_post_meta($html_php_code_post_id, '_wp_ace_html_php_editor_height', true);
+						
+						add_metadata( 'post', $latest_revision->ID, '_wp_ace_html_php_preprocessor', $html_php_preprocessor_old );
+						add_metadata( 'post', $latest_revision->ID, '_wp_ace_html_php_editor_height', $html_php_editor_height_old );					   
 					}
 				}
 			}
@@ -434,32 +449,47 @@ class Admin_Code_Editor_Admin {
 			update_post_meta($html_php_code_post_id, '_wp_ace_html_php_insertion_pos', $html_php_editor_cursor_position );
 			update_post_meta($html_php_code_post_id, '_wp_ace_html_php_is_html_active', $html_php_editor_has_focus );
 
-
-			// manually add metadata to revision
-			if ( $parent_id ) {
-				// only adding relevant metadata to revision, to minimize database size
-
-				add_metadata( 'post', $post_id, '_wp_ace_html_php_preprocessor', $html_php_preprocessor );
-				add_metadata( 'post', $post_id, '_wp_ace_html_php_editor_height', $html_php_editor_height );
-		  }
-
 		} 
-
 	
 	}
 
+	/**
+	 *
+	 * Revision Handling
+	 *
+	 */
+	
 	function restore_code_revision( $post_id, $revision_id ) {
+		$post     = get_post( $post_id );
+		$revision = get_post( $revision_id );
+		$meta_fields = ['_wp_ace_html_php_preprocessor', '_wp_ace_html_php_editor_height'];
 
+		foreach($meta_fields as $meta_field) {
+			$meta_val  = get_metadata( 'post', $revision->ID, $meta_field, true );
+
+			if ( false !== $meta_val )
+				update_post_meta( $post_id, $meta_field, $meta_val );
+			else
+				delete_post_meta( $post_id, $meta_field );			
+		}
 	}
 
 	function code_revision_fields( $fields ) {
-
+		$fields['_wp_ace_html_php_preprocessor'] = 'HTML Proprocessor';
+		$fields['_wp_ace_html_php_editor_height'] = 'HTML Editor Height';
+		return $fields;
 	}
+
 	function code_revision_field__wp_ace_html_php_preprocessor( $value, $field ) {
-
+		global $revision;
+		//return get_metadata( 'post', $revision->ID, $field, true );
+		return $value;
 	}
-	function code_revision_field__wp_ace_html_php_editor_height( $value, $field ) {
 
+	function code_revision_field__wp_ace_html_php_editor_height( $value, $field ) {
+		global $revision;
+		//return get_metadata( 'post', $revision->ID, $field, true );
+		return $value;
 	}
 
 	private function compile($pre_code, $preprocessor) {
@@ -567,11 +597,11 @@ class Admin_Code_Editor_Admin {
 
     $args = array(
       'labels'                => $labels,
-      'public'                => false,
+      'public'                => true,
       'publicly_queryable'    => false,
       'exclude_from_search'   => true,
-      'show_ui'               => false, 
-      'show_in_menu'          => false, 
+      'show_ui'               => true, 
+      'show_in_menu'          => true, 
       'query_var'             => false,
       'rewrite'               => false,
       'capability_type'       => 'post',
