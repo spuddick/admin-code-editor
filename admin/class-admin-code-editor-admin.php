@@ -357,22 +357,115 @@ class Admin_Code_Editor_Admin {
 		}
 
 		// TODO: Check if post type is WP ACE enabled
-		
-		$pre 										= $_POST['wp-ace-pre-code']; // TODO: suitable filter for html content
-		$editor_height						= sanitize_text_field($_POST['wp-ace-field-height']);
-		$preprocessor						= sanitize_text_field($_POST['wp-ace-preprocessor']);
-		$editor_cursor_position 	= 0;
-		$editor_has_focus 				= 0;
+		$code_editor = array(
+			'html' => array(
+				'pre-code' 								=> $_POST['wp-ace-html-php-pre-code'], // TODO: suitable filter for html content
+				'editor-height' 					=> sanitize_text_field($_POST['wp-ace-html-php-field-height']),
+				'preprocessor'						=> sanitize_text_field($_POST['wp-ace-html-php-preprocessor']),
+				'editor-cursor-position' 	=> sanitize_text_field($_POST['wp-ace-html-php-cursor-position'])
+			),
+			'css' => array(
+				'pre-code' 								=> $_POST['wp-ace-css-pre-code'], // TODO: suitable filter for html content
+				'editor-height' 					=> sanitize_text_field($_POST['wp-ace-css-field-height']),
+				'preprocessor'						=> sanitize_text_field($_POST['wp-ace-css-preprocessor']),
+				'editor-cursor-position' 	=> sanitize_text_field($_POST['wp-ace-css-cursor-position'])
+			),
+			'js' => array(
+				'pre-code' 								=> $_POST['wp-ace-js-pre-code'], // TODO: suitable filter for html content
+				'editor-height' 					=> sanitize_text_field($_POST['wp-ace-js-field-height']),
+				'preprocessor'						=> sanitize_text_field($_POST['wp-ace-js-preprocessor']),
+				'editor-cursor-position' 	=> sanitize_text_field($_POST['wp-ace-js-cursor-position'])
+			)								
+		);
 
-		$editor_height						= 350;
-		$preprocessor						= 'haml';
+		$hashes = array(
+			'html' => array(
+					'incoming' => md5($code_editor['html']['pre-code'] . $code_editor['html']['editor-height'] . $code_editor['html']['preprocessor'] . $code_editor['html']['editor-cursor-position']),
+					'current' => get_post_meta($post_id, '_wp_ace_html_php_hash', true)
+				),
+			'css' => array(
+				'incoming' => md5($code_editor['css']['pre-code'] . $code_editor['css']['editor-height'] . $code_editor['css']['preprocessor'] . $code_editor['css']['editor-cursor-position']),
+				'current' => get_post_meta($post_id, '_wp_ace_css_hash', true)
+			),
+			'js' => array(
+				'incoming' => md5($code_editor['js']['pre-code'] . $code_editor['js']['editor-height'] . $code_editor['js']['preprocessor'] . $code_editor['js']['editor-cursor-position']),
+				'current' => get_post_meta($post_id, '_wp_ace_js_hash', true)
+			)
+		);
 
-		$incoming_hash = md5($pre . $editor_height . $preprocessor . $editor_cursor_position . $editor_has_focus);
-		$cur_hash = get_post_meta($post_id, '_wp_ace_hash', true);
+		foreach($hashes as $hash_key => $hash_vals) {
+			if ($hash_vals->incoming != $hash_vals->current) {
+				// Hashes don't match so settings or code has changed. We need to update.
+				
+				// update the current hash with the new one
+				switch($hash_key) {
+					case 'html':
+						update_post_meta($post_id, '_wp_ace_html_php_hash', $hash_vals->incoming);
+						break;
+					case 'css':
+						update_post_meta($post_id, '_wp_ace_css_hash', $hash_vals->incoming);
+						break;
+					case 'js':
+						update_post_meta($post_id, '_wp_ace_js_hash', $hash_vals->incoming);
+						break;	
+				}
+				
+				
+				$this->update_code($post_id, $code_editor[$hash_key]);
+			}
+		}
 
 		if ($incoming_hash != $cur_hash) {
-			// Hashes don't match so settings or code has changed. We need to update.
 			
+			
+
+
+		} 
+	
+	}
+
+	/**
+	 *
+	 * Revision Handling
+	 *
+	 */
+	
+	function restore_code_revision( $post_id, $revision_id ) {
+		$post     = get_post( $post_id );
+		$revision = get_post( $revision_id );
+		$meta_fields = ['_wp_ace_preprocessor', '_wp_ace_editor_height'];
+
+		foreach($meta_fields as $meta_field) {
+			$meta_val  = get_metadata( 'post', $revision->ID, $meta_field, true );
+
+			if ( false !== $meta_val )
+				update_post_meta( $post_id, $meta_field, $meta_val );
+			else
+				delete_post_meta( $post_id, $meta_field );			
+		}
+
+		// TODO: compile code again from revision
+	}
+
+	function code_revision_fields( $fields ) {
+		$fields['_wp_ace_preprocessor'] = 'HTML Proprocessor';
+		$fields['_wp_ace_editor_height'] = 'HTML Editor Height';
+		return $fields;
+	}
+
+	function code_revision_field__wp_ace_preprocessor( $value, $field ) {
+		global $revision;
+		//return get_metadata( 'post', $revision->ID, $field, true );
+		return $value;
+	}
+
+	function code_revision_field__wp_ace_editor_height( $value, $field ) {
+		global $revision;
+		//return get_metadata( 'post', $revision->ID, $field, true );
+		return $value;
+	}
+
+	private function update_code($post_id, $code_editor) {
 			$code_post_id = get_post_meta($post_id, '_wp_ace_code_post_id', true);
 			
 
@@ -428,8 +521,7 @@ class Admin_Code_Editor_Admin {
 				}
 			}
 
-			// update the current hash with the new one
-			update_post_meta($post_id, '_wp_ace_hash', $incoming_hash);
+
 
 			// compile pre code and save it as meta data for the associated code post
 			$compiled = $this->compile($pre, $preprocessor); // TODO: Write compile function with return vals
@@ -447,51 +539,6 @@ class Admin_Code_Editor_Admin {
 			update_post_meta($code_post_id, '_wp_ace_editor_height', $editor_height );
 			update_post_meta($code_post_id, '_wp_ace_preprocessor', $preprocessor );
 			update_post_meta($code_post_id, '_wp_ace_insertion_pos', $editor_cursor_position );
-			update_post_meta($code_post_id, '_wp_ace_is_html_active', $editor_has_focus );
-
-		} 
-	
-	}
-
-	/**
-	 *
-	 * Revision Handling
-	 *
-	 */
-	
-	function restore_code_revision( $post_id, $revision_id ) {
-		$post     = get_post( $post_id );
-		$revision = get_post( $revision_id );
-		$meta_fields = ['_wp_ace_preprocessor', '_wp_ace_editor_height'];
-
-		foreach($meta_fields as $meta_field) {
-			$meta_val  = get_metadata( 'post', $revision->ID, $meta_field, true );
-
-			if ( false !== $meta_val )
-				update_post_meta( $post_id, $meta_field, $meta_val );
-			else
-				delete_post_meta( $post_id, $meta_field );			
-		}
-
-		// TODO: compile code again from revision
-	}
-
-	function code_revision_fields( $fields ) {
-		$fields['_wp_ace_preprocessor'] = 'HTML Proprocessor';
-		$fields['_wp_ace_editor_height'] = 'HTML Editor Height';
-		return $fields;
-	}
-
-	function code_revision_field__wp_ace_preprocessor( $value, $field ) {
-		global $revision;
-		//return get_metadata( 'post', $revision->ID, $field, true );
-		return $value;
-	}
-
-	function code_revision_field__wp_ace_editor_height( $value, $field ) {
-		global $revision;
-		//return get_metadata( 'post', $revision->ID, $field, true );
-		return $value;
 	}
 
 	private function compile($post_id, $pre_code, $preprocessor) {
