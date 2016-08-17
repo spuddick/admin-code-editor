@@ -187,116 +187,18 @@ class Admin_Code_Editor_Admin {
 	 * @param WP_Post $post The object for the current post/page.
 	 */
 	function code_editor_section_callback( $post ) {
-
-		// Add a nonce field so we can check for it later.
-		// wp_nonce_field( 'code_highlight_box', 'code_highlight_box_nonce' );
-
-		/*
-		 * Use get_post_meta() to retrieve an existing value
-		 * from the database and use the value for the form.
-		 */
-		
-		/*
-		$code_insert_mode = get_post_meta( $post->ID, '_code_insert_mode', true );
-		if (empty($code_insert_mode)) {
-			$code_insert_mode = 'append_bottom';
-		}
-
-		switch ($code_insert_mode) {
-	    case 'append_bottom':
-        $html_class_output = '';
-        $html_header_footer_class_output = 'hidden';
-        break;
-	    case "header_and_footer":
-        $html_class_output = 'hidden';
-        $html_header_footer_class_output = '';
-        break;
-		}
-		 
-
-		$html_code 		= get_post_meta( $post->ID, '_html_code', true );
-		$html_header_code 		= get_post_meta( $post->ID, '_html_header_code', true );
-		$html_footer_code 		= get_post_meta( $post->ID, '_html_footer_code', true );
-		$css_code 		= get_post_meta( $post->ID, '_css_code', true ); // This is actually SASS code. We are keeping the same variable name.
-		$js_code 			= get_post_meta( $post->ID, '_js_code', true );
-
-
-		$html_height 	= get_post_meta( $post->ID, '_html_field_height', true );
-		$html_header_height 	= get_post_meta( $post->ID, '_html_header_field_height', true );
-		$html_footer_height 	= get_post_meta( $post->ID, '_html_footer_field_height', true );
-		$css_height 	= get_post_meta( $post->ID, '_css_field_height', true );
-		$js_height 		= get_post_meta( $post->ID, '_js_field_height', true );
-
-		$css_compile_error =  get_post_meta( $post->ID, '_compiled_css_error_msg', true);
-
-		*/
-		/**
-		*
-		* We want to have the option to use the english CSS and javascript on both the english and french.
-		* In many cases, it will be the same for both languages and will make maintenance easier and prevent inconsistencies between the languages.
-		* Some checks are needed first to determine what message should be displayed.
-		*
-		**/
-		
-		/*
-		if (ICL_LANGUAGE_CODE == 'fr') {
-			$french_post_id = $post->ID;
-		} else {
-			$french_post_id = icl_object_id($post->ID, get_post_type( $post->ID ), false,'fr');
-		}
-		
-		if ($french_post_id) {
-			$french_js_code 			= get_post_meta( $french_post_id, '_js_code', true );
-			$french_css_code 			= get_post_meta( $french_post_id, '_css_code', true );
-
-			if (empty($french_js_code )) {
-				$french_js_status = 'No French javascript detected. Using English javascript on French front end display.';
-			} else {
-				$french_js_status = 'French javascript detected. Using French javascript on French front end display. Leave blank to use English javascript.';
-			}
-			if (empty($french_css_code )) {
-				$french_css_status = 'No French CSS detected. Using English CSS on French front end display.';
-			} else {
-				$french_css_status = 'French CSS detected. Using French CSS on French front end display. Leave blank to use English CSS.';
-			}
-		} else {
-			$french_js_status = 'French page has not been created yet.';
-			$french_css_status = 'French page has not been created yet.';
-
-		}
-
-		if (empty($html_height)) {
-			$html_height = 500;
-		}
-		if (empty($html_header_height)) {
-			$html_header_height = 500;
-		}
-		if (empty($html_footer_height)) {
-			$html_footer_height = 500;
-		}
-		if (empty($css_height)) {
-			$css_height = 500;
-		}
-		if (empty($js_height)) {
-			$js_height = 500;
-		}
-		*/
 	
 		//$html_code 		= get_post_meta( $post->ID, '_html_code', true );
 		wp_nonce_field( 'wp-ace-editor-nonce', 'wp-ace-editor-nonce' );
 		
-		$pre_code_editor_height 	= get_post_meta($post->ID, '_wp_ace_editor_height', true);
-		$pre_code_editor_height 	= 400;
-		$code_post_id 						= get_post_meta($post->ID, '_wp_ace_code_post_id', true);
-		$pre_code 								= '';
-		if (!$pre_code_editor_height) {
-			$pre_code_editor_height = 400;
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-admin.php';
+		$editor_args = array{
+			'type' => 'html-php',
+			'host-post-id' => $post_id
 		}
-		if ($code_post_id) {
-			$post_obj 	= get_post( $code_post_id ); 
-			$content 						= $post_obj->post_content;
-			$pre_code 	= $content;
-		}
+		$html_php_editor 	= new Admin_Code_Editor_Editor($editor_args);
+		$html_php_editor->load_admin_meta_data();
+
 		require_once('partials/admin-code-editor-admin-post-edit.php');
 	
 	}	
@@ -357,64 +259,19 @@ class Admin_Code_Editor_Admin {
 		}
 
 		// TODO: Check if post type is WP ACE enabled
-		$code_editor = array(
-			'html' => array(
-				'pre-code' 								=> $_POST['wp-ace-html-php-pre-code'], // TODO: suitable filter for html content
-				'editor-height' 					=> sanitize_text_field($_POST['wp-ace-html-php-field-height']),
-				'preprocessor'						=> sanitize_text_field($_POST['wp-ace-html-php-preprocessor']),
-				'editor-cursor-position' 	=> sanitize_text_field($_POST['wp-ace-html-php-cursor-position'])
-			),
-			'css' => array(
-				'pre-code' 								=> $_POST['wp-ace-css-pre-code'], // TODO: suitable filter for html content
-				'editor-height' 					=> sanitize_text_field($_POST['wp-ace-css-field-height']),
-				'preprocessor'						=> sanitize_text_field($_POST['wp-ace-css-preprocessor']),
-				'editor-cursor-position' 	=> sanitize_text_field($_POST['wp-ace-css-cursor-position'])
-			),
-			'js' => array(
-				'pre-code' 								=> $_POST['wp-ace-js-pre-code'], // TODO: suitable filter for html content
-				'editor-height' 					=> sanitize_text_field($_POST['wp-ace-js-field-height']),
-				'preprocessor'						=> sanitize_text_field($_POST['wp-ace-js-preprocessor']),
-				'editor-cursor-position' 	=> sanitize_text_field($_POST['wp-ace-js-cursor-position'])
-			)								
-		);
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-admin.php';
 
-		$hashes = array(
-			'html' => array(
-					'incoming' => md5($code_editor['html']['pre-code'] . $code_editor['html']['editor-height'] . $code_editor['html']['preprocessor'] . $code_editor['html']['editor-cursor-position']),
-					'current' => get_post_meta($post_id, '_wp_ace_html_php_hash', true)
-				),
-			'css' => array(
-				'incoming' => md5($code_editor['css']['pre-code'] . $code_editor['css']['editor-height'] . $code_editor['css']['preprocessor'] . $code_editor['css']['editor-cursor-position']),
-				'current' => get_post_meta($post_id, '_wp_ace_css_hash', true)
-			),
-			'js' => array(
-				'incoming' => md5($code_editor['js']['pre-code'] . $code_editor['js']['editor-height'] . $code_editor['js']['preprocessor'] . $code_editor['js']['editor-cursor-position']),
-				'current' => get_post_meta($post_id, '_wp_ace_js_hash', true)
-			)
-		);
+		$html_editor 	= new Admin_Code_Editor_Editor('html-php', $post_id);
+		$css_editor 	= new Admin_Code_Editor_Editor('css', $post_id);
+		$js_editor 		= new Admin_Code_Editor_Editor('js', $post_id);
 
-		foreach($hashes as $hash_key => $hash_vals) {
-			if ($hash_vals->incoming != $hash_vals->current) {
-				// Hashes don't match so settings or code has changed. We need to update.
-				
-				// update the current hash with the new one
-				switch($hash_key) {
-					case 'html':
-						update_post_meta($post_id, '_wp_ace_html_php_hash', $hash_vals->incoming);
-						break;
-					case 'css':
-						update_post_meta($post_id, '_wp_ace_css_hash', $hash_vals->incoming);
-						break;
-					case 'js':
-						update_post_meta($post_id, '_wp_ace_js_hash', $hash_vals->incoming);
-						break;	
-				}
-				
-				
-				$this->update_code($post_id, $code_editor[$hash_key]);
-			}
-		}
+		$html_editor->initialize_from_post_request();
+		$css_editor->initialize_from_post_request();
+		$js_editor->initialize_from_post_request();
 
+		$html_editor->update_code();
+		$css_editor->update_code();
+		$js_editor->update_code();
 	
 	}
 
