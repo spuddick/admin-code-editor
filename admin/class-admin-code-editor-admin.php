@@ -199,6 +199,8 @@ class Admin_Code_Editor_Admin {
 		$html_php_editor 	= new Admin_Code_Editor_Editor($editor_args);
 		$html_php_editor->load_admin_meta_data();
 
+		// $preprocessor_options = get_preprocessor_options();
+
 		require_once('partials/admin-code-editor-admin-post-edit.php');
 	
 	}	

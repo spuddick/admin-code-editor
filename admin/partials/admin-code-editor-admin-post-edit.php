@@ -96,10 +96,18 @@
 										<label class="checkbox"><input type="checkbox" name="disabled_templates[]" <?php checked($html_php_editor->on_search_results_is_disabled(), TRUE) ?> value="search-results" >Search Results</label>
 
 										<h4>Position</h4>
-										<label class="radio"><input type="radio" value="">before post content </label>
-										<label class="radio"><input type="radio" value="">after post content</label>
+										<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="before" <?php checked($html_php_editor->get_code_output_position(), 'before'); ?> >before post content </label>
+										<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="after" <?php checked($html_php_editor->get_code_output_position(), 'after'); ?> >after post content</label>
 										
 										<h4>Pre Processor</h4>
+										<?php
+											foreach($preprocessor_option as $key => $name) {
+												?>
+													<label class="radio"><input type="radio" <?php checked($html_php_editor->get_html_php_preprocessor(), $key); ?> value="<?php echo $key; ?>"><?php echo $name; ?></label>
+												<?php
+											}
+
+										?>
 										<label class="radio"><input type="radio" value="">Option 1</label>
 										<label class="radio"><input type="radio" value="">Option 2</label>
 										<label class="radio"><input type="radio" value="">Option 3</label>						
