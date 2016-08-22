@@ -143,7 +143,7 @@
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="javascript-edit">
 					<div class="wp-ace-editor">
-						<pre id="js-code" style="height:400<?php // echo $html_height ?>px" class="code-content" ><?php // echo htmlentities($html_code) ?></pre>
+						<pre id="js-code" style="height:<?php // echo $html_height ?>px" class="code-content" ><?php // echo htmlentities($html_code) ?></pre>
 						<input type="hidden" id="js-field" name="js-field" value="<?php // echo htmlentities($html_code) ?>" >
 						<input type="hidden" id="js-field-height" name="js-field-height" class="field-height"  value="<?php echo $js_height ?>" >
 					</div>
