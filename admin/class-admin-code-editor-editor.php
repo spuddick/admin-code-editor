@@ -3,12 +3,8 @@
 
 class Admin_Code_Editor_Editor {
 
-	private $type, $host_post_id, $code_post_id, $code_post_title, $keys, $post_type, $code_post_name_start, $code_post_title_start;
+	private $type, $host_post_id, $code_post_id, $code_post_title, $keys, $post_type, $code_post_name_start, $code_post_title_start, $stored_hash, $current_hash;
 	protected $pre_code, $field_height, $preprocessor, $cursor_position;
-	protected	$hash = array(
-		'current' => null,
-		'incoming' => null,
-	);
 
 
 	public function __construct($param) {
@@ -66,29 +62,40 @@ class Admin_Code_Editor_Editor {
     } else {
     	// throw exception
     }
-    if (isset($param['code-post-id'])) {
-        $this->code_post_id = $param['code-post-id'];
-    }
-    if (isset($param['code-post-title'])) {
-        $this->code_post_title = $param['code-post-title'];
-    }
 
 	}
 
 	public function initialize_from_post_request(){
 		// called from save hook or ajax request to set variable data
-				'pre-code' 								=> $_POST['wp-ace-html-php-pre-code'], // TODO: suitable filter for html content
-				'editor-height' 					=> sanitize_text_field($_POST['wp-ace-html-php-field-height']),
-				'preprocessor'						=> sanitize_text_field($_POST['wp-ace-html-php-preprocessor']),
-				'editor-cursor-position' 	=> sanitize_text_field($_POST['wp-ace-html-php-cursor-position'])
-
-				'incoming' => md5($code_editor['html']['pre-code'] . $code_editor['html']['editor-height'] . $code_editor['html']['preprocessor'] . $code_editor['html']['editor-cursor-position']),
+				$this->pre_code = $_POST['wp-ace-html-php-pre-code'], // TODO: suitable filter for html content
 				
-				'current' => get_post_meta($post_id, '_wp_ace_html_php_hash', true)
+				$this->field_height	= sanitize_text_field($_POST['wp-ace-html-php-field-height']),
+				
+				$this->preprocessor = sanitize_text_field($_POST['wp-ace-html-php-preprocessor']),
+				
+				$this->cursor_position 	= sanitize_text_field($_POST['wp-ace-html-php-cursor-position'])
+
+
+
+	}
+
+	private function get_current_hash() {
+		if (empty($current_hash)) {
+			$this->current_hash = md5($this->pre_code . $this->field_height . $this->preprocessor . $this->cursor_position);
+		}
+		return $this->current_hash;
+	}
+
+	private function get_stored_hash() {
+		if (empty($this->stored_hash)) {
+			$this->stored_hash = get_post_meta($post_id, '_wp_ace_html_php_hash', true);
+		}
+		return $this->stored_hash; 
 	}
 
 	public function load_admin_meta_data() {
-		
+		// load relevant metadata from host/code post id and assign to variables 
+
 	}
 
 	public function get_front_end_content_vars() {
@@ -208,11 +215,11 @@ class Admin_Code_Editor_Editor {
 
 	public function update_code() {
 			
-			if ($this->hash['incoming'] == $this->hash['current']) {
+			if ($this->get_current_hash() == $this->get_stored_hash()) {
 				return;
 			} else {
 
-				update_post_meta($this->host_post_id, $this->keys['code-id-meta-key'], $this->hash['incoming']);
+				update_post_meta($this->host_post_id, $this->keys['code-id-meta-key'], $this->get_current_hash());
 
 			}
 

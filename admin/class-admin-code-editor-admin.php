@@ -191,21 +191,47 @@ class Admin_Code_Editor_Admin {
 		//$html_code 		= get_post_meta( $post->ID, '_html_code', true );
 		wp_nonce_field( 'wp-ace-editor-nonce', 'wp-ace-editor-nonce' );
 		
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-admin.php';
-		$editor_args = array{
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor.php';
+		$editor_args = array(
 			'type' => 'html-php',
-			'host-post-id' => $post_id
-		}
+			'host-post-id' => $post->ID
+		);
 		$html_php_editor 	= new Admin_Code_Editor_Editor($editor_args);
 		$html_php_editor->load_admin_meta_data();
 
-		// $preprocessor_options = get_preprocessor_options();
+		$preprocessor_options = get_option('wp_ace_supported_preprocessors');
 
-		require_once('partials/admin-code-editor-admin-post-edit.php');
+		require_once plugin_dir_path( __FILE__ ) .  'admin/partials/admin-code-editor-admin-post-edit.php';
 	
 	}	
 
 
+	function plugin_update_check() {
+		if (get_site_option( 'wp_ace_plugin_version' ) != $this->version) {
+      $this->plugin_update();
+
+    }
+	}
+
+
+	private function plugin_update() {
+		$supported_preprocessors = array(
+			'html' => array(
+				'haml' => 'HAML',
+				'markdown' => 'MarkDown'
+				),
+			'css' => array(
+				'scss' => 'Scss',
+				'less' => 'LESS'
+				),
+			'js' => array(
+				'coffeescript' => 'CoffeeScript',
+				'stylus' => 'Stylus'
+				),
+			);
+		update_option( 'wp_ace_supported_preprocessors', $supported_preprocessors);
+		update_option( 'wp_ace_plugin_version', $this->version);
+	}
 
 	/**
 	 * When the post is saved, saves our custom data.
