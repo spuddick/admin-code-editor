@@ -82,7 +82,7 @@
 	      					<div>
 										<h4>General</h4>
 										<label class="checkbox">
-											<input type="checkbox"  id="wp-ace-html-php-disable_wpautop" name="wp-ace-html-php-disable_wpautop" class="field-editor-disable-wpautop" value="1" <?php checked($html_php_editor->get_disable_wpautop_status(), '1') ?> >
+											<input type="checkbox"  id="wp-ace-html-php-disable-wpautop" name="wp-ace-html-php-disable-wpautop" class="field-editor-disable-wpautop" value="1" <?php checked($html_php_editor->get_disable_wpautop_status(), '1') ?> >
 											Disable wpautop 
 											<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Automatically wraps in paragraph tag" aria-hidden="true"  ></span>
 										</label>
