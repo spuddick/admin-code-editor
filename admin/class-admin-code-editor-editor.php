@@ -4,10 +4,10 @@
 abstract class Admin_Code_Editor_Editor {
 
 	const DEFAULT_EDITOR_HEIGHT = 400;
-
+	const DEFAULT_CURSOR_POSITION = 0;
 	protected  $code_post_title, $keys, $post_type, $code_post_name_start, $code_post_title_start, $stored_hash, $current_hash;
-	protected $host_post_id, $code_post_id,$pre_code, $field_height, $preprocessor, $cursor_position, $code_output_position;
-
+	protected $host_post_id, $code_post_id, $pre_code, $field_height, $preprocessor, $cursor_position;
+	protected $pre_code_compile_error_msg, $pre_code_compile_status;
 
 	public function __construct($param) {
 	
@@ -34,9 +34,11 @@ abstract class Admin_Code_Editor_Editor {
 
 	}
 
-	abstract public function initialize_from_post_request();
 	abstract protected function get_current_hash();
 	abstract protected function get_stored_hash();
+	abstract protected function additional_updates();
+	
+	abstract public function initialize_from_post_request();
 	abstract public function get_preprocessor();
 
 	private function get_disabled_templates() {
@@ -93,28 +95,47 @@ abstract class Admin_Code_Editor_Editor {
 	}
 
 	public function get_editor_cursor_position() {
-		$this->cursor_position = get_post_meta($this->get_code_post_id(), '_wp_ace_cursor_position', true);
 		if (!$this->cursor_position) {
-			$this->cursor_position = get_option( '_wp_ace_global_cursor_position', true);
+			$this->cursor_position = get_post_meta($this->get_code_post_id(), '_wp_ace_cursor_position', true);
 			if (!$this->cursor_position) {
-				$this->cursor_position = DEFAULT_CURSOR_POSITION;
+				$this->cursor_position = get_option( '_wp_ace_global_cursor_position', self::DEFAULT_CURSOR_POSITION);
+
 			}
 		}
-
-		return $this->preprocessor;
+		return $this->cursor_position;
 	}
 
 	public function get_editor_height() {
-
-		$this->field_height = get_post_meta($this->get_code_post_id(), '_wp_ace_editor_height', true);
 		if (!$this->field_height) {
-			$this->field_height = get_option('_wp_ace_global_editor_height', true);
+			$this->field_height = get_post_meta($this->get_code_post_id(), '_wp_ace_editor_height', true);
 			if (!$this->field_height) {
-				$this->field_height = DEFAULT_EDITOR_HEIGHT;
+				$this->field_height = get_option('_wp_ace_global_editor_height', self::DEFAULT_EDITOR_HEIGHT);
+
 			}
 		}
-
 		return $this->field_height;
+	}
+
+	public function get_pre_code_compile_status() {
+		if (!$this->pre_code_compile_status) {
+			$this->pre_code_compile_status = get_post_meta($this->get_code_post_id(), '_wp_ace_compile_status', true);
+			if (!$this->pre_code_compile_status) {
+				return false;
+
+			}
+		}
+		return $this->pre_code_compile_status;
+
+	}
+
+	public function get_pre_code_compile_error_msg() {
+		if (!$this->pre_code_compile_error_msg) {
+			$this->pre_code_compile_error_msg = get_post_meta($this->get_code_post_id(), '_wp_ace_compile_error_msg', true);
+			if (!$this->pre_code_compile_error_msg) {
+				return false;
+			}
+		}
+		return $this->pre_code_compile_error_msg;	
 	}
 
 	public function update_code() {
@@ -131,8 +152,6 @@ abstract class Admin_Code_Editor_Editor {
 		$this->code_name_text = $this->code_post_name_start . $this->host_post_id;
 		$this->host_title = get_the_title($this->host_post_id);
 		$this->code_title_text = $this->code_post_title_start . $this->host_post_id . ' (' . $this->host_title . ')';
-
-					  
 			
 			if (is_wp_error($this->get_code_post_id())) {
 				$errors = $this->code_post_id->get_error_messages();
@@ -152,7 +171,7 @@ abstract class Admin_Code_Editor_Editor {
 					  'post_content' 	=> 	$this->get_pre_code()
 					);
  
-					wp_insert_post( $code_post );
+					wp_update_post( $code_post );
 
 				$latest_revision = current(wp_get_post_revisions($this->get_code_post_id()));
 
@@ -170,24 +189,28 @@ abstract class Admin_Code_Editor_Editor {
 			/*
 			// compile pre code and save it as meta data for the associated code post
 			$compiled = $this->compile(); // TODO: Write compile function with return vals
-			update_post_meta($code_post_id, '_wp_ace_status', $compiled->status );
+			update_post_meta($code_post_id, '_wp_ace_compile_status', $compiled->status );
 			
 			// update compile error status and message
 			if ($compiled->status != 'error') {
 				update_post_meta($this->code_post_id, '_wp_ace_compiled', $compiled->compiled_code );
-				delete_post_meta($this->code_post_id, '_wp_ace_error_msg');
+				delete_post_meta($this->code_post_id, '_wp_ace_compile_error_msg');
 			} else {
-				update_post_meta($this->code_post_id, '_wp_ace_error_msg', $compiled->error_msg );
+				update_post_meta($this->code_post_id, '_wp_ace_compile_error_msg', $compiled->error_msg );
 			}
 			*/
 		
 			// update other basic meta data
-			update_post_meta($this->code_post_id, '_wp_ace_editor_height', $this->field_height );
-			update_post_meta($this->code_post_id, '_wp_ace_preprocessor', $this->preprocessor );
-			update_post_meta($this->code_post_id, '_wp_ace_insertion_pos', $this->cursor_position );
+			update_post_meta($this->code_post_id, '_wp_ace_editor_height', $this->get_editor_height() );
+			update_post_meta($this->code_post_id, '_wp_ace_preprocessor', $this->get_preprocessor() );
+			update_post_meta($this->code_post_id, '_wp_ace_editor_cursor_position', $this->get_editor_cursor_position() );
+
+			additional_updates();
 
 			return;
 	}
+
+
 
 	private function compile() {
 		$ret = new stdClass();
@@ -196,17 +219,17 @@ abstract class Admin_Code_Editor_Editor {
 		$ret->status = '';
 		$ret->error_msg = '';
 
-		if ( empty($pre_code) ) {
+		if ( empty($this->get_pre_code()) ) {
 			$ret->status = 'empty';
 		} else {
 			try {
 					
-				switch($preprocessor) {
+				switch($this->get_preprocessor()) {
 					case 'scss' :
 						// require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/scss-compiler.php';
 
 						$scss = new scssc();
-						$compiled_code = $scss->compile($pre_code);
+						$compiled_code = $scss->compile($this->get_pre_code());
 						$ret->compiled_code = trim($compiled_code);
 						$ret->status = 'success';
 						break;

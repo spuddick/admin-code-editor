@@ -51,6 +51,11 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor
 
 	}
 
+	protected function additional_updates() {
+		// css dependecy files
+		// enqueue in header/footer
+	}
+
 	public function get_preprocessor() {
 		$preprocessor = get_post_meta($this->code_post_id, '_wp_ace_preprocessor', true);
 		if (!$preprocessor) {

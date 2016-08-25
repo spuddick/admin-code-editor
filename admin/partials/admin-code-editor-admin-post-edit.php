@@ -39,9 +39,9 @@
 	  <div class="tab-content">
 	    <div role="tabpanel" class="tab-pane active" id="html-edit">
 				<div class="" style="padding-top:10px;" >
-					<?php if ($html_php_editor->get_pre_code_status == 'error') { ?>
+					<?php if ($html_php_editor->get_pre_code_compile_status() == 'error') { ?>
 						<div class="alert alert-warning" role="alert">
-						  <?php echo $html_php_editor->get_pre_code_error_msg ?>
+						  <?php echo $html_php_editor->get_pre_code_compile_error_msg() ?>
 						</div>
 
 					<?php } ?>
@@ -88,10 +88,10 @@
 										</label>
 										
 										<h5>Do not display HTML on the following templates: </h5>
-										<label class="checkbox"><input type="checkbox" name="wp-ace-disabled-templates[]" <?php checked($html_php_editor->on_front_page_is_disabled(), TRUE) ?> value="front-page" >Front Page</label>
-										<label class="checkbox"><input type="checkbox" name="wp-ace-disabled-templates[]" <?php checked($html_php_editor->on_home_is_disabled(), TRUE) ?> value="home" >Home</label>
-										<label class="checkbox"><input type="checkbox" name="wp-ace-disabled-templates[]" <?php checked($html_php_editor->on_archives_is_disabled(), TRUE) ?> value="archives" >Archives</label>	
-										<label class="checkbox"><input type="checkbox" name="wp-ace-disabled-templates[]" <?php checked($html_php_editor->on_search_results_is_disabled(), TRUE) ?> value="search-results" >Search Results</label>
+										<label class="checkbox"><input type="checkbox" name="wp-ace-disabled-templates[]" <?php // checked($html_php_editor->on_front_page_is_disabled(), TRUE) ?> value="front-page" >Front Page</label>
+										<label class="checkbox"><input type="checkbox" name="wp-ace-disabled-templates[]" <?php // checked($html_php_editor->on_home_is_disabled(), TRUE) ?> value="home" >Home</label>
+										<label class="checkbox"><input type="checkbox" name="wp-ace-disabled-templates[]" <?php // checked($html_php_editor->on_archives_is_disabled(), TRUE) ?> value="archives" >Archives</label>	
+										<label class="checkbox"><input type="checkbox" name="wp-ace-disabled-templates[]" <?php // checked($html_php_editor->on_search_results_is_disabled(), TRUE) ?> value="search-results" >Search Results</label>
 
 										<h4>Position</h4>
 										<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="before" <?php checked($html_php_editor->get_code_output_position(), 'before'); ?> >before post content </label>

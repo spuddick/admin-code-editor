@@ -48,6 +48,11 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor
 		// load relevant metadata from host/code post id and assign to variables 
 
 	}
+	
+	protected function additional_updates() {
+		// js dependecy files
+		// enqueue in header/footer
+	}
 
 	public function get_preprocessor() {
 		$preprocessor = get_post_meta($this->code_post_id, '_wp_ace_preprocessor', true);
