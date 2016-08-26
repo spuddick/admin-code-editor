@@ -187,121 +187,52 @@ class Admin_Code_Editor_Admin {
 	 * @param WP_Post $post The object for the current post/page.
 	 */
 	function code_editor_section_callback( $post ) {
-
-		// Add a nonce field so we can check for it later.
-		// wp_nonce_field( 'code_highlight_box', 'code_highlight_box_nonce' );
-
-		/*
-		 * Use get_post_meta() to retrieve an existing value
-		 * from the database and use the value for the form.
-		 */
-		
-		/*
-		$code_insert_mode = get_post_meta( $post->ID, '_code_insert_mode', true );
-		if (empty($code_insert_mode)) {
-			$code_insert_mode = 'append_bottom';
-		}
-
-		switch ($code_insert_mode) {
-	    case 'append_bottom':
-        $html_class_output = '';
-        $html_header_footer_class_output = 'hidden';
-        break;
-	    case "header_and_footer":
-        $html_class_output = 'hidden';
-        $html_header_footer_class_output = '';
-        break;
-		}
-		 
-
-		$html_code 		= get_post_meta( $post->ID, '_html_code', true );
-		$html_header_code 		= get_post_meta( $post->ID, '_html_header_code', true );
-		$html_footer_code 		= get_post_meta( $post->ID, '_html_footer_code', true );
-		$css_code 		= get_post_meta( $post->ID, '_css_code', true ); // This is actually SASS code. We are keeping the same variable name.
-		$js_code 			= get_post_meta( $post->ID, '_js_code', true );
-
-
-		$html_height 	= get_post_meta( $post->ID, '_html_field_height', true );
-		$html_header_height 	= get_post_meta( $post->ID, '_html_header_field_height', true );
-		$html_footer_height 	= get_post_meta( $post->ID, '_html_footer_field_height', true );
-		$css_height 	= get_post_meta( $post->ID, '_css_field_height', true );
-		$js_height 		= get_post_meta( $post->ID, '_js_field_height', true );
-
-		$css_compile_error =  get_post_meta( $post->ID, '_compiled_css_error_msg', true);
-
-		*/
-		/**
-		*
-		* We want to have the option to use the english CSS and javascript on both the english and french.
-		* In many cases, it will be the same for both languages and will make maintenance easier and prevent inconsistencies between the languages.
-		* Some checks are needed first to determine what message should be displayed.
-		*
-		**/
-		
-		/*
-		if (ICL_LANGUAGE_CODE == 'fr') {
-			$french_post_id = $post->ID;
-		} else {
-			$french_post_id = icl_object_id($post->ID, get_post_type( $post->ID ), false,'fr');
-		}
-		
-		if ($french_post_id) {
-			$french_js_code 			= get_post_meta( $french_post_id, '_js_code', true );
-			$french_css_code 			= get_post_meta( $french_post_id, '_css_code', true );
-
-			if (empty($french_js_code )) {
-				$french_js_status = 'No French javascript detected. Using English javascript on French front end display.';
-			} else {
-				$french_js_status = 'French javascript detected. Using French javascript on French front end display. Leave blank to use English javascript.';
-			}
-			if (empty($french_css_code )) {
-				$french_css_status = 'No French CSS detected. Using English CSS on French front end display.';
-			} else {
-				$french_css_status = 'French CSS detected. Using French CSS on French front end display. Leave blank to use English CSS.';
-			}
-		} else {
-			$french_js_status = 'French page has not been created yet.';
-			$french_css_status = 'French page has not been created yet.';
-
-		}
-
-		if (empty($html_height)) {
-			$html_height = 500;
-		}
-		if (empty($html_header_height)) {
-			$html_header_height = 500;
-		}
-		if (empty($html_footer_height)) {
-			$html_footer_height = 500;
-		}
-		if (empty($css_height)) {
-			$css_height = 500;
-		}
-		if (empty($js_height)) {
-			$js_height = 500;
-		}
-		*/
 	
 		//$html_code 		= get_post_meta( $post->ID, '_html_code', true );
 		wp_nonce_field( 'wp-ace-editor-nonce', 'wp-ace-editor-nonce' );
 		
-		$pre_code_editor_height 	= get_post_meta($post->ID, '_wp_ace_editor_height', true);
-		$pre_code_editor_height 	= 400;
-		$code_post_id 						= get_post_meta($post->ID, '_wp_ace_code_post_id', true);
-		$pre_code 								= '';
-		if (!$pre_code_editor_height) {
-			$pre_code_editor_height = 400;
-		}
-		if ($code_post_id) {
-			$post_obj 	= get_post( $code_post_id ); 
-			$content 						= $post_obj->post_content;
-			$pre_code 	= $content;
-		}
-		require_once('partials/admin-code-editor-admin-post-edit.php');
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-html-php.php';
+		//require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-css.php';
+		//require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-js.php';
+		$editor_args = array(
+			'type' => 'html-php',
+			'host-post-id' => $post->ID
+		);
+		$html_php_editor 	= new Admin_Code_Editor_Editor_HTML_PHP($editor_args);
+
+		$preprocessor_options = get_option('wp_ace_supported_preprocessors');
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) .  'admin/partials/admin-code-editor-admin-post-edit.php';
 	
 	}	
 
 
+	function plugin_update_check() {
+		if (get_site_option( 'wp_ace_plugin_version' ) != $this->version) {
+      $this->plugin_update();
+
+    }
+	}
+
+
+	private function plugin_update() {
+		$supported_preprocessors = array(
+			'html' => array(
+				'haml' => 'HAML',
+				'markdown' => 'MarkDown'
+				),
+			'css' => array(
+				'scss' => 'Scss',
+				'less' => 'LESS'
+				),
+			'js' => array(
+				'coffeescript' => 'CoffeeScript',
+				'stylus' => 'Stylus'
+				),
+			);
+		update_option( 'wp_ace_supported_preprocessors', $supported_preprocessors);
+		update_option( 'wp_ace_plugin_version', $this->version);
+	}
 
 	/**
 	 * When the post is saved, saves our custom data.
@@ -357,99 +288,25 @@ class Admin_Code_Editor_Admin {
 		}
 
 		// TODO: Check if post type is WP ACE enabled
-		
-		$pre 										= $_POST['wp-ace-pre-code']; // TODO: suitable filter for html content
-		$editor_height						= sanitize_text_field($_POST['wp-ace-field-height']);
-		$preprocessor						= sanitize_text_field($_POST['wp-ace-preprocessor']);
-		$editor_cursor_position 	= 0;
-		$editor_has_focus 				= 0;
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-html-php.php';
+		//require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-css.php';
+		//require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-js.php';
 
-		$editor_height						= 350;
-		$preprocessor						= 'haml';
+		$editor_args = array(
+			'type' => 'html-php',
+			'host-post-id' => $post_id
+		);
+		$html_editor 	= new Admin_Code_Editor_Editor_HTML_PHP($editor_args);
+		//$css_editor 	= new Admin_Code_Editor_Editor('css', $post_id);
+		//$js_editor 		= new Admin_Code_Editor_Editor('js', $post_id);
 
-		$incoming_hash = md5($pre . $editor_height . $preprocessor . $editor_cursor_position . $editor_has_focus);
-		$cur_hash = get_post_meta($post_id, '_wp_ace_hash', true);
+		$html_editor->initialize_from_post_request();
+		//$css_editor->initialize_from_post_request();
+		//$js_editor->initialize_from_post_request();
 
-		if ($incoming_hash != $cur_hash) {
-			// Hashes don't match so settings or code has changed. We need to update.
-			
-			$code_post_id = get_post_meta($post_id, '_wp_ace_code_post_id', true);
-			
-
-			// get the appropriate post name text depending on whether this is the initial post or a revision
-			$post_name_text = 'wp-ace-html-and-php-code-for-' . $post_id;
-			$post_title = get_the_title($post_id);
-			$post_title_text = 'WP ACE HTML and PHP code for: Post ID ' . $post_id . ' (' . $post_title . ')';
-
-			if (empty($code_post_id)) {
-				// if no existing post for HTML code, create one
-
-				$code_post = array(
-					  'post_name'    	=> $post_name_text, 
-					  'post_content'  => $pre,
-					  'post_status'   => 'publish',
-					  'post_type'			=> 'wp-ace-html',
-					  'post_title'		=>	$post_title_text
-					);
- 
-				$code_post_id = wp_insert_post( $code_post );
-
-				update_post_meta($post_id, '_wp_ace_code_post_id', $code_post_id);
-			} else {
-				
-				// if an existing post for HTML exists, update it
-			  $code_post_settings = array(
-		      'ID'           	=> $code_post_id,
-		      'post_name'    	=> $post_name_text,
-				  'post_content'  => $pre,
-				  'post_status'   => 'publish',
-				  'post_type'			=> 'wp-ace-html',
-					'post_title'		=>	$post_title_text
-			  );
-				
-				$code_post_id = wp_update_post( $code_post_settings, true );						  
-				if (is_wp_error($code_post_id)) {
-					$errors = $code_post_id->get_error_messages();
-					foreach ($errors as $error) {
-						echo $error;
-					}
-				} else {
-					$latest_revision = current(wp_get_post_revisions($code_post_id));
-
-					if ($latest_revision) {
-					   // do stuff with the latest revision
-					   // $latest_revision->ID will contain the latest revision
-						$preprocessor_old = get_post_meta($code_post_id, '_wp_ace_preprocessor', true);
-						$editor_height_old = get_post_meta($code_post_id, '_wp_ace_editor_height', true);
-						
-						add_metadata( 'post', $latest_revision->ID, '_wp_ace_preprocessor', $preprocessor_old );
-						add_metadata( 'post', $latest_revision->ID, '_wp_ace_editor_height', $editor_height_old );					   
-					}
-				}
-			}
-
-			// update the current hash with the new one
-			update_post_meta($post_id, '_wp_ace_hash', $incoming_hash);
-
-			// compile pre code and save it as meta data for the associated code post
-			$compiled = $this->compile($pre, $preprocessor); // TODO: Write compile function with return vals
-			update_post_meta($code_post_id, '_wp_ace_status', $compiled->status );
-			
-			// update compile error status and message
-			if ($compiled->status != 'error') {
-				update_post_meta($code_post_id, '_wp_ace_compiled', $compiled->compiled_code );
-				delete_post_meta($code_post_id, '_wp_ace_error_msg');
-			} else {
-				update_post_meta($code_post_id, '_wp_ace_error_msg', $compiled->error_msg );
-			}
-
-			// update other basic meta data
-			update_post_meta($code_post_id, '_wp_ace_editor_height', $editor_height );
-			update_post_meta($code_post_id, '_wp_ace_preprocessor', $preprocessor );
-			update_post_meta($code_post_id, '_wp_ace_insertion_pos', $editor_cursor_position );
-			update_post_meta($code_post_id, '_wp_ace_is_html_active', $editor_has_focus );
-
-		} 
+		$html_editor->update_code();
+		//$css_editor->update_code();
+		//$js_editor->update_code();
 	
 	}
 
@@ -492,84 +349,6 @@ class Admin_Code_Editor_Admin {
 		global $revision;
 		//return get_metadata( 'post', $revision->ID, $field, true );
 		return $value;
-	}
-
-	private function compile($post_id, $pre_code, $preprocessor) {
-		$ret = new stdClass();
-		
-		$ret->compiled_code = '';
-		$ret->status = '';
-		$ret->error_msg = '';
-
-		if ( empty($pre_code) ) {
-			$ret->status = 'empty';
-		} else {
-			try {
-					
-				switch($preprocessor) {
-					case 'scss' :
-						$scss = new scssc();
-						$compiled_code = $scss->compile($pre_code);
-						$ret->compiled_code = trim($compiled_code);
-						$ret->status = 'success';
-						break;
-					case 'less' :
-
-						break;
-					case 'stylus' :
-
-						break;
-					case 'haml' :
-
-						break;
-					case 'markdown' :
-
-						break;
-				}
-
-			}
-			catch(Exception $e) {
-			  $ret->status = 'error';
-			  $ret->error_msg = $e->getMessage();
-			}			
-		}
-
-		return $ret;
-	}
-
-	function compile_sass($post_id, $code) {
-		$trimmed_code = trim($code);
-		//echo 'trimmed code: ' . $trimmed_code;
-
-		if ( empty($trimmed_code) ) {
-			delete_post_meta( $post_id, '_compiled_css_error_msg');
-			delete_post_meta( $post_id, '_compiled_css');
-			delete_post_meta( $post_id, '_css_code');	
-			//echo 'deleting compiled css data' . "\r\n";
-			return false;
-		} else {
-			try {
-				
-				//require_once plugin_dir_path( __FILE__ )."scssphp/scss.inc.php";
-				//echo 'after require';
-				$scss = new scssc();
-				//echo 'before update' . "\r\n";
-				update_post_meta( $post_id, '_css_code', $code  );	
-				//echo 'before compiling' . "\r\n";
-				$compiled_css = $scss->compile($code);
-				//echo 'after compiling' . "\r\n";
-	  		update_post_meta( $post_id, '_compiled_css', trim($compiled_css)  );
-	  		delete_post_meta( $post_id, '_compiled_css_error_msg');
-	  		//echo 'end' . "\r\n";
-	  		return trim($compiled_css);
-			}
-			catch(Exception $e) {
-			  echo 'in catch';
-			  update_post_meta( $post_id, '_compiled_css_error_msg', $e->getMessage() );
-
-			}			
-		}
-
 	}
 
 

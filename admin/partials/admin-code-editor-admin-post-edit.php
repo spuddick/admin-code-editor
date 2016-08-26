@@ -39,10 +39,13 @@
 	  <div class="tab-content">
 	    <div role="tabpanel" class="tab-pane active" id="html-edit">
 				<div class="" style="padding-top:10px;" >
-					
-					<div class="alert alert-warning" role="alert">
-					  <strong>Warning!</strong> Better check yourself, you're not looking too good.
-					</div>	    	
+					<?php if ($html_php_editor->get_pre_code_compile_status() == 'error') { ?>
+						<div class="alert alert-warning" role="alert">
+						  <?php echo $html_php_editor->get_pre_code_compile_error_msg() ?>
+						</div>
+
+					<?php } ?>
+	    	
 	
 					<div class="clearfix" style="background-color:#f5f5f5;padding:10px;" >
 					  <button type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save and Compile HTML</button>
@@ -50,12 +53,15 @@
 					</div>
 
 					<div class="wp-ace-editor">
-						<pre id="wp-ace-html-php-pre-code-editor" style="height:<?php echo $html_php_pre_code_editor_height; ?>px" class="code-content" ><?php echo htmlentities($html_php_pre_code); ?></pre>
-						<input type="hidden" id="wp-ace-html-php-pre-code" name="wp-ace-html-php-pre-code" value="<?php echo htmlentities($html_php_pre_code); ?>" >
-						<input type="hidden" id="wp-ace-html-php-field-height" name="wp-ace-html-php-field-height" class="field-height" value="<?php echo $html_php_pre_code_editor_height; ?>" >
-						<input type="hidden" id="wp-ace-html-php-preprocessor" name="wp-ace-html-php-preprocessor" class="field-preprocessor" value="<?php echo $html_php_preprocessor; ?>" >
-						<input type="hidden" id="wp-ace-html-php-editor-has-focus" name="wp-ace-html-php-editor-has-focus" class="field-has-focus" value="<?php echo $html_php_editor_has_focus; ?>" >
-						<input type="hidden" id="wp-ace-html-php-editor-cursor-position" name="wp-ace-html-php-editor-cursor-position" class="field-editor-cursor-position" value="<?php echo $html_php_editor_cursor_position ?>" >
+						<pre id="wp-ace-html-php-pre-code-editor" style="height:<?php echo $html_php_editor->get_editor_height(); ?>px" class="code-content" ><?php echo htmlentities($html_php_editor->get_pre_code()); ?></pre>
+						
+						<input type="hidden" id="wp-ace-html-php-pre-code" name="wp-ace-html-php-pre-code" value="<?php echo htmlentities($html_php_editor->get_pre_code()); ?>" >
+						
+						<input type="hidden" id="wp-ace-html-php-field-height" name="wp-ace-html-php-field-height" class="field-height" value="<?php echo $html_php_editor->get_editor_height(); ?>" >
+						
+						<input type="hidden" id="wp-ace-html-php-editor-cursor-position" name="wp-ace-html-php-editor-cursor-position" class="field-editor-cursor-position" value="<?php echo $html_php_editor->get_editor_cursor_position(); ?>" >
+
+
 					</div>
 
 		    	<div class="clearfix" >
@@ -76,21 +82,31 @@
 	      					<div>
 										<h4>General</h4>
 										<label class="checkbox">
-											<input type="checkbox" value="">
+											<input type="checkbox"  id="wp-ace-html-php-disable-wpautop" name="wp-ace-html-php-disable-wpautop" class="field-editor-disable-wpautop" value="1" <?php checked($html_php_editor->get_disable_wpautop_status(), '1') ?> >
 											Disable wpautop 
 											<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Automatically wraps in paragraph tag" aria-hidden="true"  ></span>
 										</label>
 										
-										<label class="checkbox"><input type="checkbox" value="">Only display on single template</label>
+										<h5>Do not display HTML on the following templates: </h5>
+										<label class="checkbox"><input type="checkbox" name="wp-ace-disabled-templates[]" <?php // checked($html_php_editor->on_front_page_is_disabled(), TRUE) ?> value="front-page" >Front Page</label>
+										<label class="checkbox"><input type="checkbox" name="wp-ace-disabled-templates[]" <?php // checked($html_php_editor->on_home_is_disabled(), TRUE) ?> value="home" >Home</label>
+										<label class="checkbox"><input type="checkbox" name="wp-ace-disabled-templates[]" <?php // checked($html_php_editor->on_archives_is_disabled(), TRUE) ?> value="archives" >Archives</label>	
+										<label class="checkbox"><input type="checkbox" name="wp-ace-disabled-templates[]" <?php // checked($html_php_editor->on_search_results_is_disabled(), TRUE) ?> value="search-results" >Search Results</label>
 
 										<h4>Position</h4>
-										<label class="radio"><input type="radio" value="">before post content </label>
-										<label class="radio"><input type="radio" value="">after post content</label>
+										<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="before" <?php checked($html_php_editor->get_code_output_position(), 'before'); ?> >before post content </label>
+										<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="after" <?php checked($html_php_editor->get_code_output_position(), 'after'); ?> >after post content</label>
 										
 										<h4>Pre Processor</h4>
-										<label class="radio"><input type="radio" value="">Option 1</label>
-										<label class="radio"><input type="radio" value="">Option 2</label>
-										<label class="radio"><input type="radio" value="">Option 3</label>						
+										<label class="radio"><input type="radio" <?php checked($html_php_editor->get_preprocessor(), 'none'); ?> value="none" name="wp-ace-html-php-preprocessor" >None</label>
+										<?php
+											foreach($preprocessor_options['html'] as $preprocessor_slug => $preprocessor_name) {
+												?>
+													<label class="radio"><input type="radio" <?php checked($html_php_editor->get_preprocessor(), $preprocessor); ?> value="<?php $preprocessor_slug; ?>" name="wp-ace-html-php-preprocessor" ><?php echo $preprocessor_name; ?></label>
+												<?php
+											}
+
+										?>					
 									</div>
 					      </div>
 					      <div class="modal-footer">
@@ -127,7 +143,7 @@
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="javascript-edit">
 					<div class="wp-ace-editor">
-						<pre id="js-code" style="height:400<?php // echo $html_height ?>px" class="code-content" ><?php // echo htmlentities($html_code) ?></pre>
+						<pre id="js-code" style="height:<?php // echo $html_height ?>px" class="code-content" ><?php // echo htmlentities($html_code) ?></pre>
 						<input type="hidden" id="js-field" name="js-field" value="<?php // echo htmlentities($html_code) ?>" >
 						<input type="hidden" id="js-field-height" name="js-field-height" class="field-height"  value="<?php echo $js_height ?>" >
 					</div>

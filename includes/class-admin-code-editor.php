@@ -161,6 +161,8 @@ class Admin_Code_Editor {
 		$this->loader->add_action( 'admin_menu', 			$plugin_admin, 'options_menu' );
 		$this->loader->add_action( 'admin_init', 			$plugin_admin, 'display_theme_panel_fields' );
 		
+		$this->loader->add_action( 'plugins_loaded', 			$plugin_admin, 'plugin_update_check' );
+
 		$this->loader->add_action( 'wp_restore_post_revision', 			$plugin_admin, 'restore_code_revision', 10, 2 );
 		$this->loader->add_filter( '_wp_post_revision_fields', 			$plugin_admin, 'code_revision_fields' );
 		$this->loader->add_filter( '_wp_post_revision_field__wp_ace_html_php_preprocessor', 			$plugin_admin, 'code_revision_field__wp_ace_html_php_preprocessor', 10, 2 );

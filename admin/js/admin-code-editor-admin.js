@@ -102,7 +102,7 @@ var wpAceInterface = (function() {
 		    	html_editor.resize();
 		    	
 		    	height = ui.element.height();
-		    	//ui.element.siblings('.field-height').val(height);
+		    	ui.element.siblings('.field-height').val(height);
 		    }
 		  });
 
