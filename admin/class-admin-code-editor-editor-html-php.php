@@ -29,13 +29,22 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 	public function initialize_from_post_request() {
 		// called from save hook or ajax request to set variable data
 		
-		// TODO: refactor to move generic data to abstract class, call parent function first
-		$this->pre_code 				= $_POST['wp-ace-html-php-pre-code']; // TODO: suitable filter for html content
-		$this->field_height			= sanitize_text_field($_POST['wp-ace-html-php-field-height']);
-		$this->preprocessor 		= sanitize_text_field($_POST['wp-ace-html-php-preprocessor']);
-		$this->cursor_position 	= sanitize_text_field($_POST['wp-ace-html-php-cursor-position']);
-		$this->code_output_position 	= sanitize_text_field($_POST['wp-ace-html-php-code-output-position']);
-		
+		if (isset($_POST['wp-ace-html-php-pre-code'])) {
+			$this->pre_code 				= $_POST['wp-ace-html-php-pre-code']; // TODO: suitable filter for html content
+		}
+		if (isset($_POST['wp-ace-html-php-field-height'])) {
+			$this->field_height			= sanitize_text_field($_POST['wp-ace-html-php-field-height']);
+		}
+		if (isset($_POST['wp-ace-html-php-preprocessor'])) {
+			$this->preprocessor 		= sanitize_text_field($_POST['wp-ace-html-php-preprocessor']);
+		}
+		if (isset($_POST['wp-ace-html-php-cursor-position'])) {
+			$this->cursor_position 	= sanitize_text_field($_POST['wp-ace-html-php-cursor-position']);
+		}
+		if (isset($_POST['wp-ace-html-php-code-output-position'])) {
+			$this->code_output_position 	= sanitize_text_field($_POST['wp-ace-html-php-code-output-position']);
+		}
+
 		if (isset($_POST['wp-ace-html-php-disable-wpautop'])) {
 			$this->wpautop_disabled 	= sanitize_text_field($_POST['wp-ace-html-php-disable-wpautop']);
 		} else {
