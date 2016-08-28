@@ -213,7 +213,7 @@ abstract class Admin_Code_Editor_Editor {
 			update_post_meta($this->code_post_id, '_wp_ace_preprocessor', $this->get_preprocessor() );
 			update_post_meta($this->code_post_id, '_wp_ace_editor_cursor_position', $this->get_editor_cursor_position() );
 
-			additional_updates();
+			$this->additional_updates();
 
 			return;
 	}
