@@ -51,6 +51,14 @@ abstract class Admin_Code_Editor_Editor {
 		return $this->disabled_templates;
 	}
 
+	private function get_code_name_text() {
+		return $this->code_post_name_start . $this->host_post_id;
+	}
+
+	private function get_code_title_text() {
+		return $this->code_post_title_start . $this->host_post_id;
+	}
+
 	private function get_code_post_id() {
 			
 		if (empty($this->code_post_id)) {
@@ -60,10 +68,10 @@ abstract class Admin_Code_Editor_Editor {
 
 			if (empty($this->code_post_id)) {
 				$code_post = array(
-					  'post_name'    	=> 	$this->code_name_text, 
+					  'post_name'    	=> 	$this->get_code_name_text(), 
 					  'post_status'   => 	'publish',
 					  'post_type'			=> 	$this->post_type,
-					  'post_title'		=> 	$this->code_title_text
+					  'post_title'		=> 	$this->get_code_title_text()
 					);
  
 				$this->code_post_id = wp_insert_post( $code_post );
