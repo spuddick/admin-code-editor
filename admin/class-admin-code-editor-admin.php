@@ -509,20 +509,6 @@ class Admin_Code_Editor_Admin {
 	}
 
 
-	/**
-	 *
-	 * Option field for 'report text'. This contains placeholder values for the number of votes and rating average.
-	 *
-	 * @since 1.0.0 
-	 */
-	function display_report_text_field_element() {
-		?>
-			
-			<input type="text" name="wpcr_report_text" id="wpcr_report_text" class="wpcr__text" value="<?php echo get_option('wpcr_report_text'); ?>" placeholder="<?php _e('%TOTAL_VOTES% votes with an average of %AVG%.', 'custom-ratings') ?>" />
-			<p><small><?php _e('Use the placeholders of %AVG% and %TOTAL_VOTES% in your text.', 'custom-ratings') ?></small></p>
-		<?php
-	}
-
 
 	/**
 	 *
@@ -572,43 +558,21 @@ class Admin_Code_Editor_Admin {
 	 *
 	 * @since 1.0.0
 	 */
-	function display_default_preprocessors_field_element() {
+	function display_default_html_preprocessors_field_element() {
 		?>
 
 			<div class="wp-ace-bootstrap">
-				<div class="input-group">
-					<div class="radio">
-						<label for="wp-ace__enable-haml" >
-							<input type="radio" id="wp-ace__enable-haml" name="wp-ace-enable-preprocessor" value="haml"  /><?php _e('HAML', 'admin-code-editor') ?>
-						</label>
-					</div>
-					<div class="radio">
-						<label for="wp-ace__enable-coffee-script" >
-							<input type="radio" id="wp-ace__enable-coffee-script" name="wp-ace-enable-preprocessor" value="coffee-script"  /><?php _e('Coffee Script', 'admin-code-editor') ?>
-						</label>
-					</div>
-					<div class="radio">
-						<label for="wp-ace__enable-less" >
-							<input type="radio" id="wp-ace__enable-less" name="wp-ace-enable-preprocessor" value="less"  /><?php _e('LESS', 'admin-code-editor') ?>
-						</label>
-					</div>
-				</div>
-				<div class="input-group">
-					<div class="radio">
-						<label for="wp-ace__enable-markdown" >
-							<input type="radio" id="wp-ace__enable-markdown" name="wp-ace-enable-preprocessor" value="markdown"  /><?php _e('Markdown', 'admin-code-editor') ?>
-						</label>
-					</div>
-					<div class="radio">
-						<label for="wp-ace__enable-sass" >
-							<input type="radio" id="wp-ace__enable-sass" name="wp-ace-enable-preprocessor" value="sass"  /><?php _e('Sass', 'admin-code-editor') ?>
-						</label>
-					</div>
-					<div class="radio">
-						<label for="wp-ace__enable-stylus" >
-							<input type="radio" id="wp-ace__enable-stylus" name="wp-ace-enable-preprocessor" value="stylus"  /><?php _e('Stylus', 'admin-code-editor') ?>
-						</label>
-					</div>
+				
+				<div class="radio">
+					<label for="wp-ace__enable-coffee-script" >
+						<input type="radio" id="wp-ace__enable-coffee-script" name="wp-ace-enable-html-preprocessor" value="none"  /><?php _e('None', 'admin-code-editor') ?>
+					</label>
+				</div>					
+
+				<div class="radio">
+					<label for="wp-ace__enable-haml" >
+						<input type="radio" id="wp-ace__enable-haml" name="wp-ace-enable-html-preprocessor" value="haml"  /><?php _e('HAML', 'admin-code-editor') ?>
+					</label>
 				</div>
 
 			</div>
@@ -623,53 +587,66 @@ class Admin_Code_Editor_Admin {
 	 *
 	 * @since 1.0.0
 	 */
-	function display_enable_preprocessors_field_element() {
-		
+	function display_default_css_preprocessors_field_element() {
 		?>
 
 			<div class="wp-ace-bootstrap">
-				<div class="input-group">
-					<div class="checkbox">
+					<div class="radio">
 						<label for="wp-ace__enable-haml" >
-							<input type="checkbox" id="wp-ace__enable-haml" name="wp-ace-enable-preprocessor" value="haml"  /><?php _e('HAML', 'admin-code-editor') ?>
+							<input type="radio" id="wp-ace__enable-haml" name="wp-ace-enable-css-preprocessor" value="none"  /><?php _e('None', 'admin-code-editor') ?>
 						</label>
 					</div>
-					<div class="checkbox">
-						<label for="wp-ace__enable-coffee-script" >
-							<input type="checkbox" id="wp-ace__enable-coffee-script" name="wp-ace-enable-preprocessor" value="coffee-script"  /><?php _e('Coffee Script', 'admin-code-editor') ?>
-						</label>
-					</div>
-					<div class="checkbox">
+
+					<div class="radio">
 						<label for="wp-ace__enable-less" >
-							<input type="checkbox" id="wp-ace__enable-less" name="wp-ace-enable-preprocessor" value="less"  /><?php _e('LESS', 'admin-code-editor') ?>
+							<input type="radio" id="wp-ace__enable-less" name="wp-ace-enable-css-preprocessor" value="less"  /><?php _e('LESS', 'admin-code-editor') ?>
 						</label>
 					</div>
-				</div>
-				<div class="input-group">
-					<div class="checkbox">
-						<label for="wp-ace__enable-markdown" >
-							<input type="checkbox" id="wp-ace__enable-markdown" name="wp-ace-enable-preprocessor" value="markdown"  /><?php _e('Markdown', 'admin-code-editor') ?>
-						</label>
-					</div>
-					<div class="checkbox">
+				
+					<div class="radio">
 						<label for="wp-ace__enable-sass" >
-							<input type="checkbox" id="wp-ace__enable-sass" name="wp-ace-enable-preprocessor" value="sass"  /><?php _e('Sass', 'admin-code-editor') ?>
+							<input type="radio" id="wp-ace__enable-sass" name="wp-ace-enable-css-preprocessor" value="sass"  /><?php _e('Sass', 'admin-code-editor') ?>
 						</label>
 					</div>
-					<div class="checkbox">
-						<label for="wp-ace__enable-stylus" >
-							<input type="checkbox" id="wp-ace__enable-stylus" name="wp-ace-enable-preprocessor" value="stylus"  /><?php _e('Stylus', 'admin-code-editor') ?>
-						</label>
-					</div>
-				</div>
+			
 
 			</div>
 
-
 		<?php
-
 	}
 
+
+
+	/**
+	 *
+	 * Option field to choose which post types 'custom ratings' are applied to.
+	 *
+	 * @since 1.0.0
+	 */
+	function display_default_js_preprocessors_field_element() {
+		?>
+
+			<div class="wp-ace-bootstrap">
+					<div class="radio">
+						<label for="wp-ace__enable-haml" >
+							<input type="radio" id="wp-ace__enable-haml" name="wp-ace-enable-js-preprocessor" value="none"  /><?php _e('None', 'admin-code-editor') ?>
+						</label>
+					</div>
+					<div class="radio">
+						<label for="wp-ace__enable-coffee-script" >
+							<input type="radio" id="wp-ace__enable-coffee-script" name="wp-ace-enable-preprocessor" value="coffee-script"  /><?php _e('Coffee Script', 'admin-code-editor') ?>
+						</label>
+					</div>
+					<div class="radio">
+						<label for="wp-ace__enable-stylus" >
+							<input type="radio" id="wp-ace__enable-stylus" name="wp-ace-enable-js-preprocessor" value="stylus"  /><?php _e('Stylus', 'admin-code-editor') ?>
+						</label>
+					</div>
+
+			</div>
+
+		<?php
+	}
 
 	/**
 	 *
@@ -700,7 +677,10 @@ class Admin_Code_Editor_Admin {
 		
 		// Set up subsections for settings page
 		add_settings_section("general-section", "General Settings", null, "admin-code-editor-options-page");
-		
+		add_settings_section("html-php-section", "HTML Settings", null, "admin-code-editor-options-page");
+		add_settings_section("css-section", "CSS Settings", null, "admin-code-editor-options-page");
+		add_settings_section("javascript-section", "Javascript Settings", null, "admin-code-editor-options-page");
+
 		// General settings fields
 		add_settings_field(
 			"wp_ace_post_types",
@@ -710,29 +690,42 @@ class Admin_Code_Editor_Admin {
 			"general-section"
 		);
 
-		add_settings_field(
-			"wp_ace_default_preprocessors",
-			__('Default Preprocessors', 'admin-code-editor'),
-			array(&$this,"display_default_preprocessors_field_element"),
-			"admin-code-editor-options-page", 
-			"general-section"
-		);
 
+		// HTML settings fields
 		add_settings_field(
-			"wp_ace_enable_preprocessors",
-			__('Enable Preprocessors', 'admin-code-editor'),
-			array(&$this,"display_enable_preprocessors_field_element"),
+			"wp_ace_default_html_preprocessors",
+			__('Default Preprocessor', 'admin-code-editor'),
+			array(&$this,"display_default_html_preprocessors_field_element"),
 			"admin-code-editor-options-page", 
-			"general-section"
+			"html-php-section"
 		);
-
 		add_settings_field(
 			"wp_ace_default_html_position",
 			__('Default Position', 'admin-code-editor'),
 			array(&$this,"display_default_html_position_field_element"),
 			"admin-code-editor-options-page", 
-			"general-section"
+			"html-php-section"
 		);
+
+		// CSS settings fields
+		add_settings_field(
+			"wp_ace_default_css_preprocessors",
+			__('Default Preprocessor', 'admin-code-editor'),
+			array(&$this,"display_default_css_preprocessors_field_element"),
+			"admin-code-editor-options-page", 
+			"css-section"
+		);
+
+
+		// JS settings fields
+		add_settings_field(
+			"wp_ace_default_js_preprocessors",
+			__('Default Preprocessor', 'admin-code-editor'),
+			array(&$this,"display_default_js_preprocessors_field_element"),
+			"admin-code-editor-options-page", 
+			"javascript-section"
+		);
+
 		
 		// Register general settings
 		register_setting("admin-code-editor-settings", "wp_ace_post_types");
