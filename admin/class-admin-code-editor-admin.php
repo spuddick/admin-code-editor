@@ -539,7 +539,7 @@ class Admin_Code_Editor_Admin {
 				?>
 				<div class="checkbox">
 					<label for="wp-ace__enable-post-type-<?php echo $post_type->name; ?>" > 
-						<input type="checkbox" id="wp-ace__enable-post-type-<?php echo $post_type->name; ?>" name="wp-ace-enable-post-type[]" value="<?php echo $post_type->name; ?>" <?php echo $is_checked_post_type($post_type->name); ?> /><?php echo $post_type->labels->name; ?>
+						<input type="checkbox" id="wp-ace__enable-post-type-<?php echo $post_type->name; ?>" name="wp_ace_enabled_post_type[]" value="<?php echo $post_type->name; ?>" <?php echo $is_checked_post_type($post_type->name); ?> /><?php echo $post_type->labels->name; ?>
 					</label>
 				</div>
 				<?php
@@ -551,6 +551,73 @@ class Admin_Code_Editor_Admin {
 		<?php
 	}
 
+	/**
+	 *
+	 * Option field to choose which post types 'custom ratings' are applied to.
+	 *
+	 * @since 1.0.0
+	 */
+	function display_default_disabled_templates_field_element() {
+		?>
+
+			<div class="wp-ace-bootstrap">
+				
+				<div class="checkbox">
+					<label for="wp-ace__enable-coffee-script" >
+						<input type="checkbox" id="wp-ace__enable-coffee-script" name="wp_ace_default_disabled_template[]" value="none"  /><?php _e('Front Page', 'admin-code-editor') ?>
+					</label>
+				</div>					
+
+				<div class="checkbox">
+					<label for="wp-ace__enable-haml" >
+						<input type="checkbox" id="wp-ace__enable-haml" name="wp_ace_default_disabled_template[]" value="haml"  /><?php _e('Home', 'admin-code-editor') ?>
+					</label>
+				</div>
+
+				<div class="checkbox">
+					<label for="wp-ace__enable-coffee-script" >
+						<input type="checkbox" id="wp-ace__enable-coffee-script" name="wp_ace_default_disabled_template[]" value="none"  /><?php _e('Archives', 'admin-code-editor') ?>
+					</label>
+				</div>					
+
+				<div class="checkbox">
+					<label for="wp-ace__enable-haml" >
+						<input type="checkbox" id="wp-ace__enable-haml" name="wp_ace_default_disabled_template[]" value="haml"  /><?php _e('Search Results', 'admin-code-editor') ?>
+					</label>
+				</div>
+			</div>
+
+		<?php
+	}
+
+
+	/**
+	 *
+	 * Option field to choose which post types 'custom ratings' are applied to.
+	 *
+	 * @since 1.0.0
+	 */
+	function display_default_conditional_display_field_element() {
+		?>
+
+			<div class="wp-ace-bootstrap">
+				
+				<div class="checkbox">
+					<label for="wp-ace__enable-coffee-script" >
+						<input type="checkbox" id="wp-ace__enable-coffee-script" name="wp_ace_default_conditional_display[]" value="none"  /><?php _e('inside the loop', 'admin-code-editor') ?>
+					</label>
+				</div>					
+
+				<div class="checkbox">
+					<label for="wp-ace__enable-haml" >
+						<input type="checkbox" id="wp-ace__enable-haml" name="wp_ace_default_conditional_display[]" value="haml"  /><?php _e('in main query', 'admin-code-editor') ?>
+					</label>
+				</div>
+
+			</div>
+
+		<?php
+	}
 
 	/**
 	 *
@@ -565,13 +632,13 @@ class Admin_Code_Editor_Admin {
 				
 				<div class="radio">
 					<label for="wp-ace__enable-coffee-script" >
-						<input type="radio" id="wp-ace__enable-coffee-script" name="wp-ace-enable-html-preprocessor" value="none"  /><?php _e('None', 'admin-code-editor') ?>
+						<input type="radio" id="wp-ace__enable-coffee-script" name="wp_ace_default_html_preprocessor" value="none"  /><?php _e('None', 'admin-code-editor') ?>
 					</label>
 				</div>					
 
 				<div class="radio">
 					<label for="wp-ace__enable-haml" >
-						<input type="radio" id="wp-ace__enable-haml" name="wp-ace-enable-html-preprocessor" value="haml"  /><?php _e('HAML', 'admin-code-editor') ?>
+						<input type="radio" id="wp-ace__enable-haml" name="wp_ace_default_html_preprocessor" value="haml"  /><?php _e('HAML', 'admin-code-editor') ?>
 					</label>
 				</div>
 
@@ -587,61 +654,16 @@ class Admin_Code_Editor_Admin {
 	 *
 	 * @since 1.0.0
 	 */
-	function display_default_css_preprocessors_field_element() {
+	function display_default_disable_wpautop_field_element() {
 		?>
 
 			<div class="wp-ace-bootstrap">
-					<div class="radio">
-						<label for="wp-ace__enable-haml" >
-							<input type="radio" id="wp-ace__enable-haml" name="wp-ace-enable-css-preprocessor" value="none"  /><?php _e('None', 'admin-code-editor') ?>
-						</label>
-					</div>
-
-					<div class="radio">
-						<label for="wp-ace__enable-less" >
-							<input type="radio" id="wp-ace__enable-less" name="wp-ace-enable-css-preprocessor" value="less"  /><?php _e('LESS', 'admin-code-editor') ?>
-						</label>
-					</div>
 				
-					<div class="radio">
-						<label for="wp-ace__enable-sass" >
-							<input type="radio" id="wp-ace__enable-sass" name="wp-ace-enable-css-preprocessor" value="sass"  /><?php _e('Sass', 'admin-code-editor') ?>
-						</label>
-					</div>
-			
-
-			</div>
-
-		<?php
-	}
-
-
-
-	/**
-	 *
-	 * Option field to choose which post types 'custom ratings' are applied to.
-	 *
-	 * @since 1.0.0
-	 */
-	function display_default_js_preprocessors_field_element() {
-		?>
-
-			<div class="wp-ace-bootstrap">
-					<div class="radio">
-						<label for="wp-ace__enable-haml" >
-							<input type="radio" id="wp-ace__enable-haml" name="wp-ace-enable-js-preprocessor" value="none"  /><?php _e('None', 'admin-code-editor') ?>
-						</label>
-					</div>
-					<div class="radio">
-						<label for="wp-ace__enable-coffee-script" >
-							<input type="radio" id="wp-ace__enable-coffee-script" name="wp-ace-enable-preprocessor" value="coffee-script"  /><?php _e('Coffee Script', 'admin-code-editor') ?>
-						</label>
-					</div>
-					<div class="radio">
-						<label for="wp-ace__enable-stylus" >
-							<input type="radio" id="wp-ace__enable-stylus" name="wp-ace-enable-js-preprocessor" value="stylus"  /><?php _e('Stylus', 'admin-code-editor') ?>
-						</label>
-					</div>
+				<div class="checkbox">
+					<label for="wp-ace__enable-coffee-script" >
+						<input type="checkbox" id="wp-ace__enable-coffee-script" name="wp_ace_default_disable_wpautop" value="none"  /><?php _e('Disable wpautop', 'admin-code-editor') ?>
+					</label>
+				</div>					
 
 			</div>
 
@@ -657,21 +679,106 @@ class Admin_Code_Editor_Admin {
 	function display_default_html_position_field_element() {
 		?>
 			
-
-
 			<div class="wp-ace-bootstrap">
 				<div class="radio">
 					
-					<label for="wp-ace__default-html-pos-above" ><input type="radio" id="wp-ace__default-html-pos-above" name="wp-ace-default-html-pos" value="above" <?php checked('above', get_option('wp_ace_default_html_pos') ); ?> /><?php _e('Above Content', 'admin-code-editor') ?></label>
+					<label for="wp-ace__default-html-pos-above" ><input type="radio" id="wp-ace__default-html-pos-above" name="wp_ace_default_html_position" value="above" <?php checked('above', get_option('wp_ace_default_html_pos') ); ?> /><?php _e('Above Content', 'admin-code-editor') ?></label>
 				</div>
 				<div class="radio">
 					
-					<label for="wp-ace__default-html-pos-below" ><input type="radio" id="wp-ace__default-html-pos-below" name="wp-ace-default-html-pos" value="below" <?php checked('below', get_option('wp_ace_default_html_pos') ); ?> /><?php _e('Below Content', 'admin-code-editor') ?></label>
+					<label for="wp-ace__default-html-pos-below" ><input type="radio" id="wp-ace__default-html-pos-below" name="wp_ace_default_html_position" value="below" <?php checked('below', get_option('wp_ace_default_html_pos') ); ?> /><?php _e('Below Content', 'admin-code-editor') ?></label>
 				</div>
 			</div>
 
 		<?php
 	}	
+
+	/**
+	 *
+	 * Option field to choose which post types 'custom ratings' are applied to.
+	 *
+	 * @since 1.0.0
+	 */
+	function display_default_css_preprocessors_field_element() {
+		?>
+
+			<div class="wp-ace-bootstrap">
+					<div class="radio">
+						<label for="wp-ace__enable-haml" >
+							<input type="radio" id="wp-ace__enable-haml" name="wp_ace_default_css_preprocessor" value="none"  /><?php _e('None', 'admin-code-editor') ?>
+						</label>
+					</div>
+
+					<div class="radio">
+						<label for="wp-ace__enable-less" >
+							<input type="radio" id="wp-ace__enable-less" name="wp_ace_default_css_preprocessor" value="less"  /><?php _e('LESS', 'admin-code-editor') ?>
+						</label>
+					</div>
+				
+					<div class="radio">
+						<label for="wp-ace__enable-sass" >
+							<input type="radio" id="wp-ace__enable-sass" name="wp_ace_default_css_preprocessor" value="sass"  /><?php _e('Sass', 'admin-code-editor') ?>
+						</label>
+					</div>
+			
+
+			</div>
+
+		<?php
+	}
+
+	/**
+	 *
+	 * Option field to choose which post types 'custom ratings' are applied to.
+	 *
+	 * @since 1.0.0
+	 */
+	function display_default_js_preprocessors_field_element() {
+		?>
+
+			<div class="wp-ace-bootstrap">
+					<div class="radio">
+						<label for="wp-ace__enable-haml" >
+							<input type="radio" id="wp-ace__enable-haml" name="wp_ace_default_js_preprocessor" value="none"  /><?php _e('None', 'admin-code-editor') ?>
+						</label>
+					</div>
+					<div class="radio">
+						<label for="wp-ace__enable-coffee-script" >
+							<input type="radio" id="wp-ace__enable-coffee-script" name="wp_ace_default_js_preprocessor" value="coffee-script"  /><?php _e('Coffee Script', 'admin-code-editor') ?>
+						</label>
+					</div>
+					<div class="radio">
+						<label for="wp-ace__enable-stylus" >
+							<input type="radio" id="wp-ace__enable-stylus" name="wp_ace_default_js_preprocessor" value="stylus"  /><?php _e('Stylus', 'admin-code-editor') ?>
+						</label>
+					</div>
+
+			</div>
+
+		<?php
+	}
+
+	/**
+	 *
+	 * Option field to choose which post types 'custom ratings' are applied to.
+	 *
+	 * @since 1.0.0
+	 */
+	function display_default_include_jquery_field_element() {
+		?>
+
+			<div class="wp-ace-bootstrap">
+				
+				<div class="checkbox">
+					<label for="wp-ace__enable-coffee-script" >
+						<input type="checkbox" id="wp-ace__enable-coffee-script" name="wp_ace_default_include_jquery" value="none"  /><?php _e('Include jQuery', 'admin-code-editor') ?>
+					</label>
+				</div>					
+
+			</div>
+
+		<?php
+	}
 
 	function display_theme_panel_fields() {
 		
@@ -683,9 +790,23 @@ class Admin_Code_Editor_Admin {
 
 		// General settings fields
 		add_settings_field(
-			"wp_ace_post_types",
+			"wp_ace_enabled_post_types",
 			__('Apply to Post Types', 'admin-code-editor'),
 			array(&$this,"display_post_type_selection_field_element"),
+			"admin-code-editor-options-page", 
+			"general-section"
+		);
+		add_settings_field(
+			"wp_ace_default_conditional_display",
+			__('Only display when', 'admin-code-editor'),
+			array(&$this,"display_default_conditional_display_field_element"),
+			"admin-code-editor-options-page", 
+			"general-section"
+		);
+		add_settings_field(
+			"wp_ace_default_hide_on_templates",
+			__('Hide on Templates', 'admin-code-editor'),
+			array(&$this,"display_default_disabled_templates_field_element"),
 			"admin-code-editor-options-page", 
 			"general-section"
 		);
@@ -706,6 +827,14 @@ class Admin_Code_Editor_Admin {
 			"admin-code-editor-options-page", 
 			"html-php-section"
 		);
+		add_settings_field(
+			"wp_ace_default_disable_wpautop",
+			__('Disable wpautop', 'admin-code-editor'),
+			array(&$this,"display_default_disable_wpautop_field_element"),
+			"admin-code-editor-options-page", 
+			"html-php-section"
+		);
+
 
 		// CSS settings fields
 		add_settings_field(
@@ -725,13 +854,27 @@ class Admin_Code_Editor_Admin {
 			"admin-code-editor-options-page", 
 			"javascript-section"
 		);
-
+		add_settings_field(
+			"wp_ace_default_include_jquery",
+			__('Include jQuery', 'admin-code-editor'),
+			array(&$this,"display_default_include_jquery_field_element"),
+			"admin-code-editor-options-page", 
+			"javascript-section"
+		);
 		
 		// Register general settings
-		register_setting("admin-code-editor-settings", "wp_ace_post_types");
-		register_setting("admin-code-editor-settings", "wp_ace_default_preprocessors");
-		register_setting("admin-code-editor-settings", "wp_ace_enable_preprocessors");
+		register_setting("admin-code-editor-settings", "wp_ace_enabled_post_type");
+		register_setting("admin-code-editor-settings", "wp_ace_default_disabled_template");
+		register_setting("admin-code-editor-settings", "wp_ace_default_conditional_display");
+
+		register_setting("admin-code-editor-settings", "wp_ace_default_html_preprocessor");
 		register_setting("admin-code-editor-settings", "wp_ace_default_html_position");
+		register_setting("admin-code-editor-settings", "wp_ace_default_disable_wpautop");
+
+		register_setting("admin-code-editor-settings", "wp_ace_default_css_preprocessor");
+
+		register_setting("admin-code-editor-settings", "wp_ace_default_js_preprocessor");
+		register_setting("admin-code-editor-settings", "wp_ace_default_include_jquery");
 		
 	}
 
