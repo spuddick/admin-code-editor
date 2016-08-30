@@ -163,13 +163,13 @@ class Admin_Code_Editor_Admin {
 		// add the metabox to posts and pages
 		
 		 $screens = array( 'post', 'page');
-		// need to iterate through specified post types from settings page
+		// TODO: need to iterate through specified post types from settings page
 
 		foreach ( $screens as $screen ) {
 
 			add_meta_box(
 				'code_box',
-				__( 'Inline Code (HTML, SCSS (CSS), Javascript)', 'liberal-2015' ),
+				__( 'WP ACE Code Editor', 'wp-ace-editor' ),
 				array(&$this,'code_editor_section_callback'),
 				$screen, 
 				'normal',

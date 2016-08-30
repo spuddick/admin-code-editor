@@ -53,8 +53,8 @@
 	    	
 	
 					<div class="clearfix" style="background-color:#f5f5f5;padding:10px;" >
-					  <button type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save and Compile HTML</button>
-						<p class="pull-right text-success" ><span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span> Saved</p>
+					  <button type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-hdd" aria-hidden="true"></span> Save and Compile HTML</button>
+						<p class="pull-right text-success" style="padding:8px 10px 0; margin:0;" ><span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true" ></span> Saved</p>
 					</div>
 
 					<div class="wp-ace-editor">
@@ -80,48 +80,80 @@
 
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="css-edit">
-
+	    	<div class="" style="padding-top:10px;" >
 					<div class="clearfix" style="background-color:#f5f5f5;padding:10px;" >
-					  <button type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save and Compile Sass</button>
-						<p class="pull-right text-success" ><span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span> Saved</p>
+					  <button type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-hdd" aria-hidden="true"></span> Save and Compile Sass</button>
 					</div>
 
 					<div class="wp-ace-editor">
-						<pre id="css-code" style="height:400<?php // echo $html_height ?>px" class="code-content" ><?php // echo htmlentities($html_code) ?></pre>
-						<input type="hidden" id="css-field" name="css-field" value="<?php // echo htmlentities($html_code) ?>" >
-						<input type="hidden" id="css-field-height" name="css-field-height" class="field-height"  value="<?php echo $css_height ?>" >
+						<pre id="wp-ace-css-pre-code-editor" style="height:400px" class="code-content" ></pre>
+						
+						<input type="hidden" id="wp-ace-css-pre-code" name="wp-ace-css-pre-code" value="" >
+						
+						<input type="hidden" id="wp-ace-css-field-height" name="wp-ace-css-field-height" class="field-height" value="" >
+						
+						<input type="hidden" id="wp-ace-css-editor-cursor-position" name="wp-ace-css-editor-cursor-position" class="field-editor-cursor-position" value="" >
+
 					</div>
 
 		    	<div class="clearfix" >
 					  <div class="" >
-						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Proprocessing with <strong>Sass</strong>. Enquede <strong>in header</strong>. <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal" data-active-modal-tab="wp-ace-css-tab-link"  >Change CSS Settings</a></p>
+						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Proprocessing with <strong>Sass</strong>. Enqueue <strong>in header</strong>. <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal" data-active-modal-tab="wp-ace-css-tab-link"  >Change CSS Settings</a></p>
 					  </div>
 
 					</div>
-
+				</div>
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="javascript-edit">
+				<div class="" style="padding-top:10px;" >	
+					<div class="alert alert-danger" role="alert">
+					  <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
+					  Error on line 28.
+					</div>
+
+					<div class="clearfix" style="background-color:#f5f5f5;padding:10px;" >
+					  <button type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-hdd" aria-hidden="true"></span> Save and Compile Javascript</button>
+					</div>
+
 					<div class="wp-ace-editor">
-						<pre id="js-code" style="height:<?php // echo $html_height ?>px" class="code-content" ><?php // echo htmlentities($html_code) ?></pre>
-						<input type="hidden" id="js-field" name="js-field" value="<?php // echo htmlentities($html_code) ?>" >
-						<input type="hidden" id="js-field-height" name="js-field-height" class="field-height"  value="<?php echo $js_height ?>" >
+						<pre id="wp-ace-js-pre-code-editor" style="height:400px" class="code-content" ></pre>
+						
+						<input type="hidden" id="wp-ace-js-pre-code" name="wp-ace-js-pre-code" value="" >
+						
+						<input type="hidden" id="wp-ace-js-field-height" name="wp-ace-js-field-height" class="field-height" value="" >
+						
+						<input type="hidden" id="wp-ace-js-editor-cursor-position" name="wp-ace-js-editor-cursor-position" class="field-editor-cursor-position" value="" >
+
 					</div>
 
 		    	<div class="clearfix" >
 					  <div class="" >
-						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Proprocessing with <strong>Coffee Script</strong>. Enquede <strong>in header</strong>. <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal"  data-active-modal-tab="wp-ace-javascript-tab-link" >Change Javascript Settings</a></p>
+						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Proprocessing with <strong>Coffee Script</strong>. Enqueue <strong>in header</strong>. <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal"  data-active-modal-tab="wp-ace-javascript-tab-link" >Change Javascript Settings</a></p>
 					  </div>
 					</div>
 
+				</div>
 	    </div>
-	    <div role="tabpanel" class="tab-pane active" id="html-compiled">
-	    	
+	    <div role="tabpanel" class="tab-pane" id="html-compiled">
+	    		<h5>Compiled HTML (Read Only)</h5>
+	    		<div class="wp-ace-editor">
+						<pre id="wp-ace-html-compiled-code-display" style="height:400px" ></pre>
+						
+					</div>
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="css-compiled">
-	    	
+	    		<h5>Compiled CSS (Read Only)</h5>
+	    		<div class="wp-ace-editor">
+						<pre id="wp-ace-css-compiled-code-display" style="height:400px"  ></pre>
+						
+					</div>	    	
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="javascript-compiled">
-	    	
+	    		<h5>Compiled Javascript (Read Only)</h5>
+	    		<div class="wp-ace-editor">
+						<pre id="wp-ace-js-compiled-code-display" style="height:400px"  ></pre>
+						
+					</div>	    	
 	    </div>
 	  </div>
 
@@ -131,7 +163,7 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title">Settings</h4>
+		        <h4 class="modal-title">WP ACE Settings</h4>
 		      </div>
 		      <div class="modal-body">
   					
