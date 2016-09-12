@@ -134,6 +134,7 @@ class Admin_Code_Editor_Admin {
 		 */
 		wp_enqueue_script( 'jquery-ui-core' );
 		wp_enqueue_script( 'jquery-ui-resizable' );
+		wp_enqueue_script( 'wp-util' ); // enqueues underscore.js
 		wp_enqueue_script( 
 			'wp-ace-editor-js', 
 			plugin_dir_url( __FILE__ ) . 'js/ace-src-min-noconflict/ace.js', 
