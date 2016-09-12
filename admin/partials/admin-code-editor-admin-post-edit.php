@@ -33,9 +33,10 @@
 			    </ul>
 	    	</a>
 	    </li>
+
 	    <li role="" style="float:right;border:none !important;">
 	    	<a style="background-color:none !important;" href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false"  data-active-modal-tab="wp-ace-general-tab-link"  >
-	    		<span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Settings
+	    		<span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Settings
 	    	</a>
 	    </li>
 	  </ul>
@@ -50,12 +51,6 @@
 						</div>
 
 					<?php } ?>
-	    	
-	
-					<div class="clearfix" style="background-color:#f5f5f5;padding:10px;" >
-					  <button type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-hdd" aria-hidden="true"></span> Save and Compile HTML</button>
-						<p class="pull-right text-success" style="padding:8px 10px 0; margin:0;" ><span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true" ></span> Saved</p>
-					</div>
 
 					<div class="wp-ace-editor">
 						<pre id="wp-ace-html-php-pre-code-editor" style="height:<?php echo $html_php_editor->get_editor_height(); ?>px" class="code-content" ><?php echo htmlentities($html_php_editor->get_pre_code()); ?></pre>
@@ -81,9 +76,6 @@
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="css-edit">
 	    	<div class="" style="padding-top:10px;" >
-					<div class="clearfix" style="background-color:#f5f5f5;padding:10px;" >
-					  <button type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-hdd" aria-hidden="true"></span> Save and Compile Sass</button>
-					</div>
 
 					<div class="wp-ace-editor">
 						<pre id="wp-ace-css-pre-code-editor" style="height:400px" class="code-content" ></pre>
@@ -106,13 +98,9 @@
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="javascript-edit">
 				<div class="" style="padding-top:10px;" >	
-					<div class="alert alert-danger" role="alert">
+					<div class="alert-danger" role="alert" style="background:none;" >
 					  <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
 					  Error on line 28.
-					</div>
-
-					<div class="clearfix" style="background-color:#f5f5f5;padding:10px;" >
-					  <button type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-hdd" aria-hidden="true"></span> Save and Compile Javascript</button>
 					</div>
 
 					<div class="wp-ace-editor">
@@ -260,11 +248,47 @@
 
 						    </div>
 						    <div role="tabpanel" class="tab-pane" id="wp-ace-css">
-						    	
+									<h5>Pre Processor</h5>
+									<div class="radio">
+										<label class="radio"><input type="radio" <?php checked($css_editor->get_preprocessor(), 'none'); ?> value="none" name="wp-ace-css-php-preprocessor" >None</label>
+									</div>
+									
+									<?php
+										foreach($preprocessor_options['css'] as $preprocessor_slug => $preprocessor_name) {
+											?>
+												<div class="radio">
+													<label class="radio"><input type="radio" <?php checked($css_editor->get_preprocessor(), $preprocessor_slug); ?> value="<?php $preprocessor_slug; ?>" name="wp-ace-css-preprocessor" ><?php echo $preprocessor_name; ?></label>
+												</div>
+											<?php
+										}
+
+									?>							    	
 
 						    </div>
 						    <div role="tabpanel" class="tab-pane" id="wp-ace-javascript">
-						    	
+										<h5>Include Libraries</h5>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox"  id="wp-ace-css-include-jquery" name="wp-ace-css-include-jquery" value="1" <?php //checked($css_php_editor->get_disable_wpautop_status(), '1'); ?> >
+												Include jQuery
+											</label>	
+										</div>
+
+									<h5>Pre Processor</h5>
+									<div class="radio">
+										<label class="radio"><input type="radio" <?php checked($js_editor->get_preprocessor(), 'none'); ?> value="none" name="wp-ace-js-php-preprocessor" >None</label>
+									</div>
+									
+									<?php
+										foreach($preprocessor_options['js'] as $preprocessor_slug => $preprocessor_name) {
+											?>
+												<div class="radio">
+													<label class="radio"><input type="radio" <?php checked($js_editor->get_preprocessor(), $preprocessor_slug); ?> value="<?php $preprocessor_slug; ?>" name="wp-ace-js-preprocessor" ><?php echo $preprocessor_name; ?></label>
+												</div>
+											<?php
+										}
+
+									?>	
 
 						    </div>
 						  </div>

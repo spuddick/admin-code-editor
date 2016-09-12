@@ -67,6 +67,9 @@ var wpAceInterface = (function() {
 			  html_editor.getSession().on('change', function() {
 					html_editor.code_has_changed = 1;
 				});
+				html_editor.update_mode = function(mode) {
+					html_editor.getSession().setMode("ace/mode/" + mode);
+				};
 			  jQuery('#wp-ace-html-php-pre-code-editor').css('font-size', ACE_FONT_SIZE);
 
 			  html_editor.hidden_input_id = 'wp-ace-html-php-pre-code';
@@ -81,6 +84,9 @@ var wpAceInterface = (function() {
 			  css_editor.getSession().on('change', function() {
 					css_editor.code_has_changed = 1;
 				});
+				css_editor.update_mode = function(mode) {
+					css_editor.getSession().setMode("ace/mode/" + mode);
+				};
 			  jQuery('#wp-ace-css-pre-code-editor').css('font-size', ACE_FONT_SIZE);
 
 			  css_editor.hidden_input_id = 'wp-ace-css-pre-code';
@@ -95,6 +101,9 @@ var wpAceInterface = (function() {
 			  js_editor.getSession().on('change', function() {
 					js_editor.code_has_changed = 1;
 				});
+				js_editor.update_mode = function(mode) {
+					js_editor.getSession().setMode("ace/mode/" + mode);
+				};
 			  jQuery('#wp-ace-js-pre-code-editor').css('font-size', ACE_FONT_SIZE);
 
 			  js_editor.hidden_input_id = 'wp-ace-js-pre-code';
@@ -143,26 +152,6 @@ var wpAceInterface = (function() {
 				});
 				*/
 		  }	  
-		  /*
-		  if (jQuery('#css-code').length ) {
-			  html_editor = ace.edit("css-code");
-			  html_editor.setTheme(ACE_THEME);
-			  html_editor.getSession().setMode("ace/mode/scss");
-			  html_editor.getSession().setUseWrapMode(ACE_WRAP_MODE);
-			  html_editor.getSession().setTabSize(ACE_TAB_SIZE);
-			  jQuery('#css-code').css('font-size', ACE_FONT_SIZE);
-		  }
-
-		  if (jQuery('#js-code').length ) {
-			  html_editor = ace.edit("js-code");
-			  html_editor.setTheme(ACE_THEME);
-			  html_editor.getSession().setMode("ace/mode/javascript");
-			  html_editor.getSession().setUseWrapMode(ACE_WRAP_MODE);
-			  html_editor.getSession().setTabSize(ACE_TAB_SIZE);
-			  jQuery('#js-code').css('font-size', ACE_FONT_SIZE);
-		  }
-			*/
-
 
 		  /**
 		   *
@@ -186,7 +175,6 @@ var wpAceInterface = (function() {
 			 * Proper tab activation in modal display
 			 *
 			 */
-			
 			jQuery('#change-settings-modal').on('show.bs.modal', function (e) {
 			  var $clicked_anchor = jQuery(e.relatedTarget);
 			  jQuery('#' + $clicked_anchor.data('active-modal-tab')).tab('show');
@@ -198,6 +186,8 @@ var wpAceInterface = (function() {
     		
   		jQuery( "#post" ).submit(function( event ) {
 				mapEditorCodetoInput(html_editor);
+				mapEditorCodetoInput(css_editor);
+				mapEditorCodetoInput(js_editor);
 				//event.preventDefault();
 			});
 				
@@ -213,6 +203,20 @@ var wpAceInterface = (function() {
 			}
     }
 
+    var registerSettingsListeners = function() {
+    	/*
+				HTML
+					disable wpautop
+					position (before, after)
+					preprocessor
+				CSS
+					preprocessor
+				JS
+					include jquery
+					preprocessor
+    	*/
+    }
+
     // Public API
     return {
         init: init,
@@ -225,5 +229,11 @@ jQuery(document).ready(function(){
 	
 	wpAceInterface.init();
 	wpAceInterface.setInputMappingListeners();
+	
+	html_editor.update_mode('html');
+	css_editor.update_mode('css');
+	js_editor.update_mode('javascript');
+
+	wpAceInterface.registerSettingsListeners();
 
 });
