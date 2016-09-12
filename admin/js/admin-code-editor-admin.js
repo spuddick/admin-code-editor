@@ -90,6 +90,8 @@ var wpAceInterface = (function() {
 			  jQuery('#js-code').css('font-size', ACE_FONT_SIZE);
 		  }
 			*/
+
+
 		  /**
 		   *
 		   * Resizable code editor areas
@@ -105,6 +107,18 @@ var wpAceInterface = (function() {
 		    	ui.element.siblings('.field-height').val(height);
 		    }
 		  });
+
+
+			/**
+			 *
+			 * Proper tab activation in modal display
+			 *
+			 */
+			
+			jQuery('#change-settings-modal').on('show.bs.modal', function (e) {
+			  var $clicked_anchor = jQuery(e.relatedTarget);
+			  jQuery('#' + $clicked_anchor.data('active-modal-tab')).tab('show');
+			})
 
     };
 

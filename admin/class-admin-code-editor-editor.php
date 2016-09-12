@@ -41,7 +41,7 @@ abstract class Admin_Code_Editor_Editor {
 	abstract public function initialize_from_post_request();
 	abstract public function get_preprocessor();
 
-	private function get_disabled_templates() {
+	public function get_disabled_templates() {
 		$ret = array();
 
 		if (empty($this->disabled_templates)) {
@@ -59,7 +59,7 @@ abstract class Admin_Code_Editor_Editor {
 		return $this->code_post_title_start . $this->host_post_id;
 	}
 
-	private function get_code_post_id() {
+	protected function get_code_post_id() {
 			
 		if (empty($this->code_post_id)) {
 			// if no existing post for code, create one
