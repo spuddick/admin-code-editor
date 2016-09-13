@@ -60,7 +60,7 @@ var wpAceInterface = (function() {
 		  if (jQuery('#wp-ace-html-php-pre-code-editor').length ) {
 			  html_editor = ace.edit("wp-ace-html-php-pre-code-editor");
 			  html_editor.setTheme(ACE_THEME);
-			  html_editor.getSession().setMode("ace/mode/html");
+			  //html_editor.getSession().setMode("ace/mode/html");
 			  html_editor.getSession().setUseWrapMode(ACE_WRAP_MODE);
 			  html_editor.getSession().setTabSize(ACE_TAB_SIZE);
 			  html_editor.code_has_changed = 0;
@@ -77,7 +77,7 @@ var wpAceInterface = (function() {
 		  if (jQuery('#wp-ace-css-pre-code-editor').length ) {
 			  css_editor = ace.edit("wp-ace-css-pre-code-editor");
 			  css_editor.setTheme(ACE_THEME);
-			  css_editor.getSession().setMode("ace/mode/scss");
+			  //css_editor.getSession().setMode("ace/mode/scss");
 			  css_editor.getSession().setUseWrapMode(ACE_WRAP_MODE);
 			  css_editor.getSession().setTabSize(ACE_TAB_SIZE);
 			  css_editor.code_has_changed = 0;
@@ -94,7 +94,7 @@ var wpAceInterface = (function() {
 		  if (jQuery('#wp-ace-js-pre-code-editor').length ) {
 			  js_editor = ace.edit("wp-ace-js-pre-code-editor");
 			  js_editor.setTheme(ACE_THEME);
-			  js_editor.getSession().setMode("ace/mode/coffee");
+			  //js_editor.getSession().setMode("ace/mode/coffee");
 			  js_editor.getSession().setUseWrapMode(ACE_WRAP_MODE);
 			  js_editor.getSession().setTabSize(ACE_TAB_SIZE);
 			  js_editor.code_has_changed = 0;
@@ -109,6 +109,9 @@ var wpAceInterface = (function() {
 			  js_editor.hidden_input_id = 'wp-ace-js-pre-code';
 		  }
 
+		  setInitialEditorModes();
+		  registerPreprocessorSelectListeners();
+		  registerFormSubmitListener();
 
 		  if (jQuery('#wp-ace-html-compiled-code-display').length ) {
 			  html_display = ace.edit("wp-ace-html-compiled-code-display");
@@ -182,6 +185,31 @@ var wpAceInterface = (function() {
 
     };
 
+    var registerFormSubmitListener = function() {
+    	// on form submit
+    	setPreFormSubmitData();
+    };
+
+    var setPreFormSubmitData = function() {
+    	// get cursor position, set to input
+    };
+
+    var setInitialEditorModes = function() {
+			var html_mode = $('#wp-ace-html-php-preprocessor').val();
+			var css_mode 	= $('#wp-ace-css-preprocessor').val();
+			var js_mode 	= $('#wp-ace-js-preprocessor').val();
+			
+			html_editor.update_mode(html_mode);
+			css_editor.update_mode(css_mode);
+			js_editor.update_mode(js_mode);
+    };
+
+    var registerPreprocessorSelectListeners = function() {
+    	// update ace object
+    	// update json data
+    	// render with underscores
+    }
+
     var setInputMappingListeners = function() {
     		
   		jQuery( "#post" ).submit(function( event ) {
@@ -226,14 +254,9 @@ var wpAceInterface = (function() {
 
 
 jQuery(document).ready(function(){
-	
 	wpAceInterface.init();
-	wpAceInterface.setInputMappingListeners();
 	
-	html_editor.update_mode('html');
-	css_editor.update_mode('css');
-	js_editor.update_mode('javascript');
-
+	wpAceInterface.setInputMappingListeners();
 	wpAceInterface.registerSettingsListeners();
 
 });

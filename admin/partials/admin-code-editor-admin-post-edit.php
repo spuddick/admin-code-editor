@@ -6,6 +6,10 @@
 	    <li role="presentation" class="active dropdown">
 	    	<a href="#" aria-controls="html"  class="dropdown-toggle" data-toggle="dropdown" >
 	    		HTML
+			    <span id="html-php-tab-label-preprocessor" class="text-muted" ></span>
+				 	<script type="text/template" id="html-php-tab-label-preprocessor-template">
+					  (<%= preprocessor_label %>)
+					</script>
 			    <span class="caret"></span></a>
 			    <ul class="dropdown-menu">
 			      <li><a href="#html-edit" role="tab" id="" data-toggle="tab"  >Edit</a></li>
@@ -16,6 +20,10 @@
 	    <li role="presentation" class="dropdown">
 	    	<a href="#" aria-controls="css" class="dropdown-toggle" data-toggle="dropdown" >
 	    		CSS
+	    		<span id="css-tab-label-preprocessor" class="text-muted" ></span>
+				 	<script type="text/template" id="css-tab-label-preprocessor-template">
+					  (<%= preprocessor_label %>)
+					</script>
 			    <span class="caret"></span></a>
 			    <ul class="dropdown-menu">
 			      <li><a href="#css-edit" role="tab" id="" data-toggle="tab" >Edit</a></li>
@@ -26,6 +34,10 @@
 	    <li role="presentation" class="dropdown">
 	    	<a href="#" aria-controls="javascript" class="dropdown-toggle bg-danger" data-toggle="dropdown" >
 	    		Javascript
+	    		<span id="js-tab-label-preprocessor" class="text-muted" ></span>
+				 	<script type="text/template" id="js-tab-label-preprocessor-template">
+					  (<%= preprocessor_label %>)
+					</script>
 			    <span class="caret"></span></a>
 			    <ul class="dropdown-menu">
 			      <li><a href="#javascript-edit" role="tab" id="" data-toggle="tab" >Edit</a></li>
@@ -66,6 +78,14 @@
 		    	<div class="clearfix" >
 					  <div class="" >
 						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Proprocessing with <strong>HAML</strong>. Positioned <strong>before post content</strong>. wpautop <strong>enabled</strong>. Display only on single template <strong>Disabled</strong>. <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" data-active-modal-tab="wp-ace-html-tab-link" aria-controls="change-settings-modal">Change HTML Settings</a></p>
+					  	<p id="wp-ace-html-php-status" ></p>
+						 	<script type="text/template" id="wp-ace-html-php-status-template">
+							  Proprocessing with <strong><%= preprocessor_label %></strong>.
+							  Positioned <strong><%= output_position %></strong>.
+							  wpautop <strong><%= wpautop_status %></strong>.
+							  Display only on single template <strong><%= display_only_on_single_status %></strong>.
+							</script>
+
 					  </div>
 
 					</div>
@@ -90,7 +110,12 @@
 
 		    	<div class="clearfix" >
 					  <div class="" >
-						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Proprocessing with <strong>Sass</strong>. Enqueue <strong>in header</strong>. <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal" data-active-modal-tab="wp-ace-css-tab-link"  >Change CSS Settings</a></p>
+						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Preprocessing with <strong>Sass</strong>. <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal" data-active-modal-tab="wp-ace-css-tab-link"  >Change CSS Settings</a></p>
+					  
+					  	<p id="wp-ace-css-status" ></p>
+						 	<script type="text/template" id="wp-ace-css-status-template">
+							  Proprocessing with <strong><%= preprocessor_label %></strong>.
+							</script>
 					  </div>
 
 					</div>
@@ -117,6 +142,13 @@
 		    	<div class="clearfix" >
 					  <div class="" >
 						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Proprocessing with <strong>Coffee Script</strong>. Enqueue <strong>in header</strong>. <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal"  data-active-modal-tab="wp-ace-javascript-tab-link" >Change Javascript Settings</a></p>
+
+						  <p id="wp-ace-js-status" ></p>
+						 	<script type="text/template" id="wp-ace-js-status-template">
+							  Proprocessing with <strong><%= preprocessor_label %></strong>.
+							  jQuery enqueued <strong><%= jquery_enqueued_status %></strong>.
+							</script>
+
 					  </div>
 					</div>
 
@@ -238,7 +270,7 @@
 											foreach($preprocessor_options['html'] as $preprocessor_slug => $preprocessor_name) {
 												?>
 													<div class="radio">
-														<label class="radio"><input type="radio" <?php checked($html_php_editor->get_preprocessor(), $preprocessor_slug); ?> value="<?php $preprocessor_slug; ?>" name="wp-ace-html-php-preprocessor" ><?php echo $preprocessor_name; ?></label>
+														<label class="radio"><input type="radio" <?php checked($html_php_editor->get_preprocessor(), $preprocessor_slug); ?> value="<?php $preprocessor_slug; ?>" id="wp-ace-html-php-preprocessor"  name="wp-ace-html-php-preprocessor" ><?php echo $preprocessor_name; ?></label>
 													</div>
 												<?php
 											}
@@ -257,7 +289,7 @@
 										foreach($preprocessor_options['css'] as $preprocessor_slug => $preprocessor_name) {
 											?>
 												<div class="radio">
-													<label class="radio"><input type="radio" <?php checked($css_editor->get_preprocessor(), $preprocessor_slug); ?> value="<?php $preprocessor_slug; ?>" name="wp-ace-css-preprocessor" ><?php echo $preprocessor_name; ?></label>
+													<label class="radio"><input type="radio" <?php checked($css_editor->get_preprocessor(), $preprocessor_slug); ?> value="<?php $preprocessor_slug; ?>" id="wp-ace-css-preprocessor" name="wp-ace-css-preprocessor" ><?php echo $preprocessor_name; ?></label>
 												</div>
 											<?php
 										}
@@ -266,13 +298,13 @@
 
 						    </div>
 						    <div role="tabpanel" class="tab-pane" id="wp-ace-javascript">
-										<h5>Include Libraries</h5>
-										<div class="checkbox">
-											<label>
-												<input type="checkbox"  id="wp-ace-css-include-jquery" name="wp-ace-css-include-jquery" value="1" <?php //checked($css_php_editor->get_disable_wpautop_status(), '1'); ?> >
-												Include jQuery
-											</label>	
-										</div>
+									<h5>Include Libraries</h5>
+									<div class="checkbox">
+										<label>
+											<input type="checkbox"  id="wp-ace-css-include-jquery" name="wp-ace-css-include-jquery" value="1" <?php //checked($css_php_editor->get_disable_wpautop_status(), '1'); ?> >
+											Include jQuery
+										</label>	
+									</div>
 
 									<h5>Pre Processor</h5>
 									<div class="radio">
@@ -283,7 +315,7 @@
 										foreach($preprocessor_options['js'] as $preprocessor_slug => $preprocessor_name) {
 											?>
 												<div class="radio">
-													<label class="radio"><input type="radio" <?php checked($js_editor->get_preprocessor(), $preprocessor_slug); ?> value="<?php $preprocessor_slug; ?>" name="wp-ace-js-preprocessor" ><?php echo $preprocessor_name; ?></label>
+													<label class="radio"><input type="radio" <?php checked($js_editor->get_preprocessor(), $preprocessor_slug); ?> value="<?php $preprocessor_slug; ?>" id="wp-ace-js-preprocessor"  name="wp-ace-js-preprocessor" ><?php echo $preprocessor_name; ?></label>
 												</div>
 											<?php
 										}
