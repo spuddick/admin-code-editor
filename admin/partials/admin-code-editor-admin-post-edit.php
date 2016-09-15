@@ -7,7 +7,7 @@
 	    	<a href="#" aria-controls="html"  class="dropdown-toggle" data-toggle="dropdown" >
 	    		HTML
 			    <span id="html-php-tab-label-preprocessor" class="text-muted" ></span>
-				 	<script type="text/template" id="html-php-tab-label-preprocessor-template">
+				 	<script type="text/template" id="tmpl-html-php-tab-label-preprocessor-template">
 					  (<%= preprocessor_label %>)
 					</script>
 			    <span class="caret"></span></a>
@@ -21,7 +21,7 @@
 	    	<a href="#" aria-controls="css" class="dropdown-toggle" data-toggle="dropdown" >
 	    		CSS
 	    		<span id="css-tab-label-preprocessor" class="text-muted" ></span>
-				 	<script type="text/template" id="css-tab-label-preprocessor-template">
+				 	<script type="text/template" id="tmpl-css-tab-label-preprocessor-template">
 					  (<%= preprocessor_label %>)
 					</script>
 			    <span class="caret"></span></a>
@@ -35,7 +35,7 @@
 	    	<a href="#" aria-controls="javascript" class="dropdown-toggle bg-danger" data-toggle="dropdown" >
 	    		Javascript
 	    		<span id="js-tab-label-preprocessor" class="text-muted" ></span>
-				 	<script type="text/template" id="js-tab-label-preprocessor-template">
+				 	<script type="text/template" id="tmpl-js-tab-label-preprocessor-template">
 					  (<%= preprocessor_label %>)
 					</script>
 			    <span class="caret"></span></a>
@@ -79,7 +79,7 @@
 					  <div class="" >
 						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Proprocessing with <strong>HAML</strong>. Positioned <strong>before post content</strong>. wpautop <strong>enabled</strong>. Display only on single template <strong>Disabled</strong>. <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" data-active-modal-tab="wp-ace-html-tab-link" aria-controls="change-settings-modal">Change HTML Settings</a></p>
 					  	<p id="wp-ace-html-php-status" ></p>
-						 	<script type="text/template" id="wp-ace-html-php-status-template">
+						 	<script type="text/template" id="tmpl-wp-ace-html-php-status-template">
 							  Proprocessing with <strong><%= preprocessor_label %></strong>.
 							  Positioned <strong><%= output_position %></strong>.
 							  wpautop <strong><%= wpautop_status %></strong>.
@@ -113,7 +113,7 @@
 						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Preprocessing with <strong>Sass</strong>. <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal" data-active-modal-tab="wp-ace-css-tab-link"  >Change CSS Settings</a></p>
 					  
 					  	<p id="wp-ace-css-status" ></p>
-						 	<script type="text/template" id="wp-ace-css-status-template">
+						 	<script type="text/template" id="tmpl-wp-ace-css-status-template">
 							  Proprocessing with <strong><%= preprocessor_label %></strong>.
 							</script>
 					  </div>
@@ -144,7 +144,7 @@
 						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Proprocessing with <strong>Coffee Script</strong>. Enqueue <strong>in header</strong>. <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal"  data-active-modal-tab="wp-ace-javascript-tab-link" >Change Javascript Settings</a></p>
 
 						  <p id="wp-ace-js-status" ></p>
-						 	<script type="text/template" id="wp-ace-js-status-template">
+						 	<script type="text/template" id="tmpl-wp-ace-js-status-template">
 							  Proprocessing with <strong><%= preprocessor_label %></strong>.
 							  jQuery enqueued <strong><%= jquery_enqueued_status %></strong>.
 							</script>
