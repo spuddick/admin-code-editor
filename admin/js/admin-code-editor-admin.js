@@ -32,6 +32,10 @@
 	 //$('[data-toggle="tooltip"]').tooltip();
 })( jQuery );
 
+Backbone.Model.prototype._super = function(funcName){
+  return this.constructor.__super__[funcName].apply(this, _.rest(arguments));
+}
+
 var wpAceInterface = (function() {
  
     // Private variables and functions
@@ -43,6 +47,7 @@ var wpAceInterface = (function() {
     var html_editor, css_editor, js_editor;
 		var html_code_model, css_code_model, js_code_model;
 		var html_tab_label_preprocessor_view, css_tab_label_preprocessor_view, js_tab_label_preprocessor_view;
+		var html_text_status_view, css_text_status_view, js_text_status_view;
 
     // Models
 		var Code_Model = Backbone.Model.extend({
@@ -70,6 +75,15 @@ var wpAceInterface = (function() {
 			  */
 		  }
 		});
+		var HTML_Code_Model = Code_Model.extend({
+
+		});
+		var CSS_Code_Model = Code_Model.extend({
+
+		});
+		var JS_Code_Model = Code_Model.extend({
+
+		});
 		var Tab_Label_View = Backbone.View.extend({
 		   
 		    model: Code_Model,
@@ -84,7 +98,46 @@ var wpAceInterface = (function() {
 		        this.$el.html(this.template(this.model.attributes));
 		        return this;
 		    }
-		}); 		
+		});
+		var HTML_Text_Status_View = Backbone.View.extend({
+	    model: Code_Model,
+	    tagName: 'p',
+	    template: '',
+	    initialize: function() {
+        this.template = _.template(jQuery('#tmpl-wp-ace-html-php-status-template').html());
+        this.listenTo(this.model, "change", this.render);
+	    },
+	    render: function() {
+        this.$el.html(this.template(this.model.attributes));
+        return this;
+	    }
+		});
+		var CSS_Text_Status_View = Backbone.View.extend({
+	    model: Code_Model,
+	    tagName: 'p',
+	    template: '',
+	    initialize: function() {
+        this.template = _.template(jQuery('#tmpl-wp-ace-css-status-template').html());
+        this.listenTo(this.model, "change", this.render);
+	    },
+	    render: function() {
+        this.$el.html(this.template(this.model.attributes));
+        return this;
+	    }
+		});
+		var JS_Text_Status_View = Backbone.View.extend({
+	    model: Code_Model,
+	    tagName: 'p',
+	    template: '',
+	    initialize: function() {
+        this.template = _.template(jQuery('#tmpl-wp-ace-js-status-template').html());
+        this.listenTo(this.model, "change", this.render);
+	    },
+	    render: function() {
+        this.$el.html(this.template(this.model.attributes));
+        return this;
+	    }
+		}); 
     var init = function() {
 
 
@@ -155,16 +208,31 @@ var wpAceInterface = (function() {
 			  js_editor.hidden_input_id = 'wp-ace-js-pre-code';
 		  }
 
-			html_code_model = new Code_Model({ preprocessor: jQuery('#wp-ace-html-php-preprocessor').val(), ace_editor : html_editor });
-			css_code_model = new Code_Model({ preprocessor: jQuery('#wp-ace-css-preprocessor').val(), ace_editor : css_editor  });
-			js_code_model = new Code_Model({ preprocessor: jQuery('#wp-ace-js-preprocessor').val(), ace_editor : js_editor  });
+			html_code_model = new Code_Model({ 
+				preprocessor: jQuery('#wp-ace-html-php-preprocessor').val(), 
+				ace_editor : html_editor,
+				output_position : 'x',
+				wpautop_status : 'b',
+				display_only_on_single_status : 's', 				 
+			});
+			css_code_model = new Code_Model({ 
+				preprocessor: jQuery('#wp-ace-css-preprocessor').val(), 
+				ace_editor : css_editor,  
+			});
+			js_code_model = new Code_Model({ 
+				preprocessor: jQuery('#wp-ace-js-preprocessor').val(), 
+				ace_editor : js_editor,
+				jquery_enqueued_status : 'a'  
+			});
 
 			html_tab_label_preprocessor_view = new Tab_Label_View({ el: jQuery("#html-php-tab-label-preprocessor"), model: html_code_model });
 			css_tab_label_preprocessor_view = new Tab_Label_View({ el: jQuery("#css-tab-label-preprocessor"), model: css_code_model });
 			js_tab_label_preprocessor_view = new Tab_Label_View({ el: jQuery("#js-tab-label-preprocessor"), model: js_code_model });
 
-			//console.log('testtest');
-		  
+			html_text_status_view = new HTML_Text_Status_View({ el: jQuery("#wp-ace-html-php-status"), model: html_code_model });
+			css_text_status_view = new CSS_Text_Status_View({ el: jQuery("#wp-ace-css-status"), model: css_code_model }); 
+			js_text_status_view = new JS_Text_Status_View({ el: jQuery("#wp-ace-js-status"), model: js_code_model });
+
 		  registerPreprocessorSelectListeners();
 		  setInitialEditorModes();
 		  registerFormSubmitListener();

@@ -77,7 +77,7 @@
 						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Proprocessing with <strong>HAML</strong>. Positioned <strong>before post content</strong>. wpautop <strong>enabled</strong>. Display only on single template <strong>Disabled</strong>. <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" data-active-modal-tab="wp-ace-html-tab-link" aria-controls="change-settings-modal">Change HTML Settings</a></p>
 					  	<p id="wp-ace-html-php-status" ></p>
 						 	<script type="text/template" id="tmpl-wp-ace-html-php-status-template">
-							  Proprocessing with <strong><%= preprocessor_label %></strong>.
+							  Proprocessing with <strong><%= preprocessor %></strong>.
 							  Positioned <strong><%= output_position %></strong>.
 							  wpautop <strong><%= wpautop_status %></strong>.
 							  Display only on single template <strong><%= display_only_on_single_status %></strong>.
@@ -111,7 +111,7 @@
 					  
 					  	<p id="wp-ace-css-status" ></p>
 						 	<script type="text/template" id="tmpl-wp-ace-css-status-template">
-							  Proprocessing with <strong><%= preprocessor_label %></strong>.
+							  Proprocessing with <strong><%= preprocessor %></strong>.
 							</script>
 					  </div>
 
@@ -142,7 +142,7 @@
 
 						  <p id="wp-ace-js-status" ></p>
 						 	<script type="text/template" id="tmpl-wp-ace-js-status-template">
-							  Proprocessing with <strong><%= preprocessor_label %></strong>.
+							  Proprocessing with <strong><%= preprocessor %></strong>.
 							  jQuery enqueued <strong><%= jquery_enqueued_status %></strong>.
 							</script>
 
@@ -259,8 +259,6 @@
 										
 										
 										<h5>Pre Processor</h5>
-										<?php echo 'preprocessor: ' . $html_php_editor->get_preprocessor(); ?>
-										<?php echo 'code id: ' . $html_php_editor->get_code_post_id(); ?>
 										<div class="radio">
 											<label class="radio"><input type="radio" <?php checked($html_php_editor->get_preprocessor(), 'html'); ?> value="html" name="wp-ace-html-php-preprocessor" >None</label>
 										</div>
@@ -280,9 +278,7 @@
 						    </div>
 						    <div role="tabpanel" class="tab-pane" id="wp-ace-css">
 									<h5>Pre Processor</h5>
-									<?php echo 'preprocessor: ' . $css_editor->get_preprocessor(); ?>
-									<?php echo 'code id: ' . $css_editor->get_code_post_id(); ?>
-									
+	
 									<div class="radio">
 										<label class="radio"><input type="radio" <?php checked($css_editor->get_preprocessor(), 'css'); ?> value="css" name="wp-ace-css-preprocessor" >None</label>
 									</div>
@@ -309,8 +305,7 @@
 									</div>
 
 									<h5>Pre Processor</h5>
-									<?php echo 'preprocessor: ' . $js_editor->get_preprocessor(); ?>
-									<?php echo 'code id: ' . $js_editor->get_code_post_id(); ?>
+
 									<div class="radio">
 										<label class="radio"><input type="radio" <?php checked($js_editor->get_preprocessor(), 'javascript'); ?> value="javascript" name="wp-ace-js-preprocessor" >None</label>
 									</div>
