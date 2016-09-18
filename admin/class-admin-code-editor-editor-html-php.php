@@ -3,7 +3,7 @@ require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-ed
 class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
   
   	const DEFAULT_DISABLE_WPAUTOP = 1;
-  	const DEFAULT_PREPROCESSOR = 'scss';
+  	const DEFAULT_PREPROCESSOR = 'html';
   	const DEFAULT_CODE_OUTPUT_POSITION = 'below';
 
   	private $wpautop_disabled, $code_output_position;
@@ -18,6 +18,7 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 
 				$this->keys['host-hash-meta-key'] = '_wp_ace_html_php_hash';
 				$this->keys['code-id-meta-key'] 	= '_wp_ace_html_php_code_post_id';
+				$this->keys['global_preprocessor'] 	= '_wp_ace_global_html_preprocessor';
 				$this->post_type = 'wp-ace-html';
 				$this->code_post_name_start = 'wp-ace-html-and-php-code-for-';
 				$this->code_post_title_start = 'WP ACE HTML and PHP code for Post ID: ';
@@ -44,7 +45,6 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 		if (isset($_POST['wp-ace-html-php-code-output-position'])) {
 			$this->code_output_position 	= sanitize_text_field($_POST['wp-ace-html-php-code-output-position']);
 		}
-
 		if (isset($_POST['wp-ace-html-php-disable-wpautop'])) {
 			$this->wpautop_disabled 	= sanitize_text_field($_POST['wp-ace-html-php-disable-wpautop']);
 		} else {
@@ -73,15 +73,7 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 		update_post_meta($this->code_post_id, '_wp_ace_code_output_position', $this->get_code_output_position() );
 	}
 
-	public function get_preprocessor() {
-		$preprocessor = get_post_meta($this->code_post_id, '_wp_ace_preprocessor', true);
-		if (!$preprocessor) {
-			$preprocessor = get_option('_wp_ace_global_preprocessor', self::DEFAULT_PREPROCESSOR);
 
-		}
-
-		return $preprocessor;
-	}
 
 	public function get_code_output_position() {
 		if (!$this->code_output_position) {

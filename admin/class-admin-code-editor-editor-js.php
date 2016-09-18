@@ -3,19 +3,22 @@ require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-ed
 class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor
 
 {
-    function __construct() {
-      parent::__construct();
+    const DEFAULT_PREPROCESSOR = 'javascript';
+
+    function __construct($param) {
+      parent::__construct($param);
 			if (isset($param['type'])) {
 	      $this->type = $param['type'];
 	      
-	      $keys = array();
+	      $this->keys = array();
 
-				$keys['host-hash-meta-key'] = '_wp_ace_js_hash';
-				$keys['code-id-meta-key'] 	= '_wp_ace_js_code_post_id';
-				
-				$post_type = 'wp-ace-js';
-				$code_post_name_start = 'wp-ace-js-code-for-';
-				$code_post_title_start = 'WP ACE JS code for Post ID: ';
+				$this->keys['host-hash-meta-key'] = '_wp_ace_js_hash';
+				$this->keys['code-id-meta-key'] 	= '_wp_ace_js_code_post_id';
+				$this->keys['global_preprocessor'] 	= '_wp_ace_global_js_preprocessor';
+
+				$this->post_type = 'wp-ace-js';
+				$this->code_post_name_start = 'wp-ace-js-code-for-';
+				$this->code_post_title_start = 'WP ACE JS code for Post ID: ';
 
 	    }					        
     }
@@ -30,16 +33,16 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor
 
 	}
 
-	private function get_current_hash() {
+	protected function get_current_hash() {
 		if (empty($current_hash)) {
 			$this->current_hash = md5($this->pre_code . $this->field_height . $this->preprocessor . $this->cursor_position);
 		}
 		return $this->current_hash;
 	}
 
-	private function get_stored_hash() {
+	protected function get_stored_hash() {
 		if (empty($this->stored_hash)) {
-			$this->stored_hash = get_post_meta($post_id, '_wp_ace_html_php_hash', true);
+			$this->stored_hash = get_post_meta($this->host_post_id, '_wp_ace_js_hash', true);
 		}
 		return $this->stored_hash; 
 	}
@@ -53,18 +56,7 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor
 		// js dependecy files
 		// enqueue in header/footer
 	}
-
-	public function get_preprocessor() {
-		$preprocessor = get_post_meta($this->code_post_id, '_wp_ace_preprocessor', true);
-		if (!$preprocessor) {
-			$preprocessor = get_option('_wp_ace_global_proprocessor', true);
-			if (!$preprocessor) {
-				$preprocessor = DEFAULT_PREPROCESSOR;
-			}
-		}
-
-		return $preprocessor;
-	}		
+	
 }
 
 ?>

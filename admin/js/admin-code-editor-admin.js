@@ -41,272 +41,52 @@ var wpAceInterface = (function() {
     const ACE_FONT_SIZE = '13px';
 
     var html_editor, css_editor, js_editor;
- 		
+		var html_code_model, css_code_model, js_code_model;
+		var html_tab_label_preprocessor_view, css_tab_label_preprocessor_view, js_tab_label_preprocessor_view;
+
+    // Models
+		var Code_Model = Backbone.Model.extend({
+		  defaults: {
+		    preprocessor: 'none'
+		  },
+		  /*
+		  validate: function( attributes ){
+		    if( attributes.age < 0 && attributes.name != "Dr Manhatten" ){
+		      return "You can't be negative years old";
+		    }
+		  },
+			*/
+		  initialize: function(){
+		    //alert("Welcome to this world");
+		    this.on("change:preprocessor", function(model){
+		      var preprocessor = model.get("preprocessor"); // 'Stewie Griffin'
+		      console.log("updating ace editor mode to " + preprocessor );
+		    });
+		    /*
+		    this.bind("error", function(model, error){
+		      // We have received an error, log it, alert it or forget it :)
+		      alert( error );
+		    })
+			  */
+		  }
+		});
+		var Tab_Label_View = Backbone.View.extend({
+		   
+		    model: Code_Model,
+		    tagName: 'span',
+		    template: '',
+
+		    initialize: function() {
+		        this.template = _.template(jQuery('#tab-label-preprocessor-template').html());
+		        this.listenTo(this.model, "change", this.render);
+		    },
+		    render: function() {
+		        this.$el.html(this.template(this.model.attributes));
+		        return this;
+		    }
+		}); 		
     var init = function() {
 
-    	/**
-    	 *
-    	 * backbone/underscores
-    	 *
-    	 */
-    	
-            var post_template = wp.template( 'jt-post' );
-
-            var data = {
-                post_title   : 'This is awesome!',
-                post_author  : 'Justin Tadlock',
-                post_content : '<p>This is the content of an example post.</p>'
-            }
-
-            jQuery( '.site-content' ).append( post_template( data ) );
-
-var Surfboard = Backbone.Model.extend({
-  defaults: {
-    manufacturer: '',
-    model: '',
-    stock: 0
-  }
-});
-
-var board1 = new Surfboard({
-  manufacturer: 'Channel Islands',
-  model: 'Whip',
-  stock: 12
-});
-
-$('#board1-manufacturer').html(board1.get('manufacturer'));
-$('#board1-model').html(board1.get('model'));
-$('#board1-stock').html(board1.get('stock'));
-
-var board2 = new Surfboard({
-  manufacturer: 'Lost',
-  model: 'Sub Scorcher',
-  stock: 9
-});
-
-$('#board2-manufacturer').html(board2.get('manufacturer'));
-$('#board2-model').html(board2.get('model'));
-$('#board2-stock').html(board2.get('stock'));
-var SurfboardView = Backbone.View.extend({
-
-  tagName: 'tr',
-
-  template: _.template($('#surfboard-template').html()),
-
-  render: function() {
-    this.$el.html(this.template(this.model.attributes));
-    return this;
-  }
-
-});
-
-/******************/
-
-
-var Code_Model = Backbone.Model.extend({
-  defaults: {
-    preprocessor: 'none'
-  },
-  validate: function( attributes ){
-    if( attributes.age < 0 && attributes.name != "Dr Manhatten" ){
-      return "You can't be negative years old";
-    }
-  },  
-  initialize: function(){
-    alert("Welcome to this world");
-    this.on("change:preprocessor", function(model){
-      var name = model.get("name"); // 'Stewie Griffin'
-      alert("Changed my name to " + name );
-    },
-
-    this.bind("error", function(model, error){
-      // We have received an error, log it, alert it or forget it :)
-      alert( error );
-    })
-	  
-  }
-});
-
-var html_code_model = new Code_Model({ name: "Thomas", age: 67});
-var css_code_model = new Code_Model({ name: "Thomas", age: 67});
-var js_code_model = new Code_Model({ name: "Thomas", age: 67});
-
-
-human.set({name: 'Stewie Griffin'}); // This triggers a change and will alert()
-
-
-var bookView2 = Backbone.View.extend({
-   
-    model: Book,
-    tagName: 'li',
-    template: '',
- 
-    initialize: function() {
-        this.template = _.template($('#bookItem').html());
-    },
- 
-    render: function() {
-        this.$el.html(this.template(this.model.attributes));
-        return this;
-    }
-});
- 
-var bookListView2 = Backbone.View.extend({
-    model: BooksCollection,
- 
-    render: function() {
-        this.$el.html(); // lets render this view
-        
-        for(var i = 0; i < this.model.length; ++i) {
-            // lets create a book view to render
-            var m_bookView = new bookView2({model: this.model.at(i)});
- 
-            // lets add this book view to this list view
-            this.$el.append(m_bookView.$el); 
-            m_bookView.render(); // lets render the book           
-        } 
- 
-         return this;
-    },
-});
-
-var bookView2 = Backbone.View.extend({
-   
-    model: Book,
-    tagName: 'li',
-    template: '',
-
-    events: {
-        'click': "itemClicked"
-    },
-
-    itemClicked: function () {
-        alert('clicked: ' + this.model.get('BookName'));
-    },
-
-    initialize: function() {
-        this.template = _.template($('#bookItem').html());
-    },
-
-    render: function() {
-        this.$el.html(this.template(this.model.attributes));
-        return this;
-    }
-});
-
-var bookListView = Backbone.View.extend({
-    model: BooksCollection,
- 
-    initialize: function() {
-        // lets listen to model change and update ourselves
-        this.listenTo(this.model, "add", this.modelUpdated);
-    },
- 
-    modelUpdated: function() {
-        this.render();
-    },
-});
-
-
-var bookView = Backbone.View.extend({
-    tagName: "li",
-    model: Book,
- 
-    initialize: function() {
-        // lets listen to model change and update ourselves
-        this.listenTo(this.model, "change", this.render);
-    }
-});
-/******************/
-
-HTML  SCSS  JS  Result
-Edit on 
-// Surfboard model
-var Surfboard = Backbone.Model.extend({
-  defaults: {
-    manufacturer: '',
-    model: '',
-    stock: 0
-  }
-});
-
-// New instance of Surfboard model - board1
-var board1 = new Surfboard({
-  manufacturer: 'Channel Islands',
-  model: 'Whip',
-  stock: 12
-});
-
-// New instance of Surfboard model - board2
-var board2 = new Surfboard({
-  manufacturer: 'Lost',
-  model: 'Sub Scorcher',
-  stock: 9
-});
-
-// New instance of Surfboard model - board3
-var board3 = new Surfboard({
-  manufacturer: 'Firewire',
-  model: 'Spitfire',
-  stock: 5
-});
-
-// Create Surfboards Collection
-var SurfboardsCollection = Backbone.Collection.extend({
-  model: Surfboard
-});
-
-// Create new instance of SurfboardsCollection
-// and add three model instances to it.
-var Surfboards = new SurfboardsCollection;
-Surfboards.add(board1);
-Surfboards.add(board2);
-Surfboards.add(board3);
-
-// Create Surfboards View
-var SurfboardsView = Backbone.View.extend({
-
-  el: '#table-body',
-
-  initialize: function() {
-    this.render();
-  },
-
-  render: function() {
-    this.$el.html('');
-
-    Surfboards.each(function(model) {
-      var surfboard = new SurfboardView({
-        model: model
-      });
-
-      this.$el.append(surfboard.render().el);
-    }.bind(this));
-
-    return this;
-  }
-
-});
-
-// Create Surfboard View
-var SurfboardView = Backbone.View.extend({
-
-  tagName: 'tr',
-
-  template: _.template($('#surfboard-template').html()),
-
-  render: function() {
-    this.$el.html(this.template(this.model.attributes));
-    return this;
-  }
-
-});
-
-// Launch app
-var app = new SurfboardsView;
-
-
-/******************/
 
     	/**
     	 *
@@ -328,9 +108,11 @@ var app = new SurfboardsView;
 			  html_editor.getSession().setUseWrapMode(ACE_WRAP_MODE);
 			  html_editor.getSession().setTabSize(ACE_TAB_SIZE);
 			  html_editor.code_has_changed = 0;
+			  /*
 			  html_editor.getSession().on('change', function() {
 					html_editor.code_has_changed = 1;
 				});
+				*/
 				html_editor.update_mode = function(mode) {
 					html_editor.getSession().setMode("ace/mode/" + mode);
 				};
@@ -373,10 +155,23 @@ var app = new SurfboardsView;
 			  js_editor.hidden_input_id = 'wp-ace-js-pre-code';
 		  }
 
-		  setInitialEditorModes();
+			html_code_model = new Code_Model({ preprocessor: jQuery('#wp-ace-html-php-preprocessor').val(), ace_editor : html_editor });
+			css_code_model = new Code_Model({ preprocessor: jQuery('#wp-ace-css-preprocessor').val(), ace_editor : css_editor  });
+			js_code_model = new Code_Model({ preprocessor: jQuery('#wp-ace-js-preprocessor').val(), ace_editor : js_editor  });
+
+			html_tab_label_preprocessor_view = new Tab_Label_View({ el: jQuery("#html-php-tab-label-preprocessor"), model: html_code_model });
+			css_tab_label_preprocessor_view = new Tab_Label_View({ el: jQuery("#css-tab-label-preprocessor"), model: css_code_model });
+			js_tab_label_preprocessor_view = new Tab_Label_View({ el: jQuery("#js-tab-label-preprocessor"), model: js_code_model });
+
+			//console.log('testtest');
+		  
 		  registerPreprocessorSelectListeners();
+		  setInitialEditorModes();
 		  registerFormSubmitListener();
 
+
+
+		  // COMPILED CODE DISPLAY
 		  if (jQuery('#wp-ace-html-compiled-code-display').length ) {
 			  html_display = ace.edit("wp-ace-html-compiled-code-display");
 			  html_display.setTheme(ACE_THEME);
@@ -449,6 +244,30 @@ var app = new SurfboardsView;
 
     };
 
+    var registerPreprocessorSelectListeners = function() {
+    	    	// update ace object
+    	// update json data
+    	// render with underscores
+    	console.log('setting up select listeners');
+    	jQuery('input[name=wp-ace-html-php-preprocessor]').change(function() {
+    		var new_mode = jQuery(this).val();
+    		console.log('updating html editor:' + new_mode);
+    		html_editor.update_mode(new_mode);
+				
+				html_code_model.set({'preprocessor': new_mode });
+    	});
+    	jQuery('input[name=wp-ace-css-preprocessor]').on('change', function() {
+    		var new_mode = jQuery(this).val();
+    		css_editor.update_mode(new_mode);
+				css_code_model.set({'preprocessor': new_mode });
+    	});
+    	jQuery('input[name=wp-ace-js-preprocessor]').on('change', function() {
+    		var new_mode = jQuery(this).val();
+    		js_editor.update_mode(new_mode);
+				js_code_model.set({'preprocessor': new_mode });
+    	});    	
+    };
+
     var registerFormSubmitListener = function() {
     	// on form submit
     	setPreFormSubmitData();
@@ -459,20 +278,10 @@ var app = new SurfboardsView;
     };
 
     var setInitialEditorModes = function() {
-			var html_mode = $('#wp-ace-html-php-preprocessor').val();
-			var css_mode 	= $('#wp-ace-css-preprocessor').val();
-			var js_mode 	= $('#wp-ace-js-preprocessor').val();
-			
-			html_editor.update_mode(html_mode);
-			css_editor.update_mode(css_mode);
-			js_editor.update_mode(js_mode);
+			jQuery('input[name=wp-ace-html-php-preprocessor]').trigger('change');
+			jQuery('input[name=wp-ace-css-preprocessor]').trigger('change');
+			jQuery('input[name=wp-ace-js-preprocessor]').trigger('change');
     };
-
-    var registerPreprocessorSelectListeners = function() {
-    	// update ace object
-    	// update json data
-    	// render with underscores
-    }
 
     var setInputMappingListeners = function() {
     		
@@ -483,7 +292,7 @@ var app = new SurfboardsView;
 				//event.preventDefault();
 			});
 				
-    }
+    };
  
     var mapEditorCodetoInput = function(editor_obj) {
 			$editor_input = jQuery('#' + editor_obj.hidden_input_id);
@@ -493,7 +302,7 @@ var app = new SurfboardsView;
 				console.log(editor_obj.getSession().getValue());
 				$editor_input.val(editor_obj.getSession().getValue());
 			}
-    }
+    };
 
     var registerSettingsListeners = function() {
     	/*
@@ -507,7 +316,7 @@ var app = new SurfboardsView;
 					include jquery
 					preprocessor
     	*/
-    }
+    };
 
     // Public API
     return {
@@ -521,6 +330,6 @@ jQuery(document).ready(function(){
 	wpAceInterface.init();
 	
 	wpAceInterface.setInputMappingListeners();
-	wpAceInterface.registerSettingsListeners();
+	//wpAceInterface.registerSettingsListeners();
 
 });

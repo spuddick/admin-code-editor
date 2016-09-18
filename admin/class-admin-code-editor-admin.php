@@ -134,7 +134,8 @@ class Admin_Code_Editor_Admin {
 		 */
 		wp_enqueue_script( 'jquery-ui-core' );
 		wp_enqueue_script( 'jquery-ui-resizable' );
-		wp_enqueue_script( 'wp-util' ); // enqueues underscore.js
+		wp_enqueue_script( 'backbone' ); 
+		wp_enqueue_script( 'underscore' );
 		wp_enqueue_script( 
 			'wp-ace-editor-js', 
 			plugin_dir_url( __FILE__ ) . 'js/ace-src-min-noconflict/ace.js', 
@@ -142,7 +143,6 @@ class Admin_Code_Editor_Admin {
 			filemtime(plugin_dir_path( __FILE__ ) . 'js/ace-src-min-noconflict/ace.js')
 		);
 		
-	
 		wp_enqueue_script( 
 			'wp-ace-bootstrap-js',
 			plugin_dir_url( __FILE__ ) . 'js/bootstrap.min.js' , 
@@ -153,7 +153,7 @@ class Admin_Code_Editor_Admin {
 		wp_enqueue_script( 
 			$this->admin_code_editor, 
 			plugin_dir_url( __FILE__ ) . 'js/admin-code-editor-admin.js', 
-			array( 'jquery', 'wp-ace-bootstrap-js', 'wp-ace-editor-js', 'jquery-ui-resizable' ), 
+			array( 'jquery', 'wp-ace-bootstrap-js', 'wp-ace-editor-js', 'jquery-ui-resizable', 'underscore', 'backbone' ), 
 			filemtime(plugin_dir_path( __FILE__ ) . 'js/admin-code-editor-admin.js')
 		);
 		
@@ -193,13 +193,25 @@ class Admin_Code_Editor_Admin {
 		wp_nonce_field( 'wp-ace-editor-nonce', 'wp-ace-editor-nonce' );
 		
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-html-php.php';
-		//require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-css.php';
-		//require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-js.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-css.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-js.php';
 		$editor_args = array(
 			'type' => 'html-php',
 			'host-post-id' => $post->ID
 		);
 		$html_php_editor 	= new Admin_Code_Editor_Editor_HTML_PHP($editor_args);
+
+		$editor_args = array(
+			'type' => 'css',
+			'host-post-id' => $post->ID
+		);
+		$css_editor 	= new Admin_Code_Editor_Editor_CSS($editor_args);
+
+		$editor_args = array(
+			'type' => 'js',
+			'host-post-id' => $post->ID
+		);
+		$js_editor 	= new Admin_Code_Editor_Editor_JS($editor_args);
 
 		$preprocessor_options = get_option('wp_ace_supported_preprocessors');
 
@@ -223,13 +235,13 @@ class Admin_Code_Editor_Admin {
 				'markdown' => 'MarkDown'
 				),
 			'css' => array(
-				'scss' => 'Scss',
-				'less' => 'LESS'
-				),
-			'js' => array(
-				'coffeescript' => 'CoffeeScript',
+				'scss' => 'SCSS',
+				'less' => 'LESS',
 				'stylus' => 'Stylus'
 				),
+			'js' => array(
+				'coffee' => 'CoffeeScript'
+				)
 			);
 		update_option( 'wp_ace_supported_preprocessors', $supported_preprocessors);
 		update_option( 'wp_ace_plugin_version', $this->version);
@@ -290,24 +302,34 @@ class Admin_Code_Editor_Admin {
 
 		// TODO: Check if post type is WP ACE enabled
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-html-php.php';
-		//require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-css.php';
-		//require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-js.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-css.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-js.php';
 
 		$editor_args = array(
 			'type' => 'html-php',
 			'host-post-id' => $post_id
 		);
 		$html_editor 	= new Admin_Code_Editor_Editor_HTML_PHP($editor_args);
-		//$css_editor 	= new Admin_Code_Editor_Editor('css', $post_id);
-		//$js_editor 		= new Admin_Code_Editor_Editor('js', $post_id);
+		
+		$editor_args = array(
+			'type' => 'css',
+			'host-post-id' => $post_id
+		);		
+		$css_editor 	= new Admin_Code_Editor_Editor_CSS($editor_args);
+		
+		$editor_args = array(
+			'type' => 'js',
+			'host-post-id' => $post_id
+		);		
+		$js_editor 		= new Admin_Code_Editor_Editor_JS($editor_args);
 
 		$html_editor->initialize_from_post_request();
-		//$css_editor->initialize_from_post_request();
-		//$js_editor->initialize_from_post_request();
+		$css_editor->initialize_from_post_request();
+		$js_editor->initialize_from_post_request();
 
 		$html_editor->update_code();
-		//$css_editor->update_code();
-		//$js_editor->update_code();
+		$css_editor->update_code();
+		$js_editor->update_code();
 	
 	}
 

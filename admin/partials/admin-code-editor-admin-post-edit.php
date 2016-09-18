@@ -1,3 +1,6 @@
+	 	<script type="text/template" id="tab-label-preprocessor-template">
+		  (<%= preprocessor %>)
+		</script>
 <div class="wp-ace-bootstrap">
 	<div>
 
@@ -7,9 +10,7 @@
 	    	<a href="#" aria-controls="html"  class="dropdown-toggle" data-toggle="dropdown" >
 	    		HTML
 			    <span id="html-php-tab-label-preprocessor" class="text-muted" ></span>
-				 	<script type="text/template" id="tmpl-html-php-tab-label-preprocessor-template">
-					  (<%= preprocessor_label %>)
-					</script>
+
 			    <span class="caret"></span></a>
 			    <ul class="dropdown-menu">
 			      <li><a href="#html-edit" role="tab" id="" data-toggle="tab"  >Edit</a></li>
@@ -21,9 +22,7 @@
 	    	<a href="#" aria-controls="css" class="dropdown-toggle" data-toggle="dropdown" >
 	    		CSS
 	    		<span id="css-tab-label-preprocessor" class="text-muted" ></span>
-				 	<script type="text/template" id="tmpl-css-tab-label-preprocessor-template">
-					  (<%= preprocessor_label %>)
-					</script>
+
 			    <span class="caret"></span></a>
 			    <ul class="dropdown-menu">
 			      <li><a href="#css-edit" role="tab" id="" data-toggle="tab" >Edit</a></li>
@@ -35,9 +34,7 @@
 	    	<a href="#" aria-controls="javascript" class="dropdown-toggle bg-danger" data-toggle="dropdown" >
 	    		Javascript
 	    		<span id="js-tab-label-preprocessor" class="text-muted" ></span>
-				 	<script type="text/template" id="tmpl-js-tab-label-preprocessor-template">
-					  (<%= preprocessor_label %>)
-					</script>
+
 			    <span class="caret"></span></a>
 			    <ul class="dropdown-menu">
 			      <li><a href="#javascript-edit" role="tab" id="" data-toggle="tab" >Edit</a></li>
@@ -262,15 +259,17 @@
 										
 										
 										<h5>Pre Processor</h5>
+										<?php echo 'preprocessor: ' . $html_php_editor->get_preprocessor(); ?>
+										<?php echo 'code id: ' . $html_php_editor->get_code_post_id(); ?>
 										<div class="radio">
-											<label class="radio"><input type="radio" <?php checked($html_php_editor->get_preprocessor(), 'none'); ?> value="none" name="wp-ace-html-php-preprocessor" >None</label>
+											<label class="radio"><input type="radio" <?php checked($html_php_editor->get_preprocessor(), 'html'); ?> value="html" name="wp-ace-html-php-preprocessor" >None</label>
 										</div>
 										
 										<?php
 											foreach($preprocessor_options['html'] as $preprocessor_slug => $preprocessor_name) {
 												?>
 													<div class="radio">
-														<label class="radio"><input type="radio" <?php checked($html_php_editor->get_preprocessor(), $preprocessor_slug); ?> value="<?php $preprocessor_slug; ?>" id="wp-ace-html-php-preprocessor"  name="wp-ace-html-php-preprocessor" ><?php echo $preprocessor_name; ?></label>
+														<label class="radio"><input type="radio" <?php checked($html_php_editor->get_preprocessor(), $preprocessor_slug); ?> value="<?php echo $preprocessor_slug; ?>"  name="wp-ace-html-php-preprocessor" ><?php echo $preprocessor_name; ?></label>
 													</div>
 												<?php
 											}
@@ -281,15 +280,18 @@
 						    </div>
 						    <div role="tabpanel" class="tab-pane" id="wp-ace-css">
 									<h5>Pre Processor</h5>
+									<?php echo 'preprocessor: ' . $css_editor->get_preprocessor(); ?>
+									<?php echo 'code id: ' . $css_editor->get_code_post_id(); ?>
+									
 									<div class="radio">
-										<label class="radio"><input type="radio" <?php checked($css_editor->get_preprocessor(), 'none'); ?> value="none" name="wp-ace-css-php-preprocessor" >None</label>
+										<label class="radio"><input type="radio" <?php checked($css_editor->get_preprocessor(), 'css'); ?> value="css" name="wp-ace-css-preprocessor" >None</label>
 									</div>
 									
 									<?php
 										foreach($preprocessor_options['css'] as $preprocessor_slug => $preprocessor_name) {
 											?>
 												<div class="radio">
-													<label class="radio"><input type="radio" <?php checked($css_editor->get_preprocessor(), $preprocessor_slug); ?> value="<?php $preprocessor_slug; ?>" id="wp-ace-css-preprocessor" name="wp-ace-css-preprocessor" ><?php echo $preprocessor_name; ?></label>
+													<label class="radio"><input type="radio" <?php checked($css_editor->get_preprocessor(), $preprocessor_slug); ?> value="<?php echo $preprocessor_slug; ?>" name="wp-ace-css-preprocessor" ><?php echo $preprocessor_name; ?></label>
 												</div>
 											<?php
 										}
@@ -307,15 +309,17 @@
 									</div>
 
 									<h5>Pre Processor</h5>
+									<?php echo 'preprocessor: ' . $js_editor->get_preprocessor(); ?>
+									<?php echo 'code id: ' . $js_editor->get_code_post_id(); ?>
 									<div class="radio">
-										<label class="radio"><input type="radio" <?php checked($js_editor->get_preprocessor(), 'none'); ?> value="none" name="wp-ace-js-php-preprocessor" >None</label>
+										<label class="radio"><input type="radio" <?php checked($js_editor->get_preprocessor(), 'javascript'); ?> value="javascript" name="wp-ace-js-preprocessor" >None</label>
 									</div>
 									
 									<?php
 										foreach($preprocessor_options['js'] as $preprocessor_slug => $preprocessor_name) {
 											?>
 												<div class="radio">
-													<label class="radio"><input type="radio" <?php checked($js_editor->get_preprocessor(), $preprocessor_slug); ?> value="<?php $preprocessor_slug; ?>" id="wp-ace-js-preprocessor"  name="wp-ace-js-preprocessor" ><?php echo $preprocessor_name; ?></label>
+													<label class="radio"><input type="radio" <?php checked($js_editor->get_preprocessor(), $preprocessor_slug); ?> value="<?php echo $preprocessor_slug; ?>"  name="wp-ace-js-preprocessor" ><?php echo $preprocessor_name; ?></label>
 												</div>
 											<?php
 										}

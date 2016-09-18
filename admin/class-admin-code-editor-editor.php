@@ -39,7 +39,7 @@ abstract class Admin_Code_Editor_Editor {
 	abstract protected function additional_updates();
 	
 	abstract public function initialize_from_post_request();
-	abstract public function get_preprocessor();
+	//abstract public function get_preprocessor();
 
 	public function get_disabled_templates() {
 		$ret = array();
@@ -59,7 +59,7 @@ abstract class Admin_Code_Editor_Editor {
 		return $this->code_post_title_start . $this->host_post_id;
 	}
 
-	protected function get_code_post_id() {
+	public function get_code_post_id() {
 			
 		if (empty($this->code_post_id)) {
 			// if no existing post for code, create one
@@ -82,6 +82,17 @@ abstract class Admin_Code_Editor_Editor {
 		}
 
 		return $this->code_post_id;
+	}
+
+	public function get_preprocessor() {
+		if (empty($this->preprocessor)) {
+			$this->preprocessor = get_post_meta($this->get_code_post_id(), '_wp_ace_preprocessor', true);
+			if (!$this->preprocessor) {
+				$this->preprocessor = get_option($this->keys['global_preprocessor'], self::DEFAULT_PREPROCESSOR);
+
+			}
+		}
+		return $this->preprocessor;
 	}
 
 	public function get_compiled_code() {
@@ -149,7 +160,9 @@ abstract class Admin_Code_Editor_Editor {
 	public function update_code() {
 			
 			if ($this->get_current_hash() == $this->get_stored_hash()) {
-				return;
+				// check if any code or settings has changed. If has is the same, nothing new to save
+
+				//return;
 			} else {
 
 				update_post_meta($this->host_post_id, $this->keys['host-hash-meta-key'], $this->get_current_hash());
