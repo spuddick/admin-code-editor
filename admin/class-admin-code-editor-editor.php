@@ -59,7 +59,7 @@ abstract class Admin_Code_Editor_Editor {
 		return $this->code_post_title_start . $this->host_post_id;
 	}
 
-	public function get_code_post_id() {
+	protected function get_code_post_id() {
 			
 		if (empty($this->code_post_id)) {
 			// if no existing post for code, create one

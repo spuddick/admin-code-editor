@@ -73,8 +73,6 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 		update_post_meta($this->code_post_id, '_wp_ace_code_output_position', $this->get_code_output_position() );
 	}
 
-
-
 	public function get_code_output_position() {
 		if (!$this->code_output_position) {
 			$this->code_output_position = get_post_meta($this->get_code_post_id(), '_wp_ace_code_output_position', true);
@@ -87,7 +85,7 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 	}
 
 	public function get_disable_wpautop_status() {
-		$this->wpautop_is_disabled_status = get_post_meta($this->code_post_id, '_wp_ace_disable_wpautop', true);
+		$this->wpautop_is_disabled_status = get_post_meta($this->get_code_post_id(), '_wp_ace_disable_wpautop', true);
 		
 		if (!$this->wpautop_is_disabled_status) {
 			$this->wpautop_is_disabled_status = get_option('_wp_ace_global_wpautop', self::DEFAULT_DISABLE_WPAUTOP);
