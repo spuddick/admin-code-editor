@@ -51,8 +51,14 @@ var wpAceInterface = (function() {
 
     // Models
 		var Code_Model = Backbone.Model.extend({
-		  defaults: {
-		    preprocessor: 'none'
+		  updatePreprocessor: function($preprocessor_obj) {
+		    var new_mode = $preprocessor_obj.val();
+    		console.log('updating html editor:' + new_mode);
+    		this.ace_editor.update_mode(new_mode);
+		    this.set({
+		      preprocessor: new_mode
+		    });
+		    
 		  },
 		  /*
 		  validate: function( attributes ){
@@ -76,13 +82,30 @@ var wpAceInterface = (function() {
 		  }
 		});
 		var HTML_Code_Model = Code_Model.extend({
+		  updateCodePosition: function() {
+		    this.set({
+		      //stock: this.get('stock') + 1
+		    });
+		    
+		  },
+		  updateDisableWPautopStatus: function() {
+		    this.set({
+		      //stock: this.get('stock') + 1
+		    });
+		    
+		  }
 
 		});
 		var CSS_Code_Model = Code_Model.extend({
 
 		});
 		var JS_Code_Model = Code_Model.extend({
-
+		  updateIncludeJqueryStatus: function() {
+		    this.set({
+		      //stock: this.get('stock') + 1
+		    });
+		    
+		  }
 		});
 		var Tab_Label_View = Backbone.View.extend({
 		   
@@ -100,7 +123,7 @@ var wpAceInterface = (function() {
 		    }
 		});
 		var HTML_Text_Status_View = Backbone.View.extend({
-	    model: Code_Model,
+	    model: HTML_Code_Model,
 	    tagName: 'p',
 	    template: '',
 	    initialize: function() {
@@ -113,7 +136,7 @@ var wpAceInterface = (function() {
 	    }
 		});
 		var CSS_Text_Status_View = Backbone.View.extend({
-	    model: Code_Model,
+	    model: CSS_Code_Model,
 	    tagName: 'p',
 	    template: '',
 	    initialize: function() {
@@ -126,7 +149,7 @@ var wpAceInterface = (function() {
 	    }
 		});
 		var JS_Text_Status_View = Backbone.View.extend({
-	    model: Code_Model,
+	    model: JS_Code_Model,
 	    tagName: 'p',
 	    template: '',
 	    initialize: function() {
@@ -138,36 +161,9 @@ var wpAceInterface = (function() {
         return this;
 	    }
 		});
-		var General_Settings_View = Backbone.View.extend({
 
-		  tagName: 'div',
-
-		  events: {
-		    'change input[name=wp-ace-disabled-templates[]]': 'disabledTemplateChange',
-		    'change input#wp-ace-only-display-in-loop': 'onlyDisplayInLoopChange',
-		    'change input#wp-ace-only-display-in-main-query': 'onlyDisplayInMainQueryChange'
-		  },
-
-		  template: _.template($('#tmpl-wp-ace-general').html()),
-
-		  disabledTemplateChange: function(e) {
-		    e.preventDefault();
-		    this.model.updateDisabledTemplates();
-		  },
-
-		  onlyDisplayInLoopChange: function(e) {
-		    e.preventDefault();
-		    this.model.updateOnlyDisplayInLoop();
-		  },
-
-		  onlyDisplayInMainQueryChange: function(e) {
-		    e.preventDefault();
-		    this.model.updateOnlyDisplayInMainQuery();
-		  }
-
-		});
 		var HTML_Settings_View = Backbone.View.extend({
-
+			model: HTML_Code_Model,
 		  tagName: 'div',
 
 		  events: {
@@ -190,12 +186,12 @@ var wpAceInterface = (function() {
 
 		  preprocessorChange: function(e) {
 		    e.preventDefault();
-		    this.model.updatePreprocessor();
+		    this.model.updatePreprocessor($(e.currentTarget));
 		  }
 
 		});
 		var CSS_Settings_View = Backbone.View.extend({
-
+			model: CSS_Code_Model,
 		  tagName: 'div',
 
 		  events: {
@@ -206,12 +202,12 @@ var wpAceInterface = (function() {
 
 		  preprocessorChange: function(e) {
 		    e.preventDefault();
-		    this.model.updatePreprocessor();
+		    this.model.updatePreprocessor($(e.currentTarget));
 		  }
 
 		});
 		var JS_Settings_View = Backbone.View.extend({
-
+			model: JS_Code_Model,
 		  tagName: 'div',
 
 		  events: {
@@ -227,7 +223,7 @@ var wpAceInterface = (function() {
 		  },
 		  preprocessorChange: function(e) {
 		    e.preventDefault();
-		    this.model.updatePreprocessor();
+		    this.model.updatePreprocessor($(e.currentTarget));
 		  }
 
 		}); 
@@ -301,18 +297,18 @@ var wpAceInterface = (function() {
 			  js_editor.hidden_input_id = 'wp-ace-js-pre-code';
 		  }
 
-			html_code_model = new Code_Model({ 
+			html_code_model = new HTML_Code_Model({ 
 				preprocessor: jQuery('#wp-ace-html-php-preprocessor').val(), 
 				ace_editor : html_editor,
 				output_position : 'x',
 				wpautop_status : 'b',
 				display_only_on_single_status : 's', 				 
 			});
-			css_code_model = new Code_Model({ 
+			css_code_model = new CSS_Code_Model({ 
 				preprocessor: jQuery('#wp-ace-css-preprocessor').val(), 
 				ace_editor : css_editor,  
 			});
-			js_code_model = new Code_Model({ 
+			js_code_model = new JS_Code_Model({ 
 				preprocessor: jQuery('#wp-ace-js-preprocessor').val(), 
 				ace_editor : js_editor,
 				jquery_enqueued_status : 'a'  
@@ -326,7 +322,7 @@ var wpAceInterface = (function() {
 			css_text_status_view = new CSS_Text_Status_View({ el: jQuery("#wp-ace-css-status"), model: css_code_model }); 
 			js_text_status_view = new JS_Text_Status_View({ el: jQuery("#wp-ace-js-status"), model: js_code_model });
 
-		  registerPreprocessorSelectListeners();
+		  //registerPreprocessorSelectListeners();
 		  setInitialEditorModes();
 		  registerFormSubmitListener();
 
@@ -404,7 +400,7 @@ var wpAceInterface = (function() {
 			})
 
     };
-
+    /*
     var registerPreprocessorSelectListeners = function() {
     	    	// update ace object
     	// update json data
@@ -428,7 +424,7 @@ var wpAceInterface = (function() {
 				js_code_model.set({'preprocessor': new_mode });
     	});    	
     };
-
+		*/
     var registerFormSubmitListener = function() {
     	// on form submit
     	setPreFormSubmitData();
