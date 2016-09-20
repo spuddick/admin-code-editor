@@ -137,6 +137,99 @@ var wpAceInterface = (function() {
         this.$el.html(this.template(this.model.attributes));
         return this;
 	    }
+		});
+		var General_Settings_View = Backbone.View.extend({
+
+		  tagName: 'div',
+
+		  events: {
+		    'change input[name=wp-ace-disabled-templates[]]': 'disabledTemplateChange',
+		    'change input#wp-ace-only-display-in-loop': 'onlyDisplayInLoopChange',
+		    'change input#wp-ace-only-display-in-main-query': 'onlyDisplayInMainQueryChange'
+		  },
+
+		  template: _.template($('#tmpl-wp-ace-general').html()),
+
+		  disabledTemplateChange: function(e) {
+		    e.preventDefault();
+		    this.model.updateDisabledTemplates();
+		  },
+
+		  onlyDisplayInLoopChange: function(e) {
+		    e.preventDefault();
+		    this.model.updateOnlyDisplayInLoop();
+		  },
+
+		  onlyDisplayInMainQueryChange: function(e) {
+		    e.preventDefault();
+		    this.model.updateOnlyDisplayInMainQuery();
+		  }
+
+		});
+		var HTML_Settings_View = Backbone.View.extend({
+
+		  tagName: 'div',
+
+		  events: {
+		    'change input[name=wp-ace-html-php-code-position]': 'codePositionChange',
+		    'change input#wp-ace-html-php-disable-wpautop': 'disableWPautopChange',
+		    'change input[name=wp-ace-html-php-preprocessor]': 'preprocessorChange'
+		  },
+
+		  template: _.template($('#tmpl-wp-ace-html').html()),
+
+		  codePositionChange: function(e) {
+		    e.preventDefault();
+		    this.model.updateCodePosition();
+		  },
+
+		  disableWPautopChange: function(e) {
+		    e.preventDefault();
+		    this.model.updateDisableWPautopStatus();
+		  },
+
+		  preprocessorChange: function(e) {
+		    e.preventDefault();
+		    this.model.updatePreprocessor();
+		  }
+
+		});
+		var CSS_Settings_View = Backbone.View.extend({
+
+		  tagName: 'div',
+
+		  events: {
+		    'change input[name=wp-ace-css-preprocessor]': 'preprocessorChange'
+		  },
+
+		  template: _.template($('#tmpl-wp-ace-css').html()),
+
+		  preprocessorChange: function(e) {
+		    e.preventDefault();
+		    this.model.updatePreprocessor();
+		  }
+
+		});
+		var JS_Settings_View = Backbone.View.extend({
+
+		  tagName: 'div',
+
+		  events: {
+		  	'change input#wp-ace-css-include-jquery': 'includeJqueryChange',
+		    'change input[name=wp-ace-js-preprocessor]': 'preprocessorChange'
+		  },
+
+		  template: _.template($('#tmpl-wp-ace-js').html()),
+
+		  includeJqueryChange: function(e) {
+		    e.preventDefault();
+		    this.model.updateIncludeJqueryStatus();
+		  },
+		  preprocessorChange: function(e) {
+		    e.preventDefault();
+		    this.model.updatePreprocessor();
+		  }
+
 		}); 
     var init = function() {
 

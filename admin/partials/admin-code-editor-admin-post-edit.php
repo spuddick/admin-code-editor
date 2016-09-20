@@ -1,6 +1,6 @@
-	 	<script type="text/template" id="tab-label-preprocessor-template">
-		  (<%= preprocessor %>)
-		</script>
+<script type="text/template" id="tab-label-preprocessor-template">
+  (<%= preprocessor %>)
+</script>
 <div class="wp-ace-bootstrap">
 	<div>
 
@@ -197,129 +197,139 @@
 						  <!-- Tab panes -->
 						  <div class="tab-content">
 						    <div role="tabpanel" class="tab-pane active" id="wp-ace-general">
-						    	
-						    	<div class="form-group">
-										<h5>Do not display WP ACE code on the following templates: </h5>
-										<div class="checkbox">
-											<label><input type="checkbox" name="wp-ace-disabled-templates[]" <?php // checked($html_php_editor->on_front_page_is_disabled(), TRUE) ?> value="front-page" >Front Page</label>
-										</div>
+						    	<div id="wp-ace-tab-content-general"></div>
+						    	<script type="text/template" id="tmpl-wp-ace-general">
 
-										<div class="checkbox">
-											<label ><input type="checkbox" name="wp-ace-disabled-templates[]" <?php // checked($html_php_editor->on_home_is_disabled(), TRUE) ?> value="home" >Home</label>
-										</div>
-										
-										<div class="checkbox">
-											<label><input type="checkbox" name="wp-ace-disabled-templates[]" <?php // checked($html_php_editor->on_archives_is_disabled(), TRUE) ?> value="archives" >Archives</label>	
-										</div>
-										
-										<div class="checkbox">
-											<label><input type="checkbox" name="wp-ace-disabled-templates[]" <?php // checked($html_php_editor->on_search_results_is_disabled(), TRUE) ?> value="search-results" >Search Results</label>
-										</div>
-						    	</div>
+							    	<div class="form-group">
+											<h5>Do not display WP ACE code on the following templates: </h5>
+											<div class="checkbox">
+												<label><input type="checkbox" name="wp-ace-disabled-templates[]" <?php // checked($html_php_editor->on_front_page_is_disabled(), TRUE) ?> value="front-page" >Front Page</label>
+											</div>
 
-						    	<div class="form-group">
-										<h5>Only display WP ACE code when: </h5>
-										<div class="checkbox">
-											<label>
-												<input type="checkbox" id="wp-ace-only-display-in-loop" name="wp-ace-only-display-in-loop" class="" value="1" <?php // checked($html_php_editor->get_disable_wpautop_status(), '1') ?> >
-												inside the loop
-												<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Inside the loop description https://codex.wordpress.org/Function_Reference/in_the_loop" aria-hidden="true"  ></span>									    	
-											</label>	
-										</div>
-										
-										<div class="checkbox">
-											<label>
-												<input type="checkbox"  id="wp-ace-only-display-in-main-query" name="wp-ace-only-display-in-main-query" class="" value="1" <?php // checked($html_php_editor->get_disable_wpautop_status(), '1') ?> >
-												in main query
-												<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Inside main query description https://codex.wordpress.org/Function_Reference/is_main_query " aria-hidden="true"  ></span>									    	
-											</label>	
-										</div>									    	
-									</div>
+											<div class="checkbox">
+												<label ><input type="checkbox" name="wp-ace-disabled-templates[]" <?php // checked($html_php_editor->on_home_is_disabled(), TRUE) ?> value="home" >Home</label>
+											</div>
+											
+											<div class="checkbox">
+												<label><input type="checkbox" name="wp-ace-disabled-templates[]" <?php // checked($html_php_editor->on_archives_is_disabled(), TRUE) ?> value="archives" >Archives</label>	
+											</div>
+											
+											<div class="checkbox">
+												<label><input type="checkbox" name="wp-ace-disabled-templates[]" <?php // checked($html_php_editor->on_search_results_is_disabled(), TRUE) ?> value="search-results" >Search Results</label>
+											</div>
+							    	</div>
 
+							    	<div class="form-group">
+											<h5>Only display WP ACE code when: </h5>
+											<div class="checkbox">
+												<label>
+													<input type="checkbox" id="wp-ace-only-display-in-loop" name="wp-ace-only-display-in-loop" class="" value="1" <?php // checked($html_php_editor->get_disable_wpautop_status(), '1') ?> >
+													inside the loop
+													<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Inside the loop description https://codex.wordpress.org/Function_Reference/in_the_loop" aria-hidden="true"  ></span>									    	
+												</label>	
+											</div>
+											
+											<div class="checkbox">
+												<label>
+													<input type="checkbox"  id="wp-ace-only-display-in-main-query" name="wp-ace-only-display-in-main-query" class="" value="1" <?php // checked($html_php_editor->get_disable_wpautop_status(), '1') ?> >
+													in main query
+													<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Inside main query description https://codex.wordpress.org/Function_Reference/is_main_query " aria-hidden="true"  ></span>									    	
+												</label>	
+											</div>									    	
+										</div>
+									</script>
 						    </div>
 						    <div role="tabpanel" class="tab-pane" id="wp-ace-html">
-	      					<div>
-										<h5>Automatic Paragraphs</h5>
-										<div class="checkbox">
-											<label>
-												<input type="checkbox"  id="wp-ace-html-php-disable-wpautop" name="wp-ace-html-php-disable-wpautop" class="field-editor-disable-wpautop" value="1" <?php checked($html_php_editor->get_disable_wpautop_status(), '1'); ?> >
-												Disable wpautop 
-												<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Automatically wraps in paragraph tag" aria-hidden="true"  ></span>									    	
-											</label>	
-										</div>
-																						
-										
-										<h5>Position</h5>
-										<div class="radio">
-											<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="before" <?php checked($html_php_editor->get_code_output_position(), 'before'); ?> >before post content </label>
-										</div>
-										<div class="radio">
-											<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="after" <?php checked($html_php_editor->get_code_output_position(), 'after'); ?> >after post content</label>
-										</div>
-										
-										
+	      					<div id="wp-ace-tab-content-html"></div>
+	      					<script type="text/template" id="tmpl-wp-ace-html">
+		      					<div>
+											<h5>Automatic Paragraphs</h5>
+											<div class="checkbox">
+												<label>
+													<input type="checkbox"  id="wp-ace-html-php-disable-wpautop" name="wp-ace-html-php-disable-wpautop" class="field-editor-disable-wpautop" value="1" <?php checked($html_php_editor->get_disable_wpautop_status(), '1'); ?> >
+													Disable wpautop 
+													<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Automatically wraps in paragraph tag" aria-hidden="true"  ></span>									    	
+												</label>	
+											</div>
+																							
+											
+											<h5>Position</h5>
+											<div class="radio">
+												<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="before" <?php checked($html_php_editor->get_code_output_position(), 'before'); ?> >before post content </label>
+											</div>
+											<div class="radio">
+												<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="after" <?php checked($html_php_editor->get_code_output_position(), 'after'); ?> >after post content</label>
+											</div>
+											
+											
+											<h5>Pre Processor</h5>
+											<div class="radio">
+												<label class="radio"><input type="radio" <?php checked($html_php_editor->get_preprocessor(), 'html'); ?> value="html" name="wp-ace-html-php-preprocessor" >None</label>
+											</div>
+											
+											<?php
+												foreach($preprocessor_options['html'] as $preprocessor_slug => $preprocessor_name) {
+													?>
+														<div class="radio">
+															<label class="radio"><input type="radio" <?php checked($html_php_editor->get_preprocessor(), $preprocessor_slug); ?> value="<?php echo $preprocessor_slug; ?>"  name="wp-ace-html-php-preprocessor" ><?php echo $preprocessor_name; ?></label>
+														</div>
+													<?php
+												}
+
+											?>					
+										</div>	
+	      					</script>
+
+						    </div>
+						    <div role="tabpanel" class="tab-pane" id="wp-ace-css">
+									<div id="wp-ace-tab-content-css"></div>
+									<script type="text/template" id="tmpl-wp-ace-css">
 										<h5>Pre Processor</h5>
+		
 										<div class="radio">
-											<label class="radio"><input type="radio" <?php checked($html_php_editor->get_preprocessor(), 'html'); ?> value="html" name="wp-ace-html-php-preprocessor" >None</label>
+											<label class="radio"><input type="radio" <?php checked($css_editor->get_preprocessor(), 'css'); ?> value="css" name="wp-ace-css-preprocessor" >None</label>
 										</div>
 										
 										<?php
-											foreach($preprocessor_options['html'] as $preprocessor_slug => $preprocessor_name) {
+											foreach($preprocessor_options['css'] as $preprocessor_slug => $preprocessor_name) {
 												?>
 													<div class="radio">
-														<label class="radio"><input type="radio" <?php checked($html_php_editor->get_preprocessor(), $preprocessor_slug); ?> value="<?php echo $preprocessor_slug; ?>"  name="wp-ace-html-php-preprocessor" ><?php echo $preprocessor_name; ?></label>
+														<label class="radio"><input type="radio" <?php checked($css_editor->get_preprocessor(), $preprocessor_slug); ?> value="<?php echo $preprocessor_slug; ?>" name="wp-ace-css-preprocessor" ><?php echo $preprocessor_name; ?></label>
 													</div>
 												<?php
 											}
 
-										?>					
-									</div>									    	
-
-						    </div>
-						    <div role="tabpanel" class="tab-pane" id="wp-ace-css">
-									<h5>Pre Processor</h5>
-	
-									<div class="radio">
-										<label class="radio"><input type="radio" <?php checked($css_editor->get_preprocessor(), 'css'); ?> value="css" name="wp-ace-css-preprocessor" >None</label>
-									</div>
-									
-									<?php
-										foreach($preprocessor_options['css'] as $preprocessor_slug => $preprocessor_name) {
-											?>
-												<div class="radio">
-													<label class="radio"><input type="radio" <?php checked($css_editor->get_preprocessor(), $preprocessor_slug); ?> value="<?php echo $preprocessor_slug; ?>" name="wp-ace-css-preprocessor" ><?php echo $preprocessor_name; ?></label>
-												</div>
-											<?php
-										}
-
-									?>							    	
-
+										?>	
+									</script>
 						    </div>
 						    <div role="tabpanel" class="tab-pane" id="wp-ace-javascript">
-									<h5>Include Libraries</h5>
-									<div class="checkbox">
-										<label>
-											<input type="checkbox"  id="wp-ace-css-include-jquery" name="wp-ace-css-include-jquery" value="1" <?php //checked($css_php_editor->get_disable_wpautop_status(), '1'); ?> >
-											Include jQuery
-										</label>	
-									</div>
+									<div id="wp-ace-tab-content-js"></div>
+									<script type="text/template" id="tmpl-wp-ace-js">
+										<h5>Include Libraries</h5>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox"  id="wp-ace-css-include-jquery" name="wp-ace-css-include-jquery" value="1" <?php //checked($css_php_editor->get_disable_wpautop_status(), '1'); ?> >
+												Include jQuery
+											</label>	
+										</div>
 
-									<h5>Pre Processor</h5>
+										<h5>Pre Processor</h5>
 
-									<div class="radio">
-										<label class="radio"><input type="radio" <?php checked($js_editor->get_preprocessor(), 'javascript'); ?> value="javascript" name="wp-ace-js-preprocessor" >None</label>
-									</div>
-									
-									<?php
-										foreach($preprocessor_options['js'] as $preprocessor_slug => $preprocessor_name) {
-											?>
-												<div class="radio">
-													<label class="radio"><input type="radio" <?php checked($js_editor->get_preprocessor(), $preprocessor_slug); ?> value="<?php echo $preprocessor_slug; ?>"  name="wp-ace-js-preprocessor" ><?php echo $preprocessor_name; ?></label>
-												</div>
-											<?php
-										}
+										<div class="radio">
+											<label class="radio"><input type="radio" <?php checked($js_editor->get_preprocessor(), 'javascript'); ?> value="javascript" name="wp-ace-js-preprocessor" >None</label>
+										</div>
+										
+										<?php
+											foreach($preprocessor_options['js'] as $preprocessor_slug => $preprocessor_name) {
+												?>
+													<div class="radio">
+														<label class="radio"><input type="radio" <?php checked($js_editor->get_preprocessor(), $preprocessor_slug); ?> value="<?php echo $preprocessor_slug; ?>"  name="wp-ace-js-preprocessor" ><?php echo $preprocessor_name; ?></label>
+													</div>
+												<?php
+											}
 
-									?>	
+										?>	
+									</script>
 
 						    </div>
 						  </div>
