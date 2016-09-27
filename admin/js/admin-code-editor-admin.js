@@ -66,13 +66,14 @@ var wpAceInterface = (function() {
 		      return "You can't be negative years old";
 		    }
 		  },
-			*/
+			
 		  initialize: function(){
 		    //alert("Welcome to this world");
 		    this.on("change:preprocessor", function(model){
 		      var preprocessor = model.get("preprocessor"); // 'Stewie Griffin'
 		      console.log("updating ace editor mode to " + preprocessor );
 		    });
+		    */
 		    /*
 		    this.bind("error", function(model, error){
 		      // We have received an error, log it, alert it or forget it :)
@@ -80,17 +81,18 @@ var wpAceInterface = (function() {
 		    })
 			  */
 		  }
-		});
+		});			
+
 		var HTML_Code_Model = Code_Model.extend({
 		  updateCodePosition: function() {
 		    this.set({
-		      //stock: this.get('stock') + 1
+		      output_position : 'x'
 		    });
 		    
 		  },
 		  updateDisableWPautopStatus: function() {
 		    this.set({
-		      //stock: this.get('stock') + 1
+		      wpautop_status : 'b'
 		    });
 		    
 		  }
@@ -101,8 +103,12 @@ var wpAceInterface = (function() {
 		});
 		var JS_Code_Model = Code_Model.extend({
 		  updateIncludeJqueryStatus: function() {
+		    var status = 'disabled';
+		    if ($('input#wp-ace-css-include-jquery').is(":checked")) {
+          status = 'enabled';
+        } 
 		    this.set({
-		      //stock: this.get('stock') + 1
+		      jquery_enqueued_status : status 
 		    });
 		    
 		  }
@@ -173,7 +179,11 @@ var wpAceInterface = (function() {
 		  },
 
 		  template: _.template($('#tmpl-wp-ace-html').html()),
-
+		  initialize: function() {
+        jQuery('input[name=wp-ace-html-php-preprocessor]').trigger('change');
+        jQuery('input#wp-ace-html-php-disable-wpautop').trigger('change');
+        jQuery('input[name=wp-ace-html-php-preprocessor]').trigger('change');
+	    },
 		  codePositionChange: function(e) {
 		    e.preventDefault();
 		    this.model.updateCodePosition();
@@ -199,7 +209,9 @@ var wpAceInterface = (function() {
 		  },
 
 		  template: _.template($('#tmpl-wp-ace-css').html()),
-
+		  initialize: function() {
+        jQuery('input[name=wp-ace-css-preprocessor]').trigger('change');
+	    },
 		  preprocessorChange: function(e) {
 		    e.preventDefault();
 		    this.model.updatePreprocessor($(e.currentTarget));
@@ -216,7 +228,10 @@ var wpAceInterface = (function() {
 		  },
 
 		  template: _.template($('#tmpl-wp-ace-js').html()),
-
+		  initialize: function() {
+        jQuery('input#wp-ace-css-include-jquery').trigger('change');
+        jQuery('input[name=wp-ace-js-preprocessor]').trigger('change');
+	    },
 		  includeJqueryChange: function(e) {
 		    e.preventDefault();
 		    this.model.updateIncludeJqueryStatus();
@@ -301,8 +316,7 @@ var wpAceInterface = (function() {
 				preprocessor: jQuery('#wp-ace-html-php-preprocessor').val(), 
 				ace_editor : html_editor,
 				output_position : 'x',
-				wpautop_status : 'b',
-				display_only_on_single_status : 's', 				 
+				wpautop_status : 'b'		 
 			});
 			css_code_model = new CSS_Code_Model({ 
 				preprocessor: jQuery('#wp-ace-css-preprocessor').val(), 
@@ -435,9 +449,9 @@ var wpAceInterface = (function() {
     };
 
     var setInitialEditorModes = function() {
-			jQuery('input[name=wp-ace-html-php-preprocessor]').trigger('change');
-			jQuery('input[name=wp-ace-css-preprocessor]').trigger('change');
-			jQuery('input[name=wp-ace-js-preprocessor]').trigger('change');
+			//jQuery('input[name=wp-ace-html-php-preprocessor]').trigger('change');
+			//jQuery('input[name=wp-ace-css-preprocessor]').trigger('change');
+			//jQuery('input[name=wp-ace-js-preprocessor]').trigger('change');
     };
 
     var setInputMappingListeners = function() {
