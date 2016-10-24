@@ -48,18 +48,20 @@ var wpAceInterface = (function() {
 		var html_code_model, css_code_model, js_code_model;
 		var html_tab_label_preprocessor_view, css_tab_label_preprocessor_view, js_tab_label_preprocessor_view;
 		var html_text_status_view, css_text_status_view, js_text_status_view;
+		var html_settings_view, css_settings_view, js_settings_view;
 
     // Models
 		var Code_Model = Backbone.Model.extend({
 		  updatePreprocessor: function($preprocessor_obj) {
 		    var new_mode = $preprocessor_obj.val();
     		console.log('updating html editor:' + new_mode);
-    		this.ace_editor.update_mode(new_mode);
+    		console.dir(this.get('ace_editor'));
+    		this.get('ace_editor').update_mode(new_mode);
 		    this.set({
 		      preprocessor: new_mode
 		    });
 		    
-		  },
+		  }
 		  /*
 		  validate: function( attributes ){
 		    if( attributes.age < 0 && attributes.name != "Dr Manhatten" ){
@@ -79,20 +81,25 @@ var wpAceInterface = (function() {
 		      // We have received an error, log it, alert it or forget it :)
 		      alert( error );
 		    })
-			  */
-		  }
+			  
+		  }*/
 		});			
-
+		
 		var HTML_Code_Model = Code_Model.extend({
 		  updateCodePosition: function() {
+		    var code_position = jQuery('input[name=wp-ace-html-php-code-position]:checked').val();
 		    this.set({
-		      output_position : 'x'
+		      output_position : code_position
 		    });
 		    
 		  },
 		  updateDisableWPautopStatus: function() {
+		    var status = 0;
+		    if (jQuery('input#wp-ace-html-php-disable-wpautop').is(":checked")) {
+          status = 1;
+        } 
 		    this.set({
-		      wpautop_status : 'b'
+		      wpautop_status : status
 		    });
 		    
 		  }
@@ -103,9 +110,9 @@ var wpAceInterface = (function() {
 		});
 		var JS_Code_Model = Code_Model.extend({
 		  updateIncludeJqueryStatus: function() {
-		    var status = 'disabled';
-		    if ($('input#wp-ace-css-include-jquery').is(":checked")) {
-          status = 'enabled';
+		    var status = 0;
+		    if (jQuery('input#wp-ace-css-include-jquery').is(":checked")) {
+          status = 1;
         } 
 		    this.set({
 		      jquery_enqueued_status : status 
@@ -113,6 +120,7 @@ var wpAceInterface = (function() {
 		    
 		  }
 		});
+
 		var Tab_Label_View = Backbone.View.extend({
 		   
 		    model: Code_Model,
@@ -167,19 +175,21 @@ var wpAceInterface = (function() {
         return this;
 	    }
 		});
-
+		
 		var HTML_Settings_View = Backbone.View.extend({
 			model: HTML_Code_Model,
 		  tagName: 'div',
-
+		  template: '',
 		  events: {
 		    'change input[name=wp-ace-html-php-code-position]': 'codePositionChange',
 		    'change input#wp-ace-html-php-disable-wpautop': 'disableWPautopChange',
 		    'change input[name=wp-ace-html-php-preprocessor]': 'preprocessorChange'
 		  },
 
-		  template: _.template($('#tmpl-wp-ace-html').html()),
+		  
 		  initialize: function() {
+        console.log('html template: ' + jQuery('#tmpl-wp-ace-html').html().length);
+        this.template = _.template(jQuery('#tmpl-wp-ace-html').html());
         jQuery('input[name=wp-ace-html-php-preprocessor]').trigger('change');
         jQuery('input#wp-ace-html-php-disable-wpautop').trigger('change');
         jQuery('input[name=wp-ace-html-php-preprocessor]').trigger('change');
@@ -196,39 +206,51 @@ var wpAceInterface = (function() {
 
 		  preprocessorChange: function(e) {
 		    e.preventDefault();
-		    this.model.updatePreprocessor($(e.currentTarget));
-		  }
+		    this.model.updatePreprocessor(jQuery(e.currentTarget));
+		  },
+	    render: function() {
+        this.$el.html(this.template(this.model.attributes));
+        return this;
+	    }
 
 		});
+		
 		var CSS_Settings_View = Backbone.View.extend({
 			model: CSS_Code_Model,
 		  tagName: 'div',
-
+		  template: '',
 		  events: {
 		    'change input[name=wp-ace-css-preprocessor]': 'preprocessorChange'
 		  },
 
-		  template: _.template($('#tmpl-wp-ace-css').html()),
+		  
 		  initialize: function() {
+        console.log('css template: ' + jQuery('#tmpl-wp-ace-css').html().length);
+        this.template = _.template(jQuery('#tmpl-wp-ace-css').html());
         jQuery('input[name=wp-ace-css-preprocessor]').trigger('change');
 	    },
 		  preprocessorChange: function(e) {
 		    e.preventDefault();
-		    this.model.updatePreprocessor($(e.currentTarget));
-		  }
+		    this.model.updatePreprocessor(jQuery(e.currentTarget));
+		  },
+	    render: function() {
+        this.$el.html(this.template(this.model.attributes));
+        return this;
+	    }
 
 		});
 		var JS_Settings_View = Backbone.View.extend({
 			model: JS_Code_Model,
 		  tagName: 'div',
-
+		  template: '',
 		  events: {
 		  	'change input#wp-ace-css-include-jquery': 'includeJqueryChange',
 		    'change input[name=wp-ace-js-preprocessor]': 'preprocessorChange'
 		  },
 
-		  template: _.template($('#tmpl-wp-ace-js').html()),
 		  initialize: function() {
+        console.log('js template: ' + jQuery('#tmpl-wp-ace-js').html().length);
+        this.template = _.template(jQuery('#tmpl-wp-ace-js').html());
         jQuery('input#wp-ace-css-include-jquery').trigger('change');
         jQuery('input[name=wp-ace-js-preprocessor]').trigger('change');
 	    },
@@ -238,10 +260,15 @@ var wpAceInterface = (function() {
 		  },
 		  preprocessorChange: function(e) {
 		    e.preventDefault();
-		    this.model.updatePreprocessor($(e.currentTarget));
-		  }
+		    this.model.updatePreprocessor(jQuery(e.currentTarget));
+		  },
+	    render: function() {
+        this.$el.html(this.template(this.model.attributes));
+        return this;
+	    }
 
-		}); 
+		});
+		
     var init = function() {
 
 
@@ -313,31 +340,52 @@ var wpAceInterface = (function() {
 		  }
 
 			html_code_model = new HTML_Code_Model({ 
-				preprocessor: jQuery('#wp-ace-html-php-preprocessor').val(), 
+				preprocessor: wpcr_data['wp-ace-html-php-preprocessor'], 
 				ace_editor : html_editor,
-				output_position : 'x',
-				wpautop_status : 'b'		 
+				output_position : wpcr_data['wp-ace-html-php-code-position'],
+				wpautop_status : wpcr_data['wp-ace-html-php-disable-wpautop']		 
 			});
 			css_code_model = new CSS_Code_Model({ 
-				preprocessor: jQuery('#wp-ace-css-preprocessor').val(), 
+				preprocessor: wpcr_data['wp-ace-css-preprocessor'], 
 				ace_editor : css_editor,  
 			});
 			js_code_model = new JS_Code_Model({ 
-				preprocessor: jQuery('#wp-ace-js-preprocessor').val(), 
+				preprocessor: wpcr_data['wp-ace-js-preprocessor'], 
 				ace_editor : js_editor,
-				jquery_enqueued_status : 'a'  
+				jquery_enqueued_status : wpcr_data['wp-ace-css-include-jquery'] 
 			});
+
+
+
+
+
 
 			html_tab_label_preprocessor_view = new Tab_Label_View({ el: jQuery("#html-php-tab-label-preprocessor"), model: html_code_model });
 			css_tab_label_preprocessor_view = new Tab_Label_View({ el: jQuery("#css-tab-label-preprocessor"), model: css_code_model });
 			js_tab_label_preprocessor_view = new Tab_Label_View({ el: jQuery("#js-tab-label-preprocessor"), model: js_code_model });
 
+			html_tab_label_preprocessor_view.render();
+			css_tab_label_preprocessor_view.render();
+			js_tab_label_preprocessor_view.render();
+
 			html_text_status_view = new HTML_Text_Status_View({ el: jQuery("#wp-ace-html-php-status"), model: html_code_model });
 			css_text_status_view = new CSS_Text_Status_View({ el: jQuery("#wp-ace-css-status"), model: css_code_model }); 
 			js_text_status_view = new JS_Text_Status_View({ el: jQuery("#wp-ace-js-status"), model: js_code_model });
 
+			html_text_status_view.render();
+			css_text_status_view.render();
+			js_text_status_view.render();
+
+			html_settings_view = new HTML_Settings_View({ el: jQuery("#wp-ace-tab-content-html"), model: html_code_model });
+			css_settings_view = new CSS_Settings_View({ el: jQuery("#wp-ace-tab-content-css"), model: css_code_model }); 
+			js_settings_view = new JS_Settings_View({ el: jQuery("#wp-ace-tab-content-js"), model: js_code_model });
+
+			html_settings_view.render();
+			css_settings_view.render();
+			js_settings_view.render();
+
 		  //registerPreprocessorSelectListeners();
-		  setInitialEditorModes();
+		  //setInitialEditorModes();
 		  registerFormSubmitListener();
 
 

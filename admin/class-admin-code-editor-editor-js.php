@@ -3,7 +3,8 @@ require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-ed
 class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor
 
 {
-    const DEFAULT_PREPROCESSOR = 'javascript';
+    const DEFAULT_PREPROCESSOR = 'none';
+    const DEFAULT_INLCUDE_JQUERY = 1;
 
     function __construct($param) {
       parent::__construct($param);
@@ -33,6 +34,10 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor
 
 	}
 
+	protected function get_default_preprocessor() {
+		return self::DEFAULT_PREPROCESSOR;
+	}
+
 	protected function get_current_hash() {
 		if (empty($current_hash)) {
 			$this->current_hash = md5($this->pre_code . $this->field_height . $this->preprocessor . $this->cursor_position);
@@ -55,6 +60,17 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor
 	protected function additional_updates() {
 		// js dependecy files
 		// enqueue in header/footer
+	}
+
+	public function get_include_jquery_status() {
+		$this->include_jquery_status = get_post_meta($this->get_code_post_id(), '_wp_ace_default_include_jquery', true);
+		
+		if (!$this->include_jquery_status) {
+			$this->include_jquery_status = get_option('_wp_ace_global_include_jquery', self::DEFAULT_INLCUDE_JQUERY);
+
+		}
+
+		return $this->include_jquery_status;		
 	}
 	
 }

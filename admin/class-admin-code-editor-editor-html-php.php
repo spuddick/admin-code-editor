@@ -3,8 +3,8 @@ require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-ed
 class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
   
   	const DEFAULT_DISABLE_WPAUTOP = 1;
-  	const DEFAULT_PREPROCESSOR = 'html';
-  	const DEFAULT_CODE_OUTPUT_POSITION = 'below';
+  	const DEFAULT_PREPROCESSOR = 'none';
+  	const DEFAULT_CODE_OUTPUT_POSITION = 'before';
 
   	private $wpautop_disabled, $code_output_position;
 
@@ -51,6 +51,10 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 			$this->wpautop_disabled 	= 0;
 		}
 
+	}
+	
+	protected function get_default_preprocessor() {
+		return self::DEFAULT_PREPROCESSOR;
 	}
 
 	protected function get_current_hash() {

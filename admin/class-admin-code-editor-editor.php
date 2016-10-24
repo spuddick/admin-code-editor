@@ -37,7 +37,8 @@ abstract class Admin_Code_Editor_Editor {
 	abstract protected function get_current_hash();
 	abstract protected function get_stored_hash();
 	abstract protected function additional_updates();
-	
+	abstract protected function get_default_preprocessor();
+
 	abstract public function initialize_from_post_request();
 	//abstract public function get_preprocessor();
 
@@ -88,7 +89,7 @@ abstract class Admin_Code_Editor_Editor {
 		if (empty($this->preprocessor)) {
 			$this->preprocessor = get_post_meta($this->get_code_post_id(), '_wp_ace_preprocessor', true);
 			if (!$this->preprocessor) {
-				$this->preprocessor = get_option($this->keys['global_preprocessor'], self::DEFAULT_PREPROCESSOR);
+				$this->preprocessor = get_option($this->keys['global_preprocessor'], $this->get_default_preprocessor());
 
 			}
 		}

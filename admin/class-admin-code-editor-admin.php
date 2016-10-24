@@ -119,7 +119,7 @@ class Admin_Code_Editor_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts($hook) {
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -132,31 +132,69 @@ class Admin_Code_Editor_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		wp_enqueue_script( 'jquery-ui-core' );
-		wp_enqueue_script( 'jquery-ui-resizable' );
-		wp_enqueue_script( 'backbone' ); 
-		wp_enqueue_script( 'underscore' );
-		wp_enqueue_script( 
-			'wp-ace-editor-js', 
-			plugin_dir_url( __FILE__ ) . 'js/ace-src-min-noconflict/ace.js', 
-			array('jquery'), 
-			filemtime(plugin_dir_path( __FILE__ ) . 'js/ace-src-min-noconflict/ace.js')
-		);
-		
-		wp_enqueue_script( 
-			'wp-ace-bootstrap-js',
-			plugin_dir_url( __FILE__ ) . 'js/bootstrap.min.js' , 
-			array('jquery'), 
-			filemtime(plugin_dir_path( __FILE__ ) . 'js/bootstrap.min.js')
-		);
+		global $post;
+		if ( $hook == 'post-new.php' || $hook == 'post.php' ) {
+			$selected_post_types 	= get_option('wpcr_post_types');
 
-		wp_enqueue_script( 
-			$this->admin_code_editor, 
-			plugin_dir_url( __FILE__ ) . 'js/admin-code-editor-admin.js', 
-			array( 'jquery', 'wp-ace-bootstrap-js', 'wp-ace-editor-js', 'jquery-ui-resizable', 'underscore', 'backbone' ), 
-			filemtime(plugin_dir_path( __FILE__ ) . 'js/admin-code-editor-admin.js')
-		);
-		
+			if ( in_array($post->post_type, $selected_post_types)) {  
+				wp_enqueue_script( 'jquery-ui-core' );
+				wp_enqueue_script( 'jquery-ui-resizable' );
+				wp_enqueue_script( 'backbone' ); 
+				wp_enqueue_script( 'underscore' );
+				wp_enqueue_script( 
+					'wp-ace-editor-js', 
+					plugin_dir_url( __FILE__ ) . 'js/ace-src-min-noconflict/ace.js', 
+					array('jquery'), 
+					filemtime(plugin_dir_path( __FILE__ ) . 'js/ace-src-min-noconflict/ace.js')
+				);
+				
+				wp_enqueue_script( 
+					'wp-ace-bootstrap-js',
+					plugin_dir_url( __FILE__ ) . 'js/bootstrap.min.js' , 
+					array('jquery'), 
+					filemtime(plugin_dir_path( __FILE__ ) . 'js/bootstrap.min.js')
+				);
+
+				wp_enqueue_script( 
+					$this->admin_code_editor, 
+					plugin_dir_url( __FILE__ ) . 'js/admin-code-editor-admin.js', 
+					array( 'jquery', 'wp-ace-bootstrap-js', 'wp-ace-editor-js', 'jquery-ui-resizable', 'underscore', 'backbone' ), 
+					filemtime(plugin_dir_path( __FILE__ ) . 'js/admin-code-editor-admin.js')
+				);
+
+				
+				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-html-php.php';
+				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-css.php';
+				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-js.php';		
+				$editor_args = array(
+					'type' => 'html-php',
+					'host-post-id' => $post->ID
+				);
+				$html_php_editor 	= new Admin_Code_Editor_Editor_HTML_PHP($editor_args);
+
+				$editor_args = array(
+					'type' => 'css',
+					'host-post-id' => $post->ID
+				);
+				$css_editor 	= new Admin_Code_Editor_Editor_CSS($editor_args);
+
+				$editor_args = array(
+					'type' => 'js',
+					'host-post-id' => $post->ID
+				);
+				$js_editor 	= new Admin_Code_Editor_Editor_JS($editor_args);
+
+				$wpcr_data = array(
+					'wp-ace-html-php-disable-wpautop' 	=> $html_php_editor->get_disable_wpautop_status(),
+					'wp-ace-html-php-code-position' 		=> $html_php_editor->get_code_output_position(),
+					'wp-ace-html-php-preprocessor' 			=> $html_php_editor->get_preprocessor(),
+					'wp-ace-css-preprocessor' 					=> $css_editor->get_preprocessor(),
+					'wp-ace-css-include-jquery' 				=> $js_editor->get_include_jquery_status(),
+					'wp-ace-js-preprocessor' 						=> $js_editor->get_preprocessor()
+				);
+				wp_localize_script( $this->admin_code_editor, 'wpcr_data', $wpcr_data);      
+			}
+		}
 	}
 
 
@@ -683,8 +721,8 @@ class Admin_Code_Editor_Admin {
 			<div class="wp-ace-bootstrap">
 				
 				<div class="checkbox">
-					<label for="wp-ace__enable-coffee-script" >
-						<input type="checkbox" id="wp-ace__enable-coffee-script" name="wp_ace_default_disable_wpautop" value="none"  /><?php _e('Disable wpautop', 'admin-code-editor') ?>
+					<label for="wp_ace_default_disable_wpautop" >
+						<input type="checkbox" id="wp_ace_default_disable_wpautop" name="wp_ace_default_disable_wpautop" value="1" <?php checked('1', get_option('wp_ace_default_disable_wpautop') ); ?> /><?php _e('Disable wpautop', 'admin-code-editor') ?>
 					</label>
 				</div>					
 
@@ -705,11 +743,11 @@ class Admin_Code_Editor_Admin {
 			<div class="wp-ace-bootstrap">
 				<div class="radio">
 					
-					<label for="wp-ace__default-html-pos-above" ><input type="radio" id="wp-ace__default-html-pos-above" name="wp_ace_default_html_position" value="above" <?php checked('above', get_option('wp_ace_default_html_pos') ); ?> /><?php _e('Above Content', 'admin-code-editor') ?></label>
+					<label for="wp-ace__default-html-pos-above" ><input type="radio" id="wp-ace__default-html-pos-above" name="wp_ace_default_html_position" value="after" <?php checked('after', get_option('wp_ace_default_html_position') ); ?> /><?php _e('After Content', 'admin-code-editor') ?></label>
 				</div>
 				<div class="radio">
 					
-					<label for="wp-ace__default-html-pos-below" ><input type="radio" id="wp-ace__default-html-pos-below" name="wp_ace_default_html_position" value="below" <?php checked('below', get_option('wp_ace_default_html_pos') ); ?> /><?php _e('Below Content', 'admin-code-editor') ?></label>
+					<label for="wp-ace__default-html-pos-below" ><input type="radio" id="wp-ace__default-html-pos-below" name="wp_ace_default_html_position" value="before" <?php checked('before', get_option('wp_ace_default_html_position') ); ?> /><?php _e('Before Content', 'admin-code-editor') ?></label>
 				</div>
 			</div>
 
@@ -793,8 +831,8 @@ class Admin_Code_Editor_Admin {
 			<div class="wp-ace-bootstrap">
 				
 				<div class="checkbox">
-					<label for="wp-ace__enable-coffee-script" >
-						<input type="checkbox" id="wp-ace__enable-coffee-script" name="wp_ace_default_include_jquery" value="none"  /><?php _e('Include jQuery', 'admin-code-editor') ?>
+					<label for="wp_ace_default_include_jquery" >
+						<input type="checkbox" id="wp_ace_default_include_jquery" name="wp_ace_default_include_jquery" value="none"  /><?php _e('Include jQuery', 'admin-code-editor') ?>
 					</label>
 				</div>					
 
