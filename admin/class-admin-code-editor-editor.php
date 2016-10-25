@@ -104,6 +104,14 @@ abstract class Admin_Code_Editor_Editor {
 		}
 	}
 
+	public function get_compiled_code_status() {
+		if (empty($compiled_code_status)){
+			return 'empty';
+		} else {
+			return get_post_meta($this->get_code_post_id(), '_wp_ace_compile_status');
+		}
+	}
+
 	public function get_pre_code() {
 		
 		if (!$this->pre_code) {
@@ -136,7 +144,7 @@ abstract class Admin_Code_Editor_Editor {
 		return $this->field_height;
 	}
 
-	public function get_pre_code_compile_status() {
+	public function get_code_compile_status() {
 		if (!$this->pre_code_compile_status) {
 			$this->pre_code_compile_status = get_post_meta($this->get_code_post_id(), '_wp_ace_compile_status', true);
 			if (!$this->pre_code_compile_status) {
@@ -148,7 +156,7 @@ abstract class Admin_Code_Editor_Editor {
 
 	}
 
-	public function get_pre_code_compile_error_msg() {
+	public function get_code_compile_error_msg() {
 		if (!$this->pre_code_compile_error_msg) {
 			$this->pre_code_compile_error_msg = get_post_meta($this->get_code_post_id(), '_wp_ace_compile_error_msg', true);
 			if (!$this->pre_code_compile_error_msg) {
@@ -208,24 +216,29 @@ abstract class Admin_Code_Editor_Editor {
 				}
 			}
 			
-			/*
+			
 			// compile pre code and save it as meta data for the associated code post
 			$compiled = $this->compile(); // TODO: Write compile function with return vals
 			update_post_meta($code_post_id, '_wp_ace_compile_status', $compiled->status );
 			
-			// update compile error status and message
-			if ($compiled->status != 'error') {
-				update_post_meta($this->code_post_id, '_wp_ace_compiled', $compiled->compiled_code );
-				delete_post_meta($this->code_post_id, '_wp_ace_compile_error_msg');
-			} else {
-				update_post_meta($this->code_post_id, '_wp_ace_compile_error_msg', $compiled->error_msg );
+			switch ($compiled->status) {
+				case 'error':
+					update_post_meta($this->get_code_post_id(), '_wp_ace_compile_error_msg', $compiled->error_msg );
+				break;
+				case 'success':
+					update_post_meta($this->get_code_post_id(), '_wp_ace_compiled', $compiled->compiled_code );
+					delete_post_meta($this->get_code_post_id(), '_wp_ace_compile_error_msg');
+				break;
+				case 'empty': 
+					delete_post_meta($this->get_code_post_id(), '_wp_ace_compile_error_msg');
+				break;
 			}
-			*/
+
 		
 			// update other basic meta data
-			update_post_meta($this->code_post_id, '_wp_ace_editor_height', $this->get_editor_height() );
-			update_post_meta($this->code_post_id, '_wp_ace_preprocessor', $this->get_preprocessor() );
-			update_post_meta($this->code_post_id, '_wp_ace_editor_cursor_position', $this->get_editor_cursor_position() );
+			update_post_meta($this->get_code_post_id(), '_wp_ace_editor_height', $this->get_editor_height() );
+			update_post_meta($this->get_code_post_id(), '_wp_ace_preprocessor', $this->get_preprocessor() );
+			update_post_meta($this->get_code_post_id(), '_wp_ace_editor_cursor_position', $this->get_editor_cursor_position() );
 
 			$this->additional_updates();
 
@@ -248,32 +261,72 @@ abstract class Admin_Code_Editor_Editor {
 					
 				switch($this->get_preprocessor()) {
 					case 'scss' :
-						// require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/scss-compiler.php';
+						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/scssphp/scss.inc.php';
 
 						$scss = new scssc();
 						$compiled_code = $scss->compile($this->get_pre_code());
 						$ret->compiled_code = trim($compiled_code);
 						$ret->status = 'success';
 						break;
+					
 					case 'less' :
-						// require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/less-compiler.php';
+						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/lessphp/lessc.inc.php"';
 						
+						$less = new lessc;
+						echo $less->compile($this->get_pre_code());
+						$ret->compiled_code = trim($compiled_code);
+						$ret->status = 'success';
+
 						break;
 					case 'stylus' :
-						// require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/stylus-compiler.php';
+						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/Stylus.php/src/Stylus/Stylus.php';
 
-
-						break;
+						$stylus = new Stylus();
+						$compiled_code = $stylus->fromString($this->get_pre_code())->toString();
+						$ret->compiled_code = trim($compiled_code);
+						$ret->status = 'success';						
+						
+					break;
 					case 'haml' :
 						// require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/haml-compiler.php';
+						/*
+						require_once 'src/HamlPHP/HamlPHP.php';
+						require_once 'src/HamlPHP/Storage/FileStorage.php';
 
+						// Make sure that a directory _tmp_ exists in your application and it is writable.
+						$parser = new HamlPHP(new FileStorage(dirname(__FILE__) . '/tmp/'));
 
-						break;
-					case 'markdown' :
-						// require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/markdown-compiler.php';
+						$content = $parser->parseFile('index.haml');
+
+						echo $parser->evaluate($content);
+
 						
+						*/
+					break;
+					case 'markdown' :
+						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/php-markdown/Michelf/MarkdownExtra.inc.php';
+					
+						/*
+						use \Michelf\Markdown;
+						$my_html = Markdown::defaultTransform($my_text);
+						*/
 
-						break;
+						use \Michelf\MarkdownExtra;
+						$compiled_code  = MarkdownExtra::defaultTransform($this->get_pre_code());
+						$ret->compiled_code = trim($compiled_code);
+						$ret->status = 'success';		
+					break;
+					case 'coffee' :
+						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/coffeescript-php/src/CoffeeScript/Init.php';
+						
+						// Load manually
+						CoffeeScript\Init::load();
+
+					  $compiled_code = CoffeeScript\Compiler::compile($this->get_pre_code());
+					  $ret->compiled_code = trim($compiled_code);
+						$ret->status = 'success';	
+
+					break;	
 				}
 
 			}
@@ -285,8 +338,5 @@ abstract class Admin_Code_Editor_Editor {
 
 		return $ret;
 	}
-
-
-
 
 }

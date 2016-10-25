@@ -114,14 +114,21 @@
 	    <div role="tabpanel" class="tab-pane" id="css-edit">
 	    	<div class="" style="padding-top:10px;" >
 
+					<?php if ($css_editor->get_pre_code_compile_status() == 'error') { ?>
+						<div class="alert alert-warning" role="alert">
+						  <?php echo $css_editor->get_pre_code_compile_error_msg() ?>
+						</div>
+
+					<?php } ?>
+
 					<div class="wp-ace-editor">
-						<pre id="wp-ace-css-pre-code-editor" style="height:400px" class="code-content" ></pre>
+						<pre id="wp-ace-css-pre-code-editor" style="height:<?php echo $css_editor->get_editor_height(); ?>px" class="code-content" ><?php echo htmlentities($css_editor->get_pre_code()); ?></pre>
 						
-						<input type="hidden" id="wp-ace-css-pre-code" name="wp-ace-css-pre-code" value="" >
+						<input type="hidden" id="wp-ace-css-pre-code" name="wp-ace-css-pre-code" value="<?php echo htmlentities($css_editor->get_pre_code()); ?>" >
 						
-						<input type="hidden" id="wp-ace-css-field-height" name="wp-ace-css-field-height" class="field-height" value="" >
+						<input type="hidden" id="wp-ace-css-field-height" name="wp-ace-css-field-height" class="field-height" value="<?php echo $css_editor->get_editor_height(); ?>" >
 						
-						<input type="hidden" id="wp-ace-css-editor-cursor-position" name="wp-ace-css-editor-cursor-position" class="field-editor-cursor-position" value="" >
+						<input type="hidden" id="wp-ace-css-editor-cursor-position" name="wp-ace-css-editor-cursor-position" class="field-editor-cursor-position" value="<?php echo $css_editor->get_editor_cursor_position(); ?>" >
 
 					</div>
 
@@ -145,19 +152,22 @@
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="javascript-edit">
 				<div class="" style="padding-top:10px;" >	
-					<div class="alert-danger" role="alert" style="background:none;" >
-					  <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
-					  Error on line 28.
-					</div>
+					
+					<?php if ($js_editor->get_pre_code_compile_status() == 'error') { ?>
+						<div class="alert alert-warning" role="alert">
+						  <?php echo $js_editor->get_pre_code_compile_error_msg() ?>
+						</div>
+
+					<?php } ?>
 
 					<div class="wp-ace-editor">
-						<pre id="wp-ace-js-pre-code-editor" style="height:400px" class="code-content" ></pre>
+						<pre id="wp-ace-js-pre-code-editor" style="height:<?php echo $js_editor->get_editor_height(); ?>px" class="code-content" ><?php echo htmlentities($js_editor->get_pre_code()); ?></pre>
 						
-						<input type="hidden" id="wp-ace-js-pre-code" name="wp-ace-js-pre-code" value="" >
+						<input type="hidden" id="wp-ace-js-pre-code" name="wp-ace-js-pre-code" value="<?php echo htmlentities($js_editor->get_pre_code()); ?>" >
 						
-						<input type="hidden" id="wp-ace-js-field-height" name="wp-ace-js-field-height" class="field-height" value="" >
+						<input type="hidden" id="wp-ace-js-field-height" name="wp-ace-js-field-height" class="field-height" value="<?php echo $js_editor->get_editor_height(); ?>" >
 						
-						<input type="hidden" id="wp-ace-js-editor-cursor-position" name="wp-ace-js-editor-cursor-position" class="field-editor-cursor-position" value="" >
+						<input type="hidden" id="wp-ace-js-editor-cursor-position" name="wp-ace-js-editor-cursor-position" class="field-editor-cursor-position" value="<?php echo $js_editor->get_editor_cursor_position(); ?>" >
 
 					</div>
 
@@ -190,21 +200,21 @@
 	    <div role="tabpanel" class="tab-pane" id="html-compiled">
 	    		<h5>Compiled HTML (Read Only)</h5>
 	    		<div class="wp-ace-editor">
-						<pre id="wp-ace-html-compiled-code-display" style="height:400px" ></pre>
+						<pre id="wp-ace-html-compiled-code-display" style="height:400px" ><?php echo htmlentities($html_editor->get_compiled_code()); ?></pre>
 						
 					</div>
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="css-compiled">
 	    		<h5>Compiled CSS (Read Only)</h5>
 	    		<div class="wp-ace-editor">
-						<pre id="wp-ace-css-compiled-code-display" style="height:400px"  ></pre>
+						<pre id="wp-ace-css-compiled-code-display" style="height:400px"  ><?php echo htmlentities($css_editor->get_compiled_code()); ?></pre>
 						
 					</div>	    	
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="javascript-compiled">
 	    		<h5>Compiled Javascript (Read Only)</h5>
 	    		<div class="wp-ace-editor">
-						<pre id="wp-ace-js-compiled-code-display" style="height:400px"  ></pre>
+						<pre id="wp-ace-js-compiled-code-display" style="height:400px"  ><?php echo htmlentities($js_editor->get_compiled_code()); ?></pre>
 						
 					</div>	    	
 	    </div>
