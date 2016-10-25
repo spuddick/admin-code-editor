@@ -31,7 +31,6 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor
 		$this->pre_code = $_POST['wp-ace-css-pre-code']; // TODO: suitable filter for html content
 		$this->field_height	= sanitize_text_field($_POST['wp-ace-css-field-height']);
 		$this->preprocessor = sanitize_text_field($_POST['wp-ace-css-preprocessor']);
-		$this->cursor_position 	= sanitize_text_field($_POST['wp-ace-css-cursor-position']);
 
 	}
 	

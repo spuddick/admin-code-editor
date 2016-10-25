@@ -39,9 +39,7 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 		if (isset($_POST['wp-ace-html-php-preprocessor'])) {
 			$this->preprocessor 		= sanitize_text_field($_POST['wp-ace-html-php-preprocessor']);
 		}
-		if (isset($_POST['wp-ace-html-php-cursor-position'])) {
-			$this->cursor_position 	= sanitize_text_field($_POST['wp-ace-html-php-cursor-position']);
-		}
+
 		if (isset($_POST['wp-ace-html-php-code-output-position'])) {
 			$this->code_output_position 	= sanitize_text_field($_POST['wp-ace-html-php-code-output-position']);
 		}

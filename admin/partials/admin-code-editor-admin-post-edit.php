@@ -69,8 +69,6 @@
 						<input type="hidden" id="wp-ace-html-php-pre-code" name="wp-ace-html-php-pre-code" value="<?php echo htmlentities($html_php_editor->get_pre_code()); ?>" >
 						
 						<input type="hidden" id="wp-ace-html-php-field-height" name="wp-ace-html-php-field-height" class="field-height" value="<?php echo $html_php_editor->get_editor_height(); ?>" >
-						
-						<input type="hidden" id="wp-ace-html-php-editor-cursor-position" name="wp-ace-html-php-editor-cursor-position" class="field-editor-cursor-position" value="<?php echo $html_php_editor->get_editor_cursor_position(); ?>" >
 
 					</div>
 
@@ -127,8 +125,6 @@
 						<input type="hidden" id="wp-ace-css-pre-code" name="wp-ace-css-pre-code" value="<?php echo htmlentities($css_editor->get_pre_code()); ?>" >
 						
 						<input type="hidden" id="wp-ace-css-field-height" name="wp-ace-css-field-height" class="field-height" value="<?php echo $css_editor->get_editor_height(); ?>" >
-						
-						<input type="hidden" id="wp-ace-css-editor-cursor-position" name="wp-ace-css-editor-cursor-position" class="field-editor-cursor-position" value="<?php echo $css_editor->get_editor_cursor_position(); ?>" >
 
 					</div>
 
@@ -166,8 +162,6 @@
 						<input type="hidden" id="wp-ace-js-pre-code" name="wp-ace-js-pre-code" value="<?php echo htmlentities($js_editor->get_pre_code()); ?>" >
 						
 						<input type="hidden" id="wp-ace-js-field-height" name="wp-ace-js-field-height" class="field-height" value="<?php echo $js_editor->get_editor_height(); ?>" >
-						
-						<input type="hidden" id="wp-ace-js-editor-cursor-position" name="wp-ace-js-editor-cursor-position" class="field-editor-cursor-position" value="<?php echo $js_editor->get_editor_cursor_position(); ?>" >
 
 					</div>
 

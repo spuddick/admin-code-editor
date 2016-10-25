@@ -30,7 +30,6 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor
 		$this->pre_code = $_POST['wp-ace-js-pre-code']; // TODO: suitable filter for html content
 		$this->field_height	= sanitize_text_field($_POST['wp-ace-js-field-height']);
 		$this->preprocessor = sanitize_text_field($_POST['wp-ace-js-preprocessor']);
-		$this->cursor_position 	= sanitize_text_field($_POST['wp-ace-js-cursor-position']);
 
 	}
 
