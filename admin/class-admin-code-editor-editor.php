@@ -1,5 +1,5 @@
 <?php
-
+use \Michelf\MarkdownExtra, Leafo\ScssPhp\Compiler;
 
 abstract class Admin_Code_Editor_Editor {
 
@@ -7,7 +7,7 @@ abstract class Admin_Code_Editor_Editor {
 
 	protected  $code_post_title, $keys, $post_type, $code_post_name_start, $code_post_title_start, $stored_hash, $current_hash;
 	protected $host_post_id, $code_post_id, $pre_code, $field_height, $preprocessor, $cursor_position;
-	protected $pre_code_compile_error_msg, $pre_code_compile_status;
+	protected $pre_code_compile_error_msg, $pre_code_compile_status, $compiled_code;
 
 	public function __construct($param) {
 	
@@ -97,11 +97,14 @@ abstract class Admin_Code_Editor_Editor {
 	}
 
 	public function get_compiled_code() {
-		if (empty($compiled_code)){
-			return;
-		} else {
-			return get_post_meta($this->get_code_post_id(), '_wp_ace_compiled');
+		
+		if (empty($this->compiled_code)) {
+			$this->compiled_code = get_post_meta($this->get_code_post_id(), '_wp_ace_compiled', true);
+			if (!$this->compiled_code) {
+				return;
+			}
 		}
+		return $this->compiled_code;
 	}
 
 	public function get_compiled_code_status() {
@@ -209,7 +212,7 @@ abstract class Admin_Code_Editor_Editor {
 			
 			// compile pre code and save it as meta data for the associated code post
 			$compiled = $this->compile(); // TODO: Write compile function with return vals
-			update_post_meta($code_post_id, '_wp_ace_compile_status', $compiled->status );
+			update_post_meta($this->get_code_post_id(), '_wp_ace_compile_status', $compiled->status );
 			
 			switch ($compiled->status) {
 				case 'error':
@@ -251,15 +254,18 @@ abstract class Admin_Code_Editor_Editor {
 				switch($this->get_preprocessor()) {
 					case 'scss' :
 						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/scssphp/scss.inc.php';
-
-						$scss = new scssc();
+						//echo plugin_dir_path( dirname( __FILE__ ) ) . 'lib/scssphp/scss.inc.php';
+						$scss = new Compiler();
 						$compiled_code = $scss->compile($this->get_pre_code());
 						$ret->compiled_code = trim($compiled_code);
 						$ret->status = 'success';
+
+
+
 						break;
 					
 					case 'less' :
-						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/lessphp/lessc.inc.php"';
+						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/lessphp/lessc.inc.php';
 						
 						$less = new lessc;
 						echo $less->compile($this->get_pre_code());
@@ -300,7 +306,7 @@ abstract class Admin_Code_Editor_Editor {
 						$my_html = Markdown::defaultTransform($my_text);
 						*/
 
-						use \Michelf\MarkdownExtra;
+						
 						$compiled_code  = MarkdownExtra::defaultTransform($this->get_pre_code());
 						$ret->compiled_code = trim($compiled_code);
 						$ret->status = 'success';		

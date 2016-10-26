@@ -298,6 +298,9 @@ var wpAceInterface = (function() {
 				});
 				*/
 				html_editor.update_mode = function(mode) {
+					if (mode == 'none') {
+						mode = 'html';
+					}
 					html_editor.getSession().setMode("ace/mode/" + mode);
 				};
 			  jQuery('#wp-ace-html-php-pre-code-editor').css('font-size', ACE_FONT_SIZE);
@@ -315,6 +318,9 @@ var wpAceInterface = (function() {
 					css_editor.code_has_changed = 1;
 				});
 				css_editor.update_mode = function(mode) {
+					if (mode == 'none') {
+						mode = 'css';
+					}
 					css_editor.getSession().setMode("ace/mode/" + mode);
 				};
 			  jQuery('#wp-ace-css-pre-code-editor').css('font-size', ACE_FONT_SIZE);
@@ -332,12 +338,19 @@ var wpAceInterface = (function() {
 					js_editor.code_has_changed = 1;
 				});
 				js_editor.update_mode = function(mode) {
+					if (mode == 'none') {
+						mode = 'javascript';
+					}
 					js_editor.getSession().setMode("ace/mode/" + mode);
 				};
 			  jQuery('#wp-ace-js-pre-code-editor').css('font-size', ACE_FONT_SIZE);
 
 			  js_editor.hidden_input_id = 'wp-ace-js-pre-code';
 		  }
+
+		  html_editor.update_mode(wpcr_data['wp-ace-html-php-preprocessor']); 
+		  css_editor.update_mode(wpcr_data['wp-ace-css-preprocessor']); 
+		  js_editor.update_mode(wpcr_data['wp-ace-js-preprocessor']); 
 
 			html_code_model = new HTML_Code_Model({ 
 				preprocessor: wpcr_data['wp-ace-html-php-preprocessor'], 
@@ -354,9 +367,6 @@ var wpAceInterface = (function() {
 				ace_editor : js_editor,
 				jquery_enqueued_status : wpcr_data['wp-ace-css-include-jquery'] 
 			});
-
-
-
 
 
 

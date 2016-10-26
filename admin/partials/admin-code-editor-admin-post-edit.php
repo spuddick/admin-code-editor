@@ -56,9 +56,9 @@
 	  <div class="tab-content">
 	    <div role="tabpanel" class="tab-pane active" id="html-edit">
 				<div class="" style="padding-top:10px;" >
-					<?php if ($html_php_editor->get_pre_code_compile_status() == 'error') { ?>
+					<?php if ($html_php_editor->get_code_compile_status() == 'error') { ?>
 						<div class="alert alert-warning" role="alert">
-						  <?php echo $html_php_editor->get_pre_code_compile_error_msg() ?>
+						  <?php echo $html_php_editor->get_code_compile_error_msg() ?>
 						</div>
 
 					<?php } ?>
@@ -112,9 +112,9 @@
 	    <div role="tabpanel" class="tab-pane" id="css-edit">
 	    	<div class="" style="padding-top:10px;" >
 
-					<?php if ($css_editor->get_pre_code_compile_status() == 'error') { ?>
+					<?php if ($css_editor->get_code_compile_status() == 'error') { ?>
 						<div class="alert alert-warning" role="alert">
-						  <?php echo $css_editor->get_pre_code_compile_error_msg() ?>
+						  <?php echo $css_editor->get_code_compile_error_msg() ?>
 						</div>
 
 					<?php } ?>
@@ -149,9 +149,9 @@
 	    <div role="tabpanel" class="tab-pane" id="javascript-edit">
 				<div class="" style="padding-top:10px;" >	
 					
-					<?php if ($js_editor->get_pre_code_compile_status() == 'error') { ?>
+					<?php if ($js_editor->get_code_compile_status() == 'error') { ?>
 						<div class="alert alert-warning" role="alert">
-						  <?php echo $js_editor->get_pre_code_compile_error_msg() ?>
+						  <?php echo $js_editor->get_code_compile_error_msg() ?>
 						</div>
 
 					<?php } ?>
@@ -194,7 +194,7 @@
 	    <div role="tabpanel" class="tab-pane" id="html-compiled">
 	    		<h5>Compiled HTML (Read Only)</h5>
 	    		<div class="wp-ace-editor">
-						<pre id="wp-ace-html-compiled-code-display" style="height:400px" ><?php echo htmlentities($html_editor->get_compiled_code()); ?></pre>
+						<pre id="wp-ace-html-compiled-code-display" style="height:400px" ><?php echo htmlentities($html_php_editor->get_compiled_code()); ?></pre>
 						
 					</div>
 	    </div>
