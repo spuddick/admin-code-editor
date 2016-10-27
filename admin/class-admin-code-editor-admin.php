@@ -227,9 +227,16 @@ class Admin_Code_Editor_Admin {
 	 */
 	function code_editor_section_callback( $post ) {
 	
-		//$html_code 		= get_post_meta( $post->ID, '_html_code', true );
+
 		wp_nonce_field( 'wp-ace-editor-nonce', 'wp-ace-editor-nonce' );
 		
+		$disabled_templates 					= get_post_meta($post->ID, '_wp_ace_disabled_templates', true);
+		if (!$disabled_templates ) {
+			$disabled_templates = array();
+		}
+		$only_display_in_loop 				= get_post_meta($post->ID, '_wp_ace_display_only_in_loop', true);
+		$only_display_in_main_query 	= get_post_meta($post->ID, '_wp_ace_display_only_in_main_query', true);
+
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-html-php.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-css.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-js.php';
@@ -339,6 +346,24 @@ class Admin_Code_Editor_Admin {
 		}
 
 		// TODO: Check if post type is WP ACE enabled
+		
+		if (isset($_POST['wp-ace-disabled-templates'])) {
+			$disabled_templates = $_POST['wp-ace-disabled-templates'];
+			update_post_meta($post_id, '_wp_ace_disabled_templates', $disabled_templates );
+		}		
+		if (isset($_POST['wp-ace-only-display-in-loop'])) {
+			$only_display_in_loop = $_POST['wp-ace-only-display-in-loop'];
+			update_post_meta($post_id, '_wp_ace_display_only_in_loop', $only_display_in_loop );
+		}	else {
+			delete_post_meta($post_id, '_wp_ace_display_only_in_loop');
+		}			
+		if (isset($_POST['wp-ace-only-display-in-main-query'])) {
+			$only_display_in_main_query = $_POST['wp-ace-only-display-in-main-query'];
+			update_post_meta($post_id, '_wp_ace_display_only_in_main_query', $only_display_in_main_query );
+		} else {
+			delete_post_meta($post_id, '_wp_ace_display_only_in_loop');
+		}
+
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-html-php.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-css.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-js.php';

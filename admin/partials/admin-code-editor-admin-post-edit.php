@@ -245,19 +245,19 @@
 						    	<div class="form-group">
 										<h5>Do not display WP ACE code on the following templates: </h5>
 										<div class="checkbox">
-											<label><input type="checkbox" name="wp-ace-disabled-templates[]" <?php // checked($html_php_editor->on_front_page_is_disabled(), TRUE) ?> value="front-page" >Front Page</label>
+											<label><input type="checkbox" name="wp-ace-disabled-templates[]" <?php if (in_array("front-page", $disabled_templates)) { echo 'checked'; } ?> value="front-page" >Front Page</label>
 										</div>
 
 										<div class="checkbox">
-											<label ><input type="checkbox" name="wp-ace-disabled-templates[]" <?php // checked($html_php_editor->on_home_is_disabled(), TRUE) ?> value="home" >Home</label>
+											<label ><input type="checkbox" name="wp-ace-disabled-templates[]" <?php if (in_array("home", $disabled_templates)) { echo 'checked'; }?> value="home" >Home</label>
 										</div>
 										
 										<div class="checkbox">
-											<label><input type="checkbox" name="wp-ace-disabled-templates[]" <?php // checked($html_php_editor->on_archives_is_disabled(), TRUE) ?> value="archives" >Archives</label>	
+											<label><input type="checkbox" name="wp-ace-disabled-templates[]" <?php if (in_array("archives", $disabled_templates)) { echo 'checked'; }?> value="archives" >Archives</label>	
 										</div>
 										
 										<div class="checkbox">
-											<label><input type="checkbox" name="wp-ace-disabled-templates[]" <?php // checked($html_php_editor->on_search_results_is_disabled(), TRUE) ?> value="search-results" >Search Results</label>
+											<label><input type="checkbox" name="wp-ace-disabled-templates[]" <?php if (in_array("search-results", $disabled_templates)) { echo 'checked'; }?> value="search-results" >Search Results</label>
 										</div>
 						    	</div>
 
@@ -265,7 +265,7 @@
 										<h5>Only display WP ACE code when: </h5>
 										<div class="checkbox">
 											<label>
-												<input type="checkbox" id="wp-ace-only-display-in-loop" name="wp-ace-only-display-in-loop" class="" value="1" <?php // checked($html_php_editor->get_disable_wpautop_status(), '1') ?> >
+												<input type="checkbox" id="wp-ace-only-display-in-loop" name="wp-ace-only-display-in-loop" class="" value="1" <?php  checked($only_display_in_loop , '1') ?> >
 												inside the loop
 												<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Inside the loop description https://codex.wordpress.org/Function_Reference/in_the_loop" aria-hidden="true"  ></span>									    	
 											</label>	
@@ -273,7 +273,7 @@
 										
 										<div class="checkbox">
 											<label>
-												<input type="checkbox"  id="wp-ace-only-display-in-main-query" name="wp-ace-only-display-in-main-query" class="" value="1" <?php // checked($html_php_editor->get_disable_wpautop_status(), '1') ?> >
+												<input type="checkbox"  id="wp-ace-only-display-in-main-query" name="wp-ace-only-display-in-main-query" class="" value="1" <?php  checked($only_display_in_main_query, '1') ?> >
 												in main query
 												<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Inside main query description https://codex.wordpress.org/Function_Reference/is_main_query " aria-hidden="true"  ></span>									    	
 											</label>	
