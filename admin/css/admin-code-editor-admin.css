@@ -1,4 +1,16 @@
-/**
- * All of the CSS for your admin-specific functionality should be
- * included in this file.
- */
+li#wp-ace__settings-tab {
+  float: right;
+  border: none !important; }
+  li#wp-ace__settings-tab:hover, li#wp-ace__settings-tab:focus {
+    background: none; }
+  li#wp-ace__settings-tab a {
+    background-color: none !important; }
+    li#wp-ace__settings-tab a:hover, li#wp-ace__settings-tab a:focus {
+      background: none; }
+
+.wp-ace__tab-panel-inner {
+  padding-top: 10px; }
+
+.wp-ace-bootstrap .alert.wp-ace__alert--empty {
+  box-shadow: none;
+  -webkit-box-shadow: none; }

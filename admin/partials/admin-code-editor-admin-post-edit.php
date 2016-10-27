@@ -9,7 +9,7 @@
 	  <!-- Nav tabs -->
 	  <ul class="nav nav-tabs" role="tablist">
 	    <li role="presentation" class="active dropdown">
-	    	<a href="#" aria-controls="html"  class="dropdown-toggle" data-toggle="dropdown" >
+	    	<a href="#" aria-controls="html"  class="dropdown-toggle <?php if ($html_php_editor->get_code_compile_status() == 'error') { echo 'bg-danger'; } ?> " data-toggle="dropdown" >
 	    		HTML
 			    <span id="html-php-tab-label-preprocessor" class="text-muted" ></span>
 
@@ -21,7 +21,7 @@
 	    	</a>
 	    </li>
 	    <li role="presentation" class="dropdown">
-	    	<a href="#" aria-controls="css" class="dropdown-toggle" data-toggle="dropdown" >
+	    	<a href="#" aria-controls="css" class="dropdown-toggle <?php if ($css_editor->get_code_compile_status() == 'error') { echo 'bg-danger'; } ?>" data-toggle="dropdown" >
 	    		CSS
 	    		<span id="css-tab-label-preprocessor" class="text-muted" ></span>
 
@@ -33,7 +33,7 @@
 	    	</a>
 	    </li>
 	    <li role="presentation" class="dropdown">
-	    	<a href="#" aria-controls="javascript" class="dropdown-toggle bg-danger" data-toggle="dropdown" >
+	    	<a href="#" aria-controls="javascript" class="dropdown-toggle <?php if ($js_editor->get_code_compile_status() == 'error') { echo 'bg-danger'; } ?>" data-toggle="dropdown" >
 	    		Javascript
 	    		<span id="js-tab-label-preprocessor" class="text-muted" ></span>
 
@@ -45,8 +45,8 @@
 	    	</a>
 	    </li>
 
-	    <li role="" style="float:right;border:none !important;">
-	    	<a style="background-color:none !important;" href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false"  data-active-modal-tab="wp-ace-general-tab-link"  >
+	    <li id="wp-ace__settings-tab" role="" >
+	    	<a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false"  data-active-modal-tab="wp-ace-general-tab-link"  >
 	    		<span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Settings
 	    	</a>
 	    </li>
@@ -55,12 +55,14 @@
 	  <!-- Tab panes -->
 	  <div class="tab-content">
 	    <div role="tabpanel" class="tab-pane active" id="html-edit">
-				<div class="" style="padding-top:10px;" >
+				<div class="wp-ace__tab-panel-inner" >
 					<?php if ($html_php_editor->get_code_compile_status() == 'error') { ?>
 						<div class="alert alert-warning" role="alert">
 						  <?php echo $html_php_editor->get_code_compile_error_msg() ?>
 						</div>
 
+					<?php } else { ?>
+						<div class="alert wp-ace__alert--empty" >						</div>
 					<?php } ?>
 
 					<div class="wp-ace-editor">
@@ -74,8 +76,9 @@
 
 		    	<div class="clearfix" >
 					  <div class="" >
-						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Proprocessing with <strong>HAML</strong>. Positioned <strong>before post content</strong>. wpautop <strong>enabled</strong>. Display only on single template <strong>Disabled</strong>. <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" data-active-modal-tab="wp-ace-html-tab-link" aria-controls="change-settings-modal">Change HTML Settings</a></p>
-					  	<p id="wp-ace-html-php-status" ></p>
+					  	
+					  	<p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span><span id="wp-ace-html-php-status" ></span> <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" data-active-modal-tab="wp-ace-html-tab-link" aria-controls="change-settings-modal">Change HTML Settings</a></p>
+						 	
 						 	<script type="text/template" id="tmpl-wp-ace-html-php-status-template">
 							  <% if (preprocessor == 'none') { %>
 							  	No HTML Preprocessor selected.
@@ -110,13 +113,14 @@
 
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="css-edit">
-	    	<div class="" style="padding-top:10px;" >
+	    	<div class="wp-ace__tab-panel-inner" >
 
 					<?php if ($css_editor->get_code_compile_status() == 'error') { ?>
 						<div class="alert alert-warning" role="alert">
 						  <?php echo $css_editor->get_code_compile_error_msg() ?>
 						</div>
-
+					<?php } else { ?>
+						<div class="alert wp-ace__alert--empty" >						</div>
 					<?php } ?>
 
 					<div class="wp-ace-editor">
@@ -130,9 +134,8 @@
 
 		    	<div class="clearfix" >
 					  <div class="" >
-						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Preprocessing with <strong>Sass</strong>. <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal" data-active-modal-tab="wp-ace-css-tab-link"  >Change CSS Settings</a></p>
-					  
-					  	<p id="wp-ace-css-status" ></p>
+						  
+					  	<p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> <span id="wp-ace-css-status" ></span> <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal" data-active-modal-tab="wp-ace-css-tab-link"  >Change CSS Settings</a></p>
 						 	<script type="text/template" id="tmpl-wp-ace-css-status-template">
 							  <% if (preprocessor == 'none') { %>
 							  	No CSS Preprocessor selected.
@@ -147,13 +150,14 @@
 				</div>
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="javascript-edit">
-				<div class="" style="padding-top:10px;" >	
+				<div class="wp-ace__tab-panel-inner" >	
 					
 					<?php if ($js_editor->get_code_compile_status() == 'error') { ?>
 						<div class="alert alert-warning" role="alert">
 						  <?php echo $js_editor->get_code_compile_error_msg() ?>
 						</div>
-
+					<?php } else { ?>
+						<div class="alert wp-ace__alert--empty" >						</div>
 					<?php } ?>
 
 					<div class="wp-ace-editor">
@@ -167,9 +171,9 @@
 
 		    	<div class="clearfix" >
 					  <div class="" >
-						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Proprocessing with <strong>Coffee Script</strong>. Enqueue <strong>in header</strong>. <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal"  data-active-modal-tab="wp-ace-javascript-tab-link" >Change Javascript Settings</a></p>
-
-						  <p id="wp-ace-js-status" ></p>
+						  
+						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span><span id="wp-ace-js-status" ></span>  <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal"  data-active-modal-tab="wp-ace-javascript-tab-link" >Change Javascript Settings</a></p>
+						 	
 						 	<script type="text/template" id="tmpl-wp-ace-js-status-template">
 							  
 							  <% if (preprocessor == 'none') { %>

@@ -8,7 +8,7 @@ var outputDir = 'builds/development';
 // Define default destination folder
 var public_dest = 'public/';
 var admin_dest = 'admin/';
-
+/*
 gulp.task('copypublic', function() {
    gulp.src('./bower_components/foundation-sites/dist/foundation.min.js')
    .pipe(gulp.dest('./themes/liberal-master-2016/front-end-plugins/foundation'));
@@ -20,29 +20,28 @@ gulp.task('copypublic', function() {
    .pipe(gulp.dest('./themes/liberal-master-2016/front-end-plugins/fastclick'));
 
 }); 
-
-gulp.task('sass-master', function () {
-  gulp.src('themes/liberal-master-2016/scss/master.scss')
+*/
+gulp.task('sass-admin', function () {
+  gulp.src('./admin/scss/admin-code-editor-admin.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('themes/liberal-master-2016/css'));
+    .pipe(gulp.dest('./admin/css'));
 });
 
- 
-gulp.task('sass-liberal', function () {
-  gulp.src('themes/liberal-2016/scss/liberal-2016.scss')
+gulp.task('sass-public', function () {
+  gulp.src('./public/scss/admin-code-editor-public.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('themes/liberal-2016/css'));
+    .pipe(gulp.dest('./public/css'));
 });
 
 gulp.task('watch', function() {
   //gulp.watch('**/js/*.js', ['js']);
-  gulp.watch('./themes/liberal-master-2016/scss/*.scss', ['sass-master']);
-  gulp.watch('./themes/liberal-2016/scss/*.scss', ['sass-liberal']);
+  gulp.watch('./admin/scss/*.scss', ['sass-admin']);
+  gulp.watch('./public/scss/*.scss', ['sass-public']);
   //gulp.watch('./plugins/**/scss/*.scss', ['sass']);
 });
 
 
-gulp.task('default', ['copypublic', 'sass-master', 'sass-liberal', 'watch']);
+gulp.task('default', ['sass-public', 'sass-admin', 'watch']);
 
 
 /**

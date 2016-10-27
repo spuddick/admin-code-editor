@@ -138,7 +138,7 @@ var wpAceInterface = (function() {
 		});
 		var HTML_Text_Status_View = Backbone.View.extend({
 	    model: HTML_Code_Model,
-	    tagName: 'p',
+	    tagName: 'span',
 	    template: '',
 	    initialize: function() {
         this.template = _.template(jQuery('#tmpl-wp-ace-html-php-status-template').html());
@@ -151,7 +151,7 @@ var wpAceInterface = (function() {
 		});
 		var CSS_Text_Status_View = Backbone.View.extend({
 	    model: CSS_Code_Model,
-	    tagName: 'p',
+	    tagName: 'span',
 	    template: '',
 	    initialize: function() {
         this.template = _.template(jQuery('#tmpl-wp-ace-css-status-template').html());
@@ -164,7 +164,7 @@ var wpAceInterface = (function() {
 		});
 		var JS_Text_Status_View = Backbone.View.extend({
 	    model: JS_Code_Model,
-	    tagName: 'p',
+	    tagName: 'span',
 	    template: '',
 	    initialize: function() {
         this.template = _.template(jQuery('#tmpl-wp-ace-js-status-template').html());

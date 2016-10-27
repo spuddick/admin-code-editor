@@ -1,0 +1,25 @@
+li#wp-ace__settings-tab {
+	float:right;
+	border:none !important;
+	&:hover,
+	&:focus {
+		background:none;
+	}
+	
+	a {
+		background-color:none !important;
+		&:hover,
+		&:focus {
+			background:none;
+		}
+	}
+}
+
+.wp-ace__tab-panel-inner {
+	padding-top:10px;
+}
+
+.wp-ace-bootstrap .alert.wp-ace__alert--empty {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
