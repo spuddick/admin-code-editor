@@ -211,7 +211,7 @@ abstract class Admin_Code_Editor_Editor {
 			
 			
 			// compile pre code and save it as meta data for the associated code post
-			$compiled = $this->compile(); // TODO: Write compile function with return vals
+			$compiled = $this->compile($this->get_pre_code()); 
 			update_post_meta($this->get_code_post_id(), '_wp_ace_compile_status', $compiled->status );
 			
 			switch ($compiled->status) {
@@ -239,14 +239,14 @@ abstract class Admin_Code_Editor_Editor {
 
 
 
-	private function compile() {
+	protected function compile($pre_code) {
 		$ret = new stdClass();
 		
 		$ret->compiled_code = '';
 		$ret->status = '';
 		$ret->error_msg = '';
 
-		if ( empty($this->get_pre_code()) ) {
+		if ( empty($pre_code) ) {
 			$ret->status = 'empty';
 		} else {
 			try {
@@ -256,7 +256,7 @@ abstract class Admin_Code_Editor_Editor {
 						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/scssphp/scss.inc.php';
 						//echo plugin_dir_path( dirname( __FILE__ ) ) . 'lib/scssphp/scss.inc.php';
 						$scss = new Compiler();
-						$compiled_code = $scss->compile($this->get_pre_code());
+						$compiled_code = $scss->compile($pre_code);
 						$ret->compiled_code = trim($compiled_code);
 						$ret->status = 'success';
 
@@ -268,7 +268,7 @@ abstract class Admin_Code_Editor_Editor {
 						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/lessphp/lessc.inc.php';
 						
 						$less = new lessc;
-						echo $less->compile($this->get_pre_code());
+						echo $less->compile($pre_code);
 						$ret->compiled_code = trim($compiled_code);
 						$ret->status = 'success';
 
@@ -277,7 +277,7 @@ abstract class Admin_Code_Editor_Editor {
 						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/Stylus.php/src/Stylus/Stylus.php';
 
 						$stylus = new Stylus();
-						$compiled_code = $stylus->fromString($this->get_pre_code())->toString();
+						$compiled_code = $stylus->fromString($pre_code)->toString();
 						$ret->compiled_code = trim($compiled_code);
 						$ret->status = 'success';						
 						
@@ -307,7 +307,7 @@ abstract class Admin_Code_Editor_Editor {
 						*/
 
 						
-						$compiled_code  = MarkdownExtra::defaultTransform($this->get_pre_code());
+						$compiled_code  = MarkdownExtra::defaultTransform($pre_code);
 						$ret->compiled_code = trim($compiled_code);
 						$ret->status = 'success';		
 					break;
@@ -317,7 +317,7 @@ abstract class Admin_Code_Editor_Editor {
 						// Load manually
 						CoffeeScript\Init::load();
 
-					  $compiled_code = CoffeeScript\Compiler::compile($this->get_pre_code());
+					  $compiled_code = CoffeeScript\Compiler::compile($pre_code);
 					  $ret->compiled_code = trim($compiled_code);
 						$ret->status = 'success';	
 
