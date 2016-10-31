@@ -8,39 +8,39 @@
 
 	  <!-- Nav tabs -->
 	  <ul class="nav nav-tabs" role="tablist">
-	    <li role="presentation" class="active dropdown">
+	    <li role="presentation" class="<?php if ($last_active_tab_id == 'html-edit' || $last_active_tab_id == 'html-compiled' ) { echo 'active'; } ?>  dropdown">
 	    	<a href="#" aria-controls="html"  class="dropdown-toggle <?php if ($html_php_editor->get_code_compile_status() == 'error') { echo 'bg-danger'; } ?> " data-toggle="dropdown" >
 	    		HTML
 			    <span id="html-php-tab-label-preprocessor" class="text-muted" ></span>
 
 			    <span class="caret"></span></a>
 			    <ul class="dropdown-menu">
-			      <li><a href="#html-edit" role="tab" id="" data-toggle="tab"  >Edit</a></li>
-			      <li><a href="#html-compiled" role="tab" id="" data-toggle="tab" >View Compiled</a></li>
+			      <li><a href="#html-edit" role="tab" id="" data-toggle="tab" class="<?php if ($last_active_tab_id == 'html-edit' ) { echo 'active'; } ?>" >Edit</a></li>
+			      <li><a href="#html-compiled" role="tab" id="" data-toggle="tab" class="<?php if ($last_active_tab_id == 'html-compiled' ) { echo 'active'; } ?>"  >View Compiled</a></li>
 			    </ul>
 	    	</a>
 	    </li>
-	    <li role="presentation" class="dropdown">
+	    <li role="presentation" class="<?php if ($last_active_tab_id == 'css-edit' || $last_active_tab_id == 'css-compiled' ) { echo 'active'; } ?> dropdown">
 	    	<a href="#" aria-controls="css" class="dropdown-toggle <?php if ($css_editor->get_code_compile_status() == 'error') { echo 'bg-danger'; } ?>" data-toggle="dropdown" >
 	    		CSS
 	    		<span id="css-tab-label-preprocessor" class="text-muted" ></span>
 
 			    <span class="caret"></span></a>
 			    <ul class="dropdown-menu">
-			      <li><a href="#css-edit" role="tab" id="" data-toggle="tab" >Edit</a></li>
-			      <li><a href="#css-compiled" role="tab" id="" data-toggle="tab" >View Compiled</a></li>
+			      <li><a href="#css-edit" role="tab" id="" data-toggle="tab" class="<?php if ($last_active_tab_id == 'css-edit' ) { echo 'active'; } ?>" >Edit</a></li>
+			      <li><a href="#css-compiled" role="tab" id="" data-toggle="tab" class="<?php if ($last_active_tab_id == 'css-compiled' ) { echo 'active'; } ?>"  >View Compiled</a></li>
 			    </ul>
 	    	</a>
 	    </li>
-	    <li role="presentation" class="dropdown">
+	    <li role="presentation" class="<?php if ($last_active_tab_id == 'javascript-edit' || $last_active_tab_id == 'javascript-compiled' ) { echo 'active'; } ?> dropdown">
 	    	<a href="#" aria-controls="javascript" class="dropdown-toggle <?php if ($js_editor->get_code_compile_status() == 'error') { echo 'bg-danger'; } ?>" data-toggle="dropdown" >
 	    		Javascript
 	    		<span id="js-tab-label-preprocessor" class="text-muted" ></span>
 
 			    <span class="caret"></span></a>
 			    <ul class="dropdown-menu">
-			      <li><a href="#javascript-edit" role="tab" id="" data-toggle="tab" >Edit</a></li>
-			      <li><a href="#javascript-compiled"  role="tab" id="" data-toggle="tab" >View Compiled</a></li>
+			      <li><a href="#javascript-edit" role="tab" id="" data-toggle="tab" class="<?php if ($last_active_tab_id == 'javascript-edit' ) { echo 'active'; } ?>"  >Edit</a></li>
+			      <li><a href="#javascript-compiled"  role="tab" id="" data-toggle="tab" class="<?php if ($last_active_tab_id == 'javascript-compiled' ) { echo 'active'; } ?>"  >View Compiled</a></li>
 			    </ul>
 	    	</a>
 	    </li>
@@ -54,7 +54,7 @@
 
 	  <!-- Tab panes -->
 	  <div class="tab-content">
-	    <div role="tabpanel" class="tab-pane active" id="html-edit">
+	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'html-edit' ) { echo 'active'; } ?>" id="html-edit">
 				<div class="wp-ace__tab-panel-inner" >
 					<?php if ($html_php_editor->get_code_compile_status() == 'error') { ?>
 						<div class="alert alert-warning" role="alert">
@@ -112,7 +112,7 @@
 
 
 	    </div>
-	    <div role="tabpanel" class="tab-pane" id="css-edit">
+	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'css-edit' ) { echo 'active'; } ?>" id="css-edit">
 	    	<div class="wp-ace__tab-panel-inner" >
 
 					<?php if ($css_editor->get_code_compile_status() == 'error') { ?>
@@ -149,7 +149,7 @@
 					</div>
 				</div>
 	    </div>
-	    <div role="tabpanel" class="tab-pane" id="javascript-edit">
+	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'javascript-edit' ) { echo 'active'; } ?>" id="javascript-edit">
 				<div class="wp-ace__tab-panel-inner" >	
 					
 					<?php if ($js_editor->get_code_compile_status() == 'error') { ?>
@@ -195,21 +195,21 @@
 
 				</div>
 	    </div>
-	    <div role="tabpanel" class="tab-pane" id="html-compiled">
+	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'html-compiled' ) { echo 'active'; } ?>" id="html-compiled">
 	    		<h5>Compiled HTML (Read Only)</h5>
 	    		<div class="wp-ace-editor">
 						<pre id="wp-ace-html-compiled-code-display" style="height:400px" ><?php echo htmlentities($html_php_editor->get_compiled_code()); ?></pre>
 						
 					</div>
 	    </div>
-	    <div role="tabpanel" class="tab-pane" id="css-compiled">
+	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'css-compiled' ) { echo 'active'; } ?>" id="css-compiled">
 	    		<h5>Compiled CSS (Read Only)</h5>
 	    		<div class="wp-ace-editor">
 						<pre id="wp-ace-css-compiled-code-display" style="height:400px"  ><?php echo htmlentities($css_editor->get_compiled_code()); ?></pre>
 						
 					</div>	    	
 	    </div>
-	    <div role="tabpanel" class="tab-pane" id="javascript-compiled">
+	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'javascript-compiled' ) { echo 'active'; } ?>" id="javascript-compiled">
 	    		<h5>Compiled Javascript (Read Only)</h5>
 	    		<div class="wp-ace-editor">
 						<pre id="wp-ace-js-compiled-code-display" style="height:400px"  ><?php echo htmlentities($js_editor->get_compiled_code()); ?></pre>
@@ -277,7 +277,8 @@
 												in main query
 												<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Inside main query description https://codex.wordpress.org/Function_Reference/is_main_query " aria-hidden="true"  ></span>									    	
 											</label>	
-										</div>									    	
+										</div>
+										<input type="hidden" name="wp-ace-last-active-tab" id="wp-ace-last-active-tab" value="<?php echo $last_active_tab_id; ?>" />									    	
 									</div>
 									
 						    </div>
