@@ -57,12 +57,28 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor
 
 	}
 
+	public function get_css_with_wrapper() {
+		if (!($this->css_with_wrapper)) {
+			$this->css_with_wrapper = get_post_meta($this->get_code_post_id(), '_wp_ace_compiled_css_with_wrapper', true);
+		}
+		return $this->css_with_wrapper; 		
+	}
+
 	protected function additional_updates() {
 		// css dependecy files
 		// enqueue in header/footer
 		// 
 		$compiled_code_with_wrapper =  '.wp-ace-css--post-' . $this->get_code_post_id() . ' { ' . $this->get_compiled_code() . ' } ';
-		//$compiled = $this->compile();
+		$compiled = $this->compile($compiled_code_with_wrapper);
+
+		switch ($compiled->status) {
+
+			case 'success':
+				update_post_meta($this->get_code_post_id(), '_wp_ace_compiled_css_with_wrapper', $compiled->compiled_code );
+
+			break;
+
+		}
 	}
 
  
