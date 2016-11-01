@@ -195,58 +195,116 @@ class Admin_Code_Editor_Public {
 		
 	}
 
+	function wp_ace_the_content($content) {
+  	global $post;
+  	$selected_post_types 	= get_option('wpcr_post_types');
+		
+		if ( !in_array($post->post_type, $selected_post_types)) {  
+			return wpautop($content);
+		}
+		
+		return $content;
 
-	function append_code_to_content($content){
+	}
+
+
+	function insert_ace_code_in_page($content){
     // The different types of code (HTML, CSS, Javascript) are appended after the regular page content (using the wordpress function the_content() ).
     // We hook into the 'the_content' filter to acheive this.
 
-    global $post;
+    global $post, $wp_ace_js_output, $wp_ace_css_output;
+
+    if (!isset($wp_ace_js_output)) {
+    	$wp_ace_js_output = array();
+    }
+
+    if (!isset($wp_ace_css_output)) {
+    	$wp_ace_css_output = array();
+    }
+
+  	$selected_post_types 	= get_option('wpcr_post_types');
+		if ( !in_array($post->post_type, $selected_post_types)) {  
+
+			return $content;
+		}
+
+		$disabled_templates 					= get_post_meta($post->ID, '_wp_ace_disabled_templates', true);
+		if (!$disabled_templates ) {
+			$disabled_templates = array();
+		}
+		if (is_home() && in_array('home', $disabled_templates) ) {
+			return $content;
+		}
+		if (is_front_page() && in_array('front-page', $disabled_templates) ) {
+			return $content;
+		}
+		if (is_archive() && in_array('archives', $disabled_templates) ) {
+			return $content;
+		}
+		if (is_search() && in_array('search', $disabled_templates) ) {
+			return $content;
+		}
 
 
+		$only_display_in_loop 				= get_post_meta($post->ID, '_wp_ace_display_only_in_loop', true);
+		$only_display_in_main_query 	= get_post_meta($post->ID, '_wp_ace_display_only_in_main_query', true);		
+		if (!is_main_query()  && $only_display_in_main_query) {
+			return $content;
+		}
+		if (!in_the_loop() && $only_display_in_loop ) {
+			return $content;
+		}
 
+
+		// is private or protected post
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-html-php.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-css.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-js.php';		
+		$editor_args = array(
+			'host-post-id' => $post->ID
+		);
+		$html_php_editor 	= new Admin_Code_Editor_Editor_HTML_PHP($editor_args);
+
+		$editor_args = array(
+			'host-post-id' => $post->ID
+		);
+		$css_editor 	= new Admin_Code_Editor_Editor_CSS($editor_args);
+
+		$editor_args = array(
+			'host-post-id' => $post->ID
+		);
+		$js_editor 	= new Admin_Code_Editor_Editor_JS($editor_args);
+
+
+		array_push($wp_ace_js_output[$post->ID], $js_editor->get_compiled_code());
+		array_push($wp_ace_css_output[$post->ID], $css_editor->get_css_with_wrapper());
+
+		$html_code_insert_position 	= $html_php_editor->get_code_output_position();
+		$wp_autop_disable_status 		= $html_php_editor->get_disable_wpautop_status();
+		$html 											= $html_php_editor->get_compiled_code();
 		
+		$html = '<div class="wp-ace-css--post-'. $post->ID .'">' . $html . '</div>';
 
-		$code_insert_mode = get_post_meta( $post->ID, '_code_insert_mode', true );
-		if (empty($code_insert_mode)) {
-			$code_insert_mode = 'append_bottom';
+		$content = wpautop($content);
+		if (!$wp_autop_disable_status) {
+			$html = wpautop($html);
 		}
+		$html = do_shortcode($html);
 
-		$output = '';
-		switch ($code_insert_mode) {
-	    case 'append_bottom':
+		switch ($html_code_insert_position) {
+	    case 'before':
 
-		   	
-		   	$html_code = get_post_meta( $post->ID, '_html_code', true );
-
-				if (!empty($html_code)) {
-					$output .= $html_code;
-				}
-
-			  $output = $content . $output ;
+			  $content =  $html . $content;
 
         break;
-	    case "header_and_footer":
+	    case 'after':
 
-		   	$html_header_code = get_post_meta( $post->ID, '_html_header_code', true );
-		   	$html_footer_code = get_post_meta( $post->ID, '_html_footer_code', true );
-				
-				if (!empty($html_header_code)) {
-					$output .= $html_header_code;
-				}        
+	    	$content =  $content . $html;
 
-				$output .= $content;
-				
-				if (!empty($html_footer_code)) {
-					$output .= $html_footer_code;
-				} 
-        
         break;
 		}
-
-
-
-
-		return $output;
+		
+		return $content;
 
 	}	
 

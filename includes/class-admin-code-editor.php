@@ -182,10 +182,11 @@ class Admin_Code_Editor {
 
 		// $this->loader->add_action( 'wp_enqueue_scripts', 	$plugin_public, 'enqueue_styles' );
 		// $this->loader->add_action( 'wp_enqueue_scripts', 	$plugin_public, 'enqueue_scripts' );
-
-		// $this->loader->add_action( 'the_content', 				$plugin_public, 'append_code_to_content' );
-		// $this->loader->add_action( 'wp_footer', 					$plugin_public, 'insert_script_in_footer' );
-		// $this->loader->add_action( 'wp_head', 						$plugin_public, 'insert_script_in_head' );
+		remove_filter('the_content','wpautop');
+		$this->loader->add_filter( 'the_content', 				$plugin_public, 'wp_ace_the_content' );
+		$this->loader->add_action( 'the_content', 				$plugin_public, 'insert_ace_code_in_page' );
+		$this->loader->add_action( 'wp_footer', 					$plugin_public, 'insert_script_in_footer' );
+		$this->loader->add_action( 'wp_head', 						$plugin_public, 'insert_script_in_head' );
 	
 	}
 
