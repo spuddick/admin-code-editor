@@ -186,7 +186,6 @@ class Admin_Code_Editor {
 		$this->loader->add_filter( 'the_content', 				$plugin_public, 'wp_ace_the_content' );
 		$this->loader->add_action( 'the_content', 				$plugin_public, 'insert_ace_code_in_page' );
 		$this->loader->add_action( 'wp_footer', 					$plugin_public, 'insert_script_in_footer' );
-		$this->loader->add_action( 'wp_head', 						$plugin_public, 'insert_script_in_head' );
 	
 	}
 

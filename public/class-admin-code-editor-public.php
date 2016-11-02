@@ -101,87 +101,31 @@ class Admin_Code_Editor_Public {
 	}
 
 
-
-	public function insert_script_in_head($from_template = false) {
-		if (!$from_template) {
-			wp_reset_postdata(); 
-		}
-    global $post;
-    $output = '';
-
- 
-		//$js_code = get_post_meta( $post->ID, '_js_code', true ); 
-		$compiled_css_code = get_post_meta( $post->ID, '_compiled_css', true );
+	public function insert_script_in_footer() {
+		global $wp_ace_js_output;
+		$wp_ace_js_output = '';
 		
-
-		if ( empty($compiled_css_code) ) {
-			$css_code = get_post_meta( $post->ID, '_css_code', true );
-			$compiled_css_code = self::compile_sass($post->ID, $css_code);
-		}   
-
-		if (ICL_LANGUAGE_CODE == 'fr') {
-			$en_post_id = icl_object_id($post->ID, get_post_type( $post->ID ), false, 'en');
-			
-			if (empty($compiled_css_code)) {
-				// if there is no compiled french CSS... 
-
-				// get the english compiled CSS
-				$compiled_css_code = get_post_meta( $en_post_id, '_compiled_css', true );
-
-				if ( empty($compiled_css_code) ) {
-					// if there is no english compiled CSS, we can try to see if there is any SCSS that needs to be compiled
-					$css_code = get_post_meta( $en_post_id, '_css_code', true );
-					$compiled_css_code = self::compile_sass($en_post_id, $css_code);
-				}  
-			}
-
-		} 
-
-		if (!empty($compiled_css_code)) {
-			$output = '<style  id="admin-code-highlight-style"  >' .  $compiled_css_code . '</style>';
+		foreach ($wp_ace_js_output as $post_id => $wp_ace_js_code) {
+		    // $arr[3] will be updated with each value from $arr...
+		  $wp_ace_js_output .= '<script id="wp-ace-javascript--post-'. $post_id .'" >//<![CDATA[' . "\r\n" . $wp_ace_js_code . "\r\n" . '//]]></script>';
 		}
 
-
-		echo $output;
+		echo $wp_ace_js_output;
 		
 	}
-
-	public function insert_script_in_footer($from_template = false) {
-		if (!$from_template) {
-			wp_reset_postdata(); 
-		}
-		
-    global $post;
-    $output = '';
-
-		if (ICL_LANGUAGE_CODE == 'fr') {
-			$en_post_id = icl_object_id($post->ID, get_post_type( $post->ID ), false, 'en');
-		} else {
-			$en_post_id = $post->ID;
-		}
- 
-		$js_code = get_post_meta( $en_post_id, '_js_code', true ); 
-
-
-		if (!empty($js_code)) {
-			$output = '<script>//<![CDATA[' . "\r\n" . $js_code . "\r\n" . '//]]></script>';
-		}
-
-		echo $output;
-		
-	}
-
+	
+	/*
 	public function get_html_content() {
 		
     global $post;
     $output = '';
 
-    /*
+    
 		$code_insert_mode = get_post_meta( $post->ID, '_code_insert_mode', true );
 		if (empty($code_insert_mode)) {
 			$code_insert_mode = 'append_bottom';
 		}
-		*/
+		
 
 		$output = '';
 		 	
@@ -194,6 +138,7 @@ class Admin_Code_Editor_Public {
 		echo do_shortcode($output);
 		
 	}
+	*/
 
 	function wp_ace_the_content($content) {
   	global $post;
@@ -212,7 +157,11 @@ class Admin_Code_Editor_Public {
     // The different types of code (HTML, CSS, Javascript) are appended after the regular page content (using the wordpress function the_content() ).
     // We hook into the 'the_content' filter to acheive this.
 
-    global $post, $wp_ace_js_output, $wp_ace_css_output;
+		if (current_filter() != 'the_content') {
+			return $content;
+		}
+
+    global $post, $wp_ace_js_output;
 
     if (!isset($wp_ace_js_output)) {
     	$wp_ace_js_output = array();
@@ -276,8 +225,9 @@ class Admin_Code_Editor_Public {
 		$js_editor 	= new Admin_Code_Editor_Editor_JS($editor_args);
 
 
+		$wp_ace_css_tag_output = '<style id="wp-ace-css--post-' . $post->ID . '" >' . $css_editor->get_css_with_wrapper() . '</style>';
 		array_push($wp_ace_js_output[$post->ID], $js_editor->get_compiled_code());
-		array_push($wp_ace_css_output[$post->ID], $css_editor->get_css_with_wrapper());
+		
 
 		$html_code_insert_position 	= $html_php_editor->get_code_output_position();
 		$wp_autop_disable_status 		= $html_php_editor->get_disable_wpautop_status();
@@ -304,7 +254,7 @@ class Admin_Code_Editor_Public {
         break;
 		}
 		
-		return $content;
+		return $wp_ace_css_tag_output . $content;
 
 	}	
 
