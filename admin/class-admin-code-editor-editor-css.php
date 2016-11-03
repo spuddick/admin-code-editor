@@ -70,7 +70,7 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor
 		// css dependecy files
 		// enqueue in header/footer
 		// 
-		$compiled_code_with_wrapper =  '.wp-ace-css--post-' . $this->get_code_post_id() . ' { ' . $this->get_compiled_code() . ' } ';
+		$compiled_code_with_wrapper =  '.wp-ace-html--post-' . $this->get_code_post_id() . ' { ' . $this->get_compiled_code() . ' } ';
 		$compiled = $this->compile($compiled_code_with_wrapper, 'scss');
 
 		switch ($compiled->status) {
