@@ -4,25 +4,27 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor
 
 {
     
-		const DEFAULT_PREPROCESSOR = 'none';
-    function __construct($param) {
-      parent::__construct($param);
-			
-			if (isset($param['type'])) {
-	      $this->type = $param['type'];
-	      
-	      $this->keys = array();
+	private $css_with_wrapper;
 
-				$this->keys['host-hash-meta-key'] = '_wp_ace_css_hash';
-				$this->keys['code-id-meta-key'] 	= '_wp_ace_css_code_post_id';
-				$this->keys['global_preprocessor'] 	= '_wp_ace_global_css_preprocessor';
-				$this->post_type = 'wp-ace-css';
-				$this->code_post_name_start = 'wp-ace-css-code-for-';
-				$this->code_post_title_start = 'WP ACE CSS code for Post ID: ';
+	const DEFAULT_PREPROCESSOR = 'none';
+  function __construct($param) {
+    parent::__construct($param);
+		
+		if (isset($param['type'])) {
+      $this->type = $param['type'];
+      
+      $this->keys = array();
 
-	    }	
-        
-    }
+			$this->keys['host-hash-meta-key'] = '_wp_ace_css_hash';
+			$this->keys['code-id-meta-key'] 	= '_wp_ace_css_code_post_id';
+			$this->keys['global_preprocessor'] 	= '_wp_ace_global_css_preprocessor';
+			$this->post_type = 'wp-ace-css';
+			$this->code_post_name_start = 'wp-ace-css-code-for-';
+			$this->code_post_title_start = 'WP ACE CSS code for Post ID: ';
+
+    }	
+      
+  }
 
 
 
@@ -58,7 +60,7 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor
 	}
 
 	public function get_css_with_wrapper() {
-		if (!($this->css_with_wrapper)) {
+		if (empty($this->css_with_wrapper)) {
 			$this->css_with_wrapper = get_post_meta($this->get_code_post_id(), '_wp_ace_compiled_css_with_wrapper', true);
 		}
 		return $this->css_with_wrapper; 		
@@ -69,7 +71,7 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor
 		// enqueue in header/footer
 		// 
 		$compiled_code_with_wrapper =  '.wp-ace-css--post-' . $this->get_code_post_id() . ' { ' . $this->get_compiled_code() . ' } ';
-		$compiled = $this->compile($compiled_code_with_wrapper);
+		$compiled = $this->compile($compiled_code_with_wrapper, 'scss');
 
 		switch ($compiled->status) {
 

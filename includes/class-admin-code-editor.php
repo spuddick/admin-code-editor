@@ -185,7 +185,7 @@ class Admin_Code_Editor {
 		remove_filter('the_content','wpautop');
 		$this->loader->add_filter( 'the_content', 				$plugin_public, 'wp_ace_the_content' );
 		$this->loader->add_action( 'the_content', 				$plugin_public, 'insert_ace_code_in_page' );
-		$this->loader->add_action( 'wp_footer', 					$plugin_public, 'insert_script_in_footer' );
+		$this->loader->add_action( 'wp_footer', 					$plugin_public, 'insert_script_in_footer', 999 );
 	
 	}
 
