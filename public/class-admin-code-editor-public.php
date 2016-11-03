@@ -103,14 +103,14 @@ class Admin_Code_Editor_Public {
 
 	public function insert_script_in_footer() {
 		global $wp_ace_js_output;
-		$wp_ace_js_output = '';
+		$wp_ace_js_output_string = '';
 		
 		foreach ($wp_ace_js_output as $post_id => $wp_ace_js_code) {
 		    // $arr[3] will be updated with each value from $arr...
-		  $wp_ace_js_output .= '<script id="wp-ace-javascript--post-'. $post_id .'" >//<![CDATA[' . "\r\n" . $wp_ace_js_code . "\r\n" . '//]]></script>';
+		  $wp_ace_js_output_string .= '<script id="wp-ace-javascript--post-'. $post_id .'" >//<![CDATA[' . "\r\n" . $wp_ace_js_code . "\r\n" . '//]]></script>';
 		}
 
-		echo $wp_ace_js_output;
+		echo $wp_ace_js_output_string;
 		
 	}
 	
@@ -163,12 +163,8 @@ class Admin_Code_Editor_Public {
 
     global $post, $wp_ace_js_output;
 
-    if (!isset($wp_ace_js_output)) {
+    if (empty($wp_ace_js_output)) {
     	$wp_ace_js_output = array();
-    }
-
-    if (!isset($wp_ace_css_output)) {
-    	$wp_ace_css_output = array();
     }
 
   	$selected_post_types 	= get_option('wpcr_post_types');
@@ -210,23 +206,26 @@ class Admin_Code_Editor_Public {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-css.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-js.php';		
 		$editor_args = array(
+			'type' => 'html-php',
 			'host-post-id' => $post->ID
 		);
 		$html_php_editor 	= new Admin_Code_Editor_Editor_HTML_PHP($editor_args);
 
 		$editor_args = array(
+			'type' => 'css',
 			'host-post-id' => $post->ID
 		);
 		$css_editor 	= new Admin_Code_Editor_Editor_CSS($editor_args);
 
 		$editor_args = array(
+			'type' => 'js',
 			'host-post-id' => $post->ID
 		);
 		$js_editor 	= new Admin_Code_Editor_Editor_JS($editor_args);
 
 
 		$wp_ace_css_tag_output = '<style id="wp-ace-css--post-' . $post->ID . '" >' . $css_editor->get_css_with_wrapper() . '</style>';
-		array_push($wp_ace_js_output[$post->ID], $js_editor->get_compiled_code());
+		$wp_ace_js_output[$post->ID] = $js_editor->get_compiled_code();
 		
 
 		$html_code_insert_position 	= $html_php_editor->get_code_output_position();

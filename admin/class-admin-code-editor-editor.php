@@ -239,19 +239,23 @@ abstract class Admin_Code_Editor_Editor {
 
 
 
-	protected function compile($pre_code) {
+	protected function compile($pre_code, $preprocessor = null) {
 		$ret = new stdClass();
 		
 		$ret->compiled_code = '';
 		$ret->status = '';
 		$ret->error_msg = '';
 
+		if (null === $preprocessor) {
+      $preprocessor = $this->get_preprocessor();
+    }
+
 		if ( empty($pre_code) ) {
 			$ret->status = 'empty';
 		} else {
 			try {
 					
-				switch($this->get_preprocessor()) {
+				switch($preprocessor) {
 					case 'scss' :
 						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/scssphp/scss.inc.php';
 						//echo plugin_dir_path( dirname( __FILE__ ) ) . 'lib/scssphp/scss.inc.php';
@@ -319,6 +323,12 @@ abstract class Admin_Code_Editor_Editor {
 
 					  $compiled_code = CoffeeScript\Compiler::compile($pre_code);
 					  $ret->compiled_code = trim($compiled_code);
+						$ret->status = 'success';	
+
+					break;
+					case 'none' :
+					
+					  $ret->compiled_code = trim($pre_code);
 						$ret->status = 'success';	
 
 					break;	
