@@ -4,7 +4,8 @@ li#wp-ace__settings-tab {
   li#wp-ace__settings-tab:hover, li#wp-ace__settings-tab:focus {
     background: none; }
   li#wp-ace__settings-tab a {
-    background-color: none !important; }
+    background-color: none !important;
+    border: none !important; }
     li#wp-ace__settings-tab a:hover, li#wp-ace__settings-tab a:focus {
       background: none; }
 
@@ -17,3 +18,17 @@ li#wp-ace__settings-tab {
 
 .wp-ace-compiled-code-display .ace_content {
   opacity: 0.85; }
+
+.wp-ace__notice .fa {
+  padding-right: 2px;
+  font-size: 125%; }
+
+.wp-ace-bootstrap .nav-tabs a.bg-danger {
+  background-color: #f2dede; }
+  .wp-ace-bootstrap .nav-tabs a.bg-danger:hover, .wp-ace-bootstrap .nav-tabs a.bg-danger:focus {
+    background-color: #e4b9b9; }
+
+.wp-ace-bootstrap .nav-tabs > li.active > a.bg-danger,
+.wp-ace-bootstrap .nav-tabs > li.active > a.bg-danger:hover,
+.wp-ace-bootstrap .nav-tabs > li.active > a.bg-danger:focus {
+  background-color: #e4b9b9; }

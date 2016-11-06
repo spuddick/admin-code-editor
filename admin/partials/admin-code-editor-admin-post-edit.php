@@ -9,7 +9,7 @@
 	  <!-- Nav tabs -->
 	  <ul class="nav nav-tabs" role="tablist">
 	    <li role="presentation" class="<?php if ($last_active_tab_id == 'html-edit' || $last_active_tab_id == 'html-compiled' ) { echo 'active'; } ?>  dropdown">
-	    	<a href="#" aria-controls="html"  class="dropdown-toggle <?php if ($html_php_editor->get_code_compile_status() == 'error') { echo 'bg-danger'; } ?> " data-toggle="dropdown" >
+	    	<a href="#" aria-controls="html"  class="dropdown-toggle <?php if ($html_php_editor->get_code_compile_status() == 'error') { echo 'bg-danger wp-ace__error-tab'; } ?> " data-toggle="dropdown" >
 	    		HTML
 			    <span id="html-php-tab-label-preprocessor" class="text-muted" ></span>
 
@@ -21,7 +21,7 @@
 	    	</a>
 	    </li>
 	    <li role="presentation" class="<?php if ($last_active_tab_id == 'css-edit' || $last_active_tab_id == 'css-compiled' ) { echo 'active'; } ?> dropdown">
-	    	<a href="#" aria-controls="css" class="dropdown-toggle <?php if ($css_editor->get_code_compile_status() == 'error') { echo 'bg-danger'; } ?>" data-toggle="dropdown" >
+	    	<a href="#" aria-controls="css" class="dropdown-toggle <?php if ($css_editor->get_code_compile_status() == 'error') { echo 'bg-danger wp-ace__error-tab'; } ?>" data-toggle="dropdown" >
 	    		CSS
 	    		<span id="css-tab-label-preprocessor" class="text-muted" ></span>
 
@@ -33,7 +33,7 @@
 	    	</a>
 	    </li>
 	    <li role="presentation" class="<?php if ($last_active_tab_id == 'javascript-edit' || $last_active_tab_id == 'javascript-compiled' ) { echo 'active'; } ?> dropdown">
-	    	<a href="#" aria-controls="javascript" class="dropdown-toggle <?php if ($js_editor->get_code_compile_status() == 'error') { echo 'bg-danger'; } ?>" data-toggle="dropdown" >
+	    	<a href="#" aria-controls="javascript" class="dropdown-toggle <?php if ($js_editor->get_code_compile_status() == 'error') { echo 'bg-danger  wp-ace__error-tab'; } ?>" data-toggle="dropdown" >
 	    		Javascript
 	    		<span id="js-tab-label-preprocessor" class="text-muted" ></span>
 
@@ -56,13 +56,14 @@
 	  <div class="tab-content">
 	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'html-edit' ) { echo 'active'; } ?>" id="html-edit">
 				<div class="wp-ace__tab-panel-inner" >
-					<?php if ($html_php_editor->get_code_compile_status() == 'error') { ?>
-						<div class="alert alert-warning" role="alert">
-						  <?php echo $html_php_editor->get_code_compile_error_msg() ?>
-						</div>
 
+					<?php if ($html_php_editor->get_code_compile_status() == 'error') { ?>
+					<p class="wp-ace__notice wp-ace__notice--info text-error" >
+	    			<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+	    			<span class="wp-ace__notice__text" ><?php echo $html_php_editor->get_code_compile_error_msg() ?></span>
+	    		</p>
 					<?php } else { ?>
-						<div class="alert wp-ace__alert--empty" >						</div>
+						<p class="wp-ace__notice wp-ace__notice--info text-error" >&nbsp;</p>
 					<?php } ?>
 
 					<div class="wp-ace-editor">
@@ -116,11 +117,12 @@
 	    	<div class="wp-ace__tab-panel-inner" >
 
 					<?php if ($css_editor->get_code_compile_status() == 'error') { ?>
-						<div class="alert alert-warning" role="alert">
-						  <?php echo $css_editor->get_code_compile_error_msg() ?>
-						</div>
+					<p class="wp-ace__notice wp-ace__notice--info text-error" >
+	    			<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+	    			<span class="wp-ace__notice__text" ><?php echo $css_editor->get_code_compile_error_msg() ?></span>
+	    		</p>
 					<?php } else { ?>
-						<div class="alert wp-ace__alert--empty" >						</div>
+						<p class="wp-ace__notice wp-ace__notice--info text-error" >&nbsp;</p>
 					<?php } ?>
 
 					<div class="wp-ace-editor">
@@ -153,11 +155,12 @@
 				<div class="wp-ace__tab-panel-inner" >	
 					
 					<?php if ($js_editor->get_code_compile_status() == 'error') { ?>
-						<div class="alert alert-warning" role="alert">
-						  <?php echo $js_editor->get_code_compile_error_msg() ?>
-						</div>
+					<p class="wp-ace__notice wp-ace__notice--info text-error" >
+	    			<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+	    			<span class="wp-ace__notice__text" ><?php echo $js_editor->get_code_compile_error_msg() ?></span>
+	    		</p>
 					<?php } else { ?>
-						<div class="alert wp-ace__alert--empty" >						</div>
+						<p class="wp-ace__notice wp-ace__notice--info text-error" >&nbsp;</p>
 					<?php } ?>
 
 					<div class="wp-ace-editor">
@@ -196,21 +199,33 @@
 				</div>
 	    </div>
 	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'html-compiled' ) { echo 'active'; } ?>" id="html-compiled">
-	    		<h5>Compiled HTML (Read Only)</h5>
+	    		<h5>Compiled HTML <span class="text-muted" >(Read Only)</span></h5>
+	    		<p class="wp-ace__notice wp-ace__notice--info text-warning" >
+	    			<span class="fa fa-info-circle" aria-hidden="true"></span>
+	    			<span class="wp-ace__notice__text" >Code has changed. Publish/Update post to view latest compiled code.</span>
+	    		</p>
 	    		<div class="wp-ace-editor">
 						<pre id="wp-ace-html-compiled-code-display" class="wp-ace-compiled-code-display" style="height:400px" ><?php echo htmlentities($html_php_editor->get_compiled_code()); ?></pre>
 						
 					</div>
 	    </div>
 	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'css-compiled' ) { echo 'active'; } ?>" id="css-compiled">
-	    		<h5>Compiled CSS (Read Only)</h5>
+	    		<h5>Compiled CSS <span class="text-muted" >(Read Only)</span></h5>
+	    		<p class="wp-ace__notice wp-ace__notice--info text-warning" >
+	    			<span class="fa fa-info-circle" aria-hidden="true"></span>
+	    			<span class="wp-ace__notice__text" >Code has changed. Publish/Update post to view latest compiled code.</span>
+	    		</p>
 	    		<div class="wp-ace-editor">
 						<pre id="wp-ace-css-compiled-code-display" class="wp-ace-compiled-code-display" style="height:400px"  ><?php echo htmlentities($css_editor->get_compiled_code()); ?></pre>
 						
 					</div>	    	
 	    </div>
 	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'javascript-compiled' ) { echo 'active'; } ?>" id="javascript-compiled">
-	    		<h5>Compiled Javascript (Read Only)</h5>
+	    		<h5>Compiled Javascript <span class="text-muted" >(Read Only)</span></h5>
+	    		<p class="wp-ace__notice wp-ace__notice--info text-warning" >
+	    			<span class="fa fa-info-circle" aria-hidden="true"></span>
+	    			<span class="wp-ace__notice__text" >Code has changed. Publish/Update post to view latest compiled code.</span>
+	    		</p>
 	    		<div class="wp-ace-editor">
 						<pre id="wp-ace-js-compiled-code-display" class="wp-ace-compiled-code-display" style="height:400px"  ><?php echo htmlentities($js_editor->get_compiled_code()); ?></pre>
 						
