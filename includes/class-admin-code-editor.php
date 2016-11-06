@@ -157,7 +157,7 @@ class Admin_Code_Editor {
 		$this->loader->add_action( 'add_meta_boxes', 		$plugin_admin, 'code_editor_add_meta_box' );
 		$this->loader->add_action( 'save_post', 			$plugin_admin, 'code_editor_save' );
 		//$this->loader->add_action( 'default_hidden_meta_boxes', $plugin_admin, 'hide_code_meta_box' );
-		//$this->loader->add_action( 'admin_notices', 				$plugin_admin, 'sass_compile_notice' );
+		$this->loader->add_action( 'admin_notices', 				$plugin_admin, 'admin_post_error_notice' );
 		$this->loader->add_action( 'admin_menu', 			$plugin_admin, 'options_menu' );
 		$this->loader->add_action( 'admin_init', 			$plugin_admin, 'display_theme_panel_fields' );
 		

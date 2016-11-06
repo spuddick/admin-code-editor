@@ -5,9 +5,8 @@
 </script>
 <div class="wp-ace-bootstrap">
 	<div>
-
 	  <!-- Nav tabs -->
-	  <ul class="nav nav-tabs" role="tablist">
+	  <ul id="wp-ace__tabs" class="nav nav-tabs" role="tablist">
 	    <li role="presentation" class="<?php if ($last_active_tab_id == 'html-edit' || $last_active_tab_id == 'html-compiled' ) { echo 'active'; } ?>  dropdown">
 	    	<a href="#" aria-controls="html"  class="dropdown-toggle <?php if ($html_php_editor->get_code_compile_status() == 'error') { echo 'bg-danger wp-ace__error-tab'; } ?> " data-toggle="dropdown" >
 	    		HTML

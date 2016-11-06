@@ -220,6 +220,54 @@ class Admin_Code_Editor_Admin {
 	}
 
 
+
+	/**
+	 *
+	 * Display WordPress error message if at least one of the HTML, CSS, or JS precode compilation contains an error
+	 *
+	 */
+	public function admin_post_error_notice() {
+	  global $post, $pagenow;
+		$screen = get_current_screen();
+
+		if ( $pagenow == 'post-new.php' || $pagenow == 'post.php' ) {
+			$selected_post_types 	= get_option('wpcr_post_types');
+
+			if ( in_array($post->post_type, $selected_post_types)) { 
+				$editor_args = array(
+					'type' => 'html-php',
+					'host-post-id' => $post->ID
+				);
+				$html_php_editor 	= new Admin_Code_Editor_Editor_HTML_PHP($editor_args);
+
+				$editor_args = array(
+					'type' => 'css',
+					'host-post-id' => $post->ID
+				);
+				$css_editor 	= new Admin_Code_Editor_Editor_CSS($editor_args);
+
+				$editor_args = array(
+					'type' => 'js',
+					'host-post-id' => $post->ID
+				);
+				$js_editor 	= new Admin_Code_Editor_Editor_JS($editor_args);
+
+			  if ( 
+			  	$html_php_editor->get_code_compile_status() == 'error' ||
+			  	$css_editor->get_code_compile_status() == 'error' ||
+			  	$js_editor->get_code_compile_status() == 'error'
+			   ) {
+
+				  ?>
+			    <div class="error">
+			      <p>There is an error in the WP ACE Editor Code. <a href='#wp-ace__tabs'>See below for more information</a>.</p>
+			    </div>
+			    <?php
+		  	}
+		  }
+		}
+	}
+
 	/**
 	 * Prints the box content.
 	 * 
