@@ -184,13 +184,16 @@ class Admin_Code_Editor_Admin {
 				);
 				$js_editor 	= new Admin_Code_Editor_Editor_JS($editor_args);
 
+				$post_type_obj = get_post_type_object( $post->post_type );
+
 				$wpcr_data = array(
 					'wp-ace-html-php-disable-wpautop' 	=> $html_php_editor->get_disable_wpautop_status(),
 					'wp-ace-html-php-code-position' 		=> $html_php_editor->get_code_output_position(),
 					'wp-ace-html-php-preprocessor' 			=> $html_php_editor->get_preprocessor(),
 					'wp-ace-css-preprocessor' 					=> $css_editor->get_preprocessor(),
 					'wp-ace-css-include-jquery' 				=> $js_editor->get_include_jquery_status(),
-					'wp-ace-js-preprocessor' 						=> $js_editor->get_preprocessor()
+					'wp-ace-js-preprocessor' 						=> $js_editor->get_preprocessor(),
+					'wp-ace-post-type-singular-name'		=> $post_type_obj->labels->singular_name
 				);
 				wp_localize_script( $this->admin_code_editor, 'wpcr_data', $wpcr_data);      
 			}

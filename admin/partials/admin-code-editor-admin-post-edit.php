@@ -3,6 +3,18 @@
   	(<%= preprocessor %>)
   <% } %>
 </script>
+<script type="text/template" id="tpl-wp-ace-code-changed">
+  <% if ( preprocessor.length && preprocessor != "none") { %>
+	  <p class="wp-ace__notice wp-ace__notice--info text-warning" >
+			<span class="fa fa-info-circle" aria-hidden="true"></span>
+			<span class="wp-ace__notice__text" ><%= preprocessor_nice_name %> Code has changed. Publish/Update <%= post_type_name %> to view latest compiled code.</span>
+		</p>
+  <% } else { %>
+	  <p class="wp-ace__notice wp-ace__notice--info text-warning" >
+	  	&nbsp;
+		</p>
+  <% } %>
+</script>
 <div class="wp-ace-bootstrap">
 	<div>
 	  <!-- Nav tabs -->
