@@ -198,21 +198,21 @@
 	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'html-compiled' ) { echo 'active'; } ?>" id="html-compiled">
 	    		<h5>Compiled HTML (Read Only)</h5>
 	    		<div class="wp-ace-editor">
-						<pre id="wp-ace-html-compiled-code-display" style="height:400px" ><?php echo htmlentities($html_php_editor->get_compiled_code()); ?></pre>
+						<pre id="wp-ace-html-compiled-code-display" class="wp-ace-compiled-code-display" style="height:400px" ><?php echo htmlentities($html_php_editor->get_compiled_code()); ?></pre>
 						
 					</div>
 	    </div>
 	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'css-compiled' ) { echo 'active'; } ?>" id="css-compiled">
 	    		<h5>Compiled CSS (Read Only)</h5>
 	    		<div class="wp-ace-editor">
-						<pre id="wp-ace-css-compiled-code-display" style="height:400px"  ><?php echo htmlentities($css_editor->get_compiled_code()); ?></pre>
+						<pre id="wp-ace-css-compiled-code-display" class="wp-ace-compiled-code-display" style="height:400px"  ><?php echo htmlentities($css_editor->get_compiled_code()); ?></pre>
 						
 					</div>	    	
 	    </div>
 	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'javascript-compiled' ) { echo 'active'; } ?>" id="javascript-compiled">
 	    		<h5>Compiled Javascript (Read Only)</h5>
 	    		<div class="wp-ace-editor">
-						<pre id="wp-ace-js-compiled-code-display" style="height:400px"  ><?php echo htmlentities($js_editor->get_compiled_code()); ?></pre>
+						<pre id="wp-ace-js-compiled-code-display" class="wp-ace-compiled-code-display" style="height:400px"  ><?php echo htmlentities($js_editor->get_compiled_code()); ?></pre>
 						
 					</div>	    	
 	    </div>

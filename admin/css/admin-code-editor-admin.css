@@ -14,3 +14,6 @@ li#wp-ace__settings-tab {
 .wp-ace-bootstrap .alert.wp-ace__alert--empty {
   box-shadow: none;
   -webkit-box-shadow: none; }
+
+.wp-ace-compiled-code-display .ace_content {
+  opacity: 0.85; }

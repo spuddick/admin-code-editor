@@ -422,6 +422,7 @@ var wpAceInterface = (function() {
 			  html_display.getSession().setMode("ace/mode/html");
 			  html_display.getSession().setUseWrapMode(ACE_WRAP_MODE);
 			  html_display.getSession().setTabSize(ACE_TAB_SIZE);
+			  html_display.setReadOnly(true);
 			  /*
 			  html_display.setOptions({
 				    readOnly: true,
@@ -436,6 +437,7 @@ var wpAceInterface = (function() {
 			  css_display.getSession().setMode("ace/mode/css");
 			  css_display.getSession().setUseWrapMode(ACE_WRAP_MODE);
 			  css_display.getSession().setTabSize(ACE_TAB_SIZE);
+			  css_display.setReadOnly(true);
 			  /*
 			  css_display.setOptions({
 				    readOnly: true,
@@ -450,6 +452,7 @@ var wpAceInterface = (function() {
 			  js_display.getSession().setMode("ace/mode/javascript");
 			  js_display.getSession().setUseWrapMode(ACE_WRAP_MODE);
 			  js_display.getSession().setTabSize(ACE_TAB_SIZE);
+			  js_display.setReadOnly(true);
 			  /*
 			  js_display.setOptions({
 				    readOnly: true,
