@@ -44,6 +44,7 @@ var wpAceInterface = (function() {
     const ACE_TAB_SIZE 	= 2;
     const ACE_FONT_SIZE = '13px';
 
+
     var html_editor, css_editor, js_editor;
 		var html_code_model, css_code_model, js_code_model;
 		var html_tab_label_preprocessor_view, css_tab_label_preprocessor_view, js_tab_label_preprocessor_view;
@@ -52,6 +53,9 @@ var wpAceInterface = (function() {
 
     // Models
 		var Code_Model = Backbone.Model.extend({
+		  defaults : {
+		  	code_has_changed : 0
+		  },
 		  updatePreprocessor: function($preprocessor_obj) {
 		    var new_mode = $preprocessor_obj.val();
     		console.log('updating html editor:' + new_mode);
@@ -60,7 +64,12 @@ var wpAceInterface = (function() {
 		    this.set({
 		      preprocessor: new_mode
 		    });
-		    
+		    this.set({
+		      preprocessor_nicename: this.preprocessor_nicename_map[new_mode]
+		    });
+		  },
+		  updateCodeChangedStatus : function(){
+		  	this.set(code_has_changed, 1);
 		  }
 		  /*
 		  validate: function( attributes ){
@@ -86,6 +95,11 @@ var wpAceInterface = (function() {
 		});			
 		
 		var HTML_Code_Model = Code_Model.extend({
+		  preprocessor_nicename_map : {
+		  	none : 'HTML',
+		  	haml : 'HAML',
+		  	markdown : 'MarkDown'
+		  },
 		  updateCodePosition: function() {
 		    var code_position = jQuery('input[name=wp-ace-html-php-code-position]:checked').val();
 		    this.set({
@@ -106,9 +120,18 @@ var wpAceInterface = (function() {
 
 		});
 		var CSS_Code_Model = Code_Model.extend({
-
+		  preprocessor_nicename_map : {
+		  	none : 'CSS',
+		  	scss : 'Scss',
+		  	less : 'LESS',
+		  	stylus : 'Stylus'
+		  }
 		});
 		var JS_Code_Model = Code_Model.extend({
+		  preprocessor_nicename_map : {
+		  	none : 'Javascript',
+		  	coffee : 'CoffeeScript'
+		  },
 		  updateIncludeJqueryStatus: function() {
 		    var status = 0;
 		    if (jQuery('input#wp-ace-css-include-jquery').is(":checked")) {
@@ -269,6 +292,19 @@ var wpAceInterface = (function() {
 
 		});
 		
+		var Code_Update_Notice_View = Backbone.View.extend({
+	    tagName: 'div',
+	    initialize: function() {
+        this.template = _.template(jQuery('#tmpl-wp-ace-code-changed').html());
+        this.listenTo(this.model, "change", this.render);
+	    },
+	    render: function() {
+        this.$el.html(this.template(this.model.attributes));
+        return this;
+	    }
+		});
+
+
     var init = function() {
 
 
@@ -307,11 +343,10 @@ var wpAceInterface = (function() {
 			  html_editor.getSession().setUseWrapMode(ACE_WRAP_MODE);
 			  html_editor.getSession().setTabSize(ACE_TAB_SIZE);
 			  html_editor.code_has_changed = 0;
-			  /*
 			  html_editor.getSession().on('change', function() {
 					html_editor.code_has_changed = 1;
+					html_code_model.updateCodeChangedStatus();
 				});
-				*/
 				html_editor.update_mode = function(mode) {
 					if (mode == 'none') {
 						mode = 'html';
@@ -322,6 +357,7 @@ var wpAceInterface = (function() {
 
 			  html_editor.hidden_input_id = 'wp-ace-html-php-pre-code';
 		  }
+
 		  if (jQuery('#wp-ace-css-pre-code-editor').length ) {
 			  css_editor = ace.edit("wp-ace-css-pre-code-editor");
 			  css_editor.setTheme(ACE_THEME);
@@ -331,6 +367,7 @@ var wpAceInterface = (function() {
 			  css_editor.code_has_changed = 0;
 			  css_editor.getSession().on('change', function() {
 					css_editor.code_has_changed = 1;
+					css_code_model.updateCodeChangedStatus();
 				});
 				css_editor.update_mode = function(mode) {
 					if (mode == 'none') {
@@ -351,6 +388,7 @@ var wpAceInterface = (function() {
 			  js_editor.code_has_changed = 0;
 			  js_editor.getSession().on('change', function() {
 					js_editor.code_has_changed = 1;
+					js_code_model.updateCodeChangedStatus();
 				});
 				js_editor.update_mode = function(mode) {
 					if (mode == 'none') {
@@ -371,18 +409,20 @@ var wpAceInterface = (function() {
 				preprocessor: wpcr_data['wp-ace-html-php-preprocessor'], 
 				ace_editor : html_editor,
 				output_position : wpcr_data['wp-ace-html-php-code-position'],
-				wpautop_status : wpcr_data['wp-ace-html-php-disable-wpautop']		 
+				wpautop_status : wpcr_data['wp-ace-html-php-disable-wpautop'],
+				post_type_name : wpcr_data['wp-ace-post-type-singular-name']		 
 			});
 			css_code_model = new CSS_Code_Model({ 
 				preprocessor: wpcr_data['wp-ace-css-preprocessor'], 
-				ace_editor : css_editor,  
+				ace_editor : css_editor,
+				post_type_name : wpcr_data['wp-ace-post-type-singular-name']  
 			});
 			js_code_model = new JS_Code_Model({ 
 				preprocessor: wpcr_data['wp-ace-js-preprocessor'], 
 				ace_editor : js_editor,
-				jquery_enqueued_status : wpcr_data['wp-ace-css-include-jquery'] 
+				jquery_enqueued_status : wpcr_data['wp-ace-css-include-jquery'],
+				post_type_name : wpcr_data['wp-ace-post-type-singular-name'] 
 			});
-
 
 
 			html_tab_label_preprocessor_view = new Tab_Label_View({ el: jQuery("#html-php-tab-label-preprocessor"), model: html_code_model });
@@ -408,6 +448,10 @@ var wpAceInterface = (function() {
 			html_settings_view.render();
 			css_settings_view.render();
 			js_settings_view.render();
+
+			html_update_notice_view = new Code_Update_Notice_View({ el: jQuery("#wp-ace__notice-container--html-php"), model: html_code_model });
+			css_update_notice_view = new Code_Update_Notice_View({ el: jQuery("#wp-ace__notice-container--css"), model: css_code_model });
+			js_update_notice_view = new Code_Update_Notice_View({ el: jQuery("#wp-ace__notice-container--js"), model: js_code_model });
 
 		  //registerPreprocessorSelectListeners();
 		  //setInitialEditorModes();

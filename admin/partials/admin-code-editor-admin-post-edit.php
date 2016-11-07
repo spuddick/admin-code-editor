@@ -3,11 +3,11 @@
   	(<%= preprocessor %>)
   <% } %>
 </script>
-<script type="text/template" id="tpl-wp-ace-code-changed">
-  <% if ( preprocessor.length && preprocessor != "none") { %>
+<script type="text/template" id="tmpl-wp-ace-code-changed">
+  <% if (code_has_changed) { %>
 	  <p class="wp-ace__notice wp-ace__notice--info text-warning" >
 			<span class="fa fa-info-circle" aria-hidden="true"></span>
-			<span class="wp-ace__notice__text" ><%= preprocessor_nice_name %> Code has changed. Publish/Update <%= post_type_name %> to view latest compiled code.</span>
+			<span class="wp-ace__notice__text" ><%= preprocessor_nicename %> Code has changed. Publish/Update <%= post_type_name %> to view latest compiled code.</span>
 		</p>
   <% } else { %>
 	  <p class="wp-ace__notice wp-ace__notice--info text-warning" >
@@ -210,37 +210,29 @@
 				</div>
 	    </div>
 	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'html-compiled' ) { echo 'active'; } ?>" id="html-compiled">
-	    		<h5>Compiled HTML <span class="text-muted" >(Read Only)</span></h5>
-	    		<p class="wp-ace__notice wp-ace__notice--info text-warning" >
-	    			<span class="fa fa-info-circle" aria-hidden="true"></span>
-	    			<span class="wp-ace__notice__text" >Code has changed. Publish/Update post to view latest compiled code.</span>
-	    		</p>
-	    		<div class="wp-ace-editor">
-						<pre id="wp-ace-html-compiled-code-display" class="wp-ace-compiled-code-display" style="height:400px" ><?php echo htmlentities($html_php_editor->get_compiled_code()); ?></pre>
-						
-					</div>
+    		<h5>Compiled HTML <span class="text-muted" >(Read Only)</span></h5>
+    		<div id="wp-ace__notice-container--html-php"></div>
+
+    		<div class="wp-ace-editor">
+					<pre id="wp-ace-html-compiled-code-display" class="wp-ace-compiled-code-display" style="height:400px" ><?php echo htmlentities($html_php_editor->get_compiled_code()); ?></pre>
+					
+				</div>
 	    </div>
 	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'css-compiled' ) { echo 'active'; } ?>" id="css-compiled">
-	    		<h5>Compiled CSS <span class="text-muted" >(Read Only)</span></h5>
-	    		<p class="wp-ace__notice wp-ace__notice--info text-warning" >
-	    			<span class="fa fa-info-circle" aria-hidden="true"></span>
-	    			<span class="wp-ace__notice__text" >Code has changed. Publish/Update post to view latest compiled code.</span>
-	    		</p>
-	    		<div class="wp-ace-editor">
-						<pre id="wp-ace-css-compiled-code-display" class="wp-ace-compiled-code-display" style="height:400px"  ><?php echo htmlentities($css_editor->get_compiled_code()); ?></pre>
-						
-					</div>	    	
+    		<h5>Compiled CSS <span class="text-muted" >(Read Only)</span></h5>
+    		<div id="wp-ace__notice-container--css"></div>
+    		<div class="wp-ace-editor">
+					<pre id="wp-ace-css-compiled-code-display" class="wp-ace-compiled-code-display" style="height:400px"  ><?php echo htmlentities($css_editor->get_compiled_code()); ?></pre>
+					
+				</div>	    	
 	    </div>
 	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'javascript-compiled' ) { echo 'active'; } ?>" id="javascript-compiled">
-	    		<h5>Compiled Javascript <span class="text-muted" >(Read Only)</span></h5>
-	    		<p class="wp-ace__notice wp-ace__notice--info text-warning" >
-	    			<span class="fa fa-info-circle" aria-hidden="true"></span>
-	    			<span class="wp-ace__notice__text" >Code has changed. Publish/Update post to view latest compiled code.</span>
-	    		</p>
-	    		<div class="wp-ace-editor">
-						<pre id="wp-ace-js-compiled-code-display" class="wp-ace-compiled-code-display" style="height:400px"  ><?php echo htmlentities($js_editor->get_compiled_code()); ?></pre>
-						
-					</div>	    	
+    		<h5>Compiled Javascript <span class="text-muted" >(Read Only)</span></h5>
+    		<div id="wp-ace__notice-container--js"></div>
+    		<div class="wp-ace-editor">
+					<pre id="wp-ace-js-compiled-code-display" class="wp-ace-compiled-code-display" style="height:400px"  ><?php echo htmlentities($js_editor->get_compiled_code()); ?></pre>
+					
+				</div>	    	
 	    </div>
 	  </div>
 
