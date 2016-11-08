@@ -11,7 +11,7 @@
 		</p>
   <% } else { %>
 	  <p class="wp-ace__notice wp-ace__notice--info text-warning" >
-	  	&nbsp;
+	  	<span class="wp-ace__notice__text" >&nbsp;</span>
 		</p>
   <% } %>
 </script>

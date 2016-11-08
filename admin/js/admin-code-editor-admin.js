@@ -64,13 +64,19 @@ var wpAceInterface = (function() {
 		    this.set({
 		      preprocessor: new_mode
 		    });
+		    console.dir(this.get(preprocessor_nicename_map));
 		    this.set({
-		      preprocessor_nicename: this.preprocessor_nicename_map[new_mode]
+		      preprocessor_nicename: this.get(preprocessor_nicename_map)[new_mode]
 		    });
 		  },
 		  updateCodeChangedStatus : function(){
-		  	this.set(code_has_changed, 1);
+		  	this.set({code_has_changed: 1});
+		  },
+		  initialize: function(){
+		  	this.set({code_has_changed: 0});
+			  
 		  }
+		  
 		  /*
 		  validate: function( attributes ){
 		    if( attributes.age < 0 && attributes.name != "Dr Manhatten" ){
@@ -95,10 +101,10 @@ var wpAceInterface = (function() {
 		});			
 		
 		var HTML_Code_Model = Code_Model.extend({
-		  preprocessor_nicename_map : {
-		  	none : 'HTML',
-		  	haml : 'HAML',
-		  	markdown : 'MarkDown'
+		  defaults : {
+		    preprocessor_nicename_map : '',
+		    preprocessor_nicename : '',
+		    code_has_changed : 0
 		  },
 		  updateCodePosition: function() {
 		    var code_position = jQuery('input[name=wp-ace-html-php-code-position]:checked').val();
@@ -116,21 +122,45 @@ var wpAceInterface = (function() {
 		      wpautop_status : status
 		    });
 		    
+		  },
+		  initialize: function(){
+		    this.set({
+				  preprocessor_nicename_map : {
+				  	none : 'HTML',
+				  	haml : 'HAML',
+				  	markdown : 'MarkDown'
+				  }
+		    });
+			  this.set({
+		      preprocessor_nicename: this.get('preprocessor_nicename_map')[this.get('preprocessor')]
+		    });
 		  }
-
 		});
 		var CSS_Code_Model = Code_Model.extend({
-		  preprocessor_nicename_map : {
-		  	none : 'CSS',
-		  	scss : 'Scss',
-		  	less : 'LESS',
-		  	stylus : 'Stylus'
-		  }
+		  defaults : {
+		    preprocessor_nicename_map : '',
+		    preprocessor_nicename : '',
+		    code_has_changed : 0
+		  },
+		  initialize: function(){
+		    this.set({
+				  preprocessor_nicename_map : {
+				  	none : 'CSS',
+				  	scss : 'Scss',
+				  	less : 'LESS',
+				  	stylus : 'Stylus'
+				  }
+		    });
+		    this.set({
+		      preprocessor_nicename: this.get('preprocessor_nicename_map')[this.get('preprocessor')]
+		    });
+			}  
 		});
 		var JS_Code_Model = Code_Model.extend({
-		  preprocessor_nicename_map : {
-		  	none : 'Javascript',
-		  	coffee : 'CoffeeScript'
+		  defaults : {
+		    preprocessor_nicename_map : '',
+		    preprocessor_nicename : '',
+		    code_has_changed : 0
 		  },
 		  updateIncludeJqueryStatus: function() {
 		    var status = 0;
@@ -141,7 +171,18 @@ var wpAceInterface = (function() {
 		      jquery_enqueued_status : status 
 		    });
 		    
-		  }
+		  },
+		  initialize: function(){
+		    this.set({
+				  preprocessor_nicename_map : {
+				  	none : 'Javascript',
+				  	coffee : 'CoffeeScript'
+				  }
+		    });
+		    this.set({
+		      preprocessor_nicename: this.get('preprocessor_nicename_map')[this.get('preprocessor')]
+		    });
+			} 
 		});
 
 		var Tab_Label_View = Backbone.View.extend({
@@ -453,6 +494,9 @@ var wpAceInterface = (function() {
 			css_update_notice_view = new Code_Update_Notice_View({ el: jQuery("#wp-ace__notice-container--css"), model: css_code_model });
 			js_update_notice_view = new Code_Update_Notice_View({ el: jQuery("#wp-ace__notice-container--js"), model: js_code_model });
 
+			html_update_notice_view.render();
+			css_update_notice_view.render();
+			js_update_notice_view.render();
 		  //registerPreprocessorSelectListeners();
 		  //setInitialEditorModes();
 		  registerFormSubmitListener();
