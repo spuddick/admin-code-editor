@@ -1,6 +1,6 @@
 <script type="text/template" id="tab-label-preprocessor-template">
   <% if ( preprocessor.length && preprocessor != "none") { %>
-  	(<%= preprocessor %>)
+  	(<%= preprocessor_nicename %>)
   <% } %>
 </script>
 <script type="text/template" id="tmpl-wp-ace-code-changed">
@@ -95,7 +95,7 @@
 							  <% if (preprocessor == 'none') { %>
 							  	No HTML Preprocessor selected.
 							  <% } else { %>
-									Preprocessing with <strong><%= preprocessor %></strong>.
+									Preprocessing with <strong><%= preprocessor_nicename %></strong>.
 							  <% } %>
 							  
 							  Positioned <strong>
@@ -153,7 +153,7 @@
 							  <% if (preprocessor == 'none') { %>
 							  	No CSS Preprocessor selected.
 							  <% } else { %>
-									Preprocessing with <strong><%= preprocessor %></strong>.
+									Preprocessing with <strong><%= preprocessor_nicename %></strong>.
 							  <% } %>
 							  
 							</script>
@@ -193,7 +193,7 @@
 							  <% if (preprocessor == 'none') { %>
 							  	No JavaScript Preprocessor selected.
 							  <% } else { %>
-									Preprocessing with <strong><%= preprocessor %></strong>.
+									Preprocessing with <strong><%= preprocessor_nicename %></strong>.
 							  <% } %>
 							  
 							  <% if (jquery_enqueued_status) { %>

@@ -64,9 +64,9 @@ var wpAceInterface = (function() {
 		    this.set({
 		      preprocessor: new_mode
 		    });
-		    console.dir(this.get(preprocessor_nicename_map));
+		    console.dir(this.get('preprocessor_nicename_map'));
 		    this.set({
-		      preprocessor_nicename: this.get(preprocessor_nicename_map)[new_mode]
+		      preprocessor_nicename: this.get('preprocessor_nicename_map')[new_mode]
 		    });
 		  },
 		  updateCodeChangedStatus : function(){
@@ -572,7 +572,7 @@ var wpAceInterface = (function() {
 
     var registerFormSubmitListener = function() {
     	// on form submit
-    	setPreFormSubmitData();
+    	//setPreFormSubmitData();
     	
     };
 
