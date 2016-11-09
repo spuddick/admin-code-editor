@@ -263,7 +263,7 @@ class Admin_Code_Editor_Admin {
 
 				  ?>
 			    <div class="error">
-			      <p>There is an error in the WP ACE Editor Code. <a href='#wp-ace__tabs'>See below for more information</a>.</p>
+			      <p> <?php _e('There is an error in the WP ACE Editor Code. <a href="#wp-ace__tabs">See below for more information</a>.', 'wrs-admin-code-editor'); ?> </p>
 			    </div>
 			    <?php
 		  	}
