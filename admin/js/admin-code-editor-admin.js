@@ -380,7 +380,6 @@ var wpAceInterface = (function() {
 		  if (jQuery('#wp-ace-html-php-pre-code-editor').length ) {
 			  html_editor = ace.edit("wp-ace-html-php-pre-code-editor");
 			  html_editor.setTheme(ACE_THEME);
-			  //html_editor.getSession().setMode("ace/mode/html");
 			  html_editor.getSession().setUseWrapMode(ACE_WRAP_MODE);
 			  html_editor.getSession().setTabSize(ACE_TAB_SIZE);
 			  html_editor.code_has_changed = 0;
@@ -402,7 +401,6 @@ var wpAceInterface = (function() {
 		  if (jQuery('#wp-ace-css-pre-code-editor').length ) {
 			  css_editor = ace.edit("wp-ace-css-pre-code-editor");
 			  css_editor.setTheme(ACE_THEME);
-			  //css_editor.getSession().setMode("ace/mode/scss");
 			  css_editor.getSession().setUseWrapMode(ACE_WRAP_MODE);
 			  css_editor.getSession().setTabSize(ACE_TAB_SIZE);
 			  css_editor.code_has_changed = 0;
@@ -420,10 +418,10 @@ var wpAceInterface = (function() {
 
 			  css_editor.hidden_input_id = 'wp-ace-css-pre-code';
 		  }
+
 		  if (jQuery('#wp-ace-js-pre-code-editor').length ) {
 			  js_editor = ace.edit("wp-ace-js-pre-code-editor");
 			  js_editor.setTheme(ACE_THEME);
-			  //js_editor.getSession().setMode("ace/mode/coffee");
 			  js_editor.getSession().setUseWrapMode(ACE_WRAP_MODE);
 			  js_editor.getSession().setTabSize(ACE_TAB_SIZE);
 			  js_editor.code_has_changed = 0;
@@ -510,13 +508,7 @@ var wpAceInterface = (function() {
 			  html_display.getSession().setUseWrapMode(ACE_WRAP_MODE);
 			  html_display.getSession().setTabSize(ACE_TAB_SIZE);
 			  html_display.setReadOnly(true);
-			  /*
-			  html_display.setOptions({
-				    readOnly: true,
-				    highlightActiveLine: false,
-				    highlightGutterLine: false
-				});
-				*/
+
 		  }
 		  if (jQuery('#wp-ace-css-compiled-code-display').length ) {
 			  css_display = ace.edit("wp-ace-css-compiled-code-display");
@@ -525,13 +517,7 @@ var wpAceInterface = (function() {
 			  css_display.getSession().setUseWrapMode(ACE_WRAP_MODE);
 			  css_display.getSession().setTabSize(ACE_TAB_SIZE);
 			  css_display.setReadOnly(true);
-			  /*
-			  css_display.setOptions({
-				    readOnly: true,
-				    highlightActiveLine: false,
-				    highlightGutterLine: false
-				});
-				*/
+
 		  }
 		  if (jQuery('#wp-ace-js-compiled-code-display').length ) {
 			  js_display = ace.edit("wp-ace-js-compiled-code-display");
@@ -540,13 +526,7 @@ var wpAceInterface = (function() {
 			  js_display.getSession().setUseWrapMode(ACE_WRAP_MODE);
 			  js_display.getSession().setTabSize(ACE_TAB_SIZE);
 			  js_display.setReadOnly(true);
-			  /*
-			  js_display.setOptions({
-				    readOnly: true,
-				    highlightActiveLine: false,
-				    highlightGutterLine: false
-				});
-				*/
+
 		  }	  
 
 		  /**
@@ -576,53 +556,32 @@ var wpAceInterface = (function() {
 			  jQuery('#' + $clicked_anchor.data('active-modal-tab')).tab('show');
 			})
 
-			jQuery('form').areYouSure();
+			/**
+			 *
+			 * Notice if leaving page without saving
+			 *
+			 */
+			jQuery(window).on("beforeunload", function() {
+        if (html_editor.code_has_changed || css_editor.code_has_changed || js_editor.code_has_changed) {
+        	return true;
+        }
+        return; 
+      });
 
     };
-    /*
-    var registerPreprocessorSelectListeners = function() {
-    	    	// update ace object
-    	// update json data
-    	// render with underscores
-    	console.log('setting up select listeners');
-    	jQuery('input[name=wp-ace-html-php-preprocessor]').change(function() {
-    		var new_mode = jQuery(this).val();
-    		console.log('updating html editor:' + new_mode);
-    		html_editor.update_mode(new_mode);
-				
-				html_code_model.set({'preprocessor': new_mode });
-    	});
-    	jQuery('input[name=wp-ace-css-preprocessor]').on('change', function() {
-    		var new_mode = jQuery(this).val();
-    		css_editor.update_mode(new_mode);
-				css_code_model.set({'preprocessor': new_mode });
-    	});
-    	jQuery('input[name=wp-ace-js-preprocessor]').on('change', function() {
-    		var new_mode = jQuery(this).val();
-    		js_editor.update_mode(new_mode);
-				js_code_model.set({'preprocessor': new_mode });
-    	});    	
-    };
-		*/
+
     var registerFormSubmitListener = function() {
     	// on form submit
     	setPreFormSubmitData();
-    	jQuery('form').areYouSure();
+    	
     };
 
-    var setPreFormSubmitData = function() {
-    	// get cursor position, set to input
-    };
-
-    var setInitialEditorModes = function() {
-			//jQuery('input[name=wp-ace-html-php-preprocessor]').trigger('change');
-			//jQuery('input[name=wp-ace-css-preprocessor]').trigger('change');
-			//jQuery('input[name=wp-ace-js-preprocessor]').trigger('change');
-    };
 
     var setInputMappingListeners = function() {
     		
-  		jQuery( "#post" ).submit(function( event ) {
+  		jQuery( "form#post" ).submit(function( event ) {
+				
+
 				mapEditorCodetoInput(html_editor);
 				mapEditorCodetoInput(css_editor);
 				mapEditorCodetoInput(js_editor);
@@ -639,20 +598,6 @@ var wpAceInterface = (function() {
 				console.log(editor_obj.getSession().getValue());
 				$editor_input.val(editor_obj.getSession().getValue());
 			}
-    };
-
-    var registerSettingsListeners = function() {
-    	/*
-				HTML
-					disable wpautop
-					position (before, after)
-					preprocessor
-				CSS
-					preprocessor
-				JS
-					include jquery
-					preprocessor
-    	*/
     };
 
     // Public API
