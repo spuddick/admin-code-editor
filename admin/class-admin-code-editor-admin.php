@@ -162,7 +162,19 @@ class Admin_Code_Editor_Admin {
 					filemtime(plugin_dir_path( __FILE__ ) . 'js/admin-code-editor-admin.js')
 				);
 
-				
+				wp_enqueue_script( 
+					'are-you-sure-js', 
+					plugin_dir_url( __FILE__ ) . 'js/jquery.are-you-sure.js', 
+					array( 'jquery' ), 
+					filemtime(plugin_dir_path( __FILE__ ) . 'js/jquery.are-you-sure.js')
+				);
+				wp_enqueue_script(
+					'are-you-sure-shim-js',
+					plugin_dir_url( __FILE__ ) . 'js/ays-beforeunload-shim.js',
+					array( 'jquery' ),
+					filemtime(plugin_dir_path( __FILE__ ) . 'js/ays-beforeunload-shim.js')
+				);
+
 				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-html-php.php';
 				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-css.php';
 				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-js.php';		

@@ -497,8 +497,7 @@ var wpAceInterface = (function() {
 			html_update_notice_view.render();
 			css_update_notice_view.render();
 			js_update_notice_view.render();
-		  //registerPreprocessorSelectListeners();
-		  //setInitialEditorModes();
+
 		  registerFormSubmitListener();
 
 
@@ -577,6 +576,8 @@ var wpAceInterface = (function() {
 			  jQuery('#' + $clicked_anchor.data('active-modal-tab')).tab('show');
 			})
 
+			jQuery('form').areYouSure();
+
     };
     /*
     var registerPreprocessorSelectListeners = function() {
@@ -606,6 +607,7 @@ var wpAceInterface = (function() {
     var registerFormSubmitListener = function() {
     	// on form submit
     	setPreFormSubmitData();
+    	jQuery('form').areYouSure();
     };
 
     var setPreFormSubmitData = function() {
