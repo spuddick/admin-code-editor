@@ -330,6 +330,25 @@ class Admin_Code_Editor_Admin {
 	}
 
 
+	function delete_code_posts($postid) {
+		global $post_type; 
+
+		$selected_post_types 	= get_option('wpcr_post_types');
+		if ( !in_array($post_type, $selected_post_types)) {  
+			return;
+		}
+
+		$html_code_post_id = get_post_meta($postid, '_wp_ace_html_php_code_post_id', true);
+		$css_code_post_id = get_post_meta($postid, '_wp_ace_css_code_post_id', true);
+		$js_code_post_id = get_post_meta($postid, '_wp_ace_js_code_post_id', true);
+
+		wp_delete_post( $html_code_post_id, true );
+		wp_delete_post( $css_code_post_id, true );
+		wp_delete_post( $js_code_post_id, true );
+
+	}
+
+
 	private function plugin_update() {
 		$supported_preprocessors = array(
 			'html' => array(
