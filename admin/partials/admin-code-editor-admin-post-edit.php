@@ -94,28 +94,25 @@
 					  	<p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span><span id="wp-ace-html-php-status" ></span> <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" data-active-modal-tab="wp-ace-html-tab-link" aria-controls="change-settings-modal"><?php _e('Change HTML Settings', 'wrs-admin-code-editor'); ?></a></p>
 						 	
 						 	<script type="text/template" id="tmpl-wp-ace-html-php-status-template">
+							  
 							  <% if (preprocessor == 'none') { %>
-							  	No HTML Preprocessor selected.
+							  	<?php _e('No HTML Preprocessor selected', 'wrs-admin-code-editor'); ?>.
 							  <% } else { %>
-									Preprocessing with <strong><%= preprocessor_nicename %></strong>.
+							  	<?php echo sprintf( __('Preprocessing with %1$d', 'wrs-admin-code-editor'), '<strong><%= preprocessor_nicename %></strong>'); ?>.
 							  <% } %>
 							  
-							  Positioned <strong>
-							  	<% if (output_position == 'before') { %>	
-							  		before post content
-							  	<% } else if (output_position == 'after') { %>
-										after post content
-							  	<% } %>
+						  	<% if (output_position == 'before') { %>	
+						  		<?php _e('Positioned <strong>before post content</strong>', 'wrs-admin-code-editor'); ?>.
+						  	<% } else if (output_position == 'after') { %>
+									<?php _e('Positioned <strong>after post content</strong>', 'wrs-admin-code-editor'); ?>.
+						  	<% } %>
 							  
-							  </strong>.
-							  wpautop <strong>
 							  <% if (wpautop_status) { %>
-							  	enabled
+							  	<?php _e('wpautop <strong>enabled</strong>', 'wrs-admin-code-editor'); ?>.
 							  <% } else { %>
-									disabled
+									<?php _e('wpautop <strong>disabled</strong>', 'wrs-admin-code-editor'); ?>.
 							  <% } %>
-								</strong>.
-							  
+								
 							</script>
 
 					  </div>
@@ -153,9 +150,9 @@
 					  	<p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> <span id="wp-ace-css-status" ></span> <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal" data-active-modal-tab="wp-ace-css-tab-link"  ><?php _e('Change CSS Settings', 'wrs-admin-code-editor'); ?></a></p>
 						 	<script type="text/template" id="tmpl-wp-ace-css-status-template">
 							  <% if (preprocessor == 'none') { %>
-							  	No CSS Preprocessor selected.
+							  	<?php _e('No CSS Preprocessor selected', 'wrs-admin-code-editor'); ?>.
 							  <% } else { %>
-									Preprocessing with <strong><%= preprocessor_nicename %></strong>.
+							  	<?php echo sprintf( __('Preprocessing with %1$d', 'wrs-admin-code-editor'), '<strong><%= preprocessor_nicename %></strong>'); ?>.
 							  <% } %>
 							  
 							</script>
@@ -193,15 +190,15 @@
 						 	<script type="text/template" id="tmpl-wp-ace-js-status-template">
 							  
 							  <% if (preprocessor == 'none') { %>
-							  	No JavaScript Preprocessor selected.
+							  	<?php _e('No JavaScript Preprocessor selected', 'wrs-admin-code-editor'); ?>.
 							  <% } else { %>
-									Preprocessing with <strong><%= preprocessor_nicename %></strong>.
+									<?php echo sprintf( __('Preprocessing with %1$d', 'wrs-admin-code-editor'), '<strong><%= preprocessor_nicename %></strong>'); ?>.
 							  <% } %>
 							  
 							  <% if (jquery_enqueued_status) { %>
-							  	jQuery <strong>enqueued</strong>.
+							  	<?php _e('jQuery <strong>enqueued</strong>', 'wrs-admin-code-editor'); ?>.
 							  <% } else { %>
-									jQuery <strong>not enqueued</strong>. 
+									<?php _e('jQuery <strong>not enqueued</strong>', 'wrs-admin-code-editor'); ?>. 
 							  <% } %>
 
 							</script>
@@ -287,7 +284,7 @@
 											<label>
 												<input type="checkbox" id="wp-ace-only-display-in-loop" name="wp-ace-only-display-in-loop" class="" value="1" <?php  checked($only_display_in_loop , '1') ?> >
 												<?php _e('inside the loop', 'wrs-admin-code-editor'); ?>
-												<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Inside the loop description https://codex.wordpress.org/Function_Reference/in_the_loop" aria-hidden="true"  ></span>									    	
+												<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="<?php _e('Inside the loop description https://codex.wordpress.org/Function_Reference/in_the_loop', 'wrs-admin-code-editor'); ?>" aria-hidden="true"  ></span>									    	
 											</label>	
 										</div>
 										
@@ -295,7 +292,7 @@
 											<label>
 												<input type="checkbox"  id="wp-ace-only-display-in-main-query" name="wp-ace-only-display-in-main-query" class="" value="1" <?php  checked($only_display_in_main_query, '1') ?> >
 												<?php _e('in main query', 'wrs-admin-code-editor'); ?>
-												<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Inside main query description https://codex.wordpress.org/Function_Reference/is_main_query " aria-hidden="true"  ></span>									    	
+												<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="<?php _e('Inside main query description https://codex.wordpress.org/Function_Reference/is_main_query', 'wrs-admin-code-editor'); ?>" aria-hidden="true"  ></span>									    	
 											</label>	
 										</div>
 										<input type="hidden" name="wp-ace-last-active-tab" id="wp-ace-last-active-tab" value="<?php echo $last_active_tab_id; ?>" />									    	
@@ -311,7 +308,7 @@
 												<label>
 													<input type="checkbox"  id="wp-ace-html-php-disable-wpautop" name="wp-ace-html-php-disable-wpautop" class="field-editor-disable-wpautop" value="1" <?php checked($html_php_editor->get_disable_wpautop_status(), '1'); ?> >
 													<?php _e('Disable wpautop', 'wrs-admin-code-editor'); ?> 
-													<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Automatically wraps in paragraph tag" aria-hidden="true"  ></span>									    	
+													<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="<?php _e('Automatically wraps in paragraph tag', 'wrs-admin-code-editor'); ?>" aria-hidden="true"  ></span>									    	
 												</label>	
 											</div>
 																							
