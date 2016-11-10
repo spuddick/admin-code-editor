@@ -104,13 +104,15 @@ class Admin_Code_Editor_Public {
 	public function insert_script_in_footer() {
 		global $wp_ace_js_output;
 		$wp_ace_js_output_string = '';
-		
-		foreach ($wp_ace_js_output as $post_id => $wp_ace_js_code) {
-		    // $arr[3] will be updated with each value from $arr...
-		  $wp_ace_js_output_string .= '<script id="wp-ace-javascript--post-'. $post_id .'" >//<![CDATA[' . "\r\n" . $wp_ace_js_code . "\r\n" . '//]]></script>';
+		if (!empty($wp_ace_js_output)) {
+			foreach ($wp_ace_js_output as $post_id => $wp_ace_js_code) {
+			    // $arr[3] will be updated with each value from $arr...
+			  $wp_ace_js_output_string .= '<script id="wp-ace-javascript--post-'. $post_id .'" >//<![CDATA[' . "\r\n" . $wp_ace_js_code . "\r\n" . '//]]></script>';
+			}
+
+			echo $wp_ace_js_output_string;			
 		}
 
-		echo $wp_ace_js_output_string;
 		
 	}
 	
@@ -162,6 +164,10 @@ class Admin_Code_Editor_Public {
 		}
 
     global $post, $wp_ace_js_output;
+
+    if (post_password_required( $post )) {
+    	return $content;
+    }
 
     if (empty($wp_ace_js_output)) {
     	$wp_ace_js_output = array();
