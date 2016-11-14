@@ -1,5 +1,5 @@
 <?php
-use \Michelf\MarkdownExtra, Leafo\ScssPhp\Compiler;
+use \Michelf\MarkdownExtra, Leafo\ScssPhp\Compiler, Stylus\Stylus;
 
 abstract class Admin_Code_Editor_Editor {
 
@@ -287,20 +287,23 @@ abstract class Admin_Code_Editor_Editor {
 						
 					break;
 					case 'haml' :
-						// require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/haml-compiler.php';
-						/*
-						require_once 'src/HamlPHP/HamlPHP.php';
-						require_once 'src/HamlPHP/Storage/FileStorage.php';
+						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/HamlPHP/src/HamlPHP/HamlPHP.php';
+						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/HamlPHP/src/HamlPHP/Storage/FileStorage.php';
+						//require_once 'src/HamlPHP/HamlPHP.php';
+						//require_once 'src/HamlPHP/Storage/FileStorage.php';
 
 						// Make sure that a directory _tmp_ exists in your application and it is writable.
-						$parser = new HamlPHP(new FileStorage(dirname(__FILE__) . '/tmp/'));
-
-						$content = $parser->parseFile('index.haml');
-
-						echo $parser->evaluate($content);
+						$parser = new HAML\HamlPHP();
+						$compiler = new HAML\Compiler($parser);
+						
+						$compiled_code = $compiler->parseString($pre_code);
+						//$content = $parser->parseFile('index.haml');
+						$ret->compiled_code = trim($compiled_code);
+						$ret->status = 'success';		
+						//echo $parser->evaluate($content);
 
 						
-						*/
+						
 					break;
 					case 'markdown' :
 						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/php-markdown/Michelf/MarkdownExtra.inc.php';
