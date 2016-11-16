@@ -50,7 +50,8 @@ var wpAceInterface = (function() {
 		var html_tab_label_preprocessor_view, css_tab_label_preprocessor_view, js_tab_label_preprocessor_view;
 		var html_text_status_view, css_text_status_view, js_text_status_view;
 		var html_settings_view, css_settings_view, js_settings_view;
-
+		var form_submitting = false;
+		
     // Models
 		var Code_Model = Backbone.Model.extend({
 		  defaults : {
@@ -562,11 +563,16 @@ var wpAceInterface = (function() {
 			 *
 			 */
 			jQuery(window).on("beforeunload", function() {
-        if (html_editor.code_has_changed || css_editor.code_has_changed || js_editor.code_has_changed) {
+        if ((html_editor.code_has_changed || css_editor.code_has_changed || js_editor.code_has_changed) && !form_submitting )  {
         	return true;
         }
         return; 
       });
+  		jQuery( "form#post" ).submit(function( event ) {
+				form_submitting = true;
+
+			});
+
 
     };
 
