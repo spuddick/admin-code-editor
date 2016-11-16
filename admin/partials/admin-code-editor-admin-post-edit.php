@@ -8,7 +8,7 @@
 	  <p class="wp-ace__notice wp-ace__notice--info text-warning" >
 			<span class="fa fa-info-circle" aria-hidden="true"></span>
 			<span class="wp-ace__notice__text" >
-			<?php echo sprintf( __('%1$d Code has changed. Publish/Update %2$d to view latest compiled code.', 'wrs-admin-code-editor'), '<%= preprocessor_nicename %>', '<%= post_type_name %>' ); ?>
+			<?php echo sprintf( __('%1$s Code has changed. Publish/Update %2$s to view latest compiled code.', 'wrs-admin-code-editor'), '<%= preprocessor_nicename %>', '<%= post_type_name %>' ); ?>
 			</span>
 		</p>
   <% } else { %>
@@ -98,7 +98,7 @@
 							  <% if (preprocessor == 'none') { %>
 							  	<?php _e('No HTML Preprocessor selected', 'wrs-admin-code-editor'); ?>.
 							  <% } else { %>
-							  	<?php echo sprintf( __('Preprocessing with %1$d', 'wrs-admin-code-editor'), '<strong><%= preprocessor_nicename %></strong>'); ?>.
+							  	<?php echo sprintf( __('Preprocessing with %1$s', 'wrs-admin-code-editor'), '<strong><%= preprocessor_nicename %></strong>'); ?>.
 							  <% } %>
 							  
 						  	<% if (output_position == 'before') { %>	
@@ -152,7 +152,7 @@
 							  <% if (preprocessor == 'none') { %>
 							  	<?php _e('No CSS Preprocessor selected', 'wrs-admin-code-editor'); ?>.
 							  <% } else { %>
-							  	<?php echo sprintf( __('Preprocessing with %1$d', 'wrs-admin-code-editor'), '<strong><%= preprocessor_nicename %></strong>'); ?>.
+							  	<?php echo sprintf( __('Preprocessing with %1$s', 'wrs-admin-code-editor'), '<strong><%= preprocessor_nicename %></strong>'); ?>.
 							  <% } %>
 							  
 							</script>
@@ -192,7 +192,7 @@
 							  <% if (preprocessor == 'none') { %>
 							  	<?php _e('No JavaScript Preprocessor selected', 'wrs-admin-code-editor'); ?>.
 							  <% } else { %>
-									<?php echo sprintf( __('Preprocessing with %1$d', 'wrs-admin-code-editor'), '<strong><%= preprocessor_nicename %></strong>'); ?>.
+									<?php echo sprintf( __('Preprocessing with %1$s', 'wrs-admin-code-editor'), '<strong><%= preprocessor_nicename %></strong>'); ?>.
 							  <% } %>
 							  
 							  <% if (jquery_enqueued_status) { %>
