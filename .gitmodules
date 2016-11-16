@@ -3,19 +3,19 @@
 	url = https://github.com/ajaxorg/ace
 [submodule "lib/lessphp"]
 	path = lib/lessphp
-	url = https://github.com/leafo/lessphp
+	url = https://github.com/spuddick/lessphp
 [submodule "lib/scssphp"]
 	path = lib/scssphp
-	url = https://github.com/leafo/scssphp
+	url = https://github.com/spuddick/scssphp
 [submodule "lib/coffeescript-php"]
 	path = lib/coffeescript-php
-	url = https://github.com/alxlit/coffeescript-php
+	url = https://github.com/spuddick/coffeescript-php
 [submodule "lib/HamlPHP"]
 	path = lib/HamlPHP
-	url = https://github.com/hamlphp/HamlPHP
+	url = https://github.com/spuddick/HamlPHP
 [submodule "lib/php-markdown"]
 	path = lib/php-markdown
-	url = https://github.com/michelf/php-markdown
+	url = https://github.com/spuddick/php-markdown
 [submodule "lib/Stylus.php"]
 	path = lib/Stylus.php
-	url = https://github.com/AustP/Stylus.php
+	url = https://github.com/spuddick/Stylus.php
