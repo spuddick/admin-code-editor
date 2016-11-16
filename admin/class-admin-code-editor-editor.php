@@ -227,6 +227,7 @@ abstract class Admin_Code_Editor_Editor {
 				break;
 				case 'empty': 
 					delete_post_meta($this->get_code_post_id(), '_wp_ace_compile_error_msg');
+					update_post_meta($this->get_code_post_id(), '_wp_ace_compiled', $compiled->compiled_code );
 				break;
 			}
 
