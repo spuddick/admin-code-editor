@@ -1,5 +1,8 @@
 <?php
-use \Michelf\MarkdownExtra, Leafo\ScssPhp\Compiler;
+use \Michelf\MarkdownExtra, Leafo\ScssPhp\Compiler as ScssCompiler;
+//use Stylus\Stylus;
+use CoffeeScript\Init, CoffeeScript\Compiler  as CoffeeCompiler;
+
 
 abstract class Admin_Code_Editor_Editor {
 
@@ -257,74 +260,100 @@ abstract class Admin_Code_Editor_Editor {
 					
 				switch($preprocessor) {
 					case 'scss' :
+						
 						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/scssphp/scss.inc.php';
-						//echo plugin_dir_path( dirname( __FILE__ ) ) . 'lib/scssphp/scss.inc.php';
-						$scss = new Compiler();
+
+						$scss = new ScssCompiler();
 						$compiled_code = $scss->compile($pre_code);
 						$ret->compiled_code = trim($compiled_code);
 						$ret->status = 'success';
-
+						
 
 
 						break;
 					
 					case 'less' :
+						
 						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/lessphp/lessc.inc.php';
 						
 						$less = new lessc;
 						echo $less->compile($pre_code);
 						$ret->compiled_code = trim($compiled_code);
 						$ret->status = 'success';
-
+						
 						break;
 					case 'stylus' :
+						/*
 						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/Stylus.php/src/Stylus/Stylus.php';
-
+						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/Stylus.php/src/Stylus/Exception.php';
 						$stylus = new Stylus();
-						$compiled_code = $stylus->fromString($pre_code)->toString();
-						$ret->compiled_code = trim($compiled_code);
-						$ret->status = 'success';						
+						//$compiled_code = $stylus->fromString($pre_code)->toString();
 						
+						// From file to string
+						//$css = $stylus->fromFile(wp_upload_dir()['basedir'] . '/tmp-read/sample-stylus.stylus')->toString();
+						clearstatcache();
+						//$stylus = new Stylus();
+						$stylus->setReadDir( plugin_dir_path( dirname( __FILE__ ) ) . 'lib/Stylus.php/src/Stylus/tmp-read');
+						$stylus->setWriteDir(plugin_dir_path( dirname( __FILE__ ) ) . 'lib/Stylus.php/src/Stylus/tmp-write');
+						$stylus->setImportDir(plugin_dir_path( dirname( __FILE__ ) ) . 'lib/Stylus.php/src/Stylus/tmp-read'); //if you import a file without setting this, it will import from the read directory
+						$stylus->parseFiles();
+
+						//$compiled_code = $stylus->fromString("body\n color black")->toString();
+						//$ret->compiled_code = trim($compiled_code);
+						//$ret->status = 'success';						
+						
+						//$stylus->setReadDir(wp_upload_dir()['basedir'] );
+						//$stylus->setWriteDir(wp_upload_dir()['basedir'] );
+						//$stylus->fromString("body\n color black")->toFile("oudfst.css", true);
+
+						$css = $stylus->fromString("body\n color black")->toString();
+						$ret->compiled_code = trim($css);
+						$ret->status = 'success';
+						*/
 					break;
 					case 'haml' :
-						// require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/haml-compiler.php';
-						/*
-						require_once 'src/HamlPHP/HamlPHP.php';
-						require_once 'src/HamlPHP/Storage/FileStorage.php';
-
-						// Make sure that a directory _tmp_ exists in your application and it is writable.
-						$parser = new HamlPHP(new FileStorage(dirname(__FILE__) . '/tmp/'));
-
-						$content = $parser->parseFile('index.haml');
-
-						echo $parser->evaluate($content);
-
 						
-						*/
+						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/HamlPHP/src/HamlPHP/HamlPHP.php';
+						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/HamlPHP/src/HamlPHP/Storage/FileStorage.php';
+						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/HamlPHP/src/HamlPHP/Compiler.php';
+						
+						// Make sure that a directory _tmp_ exists in your application and it is writable.
+						$parser = new HamlPHP(new FileStorage(wp_upload_dir()['basedir'] . '/tmp/'));
+						$compiler = new Compiler($parser);
+						$content = $compiler->parseString($pre_code);
+
+						$ret->compiled_code = trim($parser->evaluate($content));
+						$ret->status = 'success';		
+						
+						
 					break;
 					case 'markdown' :
 						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/php-markdown/Michelf/MarkdownExtra.inc.php';
-					
-						/*
-						use \Michelf\Markdown;
-						$my_html = Markdown::defaultTransform($my_text);
-						*/
-
 						
 						$compiled_code  = MarkdownExtra::defaultTransform($pre_code);
 						$ret->compiled_code = trim($compiled_code);
 						$ret->status = 'success';		
 					break;
 					case 'coffee' :
+						
 						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/coffeescript-php/src/CoffeeScript/Init.php';
 						
 						// Load manually
 						CoffeeScript\Init::load();
 
-					  $compiled_code = CoffeeScript\Compiler::compile($pre_code);
-					  $ret->compiled_code = trim($compiled_code);
-						$ret->status = 'success';	
+					  // Temporarily writing to hard disk appeared to be to only way to successfully parse the pre code
+				  	$tmpfname = tempnam( wp_upload_dir()['basedir'] .  "/tmp", "wp-ace-coffee");
+				  	$handle = fopen($tmpfname, "w");
+						fwrite($handle, $pre_code);
+						fseek($handle, 0);
+				    $coffee = file_get_contents($tmpfname);
+					  $js = CoffeeScript\Compiler::compile($coffee, array('filename' => $tmpfname));
+					  fclose($handle);
+					  unlink($tmpfname);
 
+					  $ret->compiled_code = trim($js);
+						$ret->status = 'success';	
+						
 					break;
 					case 'none' :
 					

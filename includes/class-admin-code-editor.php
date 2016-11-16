@@ -161,6 +161,7 @@ class Admin_Code_Editor {
 		$this->loader->add_action( 'admin_init', 						$plugin_admin, 'display_theme_panel_fields' );
 		
 		$this->loader->add_action( 'plugins_loaded', 				$plugin_admin, 'plugin_update_check' );
+		$this->loader->add_action( 'before_delete_post', 		$plugin_admin, 'delete_code_posts' );
 
 		$this->loader->add_action( 'wp_restore_post_revision', 			$plugin_admin, 'restore_code_revision', 10, 2 );
 		$this->loader->add_filter( '_wp_post_revision_fields', 			$plugin_admin, 'code_revision_fields' );
