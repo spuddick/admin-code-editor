@@ -32,3 +32,11 @@ li#wp-ace__settings-tab {
 .wp-ace-bootstrap .nav-tabs > li.active > a.bg-danger:hover,
 .wp-ace-bootstrap .nav-tabs > li.active > a.bg-danger:focus {
   background-color: #e4b9b9; }
+
+.wp-ace__tab-panel-inner__header {
+  display: flex;
+  -webkit-display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: flex-start; }

@@ -69,16 +69,26 @@
 	  <div class="tab-content">
 	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'html-edit' ) { echo 'active'; } ?>" id="html-edit">
 				<div class="wp-ace__tab-panel-inner" >
-
-					<?php if ($html_php_editor->get_code_compile_status() == 'error') { ?>
-					<p class="wp-ace__notice wp-ace__notice--info text-error" >
-	    			<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-	    			<span class="wp-ace__notice__text" ><?php echo $html_php_editor->get_code_compile_error_msg() ?></span>
-	    		</p>
-					<?php } else { ?>
-						<p class="wp-ace__notice wp-ace__notice--info text-error" >&nbsp;</p>
-					<?php } ?>
-
+					<div class="wp-ace__tab-panel-inner__header">
+						<?php if ($html_php_editor->get_code_compile_status() == 'error') { ?>
+						<p class="wp-ace__notice wp-ace__notice--info text-error" >
+		    			<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+		    			<span class="wp-ace__notice__text" ><?php echo $html_php_editor->get_code_compile_error_msg() ?></span>
+		    		</p>
+						<?php } else { ?>
+							<p class="wp-ace__notice wp-ace__notice--info text-error" >&nbsp;</p>
+						<?php } ?>
+						<div class="btn-group">
+						  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu">
+						    <li><a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" data-active-modal-tab="wp-ace-html-tab-link" aria-controls="change-settings-modal"><?php _e('Change HTML Settings', 'wrs-admin-code-editor'); ?></a></li>
+						    <li><a href='#'>View Compiled HTML</a></li>
+						  </ul>
+						</div>
+					</div>
 					<div class="wp-ace-editor">
 						<pre id="wp-ace-html-php-pre-code-editor" style="height:<?php echo $html_php_editor->get_editor_height(); ?>px" class="code-content" ><?php echo htmlentities($html_php_editor->get_pre_code()); ?></pre>
 						
@@ -91,7 +101,7 @@
 		    	<div class="clearfix" >
 					  <div class="" >
 					  	
-					  	<p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span><span id="wp-ace-html-php-status" ></span> <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" data-active-modal-tab="wp-ace-html-tab-link" aria-controls="change-settings-modal"><?php _e('Change HTML Settings', 'wrs-admin-code-editor'); ?></a></p>
+					  	<p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span><span id="wp-ace-html-php-status" ></span> </p>
 						 	
 						 	<script type="text/template" id="tmpl-wp-ace-html-php-status-template">
 							  
@@ -114,7 +124,7 @@
 							  <% } %>
 								
 							</script>
-
+							
 					  </div>
 
 					</div>
@@ -125,16 +135,26 @@
 	    </div>
 	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'css-edit' ) { echo 'active'; } ?>" id="css-edit">
 	    	<div class="wp-ace__tab-panel-inner" >
-
-					<?php if ($css_editor->get_code_compile_status() == 'error') { ?>
-					<p class="wp-ace__notice wp-ace__notice--info text-error" >
-	    			<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-	    			<span class="wp-ace__notice__text" ><?php echo $css_editor->get_code_compile_error_msg() ?></span>
-	    		</p>
-					<?php } else { ?>
-						<p class="wp-ace__notice wp-ace__notice--info text-error" >&nbsp;</p>
-					<?php } ?>
-
+	    		<div class="wp-ace__tab-panel-inner__header">
+						<?php if ($css_editor->get_code_compile_status() == 'error') { ?>
+						<p class="wp-ace__notice wp-ace__notice--info text-error" >
+		    			<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+		    			<span class="wp-ace__notice__text" ><?php echo $css_editor->get_code_compile_error_msg() ?></span>
+		    		</p>
+						<?php } else { ?>
+							<p class="wp-ace__notice wp-ace__notice--info text-error" >&nbsp;</p>
+						<?php } ?>
+						<div class="btn-group">
+						  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu">
+						    <li><a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal" data-active-modal-tab="wp-ace-css-tab-link"  ><?php _e('Change CSS Settings', 'wrs-admin-code-editor'); ?></a></li>
+						    <li><a href='#'>View Compiled CSS</a></li>
+						  </ul>
+						</div>
+					</div>
 					<div class="wp-ace-editor">
 						<pre id="wp-ace-css-pre-code-editor" style="height:<?php echo $css_editor->get_editor_height(); ?>px" class="code-content" ><?php echo htmlentities($css_editor->get_pre_code()); ?></pre>
 						
@@ -147,7 +167,7 @@
 		    	<div class="clearfix" >
 					  <div class="" >
 						  
-					  	<p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> <span id="wp-ace-css-status" ></span> <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal" data-active-modal-tab="wp-ace-css-tab-link"  ><?php _e('Change CSS Settings', 'wrs-admin-code-editor'); ?></a></p>
+					  	<p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> <span id="wp-ace-css-status" ></span> </p>
 						 	<script type="text/template" id="tmpl-wp-ace-css-status-template">
 							  <% if (preprocessor == 'none') { %>
 							  	<?php _e('No CSS Preprocessor selected', 'wrs-admin-code-editor'); ?>.
@@ -163,16 +183,26 @@
 	    </div>
 	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'javascript-edit' ) { echo 'active'; } ?>" id="javascript-edit">
 				<div class="wp-ace__tab-panel-inner" >	
-					
-					<?php if ($js_editor->get_code_compile_status() == 'error') { ?>
-					<p class="wp-ace__notice wp-ace__notice--info text-error" >
-	    			<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-	    			<span class="wp-ace__notice__text" ><?php echo $js_editor->get_code_compile_error_msg() ?></span>
-	    		</p>
-					<?php } else { ?>
-						<p class="wp-ace__notice wp-ace__notice--info text-error" >&nbsp;</p>
-					<?php } ?>
-
+					<div class="wp-ace__tab-panel-inner__header">
+						<?php if ($js_editor->get_code_compile_status() == 'error') { ?>
+						<p class="wp-ace__notice wp-ace__notice--info text-error" >
+		    			<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+		    			<span class="wp-ace__notice__text" ><?php echo $js_editor->get_code_compile_error_msg() ?></span>
+		    		</p>
+						<?php } else { ?>
+							<p class="wp-ace__notice wp-ace__notice--info text-error" >&nbsp;</p>
+						<?php } ?>
+						<div class="btn-group">
+						  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu">
+						    <li><a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal"  data-active-modal-tab="wp-ace-javascript-tab-link" ><?php _e('Change Javascript Settings', 'wrs-admin-code-editor'); ?></a></li>
+						    <li><a href='#'>View Compiled JavaScript</a></li>
+						  </ul>
+						</div>
+					</div>
 					<div class="wp-ace-editor">
 						<pre id="wp-ace-js-pre-code-editor" style="height:<?php echo $js_editor->get_editor_height(); ?>px" class="code-content" ><?php echo htmlentities($js_editor->get_pre_code()); ?></pre>
 						
@@ -185,7 +215,7 @@
 		    	<div class="clearfix" >
 					  <div class="" >
 						  
-						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span><span id="wp-ace-js-status" ></span>  <a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal"  data-active-modal-tab="wp-ace-javascript-tab-link" ><?php _e('Change Javascript Settings', 'wrs-admin-code-editor'); ?></a></p>
+						  <p class="text-muted" ><span class="glyphicon glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span><span id="wp-ace-js-status" ></span>  </p>
 						 	
 						 	<script type="text/template" id="tmpl-wp-ace-js-status-template">
 							  
