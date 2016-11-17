@@ -1,8 +1,9 @@
 <?php
 use \Michelf\MarkdownExtra, Leafo\ScssPhp\Compiler as ScssCompiler;
 //use Stylus\Stylus;
-use CoffeeScript\Init, CoffeeScript\Compiler  as CoffeeCompiler;
-
+use CoffeeScript\Compiler  as CoffeeCompiler;
+use HamlPHP\Compiler  as HamlPHPCompiler;
+use HamlPHP\HamlPHP  as HamlPHP, HamlPHP\FileStorage;
 
 abstract class Admin_Code_Editor_Editor {
 
@@ -284,6 +285,8 @@ abstract class Admin_Code_Editor_Editor {
 						
 						break;
 					case 'stylus' :
+						// Can't get stylus compilation to work, so disabled for now	
+
 						/*
 						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/Stylus.php/src/Stylus/Stylus.php';
 						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/Stylus.php/src/Stylus/Exception.php';
@@ -320,7 +323,7 @@ abstract class Admin_Code_Editor_Editor {
 						
 						// Make sure that a directory _tmp_ exists in your application and it is writable.
 						$parser = new HamlPHP(new FileStorage(wp_upload_dir()['basedir'] . '/tmp/'));
-						$compiler = new Compiler($parser);
+						$compiler = new HamlPHPCompiler($parser);
 						$content = $compiler->parseString($pre_code);
 
 						$ret->compiled_code = trim($parser->evaluate($content));
@@ -348,7 +351,7 @@ abstract class Admin_Code_Editor_Editor {
 						fwrite($handle, $pre_code);
 						fseek($handle, 0);
 				    $coffee = file_get_contents($tmpfname);
-					  $js = CoffeeScript\Compiler::compile($coffee, array('filename' => $tmpfname));
+					  $js = CoffeeCompiler::compile($coffee, array('filename' => $tmpfname));
 					  fclose($handle);
 					  unlink($tmpfname);
 
