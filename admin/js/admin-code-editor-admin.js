@@ -363,7 +363,7 @@ var wpAceInterface = (function() {
 		   * Last active tab listener
 		   *
 		   */
-		  jQuery('.wp-ace-bootstrap a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+		  jQuery('.wp-ace-bootstrap #wp-ace__tabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 			  e.target // newly activated tab
 			  e.relatedTarget // previous active tab
 			  var tab_id = jQuery(e.target).attr('href').replace('#','');
