@@ -203,9 +203,9 @@ class Admin_Code_Editor_Admin {
 
 	function code_editor_add_meta_box() {
 		// add the metabox to posts and pages
-		
-		 $screens = array( 'post', 'page');
-		// TODO: need to iterate through specified post types from settings page
+					
+		$selected_post_types 	= get_option('wpcr_post_types');
+		$screens = $selected_post_types;
 
 		foreach ( $screens as $screen ) {
 
