@@ -47,7 +47,7 @@
 	    </li>
 	    <li role="presentation" class="<?php if ($last_active_tab_id == 'javascript-edit' || $last_active_tab_id == 'javascript-compiled' ) { echo 'active'; } ?> dropdown">
 	    	<a href="#" aria-controls="javascript" class="dropdown-toggle <?php if ($js_editor->get_code_compile_status() == 'error') { echo 'bg-danger  wp-ace__error-tab'; } ?>" data-toggle="dropdown" >
-	    		<?php _e('Javascript', 'wrs-admin-code-editor'); ?>
+	    		<?php _e('JavaScript', 'wrs-admin-code-editor'); ?>
 	    		<span id="js-tab-label-preprocessor" class="text-muted" ></span>
 
 			    <span class="caret"></span></a>
@@ -226,7 +226,7 @@
 				</div>	    	
 	    </div>
 	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'javascript-compiled' ) { echo 'active'; } ?>" id="javascript-compiled">
-    		<h5><?php _e('Compiled Javascript <span class="text-muted" >(Read Only)</span>', 'wrs-admin-code-editor'); ?></h5>
+    		<h5><?php _e('Compiled JavaScript <span class="text-muted" >(Read Only)</span>', 'wrs-admin-code-editor'); ?></h5>
     		<div id="wp-ace__notice-container--js"></div>
     		<div class="wp-ace-editor">
 					<pre id="wp-ace-js-compiled-code-display" class="wp-ace-compiled-code-display" style="height:400px"  ><?php echo htmlentities($js_editor->get_compiled_code()); ?></pre>
@@ -252,7 +252,7 @@
 						    <li role="presentation" class="active"><a href="#wp-ace-general" id="wp-ace-general-tab-link" aria-controls="wp-ace-general" role="tab" data-toggle="tab"><?php _e('General', 'wrs-admin-code-editor'); ?></a></li>
 						    <li role="presentation"><a href="#wp-ace-html" id="wp-ace-html-tab-link"  aria-controls="wp-ace-html" role="tab" data-toggle="tab"><?php _e('HTML', 'wrs-admin-code-editor'); ?></a></li>
 						    <li role="presentation"><a href="#wp-ace-css" id="wp-ace-css-tab-link"  aria-controls="wp-ace-css" role="tab" data-toggle="tab"><?php _e('CSS', 'wrs-admin-code-editor'); ?></a></li>
-						    <li role="presentation"><a href="#wp-ace-javascript" id="wp-ace-javascript-tab-link"  aria-controls="wp-ace-javascript" role="tab" data-toggle="tab"><?php _e('Javascript', 'wrs-admin-code-editor'); ?></a></li>
+						    <li role="presentation"><a href="#wp-ace-javascript" id="wp-ace-javascript-tab-link"  aria-controls="wp-ace-javascript" role="tab" data-toggle="tab"><?php _e('JavaScript', 'wrs-admin-code-editor'); ?></a></li>
 						  </ul>
 
 						  <!-- Tab panes -->
