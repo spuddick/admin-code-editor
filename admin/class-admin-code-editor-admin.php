@@ -358,7 +358,7 @@ class Admin_Code_Editor_Admin {
 			'css' => array(
 				'scss' => 'SCSS',
 				'less' => 'LESS',
-				'stylus' => 'Stylus'
+				//'stylus' => 'Stylus'
 				),
 			'js' => array(
 				'coffee' => 'CoffeeScript'
