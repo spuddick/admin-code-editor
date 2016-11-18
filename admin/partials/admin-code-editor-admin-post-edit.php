@@ -85,7 +85,7 @@
 						  </button>
 						  <ul class="dropdown-menu">
 						    <li><a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" data-active-modal-tab="wp-ace-html-tab-link" aria-controls="change-settings-modal"><?php _e('Change HTML Settings', 'wrs-admin-code-editor'); ?></a></li>
-						    <li><a href='#'>View Compiled HTML</a></li>
+						    <li><a href='#'><?php _e('View Compiled HTML', 'wrs-admin-code-editor'); ?></a></li>
 						  </ul>
 						</div>
 					</div>
@@ -151,7 +151,7 @@
 						  </button>
 						  <ul class="dropdown-menu">
 						    <li><a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal" data-active-modal-tab="wp-ace-css-tab-link"  ><?php _e('Change CSS Settings', 'wrs-admin-code-editor'); ?></a></li>
-						    <li><a href='#'>View Compiled CSS</a></li>
+						    <li><a href='#'><?php _e('View Compiled CSS', 'wrs-admin-code-editor'); ?></a></li>
 						  </ul>
 						</div>
 					</div>
@@ -199,7 +199,7 @@
 						  </button>
 						  <ul class="dropdown-menu">
 						    <li><a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal"  data-active-modal-tab="wp-ace-javascript-tab-link" ><?php _e('Change Javascript Settings', 'wrs-admin-code-editor'); ?></a></li>
-						    <li><a href='#'>View Compiled JavaScript</a></li>
+						    <li><a href='#'><?php _e('View Compiled JavaScript', 'wrs-admin-code-editor'); ?></a></li>
 						  </ul>
 						</div>
 					</div>
