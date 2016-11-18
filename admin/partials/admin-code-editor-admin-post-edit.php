@@ -21,40 +21,23 @@
 	<div>
 	  <!-- Nav tabs -->
 	  <ul id="wp-ace__tabs" class="nav nav-tabs" role="tablist">
-	    <li role="presentation" class="<?php if ($last_active_tab_id == 'html-edit' || $last_active_tab_id == 'html-compiled' ) { echo 'active'; } ?>  dropdown">
-	    	<a href="#" aria-controls="html"  class="dropdown-toggle <?php if ($html_php_editor->get_code_compile_status() == 'error') { echo 'bg-danger wp-ace__error-tab'; } ?> " data-toggle="dropdown" >
+	    <li role="presentation" class="<?php if ($last_active_tab_id == 'html-edit' ) { echo 'active'; } ?> ">
+	    	<a href="#html-edit" aria-controls="html"  class=" <?php if ($html_php_editor->get_code_compile_status() == 'error') { echo 'bg-danger wp-ace__error-tab'; } ?> " role="tab" data-toggle="tab" >
 	    		<?php _e('HTML', 'wrs-admin-code-editor'); ?>
 			    <span id="html-php-tab-label-preprocessor" class="text-muted" ></span>
-
-			    <span class="caret"></span></a>
-			    <ul class="dropdown-menu">
-			      <li><a href="#html-edit" role="tab" id="" data-toggle="tab" class="<?php if ($last_active_tab_id == 'html-edit' ) { echo 'active'; } ?>" ><?php _e('Edit', 'wrs-admin-code-editor'); ?></a></li>
-			      <li><a href="#html-compiled" role="tab" id="" data-toggle="tab" class="<?php if ($last_active_tab_id == 'html-compiled' ) { echo 'active'; } ?>"  ><?php _e('View Compiled', 'wrs-admin-code-editor'); ?></a></li>
-			    </ul>
 	    	</a>
 	    </li>
-	    <li role="presentation" class="<?php if ($last_active_tab_id == 'css-edit' || $last_active_tab_id == 'css-compiled' ) { echo 'active'; } ?> dropdown">
-	    	<a href="#" aria-controls="css" class="dropdown-toggle <?php if ($css_editor->get_code_compile_status() == 'error') { echo 'bg-danger wp-ace__error-tab'; } ?>" data-toggle="dropdown" >
+	    <li role="presentation" class="<?php if ($last_active_tab_id == 'css-edit' ) { echo 'active'; } ?>">
+	    	<a href="#css-edit" aria-controls="css" class=" <?php if ($css_editor->get_code_compile_status() == 'error') { echo 'bg-danger wp-ace__error-tab'; } ?>" role="tab" data-toggle="tab" >
 	    		<?php _e('CSS', 'wrs-admin-code-editor'); ?>
 	    		<span id="css-tab-label-preprocessor" class="text-muted" ></span>
 
-			    <span class="caret"></span></a>
-			    <ul class="dropdown-menu">
-			      <li><a href="#css-edit" role="tab" id="" data-toggle="tab" class="<?php if ($last_active_tab_id == 'css-edit' ) { echo 'active'; } ?>" ><?php _e('Edit', 'wrs-admin-code-editor'); ?></a></li>
-			      <li><a href="#css-compiled" role="tab" id="" data-toggle="tab" class="<?php if ($last_active_tab_id == 'css-compiled' ) { echo 'active'; } ?>"  ><?php _e('View Compiled', 'wrs-admin-code-editor'); ?></a></li>
-			    </ul>
 	    	</a>
 	    </li>
-	    <li role="presentation" class="<?php if ($last_active_tab_id == 'javascript-edit' || $last_active_tab_id == 'javascript-compiled' ) { echo 'active'; } ?> dropdown">
-	    	<a href="#" aria-controls="javascript" class="dropdown-toggle <?php if ($js_editor->get_code_compile_status() == 'error') { echo 'bg-danger  wp-ace__error-tab'; } ?>" data-toggle="dropdown" >
+	    <li role="presentation" class="<?php if ($last_active_tab_id == 'javascript-edit' ) { echo 'active'; } ?>">
+	    	<a href="#javascript-edit" aria-controls="javascript" class=" <?php if ($js_editor->get_code_compile_status() == 'error') { echo 'bg-danger  wp-ace__error-tab'; } ?>" role="tab" data-toggle="tab" >
 	    		<?php _e('JavaScript', 'wrs-admin-code-editor'); ?>
 	    		<span id="js-tab-label-preprocessor" class="text-muted" ></span>
-
-			    <span class="caret"></span></a>
-			    <ul class="dropdown-menu">
-			      <li><a href="#javascript-edit" role="tab" id="" data-toggle="tab" class="<?php if ($last_active_tab_id == 'javascript-edit' ) { echo 'active'; } ?>"  ><?php _e('Edit', 'wrs-admin-code-editor'); ?></a></li>
-			      <li><a href="#javascript-compiled"  role="tab" id="" data-toggle="tab" class="<?php if ($last_active_tab_id == 'javascript-compiled' ) { echo 'active'; } ?>"  ><?php _e('View Compiled', 'wrs-admin-code-editor'); ?></a></li>
-			    </ul>
 	    	</a>
 	    </li>
 
@@ -85,7 +68,7 @@
 						  </button>
 						  <ul class="dropdown-menu">
 						    <li><a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" data-active-modal-tab="wp-ace-html-tab-link" aria-controls="change-settings-modal"><?php _e('Change HTML Settings', 'wrs-admin-code-editor'); ?></a></li>
-						    <li><a href='#'><?php _e('View Compiled HTML', 'wrs-admin-code-editor'); ?></a></li>
+						    <li><a href='#wp-ace--compiled-html-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false"  ><?php _e('View Compiled HTML', 'wrs-admin-code-editor'); ?></a></li>
 						  </ul>
 						</div>
 					</div>
@@ -151,7 +134,7 @@
 						  </button>
 						  <ul class="dropdown-menu">
 						    <li><a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal" data-active-modal-tab="wp-ace-css-tab-link"  ><?php _e('Change CSS Settings', 'wrs-admin-code-editor'); ?></a></li>
-						    <li><a href='#'><?php _e('View Compiled CSS', 'wrs-admin-code-editor'); ?></a></li>
+						    <li><a href='#wp-ace--compiled-css-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false"  ><?php _e('View Compiled CSS', 'wrs-admin-code-editor'); ?></a></li>
 						  </ul>
 						</div>
 					</div>
@@ -199,7 +182,7 @@
 						  </button>
 						  <ul class="dropdown-menu">
 						    <li><a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal"  data-active-modal-tab="wp-ace-javascript-tab-link" ><?php _e('Change Javascript Settings', 'wrs-admin-code-editor'); ?></a></li>
-						    <li><a href='#'><?php _e('View Compiled JavaScript', 'wrs-admin-code-editor'); ?></a></li>
+						    <li><a href='#wp-ace--compiled-js-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" ><?php _e('View Compiled JavaScript', 'wrs-admin-code-editor'); ?></a></li>
 						  </ul>
 						</div>
 					</div>
@@ -238,32 +221,72 @@
 
 				</div>
 	    </div>
-	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'html-compiled' ) { echo 'active'; } ?>" id="html-compiled">
-    		<h5><?php _e('Compiled HTML <span class="text-muted" >(Read Only)</span>', 'wrs-admin-code-editor'); ?></h5>
-    		<div id="wp-ace__notice-container--html-php"></div>
 
-    		<div class="wp-ace-editor">
-					<pre id="wp-ace-html-compiled-code-display" class="wp-ace-compiled-code-display" style="height:400px" ><?php echo htmlentities($html_php_editor->get_compiled_code()); ?></pre>
-					
+	  </div>  
+
+
+		<div class="modal fade" tabindex="-1" role="dialog" id="wp-ace--compiled-html-modal" >
+		  <div class="modal-dialog modal-lg">
+		    <div class="modal-content">
+		      <div class="modal-header">
+				  	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				  	<h4 class="modal-title"><?php _e('Compiled HTML <span class="text-muted" >(Read Only)</span>', 'wrs-admin-code-editor'); ?></h4>
+				  </div>
+				  <div class="modal-body">
+		    		<div id="wp-ace__notice-container--html-php"></div>
+		    		<div class="wp-ace-editor">
+							<pre id="wp-ace-html-compiled-code-display" class="wp-ace-compiled-code-display" style="height:400px" ><?php echo htmlentities($html_php_editor->get_compiled_code()); ?></pre>
+						</div>
+				  </div>
+				  <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal"><?php _e('Close', 'wrs-admin-code-editor'); ?></button>
+		      </div>		
 				</div>
-	    </div>
-	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'css-compiled' ) { echo 'active'; } ?>" id="css-compiled">
-    		<h5><?php _e('Compiled CSS <span class="text-muted" >(Read Only)</span>', 'wrs-admin-code-editor'); ?></h5>
-    		<div id="wp-ace__notice-container--css"></div>
-    		<div class="wp-ace-editor">
-					<pre id="wp-ace-css-compiled-code-display" class="wp-ace-compiled-code-display" style="height:400px"  ><?php echo htmlentities($css_editor->get_compiled_code()); ?></pre>
-					
-				</div>	    	
-	    </div>
-	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'javascript-compiled' ) { echo 'active'; } ?>" id="javascript-compiled">
-    		<h5><?php _e('Compiled JavaScript <span class="text-muted" >(Read Only)</span>', 'wrs-admin-code-editor'); ?></h5>
-    		<div id="wp-ace__notice-container--js"></div>
-    		<div class="wp-ace-editor">
-					<pre id="wp-ace-js-compiled-code-display" class="wp-ace-compiled-code-display" style="height:400px"  ><?php echo htmlentities($js_editor->get_compiled_code()); ?></pre>
-					
-				</div>	    	
-	    </div>
-	  </div>
+			</div>
+		</div>
+		<div class="modal fade" tabindex="-1" role="dialog" id="wp-ace--compiled-css-modal" >
+		  <div class="modal-dialog modal-lg">
+		    <div class="modal-content">
+		      <div class="modal-header">
+				  	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				  	<h4 class="modal-title"><?php _e('Compiled CSS <span class="text-muted" >(Read Only)</span>', 'wrs-admin-code-editor'); ?></h4>
+				  </div>
+				  <div class="modal-body">
+		    		<div id="wp-ace__notice-container--css"></div>
+		    		<div class="wp-ace-editor">
+							<pre id="wp-ace-css-compiled-code-display" class="wp-ace-compiled-code-display" style="height:400px"  ><?php echo htmlentities($css_editor->get_compiled_code()); ?></pre>
+							
+						</div>	
+				  </div>
+				  <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal"><?php _e('Close', 'wrs-admin-code-editor'); ?></button>
+		      </div>		
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" tabindex="-1" role="dialog" id="wp-ace--compiled-js-modal" >
+		  <div class="modal-dialog modal-lg">
+		    <div class="modal-content">
+		      <div class="modal-header">
+				  	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				  	<h4 class="modal-title"><?php _e('Compiled JavaScript <span class="text-muted" >(Read Only)</span>', 'wrs-admin-code-editor'); ?></h4>
+				  </div>
+				  <div class="modal-body">
+		    		<div id="wp-ace__notice-container--js"></div>
+		    		<div class="wp-ace-editor">
+							<pre id="wp-ace-js-compiled-code-display" class="wp-ace-compiled-code-display" style="height:400px"  ><?php echo htmlentities($js_editor->get_compiled_code()); ?></pre>
+							
+						</div>	
+				  </div>
+				  <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal"><?php _e('Close', 'wrs-admin-code-editor'); ?></button>
+		      </div>	
+				</div>
+			</div>
+		</div>
+
+
+	 
 
 	  <!-- Settings Modal -->
 		<div class="modal fade" tabindex="-1" role="dialog" id="change-settings-modal" >
