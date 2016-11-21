@@ -730,28 +730,29 @@ class Admin_Code_Editor_Admin {
 			<div class="wp-ace-bootstrap">
 				
 				<div class="checkbox">
-					<label for="wp-ace__enable-coffee-script" >
-						<input type="checkbox" id="wp-ace__enable-coffee-script" name="wp_ace_default_disabled_template[]" value="none"  /><?php _e('Front Page', 'wrs-admin-code-editor') ?>
+					<label for="wp-ace__hide-on-front-page-template" >
+						<input type="checkbox" id="wp-ace__hide-on-front-page-template" name="wp_ace_default_disabled_template[]" value="front-page"  <?php checked( in_array( get_option('wp_ace_default_disabled_template'), 'front-page' ) ); ?>  /><?php _e('Front Page', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>					
 
 				<div class="checkbox">
-					<label for="wp-ace__enable-haml" >
-						<input type="checkbox" id="wp-ace__enable-haml" name="wp_ace_default_disabled_template[]" value="haml"  /><?php _e('Home', 'wrs-admin-code-editor') ?>
+					<label for="wp-ace__hide-on-home-template" >
+						<input type="checkbox" id="wp-ace__hide-on-home-template" name="wp_ace_default_disabled_template[]" value="home"  <?php checked( in_array( get_option('wp_ace_default_disabled_template'), 'home' ) ); ?>  /><?php _e('Home', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>
 
 				<div class="checkbox">
-					<label for="wp-ace__enable-coffee-script" >
-						<input type="checkbox" id="wp-ace__enable-coffee-script" name="wp_ace_default_disabled_template[]" value="none"  /><?php _e('Archives', 'wrs-admin-code-editor') ?>
+					<label for="wp-ace__hide-on-archive-template" >
+						<input type="checkbox" id="wp-ace__hide-on-archive-template" name="wp_ace_default_disabled_template[]" value="archive"  <?php checked( in_array( get_option('wp_ace_default_disabled_template'), 'archive' ) ); ?>  /><?php _e('Archives', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>					
 
 				<div class="checkbox">
-					<label for="wp-ace__enable-haml" >
-						<input type="checkbox" id="wp-ace__enable-haml" name="wp_ace_default_disabled_template[]" value="haml"  /><?php _e('Search Results', 'wrs-admin-code-editor') ?>
+					<label for="wp-ace__hide-on-search-template" >
+						<input type="checkbox" id="wp-ace__hide-on-search-template" name="wp_ace_default_disabled_template[]" value="search"  <?php checked( in_array( get_option('wp_ace_default_disabled_template'), 'search' ) ); ?>  /><?php _e('Search Results', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>
+
 			</div>
 
 		<?php
@@ -770,14 +771,14 @@ class Admin_Code_Editor_Admin {
 			<div class="wp-ace-bootstrap">
 				
 				<div class="checkbox">
-					<label for="wp-ace__enable-coffee-script" >
-						<input type="checkbox" id="wp-ace__enable-coffee-script" name="wp_ace_default_conditional_display[]" value="none"  /><?php _e('inside the loop', 'wrs-admin-code-editor') ?>
+					<label for="wp-ace--conditional-display--in-the-loop" >
+						<input type="checkbox" id="wp-ace--conditional-display--in-the-loop" name="wp_ace_default_conditional_display[]" value="inside-the-loop" <?php checked( in_array( get_option('wp_ace_default_conditional_display'), 'inside-the-loop' ) ); ?> /><?php _e('inside the loop', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>					
 
 				<div class="checkbox">
-					<label for="wp-ace__enable-haml" >
-						<input type="checkbox" id="wp-ace__enable-haml" name="wp_ace_default_conditional_display[]" value="haml"  /><?php _e('in main query', 'wrs-admin-code-editor') ?>
+					<label for="wp-ace--conditional-display--in-main-query" >
+						<input type="checkbox" id="wp-ace--conditional-display--in-main-query" name="wp_ace_default_conditional_display[]" value="in-main-query"  <?php checked( in_array( get_option('wp_ace_default_conditional_display'), 'in-main-query' ) ); ?> /><?php _e('in main query', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>
 
@@ -798,14 +799,20 @@ class Admin_Code_Editor_Admin {
 			<div class="wp-ace-bootstrap">
 				
 				<div class="radio">
-					<label for="wp-ace__enable-coffee-script" >
-						<input type="radio" id="wp-ace__enable-coffee-script" name="wp_ace_default_html_preprocessor" value="none"  /><?php _e('None', 'wrs-admin-code-editor') ?>
+					<label for="wp-ace--default-html-preprocessor--none" >
+						<input type="radio" id="wp-ace--default-html-preprocessor--none" name="wp_ace_default_html_preprocessor" value="none"  <?php checked('none', get_option('wp_ace_default_html_preprocessor') ); ?>  /><?php _e('None', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>					
 
 				<div class="radio">
-					<label for="wp-ace__enable-haml" >
-						<input type="radio" id="wp-ace__enable-haml" name="wp_ace_default_html_preprocessor" value="haml"  /><?php _e('HAML', 'wrs-admin-code-editor') ?>
+					<label for="wp-ace--default-html-preprocessor--haml" >
+						<input type="radio" id="wp-ace--default-html-preprocessor--haml" name="wp_ace_default_html_preprocessor" value="haml"  <?php checked('haml', get_option('wp_ace_default_html_preprocessor') ); ?>   /><?php _e('HAML', 'wrs-admin-code-editor') ?>
+					</label>
+				</div>
+
+				<div class="radio">
+					<label for="wp-ace--default-html-preprocessor--markdown" >
+						<input type="radio" id="wp-ace--default-html-preprocessor--markdown" name="wp_ace_default_html_preprocessor" value="markdown"  <?php checked('markdown', get_option('wp_ace_default_html_preprocessor') ); ?>  /><?php _e('MarkDown', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>
 
@@ -849,11 +856,13 @@ class Admin_Code_Editor_Admin {
 			<div class="wp-ace-bootstrap">
 				<div class="radio">
 					
-					<label for="wp-ace__default-html-pos-above" ><input type="radio" id="wp-ace__default-html-pos-above" name="wp_ace_default_html_position" value="after" <?php checked('after', get_option('wp_ace_default_html_position') ); ?> /><?php _e('After Content', 'wrs-admin-code-editor') ?></label>
+					<label for="wp-ace__default-html-pos-above" >
+						<input type="radio" id="wp-ace__default-html-pos-above" name="wp_ace_default_html_position" value="after" <?php checked('after', get_option('wp_ace_default_html_position') ); ?> /><?php _e('After Content', 'wrs-admin-code-editor') ?></label>
 				</div>
 				<div class="radio">
 					
-					<label for="wp-ace__default-html-pos-below" ><input type="radio" id="wp-ace__default-html-pos-below" name="wp_ace_default_html_position" value="before" <?php checked('before', get_option('wp_ace_default_html_position') ); ?> /><?php _e('Before Content', 'wrs-admin-code-editor') ?></label>
+					<label for="wp-ace__default-html-pos-below" >
+						<input type="radio" id="wp-ace__default-html-pos-below" name="wp_ace_default_html_position" value="before" <?php checked('before', get_option('wp_ace_default_html_position') ); ?> /><?php _e('Before Content', 'wrs-admin-code-editor') ?></label>
 				</div>
 			</div>
 
@@ -871,20 +880,20 @@ class Admin_Code_Editor_Admin {
 
 			<div class="wp-ace-bootstrap">
 					<div class="radio">
-						<label for="wp-ace__enable-haml" >
-							<input type="radio" id="wp-ace__enable-haml" name="wp_ace_default_css_preprocessor" value="none"  /><?php _e('None', 'wrs-admin-code-editor') ?>
+						<label for="wp-ace--default-css-preprocessor--css" >
+							<input type="radio" id="wwp-ace--default-css-preprocessor--css" name="wp_ace_default_css_preprocessor" value="none" <?php checked('none', get_option('wp_ace_default_css_preprocessor') ); ?> /><?php _e('None', 'wrs-admin-code-editor') ?>
 						</label>
 					</div>
 
 					<div class="radio">
-						<label for="wp-ace__enable-less" >
-							<input type="radio" id="wp-ace__enable-less" name="wp_ace_default_css_preprocessor" value="less"  /><?php _e('LESS', 'wrs-admin-code-editor') ?>
+						<label for="wp-ace--default-css-preprocessor--less" >
+							<input type="radio" id="wp-ace--default-css-preprocessor--less" name="wp_ace_default_css_preprocessor" value="less" <?php checked('less', get_option('wp_ace_default_css_preprocessor') ); ?>  /><?php _e('LESS', 'wrs-admin-code-editor') ?>
 						</label>
 					</div>
 				
 					<div class="radio">
-						<label for="wp-ace__enable-sass" >
-							<input type="radio" id="wp-ace__enable-sass" name="wp_ace_default_css_preprocessor" value="sass"  /><?php _e('Sass', 'wrs-admin-code-editor') ?>
+						<label for="wp-ace--default-css-preprocessor--scss" >
+							<input type="radio" id="wp-ace--default-css-preprocessor--scss" name="wp_ace_default_css_preprocessor" value="scss" <?php checked('scss', get_option('wp_ace_default_css_preprocessor') ); ?>  /><?php _e('Scss', 'wrs-admin-code-editor') ?>
 						</label>
 					</div>
 			
@@ -905,21 +914,24 @@ class Admin_Code_Editor_Admin {
 
 			<div class="wp-ace-bootstrap">
 					<div class="radio">
-						<label for="wp-ace__enable-haml" >
-							<input type="radio" id="wp-ace__enable-haml" name="wp_ace_default_js_preprocessor" value="none"  /><?php _e('None', 'wrs-admin-code-editor') ?>
+						<label for="wp-ace--default-js-preprocessor--none" >
+							<input type="radio" id="wp-ace--default-js-preprocessor--none" name="wp_ace_default_js_preprocessor" value="none" <?php checked('none', get_option('wp_ace_default_js_preprocessor') ); ?>  /><?php _e('None', 'wrs-admin-code-editor') ?>
 						</label>
 					</div>
 					<div class="radio">
-						<label for="wp-ace__enable-coffee-script" >
-							<input type="radio" id="wp-ace__enable-coffee-script" name="wp_ace_default_js_preprocessor" value="coffee-script"  /><?php _e('Coffee Script', 'wrs-admin-code-editor') ?>
+						<label for="wp-ace--default-js-preprocessor--coffee" >
+							<input type="radio" id="wp-ace--default-js-preprocessor--coffee" name="wp_ace_default_js_preprocessor" value="coffee" <?php checked('coffee', get_option('wp_ace_default_js_preprocessor') ); ?>  /><?php _e('Coffee Script', 'wrs-admin-code-editor') ?>
 						</label>
 					</div>
+					
+					<!-- Stylus is not currently supported in WP ACE -->
+					<!--
 					<div class="radio">
 						<label for="wp-ace__enable-stylus" >
 							<input type="radio" id="wp-ace__enable-stylus" name="wp_ace_default_js_preprocessor" value="stylus"  /><?php _e('Stylus', 'wrs-admin-code-editor') ?>
 						</label>
 					</div>
-
+					-->
 			</div>
 
 		<?php
@@ -939,6 +951,41 @@ class Admin_Code_Editor_Admin {
 				<div class="checkbox">
 					<label for="wp_ace_default_include_jquery" >
 						<input type="checkbox" id="wp_ace_default_include_jquery" name="wp_ace_default_include_jquery" value="none"  /><?php _e('Include jQuery', 'wrs-admin-code-editor') ?>
+					</label>
+				</div>					
+
+			</div>
+
+		<?php
+	}
+
+
+	/**
+	 *
+	 * Option field to disable certain code types (HTML, CSS, JS)
+	 *
+	 * @since 1.0.0
+	 */
+	function display_default_hide_code_types_field_element() {
+		?>
+
+			<div class="wp-ace-bootstrap">
+				
+				<div class="checkbox">
+					<label for="wp-ace--default-disabled-code--html" >
+						<input type="checkbox" id="wp-ace--default-disabled-code--html" name="wp_ace_default_disabled_code[]" value="html"  <?php checked( in_array( get_option('wp_ace_default_disabled_code'), 'html' ) ); ?>  /><?php _e('HTML', 'wrs-admin-code-editor') ?>
+					</label>
+				</div>					
+
+				<div class="checkbox">
+					<label for="wp-ace--default-disabled-code--css" >
+						<input type="checkbox" id="wp-ace--default-disabled-code--css" name="wp_ace_default_disabled_code[]" value="css"  <?php checked( in_array( get_option('wp_ace_default_disabled_code'), 'css' ) ); ?>  /><?php _e('CSS', 'wrs-admin-code-editor') ?>
+					</label>
+				</div>
+
+				<div class="checkbox">
+					<label for="wp-ace--default-disabled-code--js" >
+						<input type="checkbox" id="wp-ace--default-disabled-code--js" name="wp_ace_default_disabled_code[]" value="js"  <?php checked( in_array( get_option('wp_ace_default_disabled_code'), 'js' ) ); ?>  /><?php _e('JavaScript', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>					
 
@@ -977,7 +1024,13 @@ class Admin_Code_Editor_Admin {
 			"admin-code-editor-options-page", 
 			"general-section"
 		);
-
+		add_settings_field(
+			"wp_ace_default_hide_code_types",
+			__('Hide Code Types', 'admin-code-editor'),
+			array(&$this,"display_default_hide_code_types_field_element"),
+			"admin-code-editor-options-page", 
+			"general-section"
+		);
 
 		// HTML settings fields
 		add_settings_field(
@@ -1042,7 +1095,7 @@ class Admin_Code_Editor_Admin {
 
 		register_setting("admin-code-editor-settings", "wp_ace_default_js_preprocessor");
 		register_setting("admin-code-editor-settings", "wp_ace_default_include_jquery");
-		
+		register_setting("admin-code-editor-settings", "wp_ace_default_disabled_code");
 	}
 
 }
