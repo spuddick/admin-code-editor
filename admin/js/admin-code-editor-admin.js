@@ -55,7 +55,8 @@ var wpAceInterface = (function() {
     // Models
 		var Code_Model = Backbone.Model.extend({
 		  defaults : {
-		  	code_has_changed : 0
+		  	code_has_changed : 0,
+		  	preprocessed_code_has_errors : 0
 		  },
 		  updatePreprocessor: function($preprocessor_obj) {
 		    var new_mode = $preprocessor_obj.val();
@@ -450,18 +451,21 @@ var wpAceInterface = (function() {
 				ace_editor : html_editor,
 				output_position : wpcr_data['wp-ace-html-php-code-position'],
 				wpautop_status : wpcr_data['wp-ace-html-php-disable-wpautop'],
-				post_type_name : wpcr_data['wp-ace-post-type-singular-name']		 
+				post_type_name : wpcr_data['wp-ace-post-type-singular-name'],
+				preprocessed_code_has_errors : (wpcr_data['wp-ace-html-php-compile-status'] == 'error' ? 1 : 0)	 
 			});
 			css_code_model = new CSS_Code_Model({ 
 				preprocessor: wpcr_data['wp-ace-css-preprocessor'], 
 				ace_editor : css_editor,
-				post_type_name : wpcr_data['wp-ace-post-type-singular-name']  
+				post_type_name : wpcr_data['wp-ace-post-type-singular-name'],
+				preprocessed_code_has_errors : (wpcr_data['wp-ace-css-compile-status'] == 'error' ? 1 : 0)	   
 			});
 			js_code_model = new JS_Code_Model({ 
 				preprocessor: wpcr_data['wp-ace-js-preprocessor'], 
 				ace_editor : js_editor,
 				jquery_enqueued_status : wpcr_data['wp-ace-css-include-jquery'],
-				post_type_name : wpcr_data['wp-ace-post-type-singular-name'] 
+				post_type_name : wpcr_data['wp-ace-post-type-singular-name'],
+				preprocessed_code_has_errors : (wpcr_data['wp-ace-js-compile-status'] == 'error' ? 1 : 0)	  
 			});
 
 

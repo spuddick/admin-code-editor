@@ -193,7 +193,10 @@ class Admin_Code_Editor_Admin {
 					'wp-ace-css-preprocessor' 					=> $css_editor->get_preprocessor(),
 					'wp-ace-css-include-jquery' 				=> $js_editor->get_include_jquery_status(),
 					'wp-ace-js-preprocessor' 						=> $js_editor->get_preprocessor(),
-					'wp-ace-post-type-singular-name'		=> $post_type_obj->labels->singular_name
+					'wp-ace-post-type-singular-name'		=> $post_type_obj->labels->singular_name,
+					'wp-ace-html-php-compile-status'		=> $html_php_editor->get_code_compile_status(),
+					'wp-ace-css-compile-status'					=> $css_editor->get_code_compile_status(),
+					'wp-ace-js-compile-status'					=> $js_editor->get_code_compile_status()
 				);
 				wp_localize_script( $this->admin_code_editor, 'wpcr_data', $wpcr_data);      
 			}

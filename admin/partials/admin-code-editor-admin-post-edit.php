@@ -8,7 +8,14 @@
 	  <p class="wp-ace__notice wp-ace__notice--info text-warning" >
 			<span class="fa fa-info-circle" aria-hidden="true"></span>
 			<span class="wp-ace__notice__text" >
-			<?php echo sprintf( __('%1$s Code has changed. Publish/Update %2$s to view latest compiled code.', 'wrs-admin-code-editor'), '<%= preprocessor_nicename %>', '<%= post_type_name %>' ); ?>
+			<?php echo sprintf( __('%1$s code has changed. Publish/Update %2$s to view latest compiled code.', 'wrs-admin-code-editor'), '<%= preprocessor_nicename %>', '<%= post_type_name %>' ); ?>
+			</span>
+		</p>
+  <% } else if (preprocessed_code_has_errors) { %>
+	  <p class="wp-ace__notice wp-ace__notice--info text-danger" >
+			<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+			<span class="wp-ace__notice__text" >
+			<?php echo sprintf( __('The %1$s code contains errors. The following compiled code may not reflect the current preprocessed code.', 'wrs-admin-code-editor'), '<%= preprocessor_nicename %>'); ?>
 			</span>
 		</p>
   <% } else { %>
@@ -51,7 +58,7 @@
 	  <!-- Tab panes -->
 	  <div class="tab-content">
 	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'html-edit' ) { echo 'active'; } ?>" id="html-edit">
-				<div class="wp-ace__tab-panel-inner" >
+				<div class="wp-ace__tab-panel-inner <?php if ($html_php_editor->get_code_compile_status() == 'error') { echo 'bg-danger'; } ?>" >
 					<div class="wp-ace__tab-panel-inner__header">
 						<?php if ($html_php_editor->get_code_compile_status() == 'error') { ?>
 						<p class="wp-ace__notice wp-ace__notice--info text-error" >
@@ -117,7 +124,7 @@
 
 	    </div>
 	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'css-edit' ) { echo 'active'; } ?>" id="css-edit">
-	    	<div class="wp-ace__tab-panel-inner" >
+	    	<div class="wp-ace__tab-panel-inner <?php if ($css_editor->get_code_compile_status() == 'error') { echo 'bg-danger'; } ?>" >
 	    		<div class="wp-ace__tab-panel-inner__header">
 						<?php if ($css_editor->get_code_compile_status() == 'error') { ?>
 						<p class="wp-ace__notice wp-ace__notice--info text-error" >
@@ -165,7 +172,7 @@
 				</div>
 	    </div>
 	    <div role="tabpanel" class="tab-pane <?php if ($last_active_tab_id == 'javascript-edit' ) { echo 'active'; } ?>" id="javascript-edit">
-				<div class="wp-ace__tab-panel-inner" >	
+				<div class="wp-ace__tab-panel-inner <?php if ($js_editor->get_code_compile_status() == 'error') { echo 'bg-danger'; } ?>" >	
 					<div class="wp-ace__tab-panel-inner__header">
 						<?php if ($js_editor->get_code_compile_status() == 'error') { ?>
 						<p class="wp-ace__notice wp-ace__notice--info text-error" >

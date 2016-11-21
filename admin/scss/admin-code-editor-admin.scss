@@ -17,7 +17,7 @@ li#wp-ace__settings-tab {
 }
 
 .wp-ace__tab-panel-inner {
-	padding-top:10px;
+	padding:10px;
 }
 
 .wp-ace-bootstrap .alert.wp-ace__alert--empty {
@@ -59,7 +59,7 @@ li#wp-ace__settings-tab {
 .wp-ace-bootstrap .nav-tabs > li.active > a.bg-danger, 
 .wp-ace-bootstrap .nav-tabs > li.active > a.bg-danger:hover, 
 .wp-ace-bootstrap .nav-tabs > li.active > a.bg-danger:focus {
-	background-color: #e4b9b9;
+	background-color: #f2dede;
 }
 
 .wp-ace__tab-panel-inner__header {
@@ -67,7 +67,10 @@ li#wp-ace__settings-tab {
   -webkit-display: flex;
   flex-wrap: nowrap;
   justify-content:space-between;
-  align-items: flex-start;
+  align-items: center;
   align-content: flex-start;
 }
 
+p.wp-ace__notice {
+	margin:0 !important;
+}
