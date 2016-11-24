@@ -283,7 +283,7 @@ class Admin_Code_Editor_Admin {
 	
 
 		wp_nonce_field( 'wp-ace-editor-nonce', 'wp-ace-editor-nonce' );
-		
+		/*
 		$disabled_templates 					= get_post_meta($post->ID, '_wp_ace_disabled_templates', true);
 		if (!$disabled_templates ) {
 			$disabled_templates = array();
@@ -291,10 +291,16 @@ class Admin_Code_Editor_Admin {
 		$only_display_in_loop 				= get_post_meta($post->ID, '_wp_ace_display_only_in_loop', true);
 		$only_display_in_main_query 	= get_post_meta($post->ID, '_wp_ace_display_only_in_main_query', true);
 		$last_active_tab_id 					= get_post_meta($post->ID, '_wp_ace_last_active_tab', true);
-		
+		*/
+	
 		if (!$last_active_tab_id) {
 			$last_active_tab_id = 'html-edit';
 		}
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-admin-code-editor-general.php';
+		$general_settings = new Admin_Code_Editor_General($post_id);
+		
+
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-html-php.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-css.php';
@@ -425,7 +431,7 @@ class Admin_Code_Editor_Admin {
 		}
 
 		// TODO: Check if post type is WP ACE enabled
-		
+		/*
 		if (isset($_POST['wp-ace-disabled-templates'])) {
 			$disabled_templates = $_POST['wp-ace-disabled-templates'];
 			update_post_meta($post_id, '_wp_ace_disabled_templates', $disabled_templates );
@@ -442,9 +448,14 @@ class Admin_Code_Editor_Admin {
 		} else {
 			delete_post_meta($post_id, '_wp_ace_display_only_in_loop');
 		}
-
+		*/
 		update_post_meta($post_id, '_wp_ace_last_active_tab', $_POST['wp-ace-last-active-tab'] );
 		
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-admin-code-editor-general.php';
+		$general_settings = new Admin_Code_Editor_General($post_id);
+		$general_settings->updateDataFromPOST(); 
+
+
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-html-php.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-css.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-js.php';
@@ -1020,36 +1031,37 @@ class Admin_Code_Editor_Admin {
 	function display_theme_panel_fields() {
 		
 		// Set up subsections for settings page
-		add_settings_section("general-section", "General Settings", null, "admin-code-editor-options-page");
-		add_settings_section("html-php-section", "HTML Settings", null, "admin-code-editor-options-page");
-		add_settings_section("css-section", "CSS Settings", null, "admin-code-editor-options-page");
-		add_settings_section("javascript-section", "JavaScript Settings", null, "admin-code-editor-options-page");
+		add_settings_section("enable-section", 			__('Enable Code Editor', 'wrs-admin-code-editor'), null, "admin-code-editor-options-page");
+		add_settings_section("general-section", 		__('Default General Settings', 'wrs-admin-code-editor'), null, "admin-code-editor-options-page");
+		add_settings_section("html-php-section", 		__('Default HTML Settings', 'wrs-admin-code-editor'), null, "admin-code-editor-options-page");
+		add_settings_section("css-section", 				__('Default CSS Settings', 'wrs-admin-code-editor'), null, "admin-code-editor-options-page");
+		add_settings_section("javascript-section", 	__('Default JavaScript Settings', 'wrs-admin-code-editor'), null, "admin-code-editor-options-page");
 
 		// General settings fields
 		add_settings_field(
 			"wp_ace_enabled_post_types",
-			__('Apply to Post Types', 'admin-code-editor'),
+			__('Apply to Post Types', 'wrs-admin-code-editor'),
 			array(&$this,"display_post_type_selection_field_element"),
 			"admin-code-editor-options-page", 
-			"general-section"
+			"enable-section"
 		);
 		add_settings_field(
 			"wp_ace_default_conditional_display",
-			__('Only display when', 'admin-code-editor'),
+			__('Only display when', 'wrs-admin-code-editor'),
 			array(&$this,"display_default_conditional_display_field_element"),
 			"admin-code-editor-options-page", 
 			"general-section"
 		);
 		add_settings_field(
 			"wp_ace_default_hide_on_templates",
-			__('Hide on Templates', 'admin-code-editor'),
+			__('Hide on Templates', 'wrs-admin-code-editor'),
 			array(&$this,"display_default_disabled_templates_field_element"),
 			"admin-code-editor-options-page", 
 			"general-section"
 		);
 		add_settings_field(
 			"wp_ace_default_hide_code_types",
-			__('Hide Code Editor Types', 'admin-code-editor'),
+			__('Hide Code Editor Types', 'wrs-admin-code-editor'),
 			array(&$this,"display_default_hide_code_types_field_element"),
 			"admin-code-editor-options-page", 
 			"general-section"
@@ -1058,21 +1070,21 @@ class Admin_Code_Editor_Admin {
 		// HTML settings fields
 		add_settings_field(
 			"wp_ace_default_html_preprocessor",
-			__('Default Preprocessor', 'admin-code-editor'),
+			__('Preprocessor', 'wrs-admin-code-editor'),
 			array(&$this,"display_default_html_preprocessors_field_element"),
 			"admin-code-editor-options-page", 
 			"html-php-section"
 		);
 		add_settings_field(
 			"wp_ace_default_html_position",
-			__('Default Position', 'admin-code-editor'),
+			__('Position', 'wrs-admin-code-editor'),
 			array(&$this,"display_default_html_position_field_element"),
 			"admin-code-editor-options-page", 
 			"html-php-section"
 		);
 		add_settings_field(
 			"wp_ace_default_disable_wpautop",
-			__('Disable wpautop', 'admin-code-editor'),
+			__('Disable wpautop', 'wrs-admin-code-editor'),
 			array(&$this,"display_default_disable_wpautop_field_element"),
 			"admin-code-editor-options-page", 
 			"html-php-section"
@@ -1082,7 +1094,7 @@ class Admin_Code_Editor_Admin {
 		// CSS settings fields
 		add_settings_field(
 			"wp_ace_default_css_preprocessors",
-			__('Default Preprocessor', 'admin-code-editor'),
+			__('Preprocessor', 'wrs-admin-code-editor'),
 			array(&$this,"display_default_css_preprocessors_field_element"),
 			"admin-code-editor-options-page", 
 			"css-section"
@@ -1092,14 +1104,14 @@ class Admin_Code_Editor_Admin {
 		// JS settings fields
 		add_settings_field(
 			"wp_ace_default_js_preprocessors",
-			__('Default Preprocessor', 'admin-code-editor'),
+			__('Preprocessor', 'wrs-admin-code-editor'),
 			array(&$this,"display_default_js_preprocessors_field_element"),
 			"admin-code-editor-options-page", 
 			"javascript-section"
 		);
 		add_settings_field(
 			"wp_ace_default_include_jquery",
-			__('Include jQuery', 'admin-code-editor'),
+			__('Include jQuery', 'wrs-admin-code-editor'),
 			array(&$this,"display_default_include_jquery_field_element"),
 			"admin-code-editor-options-page", 
 			"javascript-section"

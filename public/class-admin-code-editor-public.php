@@ -179,6 +179,9 @@ class Admin_Code_Editor_Public {
 			return $content;
 		}
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-admin-code-editor-general.php';
+		$general_settings = new Admin_Code_Editor_General($post_id);
+
 		$disabled_templates 					= get_post_meta($post->ID, '_wp_ace_disabled_templates', true);
 		if (!$disabled_templates ) {
 			$disabled_templates = array();

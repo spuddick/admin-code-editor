@@ -45,16 +45,21 @@ abstract class Admin_Code_Editor_Editor {
 
 	abstract public function initialize_from_post_request();
 	//abstract public function get_preprocessor();
-
+	
+	/*
 	public function get_disabled_templates() {
 		$ret = array();
 
 		if (empty($this->disabled_templates)) {
 			$this->disabled_templates = get_post_meta($this->code_post_id, '_wp_ace_disable_templates', true);
+			if (empty($this->disabled_templates)) {
+				$this->disabled_templates = get_option('wp_ace_default_disabled_template');
+			}
 		}
 
 		return $this->disabled_templates;
 	}
+	*/
 
 	private function get_code_name_text() {
 		return $this->code_post_name_start . $this->host_post_id;
