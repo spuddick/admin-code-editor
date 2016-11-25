@@ -182,30 +182,34 @@ class Admin_Code_Editor_Public {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-admin-code-editor-general.php';
 		$general_settings = new Admin_Code_Editor_General($post_id);
 
+		/*
 		$disabled_templates 					= get_post_meta($post->ID, '_wp_ace_disabled_templates', true);
 		if (!$disabled_templates ) {
 			$disabled_templates = array();
 		}
-		if (is_home() && in_array('home', $disabled_templates) ) {
+		*/
+		if (is_home() && $general_settings->homeTemplateIsDisabled() ) {
 			return $content;
 		}
-		if (is_front_page() && in_array('front-page', $disabled_templates) ) {
+		if (is_front_page() && $general_settings->frontPageTemplateIsDisabled() ) {
 			return $content;
 		}
-		if (is_archive() && in_array('archives', $disabled_templates) ) {
+		if (is_archive() && $general_settings->archiveTemplateIsDisabled() ) {
 			return $content;
 		}
-		if (is_search() && in_array('search', $disabled_templates) ) {
+		if (is_search() && $general_settings->searchTemplateIsDisabled() ) {
 			return $content;
 		}
 
-
+		/*
 		$only_display_in_loop 				= get_post_meta($post->ID, '_wp_ace_display_only_in_loop', true);
 		$only_display_in_main_query 	= get_post_meta($post->ID, '_wp_ace_display_only_in_main_query', true);		
-		if (!is_main_query()  && $only_display_in_main_query) {
+		*/
+	
+		if (!is_main_query()  && $general_settings->getOnlyDisplayInMainQueryStatus()) {
 			return $content;
 		}
-		if (!in_the_loop() && $only_display_in_loop ) {
+		if (!in_the_loop() && $general_settings->getOnlyDisplayInLoopStatus() ) {
 			return $content;
 		}
 
@@ -232,38 +236,46 @@ class Admin_Code_Editor_Public {
 		);
 		$js_editor 	= new Admin_Code_Editor_Editor_JS($editor_args);
 
+		$wp_ace_css_tag_output = '';
 
-		$wp_ace_css_tag_output = '<style id="wp-ace-css--post-' . $post->ID . '" >' . $css_editor->get_css_with_wrapper() . '</style>';
-		$wp_ace_js_output[$post->ID] = $js_editor->get_compiled_code();
-		
-
-		$html_code_insert_position 	= $html_php_editor->get_code_output_position();
-		$wp_autop_disable_status 		= $html_php_editor->get_disable_wpautop_status();
-		$html 											= $html_php_editor->get_compiled_code();
-		
-		$html = '<div class="wp-ace-html--post-'. $post->ID .'">' . $html . '</div>';
-
-		$content = wpautop($content);
-		if (!$wp_autop_disable_status) {
-			$html = wpautop($html);
-		}
-		$html = do_shortcode($html);
-
-		switch ($html_code_insert_position) {
-	    case 'before':
-
-			  $content =  $html . $content;
-
-        break;
-	    case 'after':
-
-	    	$content =  $content . $html;
-
-        break;
+		if (!$general_settings->cssEditorIsDisabled()) {
+			$wp_ace_css_tag_output = '<style id="wp-ace-css--post-' . $post->ID . '" >' . $css_editor->get_css_with_wrapper() . '</style>';
 		}
 		
-		return $wp_ace_css_tag_output . $content;
+		if (!$general_settings->jsEditorIsDisabled()) {
+			$wp_ace_js_output[$post->ID] = $js_editor->get_compiled_code();
+		}
+		
+		if (!$general_settings->htmlEditorIsDisabled()) {
+			$html_code_insert_position 	= $html_php_editor->get_code_output_position();
+			$wp_autop_disable_status 		= $html_php_editor->get_disable_wpautop_status();
+			$html 											= $html_php_editor->get_compiled_code();
+			
+			$html = '<div class="wp-ace-html--post-'. $post->ID .'">' . $html . '</div>';
 
+			$content = wpautop($content);
+			if (!$wp_autop_disable_status) {
+				$html = wpautop($html);
+			}
+			$html = do_shortcode($html);
+
+			switch ($html_code_insert_position) {
+		    case 'before':
+
+				  $content =  $html . $content;
+
+	        break;
+		    case 'after':
+
+		    	$content =  $content . $html;
+
+	        break;
+			}
+			
+			return $wp_ace_css_tag_output . $content;
+		} else {
+			return $content;
+		}
 	}	
 
 }

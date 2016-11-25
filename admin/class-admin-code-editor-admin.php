@@ -291,12 +291,13 @@ class Admin_Code_Editor_Admin {
 		$only_display_in_loop 				= get_post_meta($post->ID, '_wp_ace_display_only_in_loop', true);
 		$only_display_in_main_query 	= get_post_meta($post->ID, '_wp_ace_display_only_in_main_query', true);
 		$last_active_tab_id 					= get_post_meta($post->ID, '_wp_ace_last_active_tab', true);
-		*/
+		
 	
 		if (!$last_active_tab_id) {
 			$last_active_tab_id = 'html-edit';
 		}
-
+		*/
+	
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-admin-code-editor-general.php';
 		$general_settings = new Admin_Code_Editor_General($post_id);
 		
@@ -449,7 +450,7 @@ class Admin_Code_Editor_Admin {
 			delete_post_meta($post_id, '_wp_ace_display_only_in_loop');
 		}
 		*/
-		update_post_meta($post_id, '_wp_ace_last_active_tab', $_POST['wp-ace-last-active-tab'] );
+		
 		
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-admin-code-editor-general.php';
 		$general_settings = new Admin_Code_Editor_General($post_id);
