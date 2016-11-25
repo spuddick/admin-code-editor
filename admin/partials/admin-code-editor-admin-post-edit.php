@@ -131,7 +131,7 @@
 					</div>
 		    </div>
 	    <?php } ?>
-	    
+
 	    <?php if (!$general_settings->cssEditorIsDisabled()) { ?>
 		    <div role="tabpanel" class="tab-pane <?php if ($general_settings->getActiveAdminTab() == 'css-edit' ) { echo 'active'; } ?>" id="css-edit">
 		    	<div class="wp-ace__tab-panel-inner <?php if ($css_editor->get_code_compile_status() == 'error') { echo 'bg-danger'; } ?>" >
@@ -336,19 +336,19 @@
 						    	<div class="form-group">
 										<h5><?php _e('Do not display WP ACE code on the following templates:', 'wrs-admin-code-editor'); ?> </h5>
 										<div class="checkbox">
-											<label><input type="checkbox" name="wp-ace-disabled-templates[]" <?php if (in_array("front-page", $disabled_templates)) { echo 'checked'; } ?> value="front-page" ><?php _e('Front Page', 'wrs-admin-code-editor'); ?> </label>
+											<label><input type="checkbox" name="wp-ace-disabled-templates[]" <?php if ($general_settings->frontPageTemplateIsDisabled()) { echo 'checked'; } ?> value="front-page" ><?php _e('Front Page', 'wrs-admin-code-editor'); ?> </label>
 										</div>
 
 										<div class="checkbox">
-											<label ><input type="checkbox" name="wp-ace-disabled-templates[]" <?php if (in_array("home", $disabled_templates)) { echo 'checked'; }?> value="home" ><?php _e('Home', 'wrs-admin-code-editor'); ?></label>
+											<label ><input type="checkbox" name="wp-ace-disabled-templates[]" <?php if ($general_settings->homeTemplateIsDisabled()) { echo 'checked'; }?> value="home" ><?php _e('Home', 'wrs-admin-code-editor'); ?></label>
 										</div>
 										
 										<div class="checkbox">
-											<label><input type="checkbox" name="wp-ace-disabled-templates[]" <?php if (in_array("archives", $disabled_templates)) { echo 'checked'; }?> value="archives" ><?php _e('Archives', 'wrs-admin-code-editor'); ?></label>	
+											<label><input type="checkbox" name="wp-ace-disabled-templates[]" <?php if ($general_settings->archiveTemplateIsDisabled()) { echo 'checked'; }?> value="archives" ><?php _e('Archives', 'wrs-admin-code-editor'); ?></label>	
 										</div>
 										
 										<div class="checkbox">
-											<label><input type="checkbox" name="wp-ace-disabled-templates[]" <?php if (in_array("search-results", $disabled_templates)) { echo 'checked'; }?> value="search-results" ><?php _e('Search Results', 'wrs-admin-code-editor'); ?></label>
+											<label><input type="checkbox" name="wp-ace-disabled-templates[]" <?php if ($general_settings->searchTemplateIsDisabled()) { echo 'checked'; }?> value="search-results" ><?php _e('Search Results', 'wrs-admin-code-editor'); ?></label>
 										</div>
 						    	</div>
 
@@ -369,7 +369,7 @@
 												<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="<?php _e('Inside main query description https://codex.wordpress.org/Function_Reference/is_main_query', 'wrs-admin-code-editor'); ?>" aria-hidden="true"  ></span>									    	
 											</label>	
 										</div>
-										<input type="hidden" name="wp-ace-last-active-tab" id="wp-ace-last-active-tab" value="<?php echo $last_active_tab_id; ?>" />									    	
+										<input type="hidden" name="wp-ace-last-active-tab" id="wp-ace-last-active-tab" value="<?php echo $general_settings->getActiveAdminTab(); ?>" />									    	
 									</div>
 									
 						    </div>

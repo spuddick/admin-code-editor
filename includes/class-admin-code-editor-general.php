@@ -3,10 +3,10 @@
 class Admin_Code_Editor_General
 
 {
-    const DEFAULT_ONLY_DISPLAY_WHEN 			= array('inside-the-loop', 'in-main-query');
-    const DEFAULT_HIDE_ON_TEMPLATES 			= array();
-    const DEFAULT_HIDE_CODE_EDITOR_TYPES 	= array();
-    const DEFAULT_ACTIVE_ADMIN_TAB 				= 'html-edit';
+    private static $DEFAULT_ONLY_DISPLAY_WHEN 			= array('inside-the-loop', 'in-main-query');
+    private static $DEFAULT_HIDE_ON_TEMPLATES 			= array();
+    private static $DEFAULT_HIDE_CODE_EDITOR_TYPES 	= array();
+    private static $DEFAULT_ACTIVE_ADMIN_TAB 				= 'html-edit';
 
     private $post_id, $disabled_templates, $only_display_in = array(), $hide_code_editor_types, $active_admin_tab;
 
@@ -45,7 +45,7 @@ class Admin_Code_Editor_General
 			if (empty($this->disabled_templates)) {
 				$this->disabled_templates = get_post_meta($this->post_id, '_wp_ace_disable_templates', true);
 				if (empty($this->disabled_templates)) {
-					$this->disabled_templates = get_option('wp_ace_default_disabled_template', self::DEFAULT_HIDE_ON_TEMPLATES);
+					$this->disabled_templates = get_option('wp_ace_default_disabled_template', self::$DEFAULT_HIDE_ON_TEMPLATES);
 				}
 			} 
 
@@ -78,7 +78,7 @@ class Admin_Code_Editor_General
 			if (isset($this->only_display_in['loop'])) {
 				$this->only_display_in['loop'] = get_post_meta($this->post_id, '_wp_ace_display_only_in_loop', true);
 				if (empty($this->only_display_in['loop'])) {
-					$conditional_display = get_option('wp_ace_default_conditional_display', self::DEFAULT_ONLY_DISPLAY_WHEN);
+					$conditional_display = get_option('wp_ace_default_conditional_display', self::$DEFAULT_ONLY_DISPLAY_WHEN);
 					if (!empty($conditional_display) && isset($conditional_display['inside-the-loop']) ) {
 
 						$this->only_display_in['loop'] = 1;
@@ -88,7 +88,12 @@ class Admin_Code_Editor_General
 				}
 			}
 
-			return $this->only_display_in['loop'];
+			if (isset($this->only_display_in['loop'])) {
+				return $this->only_display_in['loop'];
+			} else {
+				return false; 
+			}
+			
 
     }
 
@@ -97,7 +102,7 @@ class Admin_Code_Editor_General
 			if (isset($this->only_display_in['main-query'])) {
 				$this->only_display_in['main-query'] = get_post_meta($this->post_id, '_wp_ace_display_only_in_main_query', true);
 				if (empty($this->only_display_in['main-query'])) {
-					$conditional_display = get_option('wp_ace_default_conditional_display', self::DEFAULT_ONLY_DISPLAY_WHEN);
+					$conditional_display = get_option('wp_ace_default_conditional_display', self::$DEFAULT_ONLY_DISPLAY_WHEN);
 					if (!empty($conditional_display) && isset($conditional_display['in-main-query']) ) {
 
 						$this->only_display_in['main-query'] = 1;
@@ -106,14 +111,19 @@ class Admin_Code_Editor_General
 					}
 				}
 			}
-
-			return $this->only_display_in['main-query'];
+			
+			if (isset($this->only_display_in['main-query'])) {
+				return $this->only_display_in['main-query'];
+			} else {
+				return false; 
+			}
+			
     }
 
     public function getHiddenCodeEditorTypes() {
 
 			if (empty($this->hide_code_editor_types)) {
-				$this->hide_code_editor_types = get_option('wp_ace_default_disabled_code', self::DEFAULT_HIDE_CODE_EDITOR_TYPES );
+				$this->hide_code_editor_types = get_option('wp_ace_default_disabled_code', self::$DEFAULT_HIDE_CODE_EDITOR_TYPES );
 			} else {
 				return false;
 			}
@@ -122,19 +132,34 @@ class Admin_Code_Editor_General
 
     }
 
-    public function cssEditorIsDisabled() {
+    public function htmlEditorIsDisabled() {
     	$this->getHiddenCodeEditorTypes();
-    	return in_array('html', $this->hide_code_editor_types); 
+    	if (empty($this->hide_code_editor_types)) {
+    		return false;
+    	} else {
+    		return in_array('html', $this->hide_code_editor_types); 
+    	}
+    	
     }
 
     public function cssEditorIsDisabled() {
     	$this->getHiddenCodeEditorTypes();
-    	return in_array('css', $this->hide_code_editor_types); 
+    	
+    	if (empty($this->hide_code_editor_types)) {
+    		return false;
+    	} else {
+    		return in_array('css', $this->hide_code_editor_types);
+    	}
     }
 
     public function jsEditorIsDisabled() {
     	$this->getHiddenCodeEditorTypes();
-    	return in_array('js', $this->hide_code_editor_types); 
+    	
+    	if (empty($this->hide_code_editor_types)) {
+    		return false;
+    	} else {
+    		return in_array('js', $this->hide_code_editor_types);
+    	} 
     }
 
     public function getActiveAdminTab() {
@@ -142,7 +167,7 @@ class Admin_Code_Editor_General
 			if (empty($this->active_admin_tab)) {
 				$this->active_admin_tab = get_post_meta($this->post_id, '_wp_ace_last_active_tab', true);
 				if (empty($this->active_admin_tab)) {
-					$this->active_admin_tab = self::DEFAULT_ACTIVE_ADMIN_TAB;
+					$this->active_admin_tab = self::$DEFAULT_ACTIVE_ADMIN_TAB;
 				}
 			} 
 			

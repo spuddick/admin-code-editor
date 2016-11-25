@@ -299,9 +299,8 @@ class Admin_Code_Editor_Admin {
 		*/
 	
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-admin-code-editor-general.php';
-		$general_settings = new Admin_Code_Editor_General($post_id);
+		$general_settings = new Admin_Code_Editor_General($post->ID);
 		
-
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-html-php.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-css.php';
