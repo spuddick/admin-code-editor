@@ -701,7 +701,7 @@ class Admin_Code_Editor_Admin {
 		);
 
 		$post_types 					= get_post_types( $args, 'objects' ); 
-		$selected_post_types 	= get_option('wpcr_post_types');
+		$selected_post_types 	= get_option('wp_ace_enabled_post_type');
 		
 		$is_checked_post_type = function($post_type_name) use ($selected_post_types) {
 			if (!empty($selected_post_types) && in_array($post_type_name, $selected_post_types) ) {
@@ -1039,7 +1039,7 @@ class Admin_Code_Editor_Admin {
 
 		// General settings fields
 		add_settings_field(
-			"wp_ace_enabled_post_types",
+			"wp_ace_enabled_post_type",
 			__('Apply to Post Types', 'wrs-admin-code-editor'),
 			array(&$this,"display_post_type_selection_field_element"),
 			"admin-code-editor-options-page", 
