@@ -18,7 +18,7 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 
 				$this->keys['host-hash-meta-key'] = '_wp_ace_html_php_hash';
 				$this->keys['code-id-meta-key'] 	= '_wp_ace_html_php_code_post_id';
-				$this->keys['global_preprocessor'] 	= '_wp_ace_global_html_preprocessor';
+				$this->keys['global_preprocessor'] 	= 'wp_ace_default_html_preprocessor';
 				$this->post_type = 'wp-ace-html';
 				$this->code_post_name_start = 'wp-ace-html-and-php-code-for-';
 				$this->code_post_title_start = 'WP ACE HTML and PHP code for Post ID: ';
@@ -52,7 +52,8 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 	}
 	
 	protected function get_default_preprocessor() {
-		return self::DEFAULT_PREPROCESSOR;
+		return get_option('wp_ace_default_html_preprocessor', self::DEFAULT_PREPROCESSOR);
+
 	}
 
 	protected function get_current_hash() {
@@ -79,7 +80,7 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 		if (!$this->code_output_position) {
 			$this->code_output_position = get_post_meta($this->get_code_post_id(), '_wp_ace_code_output_position', true);
 			if (!$this->code_output_position) {
-				$this->code_output_position = get_option( '_wp_ace_global_code_output_position', self::DEFAULT_CODE_OUTPUT_POSITION);
+				$this->code_output_position = get_option( 'wp_ace_default_html_position', self::DEFAULT_CODE_OUTPUT_POSITION);
 
 			}
 		}
@@ -90,7 +91,7 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 		$this->wpautop_is_disabled_status = get_post_meta($this->get_code_post_id(), '_wp_ace_disable_wpautop', true);
 		
 		if (!$this->wpautop_is_disabled_status) {
-			$this->wpautop_is_disabled_status = get_option('_wp_ace_global_wpautop', self::DEFAULT_DISABLE_WPAUTOP);
+			$this->wpautop_is_disabled_status = get_option('wp_ace_default_disable_wpautop', self::DEFAULT_DISABLE_WPAUTOP);
 
 		}
 

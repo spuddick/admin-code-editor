@@ -647,6 +647,30 @@ class Admin_Code_Editor_Admin {
 	} 
 
 
+  function filterDefaultHideonTemplates($hidden_templates) {
+  	if (empty($hidden_templates)) {
+  		$hidden_templates = array();
+  	}  	
+
+  	return $hidden_templates;
+  }
+
+  function filterDefaultHideCodeEditorTypes($code_editors) {
+  	if (empty($code_editors)) {
+  		$code_editors = array();
+  	}
+
+  	return $code_editors;
+  }
+
+  function filterDefaultConditionalDisplay($conditional_display) {
+  	if (empty($conditional_display)) {
+  		$conditional_display = array();
+  	}
+
+  	return $conditional_display;
+  }
+
 	/**
 	 *
 	 * Add options page for Admin Code Editor Settings
@@ -829,19 +853,19 @@ class Admin_Code_Editor_Admin {
 				
 				<div class="radio">
 					<label for="wp-ace--default-html-preprocessor--none" >
-						<input type="radio" id="wp-ace--default-html-preprocessor--none" name="wp_ace_default_html_preprocessor[]" value="none"  <?php checked( in_array( 'none', $default_html_preprocessor ) ); ?>  /><?php _e('None', 'wrs-admin-code-editor') ?>
+						<input type="radio" id="wp-ace--default-html-preprocessor--none" name="wp_ace_default_html_preprocessor" value="none"  <?php checked( in_array( 'none', $default_html_preprocessor ) ); ?>  /><?php _e('None', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>					
 
 				<div class="radio">
 					<label for="wp-ace--default-html-preprocessor--haml" >
-						<input type="radio" id="wp-ace--default-html-preprocessor--haml" name="wp_ace_default_html_preprocessor[]" value="haml" <?php checked( in_array( 'haml', $default_html_preprocessor ) ); ?>    /><?php _e('HAML', 'wrs-admin-code-editor') ?>
+						<input type="radio" id="wp-ace--default-html-preprocessor--haml" name="wp_ace_default_html_preprocessor" value="haml" <?php checked( in_array( 'haml', $default_html_preprocessor ) ); ?>    /><?php _e('HAML', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>
 
 				<div class="radio">
 					<label for="wp-ace--default-html-preprocessor--markdown" >
-						<input type="radio" id="wp-ace--default-html-preprocessor--markdown" name="wp_ace_default_html_preprocessor[]" value="markdown"  <?php checked( in_array( 'markdown', $default_html_preprocessor ) ); ?>  /><?php _e('MarkDown', 'wrs-admin-code-editor') ?>
+						<input type="radio" id="wp-ace--default-html-preprocessor--markdown" name="wp_ace_default_html_preprocessor" value="markdown"  <?php checked( in_array( 'markdown', $default_html_preprocessor ) ); ?>  /><?php _e('MarkDown', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>
 

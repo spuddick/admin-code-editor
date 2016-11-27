@@ -16,6 +16,7 @@ class Admin_Code_Editor_General
 
     }
 
+
     public function updateDataFromPOST() {
 
 			if (isset($_POST['wp-ace-disabled-templates'])) {
@@ -45,6 +46,7 @@ class Admin_Code_Editor_General
 			if (empty($this->disabled_templates)) {
 				$this->disabled_templates = get_post_meta($this->post_id, '_wp_ace_disable_templates', true);
 				if (empty($this->disabled_templates)) {
+					$temp = get_option('wp_ace_default_disabled_template', self::$DEFAULT_HIDE_ON_TEMPLATES);
 					$this->disabled_templates = get_option('wp_ace_default_disabled_template', self::$DEFAULT_HIDE_ON_TEMPLATES);
 				}
 			} 
@@ -75,21 +77,24 @@ class Admin_Code_Editor_General
 
     public function getOnlyDisplayInLoopStatus() {
 
-			if (isset($this->only_display_in['loop'])) {
+			if (!isset($this->only_display_in['loop'])) {
 				$this->only_display_in['loop'] = get_post_meta($this->post_id, '_wp_ace_display_only_in_loop', true);
 				if (empty($this->only_display_in['loop'])) {
 					$conditional_display = get_option('wp_ace_default_conditional_display', self::$DEFAULT_ONLY_DISPLAY_WHEN);
-					if (!empty($conditional_display) && isset($conditional_display['inside-the-loop']) ) {
+					//$temp1 = !empty($conditional_display);
+					//$temp2 = in_array('inside-the-loop', $conditional_display) ;
+					if (!empty($conditional_display) && in_array('inside-the-loop', $conditional_display) ) {
 
 						$this->only_display_in['loop'] = 1;
+						return true;
 					} else {
 						return false;
 					}
 				}
 			}
-
+			
 			if (isset($this->only_display_in['loop'])) {
-				return $this->only_display_in['loop'];
+				return true;
 			} else {
 				return false; 
 			}
@@ -99,13 +104,14 @@ class Admin_Code_Editor_General
 
     public function getOnlyDisplayInMainQueryStatus() {
 
-			if (isset($this->only_display_in['main-query'])) {
+			if (!isset($this->only_display_in['main-query'])) {
 				$this->only_display_in['main-query'] = get_post_meta($this->post_id, '_wp_ace_display_only_in_main_query', true);
 				if (empty($this->only_display_in['main-query'])) {
 					$conditional_display = get_option('wp_ace_default_conditional_display', self::$DEFAULT_ONLY_DISPLAY_WHEN);
-					if (!empty($conditional_display) && isset($conditional_display['in-main-query']) ) {
+					if (!empty($conditional_display) && in_array('in-main-query', $conditional_display) ) {
 
 						$this->only_display_in['main-query'] = 1;
+						return true;
 					} else {
 						return false;
 					}
@@ -113,7 +119,7 @@ class Admin_Code_Editor_General
 			}
 			
 			if (isset($this->only_display_in['main-query'])) {
-				return $this->only_display_in['main-query'];
+				return true;
 			} else {
 				return false; 
 			}

@@ -98,8 +98,10 @@ abstract class Admin_Code_Editor_Editor {
 		if (empty($this->preprocessor)) {
 			$this->preprocessor = get_post_meta($this->get_code_post_id(), '_wp_ace_preprocessor', true);
 			if (!$this->preprocessor) {
+				$temp1 = $this->keys['global_preprocessor'];
+				$temp2 = $this->get_default_preprocessor();
+				$temp3 = get_option($this->keys['global_preprocessor'], $this->get_default_preprocessor());
 				$this->preprocessor = get_option($this->keys['global_preprocessor'], $this->get_default_preprocessor());
-
 			}
 		}
 		return $this->preprocessor;

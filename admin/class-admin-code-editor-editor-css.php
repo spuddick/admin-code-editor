@@ -17,7 +17,7 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor
 
 			$this->keys['host-hash-meta-key'] = '_wp_ace_css_hash';
 			$this->keys['code-id-meta-key'] 	= '_wp_ace_css_code_post_id';
-			$this->keys['global_preprocessor'] 	= '_wp_ace_global_css_preprocessor';
+			$this->keys['global_preprocessor'] 	= 'wp_ace_default_css_preprocessor';
 			$this->post_type = 'wp-ace-css';
 			$this->code_post_name_start = 'wp-ace-css-code-for-';
 			$this->code_post_title_start = 'WP ACE CSS code for Post ID: ';
@@ -37,7 +37,8 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor
 	}
 	
 	protected function get_default_preprocessor() {
-		return self::DEFAULT_PREPROCESSOR;
+		return get_option('wp_ace_default_css_preprocessor', self::DEFAULT_PREPROCESSOR);
+
 	}
 
 	protected function get_current_hash() {

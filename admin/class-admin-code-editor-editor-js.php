@@ -15,7 +15,7 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor
 
 				$this->keys['host-hash-meta-key'] = '_wp_ace_js_hash';
 				$this->keys['code-id-meta-key'] 	= '_wp_ace_js_code_post_id';
-				$this->keys['global_preprocessor'] 	= '_wp_ace_global_js_preprocessor';
+				$this->keys['global_preprocessor'] 	= 'wp_ace_default_js_preprocessor';
 
 				$this->post_type = 'wp-ace-js';
 				$this->code_post_name_start = 'wp-ace-js-code-for-';
@@ -34,7 +34,8 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor
 	}
 
 	protected function get_default_preprocessor() {
-		return self::DEFAULT_PREPROCESSOR;
+		return get_option('wp_ace_default_js_preprocessor', self::DEFAULT_PREPROCESSOR);
+
 	}
 
 	protected function get_current_hash() {
@@ -65,7 +66,7 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor
 		$this->include_jquery_status = get_post_meta($this->get_code_post_id(), '_wp_ace_default_include_jquery', true);
 		
 		if (!$this->include_jquery_status) {
-			$this->include_jquery_status = get_option('_wp_ace_global_include_jquery', self::DEFAULT_INLCUDE_JQUERY);
+			$this->include_jquery_status = get_option('wp_ace_default_include_jquery', self::DEFAULT_INLCUDE_JQUERY);
 
 		}
 
