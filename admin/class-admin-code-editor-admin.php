@@ -455,36 +455,42 @@ class Admin_Code_Editor_Admin {
 		$general_settings = new Admin_Code_Editor_General($post_id);
 		$general_settings->updateDataFromPOST(); 
 
+		if (!$general_settings->htmlEditorIsDisabled()) {
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-html-php.php';
+			$editor_args = array(
+				'type' => 'html-php',
+				'host-post-id' => $post_id
+			);
+			$html_editor 	= new Admin_Code_Editor_Editor_HTML_PHP($editor_args);		
+			$html_editor->initialize_from_post_request();
+			$html_editor->update_code();			
+		}
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-html-php.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-css.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-js.php';
-
-		$editor_args = array(
-			'type' => 'html-php',
-			'host-post-id' => $post_id
-		);
-		$html_editor 	= new Admin_Code_Editor_Editor_HTML_PHP($editor_args);
+		if (!$general_settings->cssEditorIsDisabled()) {
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-css.php';
+			$editor_args = array(
+				'type' => 'css',
+				'host-post-id' => $post_id
+			);		
+			$css_editor 	= new Admin_Code_Editor_Editor_CSS($editor_args);		
+			$css_editor->initialize_from_post_request();
+			$css_editor->update_code();
+		}
 		
-		$editor_args = array(
-			'type' => 'css',
-			'host-post-id' => $post_id
-		);		
-		$css_editor 	= new Admin_Code_Editor_Editor_CSS($editor_args);
+		if (!$general_settings->jsEditorIsDisabled()) {
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-js.php';
+			$editor_args = array(
+				'type' => 'js',
+				'host-post-id' => $post_id
+			);		
+			$js_editor 		= new Admin_Code_Editor_Editor_JS($editor_args);
+			$js_editor->initialize_from_post_request();
+			$js_editor->update_code();
+		}
+
 		
-		$editor_args = array(
-			'type' => 'js',
-			'host-post-id' => $post_id
-		);		
-		$js_editor 		= new Admin_Code_Editor_Editor_JS($editor_args);
-
-		$html_editor->initialize_from_post_request();
-		$css_editor->initialize_from_post_request();
-		$js_editor->initialize_from_post_request();
-
-		$html_editor->update_code();
-		$css_editor->update_code();
-		$js_editor->update_code();
+		
+		
 	
 	}
 

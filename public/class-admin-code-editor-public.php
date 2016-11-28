@@ -240,6 +240,7 @@ class Admin_Code_Editor_Public {
 
 		if (!$general_settings->cssEditorIsDisabled()) {
 			$wp_ace_css_tag_output = '<style id="wp-ace-css--post-' . $post->ID . '" >' . $css_editor->get_css_with_wrapper() . '</style>';
+			$content =  $wp_ace_css_tag_output . $content;
 		}
 		
 		if (!$general_settings->jsEditorIsDisabled()) {
@@ -271,11 +272,10 @@ class Admin_Code_Editor_Public {
 
 	        break;
 			}
-			
-			return $wp_ace_css_tag_output . $content;
-		} else {
-			return $content;
-		}
+
+		} 
+
+		return $content;
 	}	
 
 }
