@@ -332,7 +332,8 @@ abstract class Admin_Code_Editor_Editor {
 						$parser = new HamlPHP(new FileStorage(wp_upload_dir()['basedir'] . '/tmp/'));
 						$compiler = new HamlPHPCompiler($parser);
 						$content = $compiler->parseString($pre_code);
-
+						$content = str_replace('\\"', '"', $content);
+						$content = str_replace("\\'", "'", $content);
 						$ret->compiled_code = trim($parser->evaluate($content));
 						$ret->status = 'success';		
 						
