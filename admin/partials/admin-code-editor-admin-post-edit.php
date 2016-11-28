@@ -323,10 +323,19 @@
 
 						  <!-- Nav tabs -->
 						  <ul class="nav nav-tabs" role="tablist">
+						    
 						    <li role="presentation" class="active"><a href="#wp-ace-general" id="wp-ace-general-tab-link" aria-controls="wp-ace-general" role="tab" data-toggle="tab"><?php _e('General', 'wrs-admin-code-editor'); ?></a></li>
-						    <li role="presentation"><a href="#wp-ace-html" id="wp-ace-html-tab-link"  aria-controls="wp-ace-html" role="tab" data-toggle="tab"><?php _e('HTML', 'wrs-admin-code-editor'); ?></a></li>
-						    <li role="presentation"><a href="#wp-ace-css" id="wp-ace-css-tab-link"  aria-controls="wp-ace-css" role="tab" data-toggle="tab"><?php _e('CSS', 'wrs-admin-code-editor'); ?></a></li>
-						    <li role="presentation"><a href="#wp-ace-javascript" id="wp-ace-javascript-tab-link"  aria-controls="wp-ace-javascript" role="tab" data-toggle="tab"><?php _e('JavaScript', 'wrs-admin-code-editor'); ?></a></li>
+
+								<?php if (!$general_settings->htmlEditorIsDisabled()) { ?>
+						    	<li role="presentation"><a href="#wp-ace-html" id="wp-ace-html-tab-link"  aria-controls="wp-ace-html" role="tab" data-toggle="tab"><?php _e('HTML', 'wrs-admin-code-editor'); ?></a></li>
+						    <?php } ?>
+								<?php if (!$general_settings->cssEditorIsDisabled()) { ?>
+						    	<li role="presentation"><a href="#wp-ace-css" id="wp-ace-css-tab-link"  aria-controls="wp-ace-css" role="tab" data-toggle="tab"><?php _e('CSS', 'wrs-admin-code-editor'); ?></a></li>
+						    <?php } ?>	
+								<?php if (!$general_settings->jsEditorIsDisabled()) { ?>
+						    	<li role="presentation"><a href="#wp-ace-javascript" id="wp-ace-javascript-tab-link"  aria-controls="wp-ace-javascript" role="tab" data-toggle="tab"><?php _e('JavaScript', 'wrs-admin-code-editor'); ?></a></li>
+						    <?php } ?>	
+
 						  </ul>
 
 						  <!-- Tab panes -->

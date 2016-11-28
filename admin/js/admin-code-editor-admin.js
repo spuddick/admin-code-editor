@@ -78,28 +78,7 @@ var wpAceInterface = (function() {
 		  	this.set({code_has_changed: 0});
 			  
 		  }
-		  
-		  /*
-		  validate: function( attributes ){
-		    if( attributes.age < 0 && attributes.name != "Dr Manhatten" ){
-		      return "You can't be negative years old";
-		    }
-		  },
-			
-		  initialize: function(){
-		    //alert("Welcome to this world");
-		    this.on("change:preprocessor", function(model){
-		      var preprocessor = model.get("preprocessor"); // 'Stewie Griffin'
-		      console.log("updating ace editor mode to " + preprocessor );
-		    });
-		    */
-		    /*
-		    this.bind("error", function(model, error){
-		      // We have received an error, log it, alert it or forget it :)
-		      alert( error );
-		    })
-			  
-		  }*/
+
 		});			
 		
 		var HTML_Code_Model = Code_Model.extend({
@@ -398,6 +377,24 @@ var wpAceInterface = (function() {
 			  jQuery('#wp-ace-html-php-pre-code-editor').css('font-size', ACE_FONT_SIZE);
 
 			  html_editor.hidden_input_id = 'wp-ace-html-php-pre-code';
+
+			  html_editor.update_mode(wpcr_data['wp-ace-html-php-preprocessor']); 
+				html_code_model = new HTML_Code_Model({ 
+					preprocessor: wpcr_data['wp-ace-html-php-preprocessor'], 
+					ace_editor : html_editor,
+					output_position : wpcr_data['wp-ace-html-php-code-position'],
+					wpautop_status : wpcr_data['wp-ace-html-php-disable-wpautop'],
+					post_type_name : wpcr_data['wp-ace-post-type-singular-name'],
+					preprocessed_code_has_errors : (wpcr_data['wp-ace-html-php-compile-status'] == 'error' ? 1 : 0)	 
+				});		  
+				html_tab_label_preprocessor_view = new Tab_Label_View({ el: jQuery("#html-php-tab-label-preprocessor"), model: html_code_model });
+				html_tab_label_preprocessor_view.render();
+				html_text_status_view = new HTML_Text_Status_View({ el: jQuery("#wp-ace-html-php-status"), model: html_code_model });
+				html_text_status_view.render();
+				html_settings_view = new HTML_Settings_View({ el: jQuery("#wp-ace-tab-content-html"), model: html_code_model });
+				html_settings_view.render();
+				html_update_notice_view = new Code_Update_Notice_View({ el: jQuery("#wp-ace__notice-container--html-php"), model: html_code_model });
+				html_update_notice_view.render();
 		  }
 
 		  if (jQuery('#wp-ace-css-pre-code-editor').length ) {
@@ -419,6 +416,23 @@ var wpAceInterface = (function() {
 			  jQuery('#wp-ace-css-pre-code-editor').css('font-size', ACE_FONT_SIZE);
 
 			  css_editor.hidden_input_id = 'wp-ace-css-pre-code';
+
+			  css_editor.update_mode(wpcr_data['wp-ace-css-preprocessor']); 
+				css_code_model = new CSS_Code_Model({ 
+					preprocessor: wpcr_data['wp-ace-css-preprocessor'], 
+					ace_editor : css_editor,
+					post_type_name : wpcr_data['wp-ace-post-type-singular-name'],
+					preprocessed_code_has_errors : (wpcr_data['wp-ace-css-compile-status'] == 'error' ? 1 : 0)	   
+				});		  
+				css_tab_label_preprocessor_view = new Tab_Label_View({ el: jQuery("#css-tab-label-preprocessor"), model: css_code_model });
+				css_tab_label_preprocessor_view.render();
+				css_text_status_view = new CSS_Text_Status_View({ el: jQuery("#wp-ace-css-status"), model: css_code_model }); 
+				css_text_status_view.render();
+				css_settings_view = new CSS_Settings_View({ el: jQuery("#wp-ace-tab-content-css"), model: css_code_model }); 
+				css_settings_view.render();
+				css_update_notice_view = new Code_Update_Notice_View({ el: jQuery("#wp-ace__notice-container--css"), model: css_code_model });
+				css_update_notice_view.render();
+
 		  }
 
 		  if (jQuery('#wp-ace-js-pre-code-editor').length ) {
@@ -440,69 +454,27 @@ var wpAceInterface = (function() {
 			  jQuery('#wp-ace-js-pre-code-editor').css('font-size', ACE_FONT_SIZE);
 
 			  js_editor.hidden_input_id = 'wp-ace-js-pre-code';
+
+			  js_editor.update_mode(wpcr_data['wp-ace-js-preprocessor']); 
+				js_code_model = new JS_Code_Model({ 
+					preprocessor: wpcr_data['wp-ace-js-preprocessor'], 
+					ace_editor : js_editor,
+					jquery_enqueued_status : wpcr_data['wp-ace-css-include-jquery'],
+					post_type_name : wpcr_data['wp-ace-post-type-singular-name'],
+					preprocessed_code_has_errors : (wpcr_data['wp-ace-js-compile-status'] == 'error' ? 1 : 0)	  
+				});
+				js_tab_label_preprocessor_view = new Tab_Label_View({ el: jQuery("#js-tab-label-preprocessor"), model: js_code_model });
+				js_tab_label_preprocessor_view.render();
+				js_text_status_view = new JS_Text_Status_View({ el: jQuery("#wp-ace-js-status"), model: js_code_model });
+				js_text_status_view.render();
+				js_settings_view = new JS_Settings_View({ el: jQuery("#wp-ace-tab-content-js"), model: js_code_model });
+				js_settings_view.render();
+				js_update_notice_view = new Code_Update_Notice_View({ el: jQuery("#wp-ace__notice-container--js"), model: js_code_model });
+				js_update_notice_view.render();			  
 		  }
 
-		  html_editor.update_mode(wpcr_data['wp-ace-html-php-preprocessor']); 
-		  css_editor.update_mode(wpcr_data['wp-ace-css-preprocessor']); 
-		  js_editor.update_mode(wpcr_data['wp-ace-js-preprocessor']); 
-
-			html_code_model = new HTML_Code_Model({ 
-				preprocessor: wpcr_data['wp-ace-html-php-preprocessor'], 
-				ace_editor : html_editor,
-				output_position : wpcr_data['wp-ace-html-php-code-position'],
-				wpautop_status : wpcr_data['wp-ace-html-php-disable-wpautop'],
-				post_type_name : wpcr_data['wp-ace-post-type-singular-name'],
-				preprocessed_code_has_errors : (wpcr_data['wp-ace-html-php-compile-status'] == 'error' ? 1 : 0)	 
-			});
-			css_code_model = new CSS_Code_Model({ 
-				preprocessor: wpcr_data['wp-ace-css-preprocessor'], 
-				ace_editor : css_editor,
-				post_type_name : wpcr_data['wp-ace-post-type-singular-name'],
-				preprocessed_code_has_errors : (wpcr_data['wp-ace-css-compile-status'] == 'error' ? 1 : 0)	   
-			});
-			js_code_model = new JS_Code_Model({ 
-				preprocessor: wpcr_data['wp-ace-js-preprocessor'], 
-				ace_editor : js_editor,
-				jquery_enqueued_status : wpcr_data['wp-ace-css-include-jquery'],
-				post_type_name : wpcr_data['wp-ace-post-type-singular-name'],
-				preprocessed_code_has_errors : (wpcr_data['wp-ace-js-compile-status'] == 'error' ? 1 : 0)	  
-			});
-
-
-			html_tab_label_preprocessor_view = new Tab_Label_View({ el: jQuery("#html-php-tab-label-preprocessor"), model: html_code_model });
-			css_tab_label_preprocessor_view = new Tab_Label_View({ el: jQuery("#css-tab-label-preprocessor"), model: css_code_model });
-			js_tab_label_preprocessor_view = new Tab_Label_View({ el: jQuery("#js-tab-label-preprocessor"), model: js_code_model });
-
-			html_tab_label_preprocessor_view.render();
-			css_tab_label_preprocessor_view.render();
-			js_tab_label_preprocessor_view.render();
-
-			html_text_status_view = new HTML_Text_Status_View({ el: jQuery("#wp-ace-html-php-status"), model: html_code_model });
-			css_text_status_view = new CSS_Text_Status_View({ el: jQuery("#wp-ace-css-status"), model: css_code_model }); 
-			js_text_status_view = new JS_Text_Status_View({ el: jQuery("#wp-ace-js-status"), model: js_code_model });
-
-			html_text_status_view.render();
-			css_text_status_view.render();
-			js_text_status_view.render();
-
-			html_settings_view = new HTML_Settings_View({ el: jQuery("#wp-ace-tab-content-html"), model: html_code_model });
-			css_settings_view = new CSS_Settings_View({ el: jQuery("#wp-ace-tab-content-css"), model: css_code_model }); 
-			js_settings_view = new JS_Settings_View({ el: jQuery("#wp-ace-tab-content-js"), model: js_code_model });
-
-			html_settings_view.render();
-			css_settings_view.render();
-			js_settings_view.render();
-
-			html_update_notice_view = new Code_Update_Notice_View({ el: jQuery("#wp-ace__notice-container--html-php"), model: html_code_model });
-			css_update_notice_view = new Code_Update_Notice_View({ el: jQuery("#wp-ace__notice-container--css"), model: css_code_model });
-			js_update_notice_view = new Code_Update_Notice_View({ el: jQuery("#wp-ace__notice-container--js"), model: js_code_model });
-
-			html_update_notice_view.render();
-			css_update_notice_view.render();
-			js_update_notice_view.render();
 
 		  registerFormSubmitListener();
-
 
 
 		  // COMPILED CODE DISPLAY
