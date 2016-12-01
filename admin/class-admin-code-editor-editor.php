@@ -222,7 +222,11 @@ abstract class Admin_Code_Editor_Editor {
 			
 			
 			// compile pre code and save it as meta data for the associated code post
-			$compiled = $this->compile($this->get_pre_code()); 
+			$pre_code = $this->get_pre_code();
+			$pre_code = str_replace('\\"', '"', $pre_code);
+			$pre_code = str_replace("\\'", "'", $pre_code);
+			$compiled = $this->compile($pre_code); 
+			
 			update_post_meta($this->get_code_post_id(), '_wp_ace_compile_status', $compiled->status );
 			
 			switch ($compiled->status) {
@@ -265,6 +269,11 @@ abstract class Admin_Code_Editor_Editor {
 		if ( empty($pre_code) ) {
 			$ret->status = 'empty';
 		} else {
+			
+			set_error_handler(function ($errno, $errstr, $errfile, $errline ,array $errcontex) {
+			    throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+			});
+
 			try {
 					
 				switch($preprocessor) {
@@ -332,8 +341,7 @@ abstract class Admin_Code_Editor_Editor {
 						$parser = new HamlPHP(new FileStorage(wp_upload_dir()['basedir'] . '/tmp/'));
 						$compiler = new HamlPHPCompiler($parser);
 						$content = $compiler->parseString($pre_code);
-						$content = str_replace('\\"', '"', $content);
-						$content = str_replace("\\'", "'", $content);
+
 						$ret->compiled_code = trim($parser->evaluate($content));
 						$ret->status = 'success';		
 						
@@ -352,7 +360,6 @@ abstract class Admin_Code_Editor_Editor {
 						
 						// Load manually
 						CoffeeScript\Init::load();
-
 					  // Temporarily writing to hard disk appeared to be to only way to successfully parse the pre code
 				  	$tmpfname = tempnam( wp_upload_dir()['basedir'] .  "/tmp", "wp-ace-coffee");
 				  	$handle = fopen($tmpfname, "w");
@@ -375,11 +382,15 @@ abstract class Admin_Code_Editor_Editor {
 					break;	
 				}
 
-			}
-			catch(Exception $e) {
+			} catch (ErrorException $e) {
+			  $ret->status = 'error';
+			  $ret->error_msg = 'PHP code compile error: ' . $e->getMessage();
+			} catch(Exception $e) {
 			  $ret->status = 'error';
 			  $ret->error_msg = $e->getMessage();
-			}			
+			}
+			restore_error_handler();
+
 		}
 
 		return $ret;
