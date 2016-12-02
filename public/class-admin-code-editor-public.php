@@ -252,7 +252,7 @@ class Admin_Code_Editor_Public {
 			$wp_autop_disable_status 		= $html_php_editor->get_disable_wpautop_status();
 			$html 											= $html_php_editor->get_compiled_code();
 			
-			$html = '<div class="wp-ace-html--post-'. $post->ID .'">' . $html . '</div>';
+			$html = '<div class="wp-ace--post-'. $post->ID .'">' . $html . '</div>';
 
 			$content = wpautop($content);
 			if (!$wp_autop_disable_status) {
