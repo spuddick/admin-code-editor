@@ -333,6 +333,15 @@ abstract class Admin_Code_Editor_Editor {
 					break;
 					case 'haml' :
 						
+
+						$render_pos = strpos($pre_code, ' render ');
+						$partial_pos = strpos($pre_code, ':partial');
+						// Note our use of ===.  Simply == would not work as expected
+						// because the position of 'a' was the 0th (first) character.
+						if ($render_pos !== false || $partial_pos !== false) {
+						  throw new Exception("WP ACE Editor does not currently support 'render' or 'partials' in HAML. ");
+						} 
+
 						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/HamlPHP/src/HamlPHP/HamlPHP.php';
 						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/HamlPHP/src/HamlPHP/Storage/FileStorage.php';
 						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/HamlPHP/src/HamlPHP/Compiler.php';
