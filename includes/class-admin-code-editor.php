@@ -185,7 +185,7 @@ class Admin_Code_Editor {
 		$plugin_public = new Admin_Code_Editor_Public( $this->get_admin_code_editor(), $this->get_version() );
 
 		// $this->loader->add_action( 'wp_enqueue_scripts', 	$plugin_public, 'enqueue_styles' );
-		// $this->loader->add_action( 'wp_enqueue_scripts', 	$plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'wp_enqueue_scripts', 	$plugin_public, 'enqueue_scripts' );
 		remove_filter('the_content','wpautop');
 		$this->loader->add_filter( 'the_content', 				$plugin_public, 'wp_ace_the_content' );
 		$this->loader->add_action( 'the_content', 				$plugin_public, 'insert_ace_code_in_page' );

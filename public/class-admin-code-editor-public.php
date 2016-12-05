@@ -96,8 +96,8 @@ class Admin_Code_Editor_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->admin_code_editor, plugin_dir_url( __FILE__ ) . 'js/admin-code-editor-public.js', array( 'jquery' ), $this->version, false );
-
+		//wp_enqueue_script( $this->admin_code_editor, plugin_dir_url( __FILE__ ) . 'js/admin-code-editor-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script('jquery'); 
 	}
 
 
