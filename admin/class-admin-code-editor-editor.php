@@ -295,7 +295,7 @@ abstract class Admin_Code_Editor_Editor {
 						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/lessphp/lessc.inc.php';
 						
 						$less = new lessc;
-						echo $less->compile($pre_code);
+						$compiled_code = $less->compile($pre_code);
 						$ret->compiled_code = trim($compiled_code);
 						$ret->status = 'success';
 						
@@ -339,7 +339,7 @@ abstract class Admin_Code_Editor_Editor {
 						// Note our use of ===.  Simply == would not work as expected
 						// because the position of 'a' was the 0th (first) character.
 						if ($render_pos !== false || $partial_pos !== false) {
-						  throw new Exception("WP ACE Editor does not currently support 'render' or 'partials' in HAML. ");
+						  throw new Exception(__( "WP ACE Editor does not currently support 'render' or 'partials' in HAML. ",  'wrs-admin-code-editor'));
 						} 
 
 						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/HamlPHP/src/HamlPHP/HamlPHP.php';
@@ -393,7 +393,7 @@ abstract class Admin_Code_Editor_Editor {
 
 			} catch (ErrorException $e) {
 			  $ret->status = 'error';
-			  $ret->error_msg = 'PHP code compile error: ' . $e->getMessage();
+			  $ret->error_msg = __('PHP code compile error: ',  'wrs-admin-code-editor') . $e->getMessage();
 			} catch(Exception $e) {
 			  $ret->status = 'error';
 			  $ret->error_msg = $e->getMessage();
