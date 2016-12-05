@@ -133,7 +133,7 @@ abstract class Admin_Code_Editor_Editor {
 			$this->pre_code = $pre_code_post->post_content;			
 		}
 
-		return $this->pre_code;
+		return trim($this->pre_code);
 	}
 
 

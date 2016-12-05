@@ -31,7 +31,7 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 		// called from save hook or ajax request to set variable data
 		
 		if (isset($_POST['wp-ace-html-php-pre-code'])) {
-			$this->pre_code 				= $_POST['wp-ace-html-php-pre-code']; // TODO: suitable filter for html content
+			$this->pre_code 				= (empty($_POST['wp-ace-html-php-pre-code'])) ? ' ' : $_POST['wp-ace-html-php-pre-code']; 
 		}
 		if (isset($_POST['wp-ace-html-php-field-height'])) {
 			$this->field_height			= sanitize_text_field($_POST['wp-ace-html-php-field-height']);

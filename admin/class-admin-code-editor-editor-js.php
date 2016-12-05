@@ -27,8 +27,7 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor
 
   public function initialize_from_post_request(){
 		// called from save hook or ajax request to set variable data
-		$this->pre_code = $_POST['wp-ace-js-pre-code']; // TODO: suitable filter for html content
-		$this->pre = $_POST['wp-ace-js-pre-code'];
+		$this->pre_code = (empty($_POST['wp-ace-js-pre-code'])) ? ' ' : $_POST['wp-ace-js-pre-code']; 
 		$this->field_height	= sanitize_text_field($_POST['wp-ace-js-field-height']);
 		$this->preprocessor = sanitize_text_field($_POST['wp-ace-js-preprocessor']);
 
