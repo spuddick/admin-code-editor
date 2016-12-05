@@ -539,10 +539,17 @@ var wpAceInterface = (function() {
 			 *
 			 */
 			jQuery(window).on("beforeunload", function() {
-        if ((html_editor.code_has_changed || css_editor.code_has_changed || js_editor.code_has_changed) && !form_submitting )  {
+        
+        if ((
+        	(typeof html_editor == 'undefined' || html_editor.code_has_changed) || 
+        	(typeof css_editor == 'undefined' || css_editor.code_has_changed) || 
+        	(typeof js_editor == 'undefined' || js_editor.code_has_changed)) && 
+        	!form_submitting )  {
         	return true;
         }
-        return; 
+        return;
+				
+			//return true;
       });
   		jQuery( "form#post" ).submit(function( event ) {
 				form_submitting = true;
@@ -563,10 +570,16 @@ var wpAceInterface = (function() {
     		
   		jQuery( "form#post" ).submit(function( event ) {
 				
-
-				mapEditorCodetoInput(html_editor);
-				mapEditorCodetoInput(css_editor);
-				mapEditorCodetoInput(js_editor);
+  			if (typeof html_editor != 'undefined') {
+  				mapEditorCodetoInput(html_editor);
+  			}
+				if (typeof css_editor != 'undefined') {
+					mapEditorCodetoInput(css_editor);
+				}
+				if (typeof js_editor != 'undefined') {
+					mapEditorCodetoInput(js_editor);
+				}
+				
 				//event.preventDefault();
 			});
 				
