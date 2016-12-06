@@ -18,6 +18,7 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor
 			$this->keys['host-hash-meta-key'] = '_wp_ace_css_hash';
 			$this->keys['code-id-meta-key'] 	= '_wp_ace_css_code_post_id';
 			$this->keys['global_preprocessor'] 	= 'wp_ace_default_css_preprocessor';
+			$this->keys['has-changed'] = 'wp-ace--css--has-changed';
 			$this->post_type = 'wp-ace-css';
 			$this->code_post_name_start = 'wp-ace-css-code-for-';
 			$this->code_post_title_start = 'WP ACE CSS code for Post ID: ';

@@ -419,7 +419,9 @@
 													<?php
 												}
 
-											?>					
+											?>
+
+											<input type="hidden" name="wp-ace--html--has-changed"	id="wp-ace--html--has-changed" value="<%= has_changed %>" />				
 										</div>	
 	      					</script>
 
@@ -442,7 +444,8 @@
 												<?php
 											}
 
-										?>	
+										?>
+										<input type="hidden" name="wp-ace--css--has-changed"	id="wp-ace--css--has-changed" value="<%= has_changed %>" />	
 									</script>
 						    </div>
 						    <div role="tabpanel" class="tab-pane" id="wp-ace-javascript">
@@ -471,7 +474,9 @@
 												<?php
 											}
 
-										?>	
+										?>
+
+										<input type="hidden" name="wp-ace--js--has-changed"	id="wp-ace--js--has-changed" value="<%= has_changed %>" />	
 									</script>
 
 						    </div>

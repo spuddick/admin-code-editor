@@ -19,6 +19,7 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 				$this->keys['host-hash-meta-key'] = '_wp_ace_html_php_hash';
 				$this->keys['code-id-meta-key'] 	= '_wp_ace_html_php_code_post_id';
 				$this->keys['global_preprocessor'] 	= 'wp_ace_default_html_preprocessor';
+				$this->keys['has-changed'] = 'wp-ace--html--has-changed';
 				$this->post_type = 'wp-ace-html';
 				$this->code_post_name_start = 'wp-ace-html-and-php-code-for-';
 				$this->code_post_title_start = 'WP ACE HTML and PHP code for Post ID: ';

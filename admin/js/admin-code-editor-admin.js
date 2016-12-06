@@ -55,8 +55,7 @@ var wpAceInterface = (function() {
     // Models
 		var Code_Model = Backbone.Model.extend({
 		  defaults : {
-		  	code_has_changed : 0,
-		  	preprocessed_code_has_errors : 0
+
 		  },
 		  updatePreprocessor: function($preprocessor_obj) {
 		    var new_mode = $preprocessor_obj.val();
@@ -71,21 +70,25 @@ var wpAceInterface = (function() {
 		      preprocessor_nicename: this.get('preprocessor_nicename_map')[new_mode]
 		    });
 		  },
+		  updateChangedStatus : function(){
+		  	console.log('has changed ' + this.get('has_changed'));
+		  	this.set({has_changed: 1});
+		  	
+		  },
 		  updateCodeChangedStatus : function(){
 		  	this.set({code_has_changed: 1});
-		  },
-		  initialize: function(){
-		  	this.set({code_has_changed: 0});
-			  
+		  	console.log('code has changed');
 		  }
-
 		});			
 		
 		var HTML_Code_Model = Code_Model.extend({
+		  
 		  defaults : {
+		  	code_has_changed : 0,
+		  	has_changed : 0,
+		  	preprocessed_code_has_errors : 0,
 		    preprocessor_nicename_map : '',
-		    preprocessor_nicename : '',
-		    code_has_changed : 0
+		    preprocessor_nicename : ''
 		  },
 		  updateCodePosition: function() {
 		    var code_position = jQuery('input[name=wp-ace-html-php-code-position]:checked').val();
@@ -115,19 +118,24 @@ var wpAceInterface = (function() {
 			  this.set({
 		      preprocessor_nicename: this.get('preprocessor_nicename_map')[this.get('preprocessor')]
 		    });
+		    this.set({
+		      has_changed: 0
+		    });
 		  }
 		});
 		var CSS_Code_Model = Code_Model.extend({
 		  defaults : {
+		  	code_has_changed : 0,
+		  	has_changed : 0,
+		  	preprocessed_code_has_errors : 0,
 		    preprocessor_nicename_map : '',
-		    preprocessor_nicename : '',
-		    code_has_changed : 0
+		    preprocessor_nicename : ''
 		  },
 		  initialize: function(){
 		    this.set({
 				  preprocessor_nicename_map : {
 				  	none : 'CSS',
-				  	scss : 'Scss',
+				  	scss : 'SCSS',
 				  	less : 'LESS',
 				  	stylus : 'Stylus'
 				  }
@@ -135,13 +143,18 @@ var wpAceInterface = (function() {
 		    this.set({
 		      preprocessor_nicename: this.get('preprocessor_nicename_map')[this.get('preprocessor')]
 		    });
+		    this.set({
+		      has_changed: 0
+		    });
 			}  
 		});
 		var JS_Code_Model = Code_Model.extend({
 		  defaults : {
+		  	code_has_changed : 0,
+		  	has_changed : 0,
+		  	preprocessed_code_has_errors : 0,
 		    preprocessor_nicename_map : '',
-		    preprocessor_nicename : '',
-		    code_has_changed : 0
+		    preprocessor_nicename : ''
 		  },
 		  updateIncludeJqueryStatus: function() {
 		    var status = 0;
@@ -156,12 +169,15 @@ var wpAceInterface = (function() {
 		  initialize: function(){
 		    this.set({
 				  preprocessor_nicename_map : {
-				  	none : 'Javascript',
+				  	none : 'JavaScript',
 				  	coffee : 'CoffeeScript'
 				  }
 		    });
 		    this.set({
 		      preprocessor_nicename: this.get('preprocessor_nicename_map')[this.get('preprocessor')]
+		    });
+		    this.set({
+		      has_changed: 0
 		    });
 			} 
 		});
@@ -242,16 +258,19 @@ var wpAceInterface = (function() {
 		  codePositionChange: function(e) {
 		    e.preventDefault();
 		    this.model.updateCodePosition();
+		    this.model.updateChangedStatus();
 		  },
 
 		  disableWPautopChange: function(e) {
 		    e.preventDefault();
 		    this.model.updateDisableWPautopStatus();
+		    this.model.updateChangedStatus();
 		  },
 
 		  preprocessorChange: function(e) {
 		    e.preventDefault();
 		    this.model.updatePreprocessor(jQuery(e.currentTarget));
+		    this.model.updateChangedStatus();
 		  },
 	    render: function() {
         this.$el.html(this.template(this.model.attributes));
@@ -277,6 +296,7 @@ var wpAceInterface = (function() {
 		  preprocessorChange: function(e) {
 		    e.preventDefault();
 		    this.model.updatePreprocessor(jQuery(e.currentTarget));
+		    this.model.updateChangedStatus();
 		  },
 	    render: function() {
         this.$el.html(this.template(this.model.attributes));
@@ -302,10 +322,12 @@ var wpAceInterface = (function() {
 		  includeJqueryChange: function(e) {
 		    e.preventDefault();
 		    this.model.updateIncludeJqueryStatus();
+		    this.model.updateChangedStatus();
 		  },
 		  preprocessorChange: function(e) {
 		    e.preventDefault();
 		    this.model.updatePreprocessor(jQuery(e.currentTarget));
+		    this.model.updateChangedStatus();
 		  },
 	    render: function() {
         this.$el.html(this.template(this.model.attributes));
@@ -366,6 +388,7 @@ var wpAceInterface = (function() {
 			  html_editor.code_has_changed = 0;
 			  html_editor.getSession().on('change', function() {
 					html_editor.code_has_changed = 1;
+					html_code_model.updateChangedStatus();
 					html_code_model.updateCodeChangedStatus();
 				});
 				html_editor.update_mode = function(mode) {
@@ -405,6 +428,7 @@ var wpAceInterface = (function() {
 			  css_editor.code_has_changed = 0;
 			  css_editor.getSession().on('change', function() {
 					css_editor.code_has_changed = 1;
+					css_code_model.updateChangedStatus();
 					css_code_model.updateCodeChangedStatus();
 				});
 				css_editor.update_mode = function(mode) {
@@ -443,6 +467,7 @@ var wpAceInterface = (function() {
 			  js_editor.code_has_changed = 0;
 			  js_editor.getSession().on('change', function() {
 					js_editor.code_has_changed = 1;
+					js_code_model.updateChangedStatus();
 					js_code_model.updateCodeChangedStatus();
 				});
 				js_editor.update_mode = function(mode) {
@@ -533,6 +558,7 @@ var wpAceInterface = (function() {
 			  jQuery('#' + $clicked_anchor.data('active-modal-tab')).tab('show');
 			})
 
+
 			/**
 			 *
 			 * Notice if leaving page without saving
@@ -541,9 +567,9 @@ var wpAceInterface = (function() {
 			jQuery(window).on("beforeunload", function() {
         
         if ((
-        	(typeof html_editor == 'undefined' || html_editor.code_has_changed) || 
-        	(typeof css_editor == 'undefined' || css_editor.code_has_changed) || 
-        	(typeof js_editor == 'undefined' || js_editor.code_has_changed)) && 
+        	(typeof html_editor == 'undefined' || html_editor.has_changed) || 
+        	(typeof css_editor == 'undefined' || css_editor.has_changed) || 
+        	(typeof js_editor == 'undefined' || js_editor.has_changed)) && 
         	!form_submitting )  {
         	return true;
         }
@@ -557,6 +583,15 @@ var wpAceInterface = (function() {
 			});
 
 
+  		/**
+  		 *
+  		 * If previous active tab not present in HTML output (due to code type being disabled), select the first available tab
+  		 *
+  		 */
+  		
+  		 if (!jQuery('ul#wp-ace__tabs > li.active').length) {
+  		 	jQuery('ul#wp-ace__tabs > li:first-child a').tab('show')
+  		 }
     };
 
     var registerFormSubmitListener = function() {

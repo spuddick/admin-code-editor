@@ -170,17 +170,18 @@ abstract class Admin_Code_Editor_Editor {
 		return $this->pre_code_compile_error_msg;	
 	}
 
+	public function has_changed() {
+		if (isset($_POST[$this->keys['has-changed']]) && $_POST[$this->keys['has-changed']] == '1' ) {
+			return true;
+		}
+		return false;
+	}
+
 	public function update_code() {
 			
-			if ($this->get_current_hash() == $this->get_stored_hash()) {
-				// check if any code or settings has changed. If has is the same, nothing new to save
-
-				//return;
-			} else {
-
-				update_post_meta($this->host_post_id, $this->keys['host-hash-meta-key'], $this->get_current_hash());
-
-			}
+		if (!$this->has_changed() ) {
+			return;
+		}
 
 		// get the appropriate post name text depending on whether this is the initial post or a revision
 		$this->code_name_text = $this->code_post_name_start . $this->host_post_id;
