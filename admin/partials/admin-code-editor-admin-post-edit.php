@@ -385,6 +385,7 @@
 						    <div role="tabpanel" class="tab-pane" id="wp-ace-html">
 	      					<div id="wp-ace-tab-content-html"></div>
 	      					<script type="text/template" id="tmpl-wp-ace-html">
+		      					<%= test_var %>
 		      					<div>
 											<h5><?php _e('Automatic Paragraphs', 'wrs-admin-code-editor'); ?></h5>
 											<div class="checkbox">
@@ -421,7 +422,12 @@
 
 											?>
 
-											<input type="hidden" name="wp-ace--html--has-changed"	id="wp-ace--html--has-changed" value="<%= has_changed %>" />				
+											<input type="hidden" name="wp-ace--html--has-changed"	id="wp-ace--html--has-changed" value="<%= has_changed %>" />
+									<% if (has_changed) { %>
+								  	yes
+								  <% } else { %>
+										no
+								  <% } %>				
 										</div>	
 	      					</script>
 
