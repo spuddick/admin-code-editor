@@ -78,11 +78,14 @@ var wpAceInterface = (function() {
 		  	//console.log('has changed ' + this.get('has_changed'));
 		  	this.set({has_changed: 1});
 		  	
-		  },
+		  }
+		  /*
+		  ,
 		  updateCodeChangedStatus : function(){
 		  	this.set({code_has_changed: 1});
 		  	//console.log('code has changed');
 		  }
+			*/
 		});			
 		
 		var HTML_Code_Model = Code_Model.extend({
@@ -239,7 +242,7 @@ var wpAceInterface = (function() {
         jQuery('input[name=wp-ace-html-php-preprocessor]').trigger('change');
         jQuery('input#wp-ace-html-php-disable-wpautop').trigger('change');
         jQuery('input[name=wp-ace-html-php-preprocessor]').trigger('change');
-        this.listenTo(this.model, "change", this.render);
+        //this.listenTo(this.model, "change", this.render);
 	    },
 		  codePositionChange: function(e) {
 		    e.preventDefault();
@@ -338,7 +341,17 @@ var wpAceInterface = (function() {
         return this;
 	    }
 		});
-
+		var Code_Settings_Change_Flag_View = Backbone.View.extend({
+	    tagName: 'div',
+	    initialize: function() {
+        this.template = _.template(jQuery('#tmpl-wp-ace--code--change-status').html());
+        this.listenTo(this.model, "change", this.render);
+	    },
+	    render: function() {
+        this.$el.html(this.template(this.model.attributes));
+        return this;
+	    }
+		});
 
     var init = function() {
 
@@ -376,11 +389,11 @@ var wpAceInterface = (function() {
 			  html_editor.setTheme(ACE_THEME);
 			  html_editor.getSession().setUseWrapMode(ACE_WRAP_MODE);
 			  html_editor.getSession().setTabSize(ACE_TAB_SIZE);
-			  html_editor.code_has_changed = 0;
+			  //html_editor.code_has_changed = 0;
 			  html_editor.getSession().on('change', function() {
-					html_editor.code_has_changed = 1;
+					//html_editor.code_has_changed = 1;
 					html_code_model.updateChangedStatus();
-					html_code_model.updateCodeChangedStatus();
+					//html_code_model.updateCodeChangedStatus();
 				});
 				html_editor.update_mode = function(mode) {
 					if (mode == 'none') {
@@ -399,7 +412,8 @@ var wpAceInterface = (function() {
 					output_position : wpcr_data['wp-ace-html-php-code-position'],
 					wpautop_status : wpcr_data['wp-ace-html-php-disable-wpautop'],
 					post_type_name : wpcr_data['wp-ace-post-type-singular-name'],
-					preprocessed_code_has_errors : (wpcr_data['wp-ace-html-php-compile-status'] == 'error' ? 1 : 0)	 
+					preprocessed_code_has_errors : (wpcr_data['wp-ace-html-php-compile-status'] == 'error' ? 1 : 0),
+					code_change_slug : 'wp-ace--html-php--changed-flag'	 
 				});		  
 				html_tab_label_preprocessor_view = new Tab_Label_View({ el: jQuery("#html-php-tab-label-preprocessor"), model: html_code_model });
 				html_tab_label_preprocessor_view.render();
@@ -409,6 +423,9 @@ var wpAceInterface = (function() {
 				html_settings_view.render();
 				html_update_notice_view = new Code_Update_Notice_View({ el: jQuery("#wp-ace__notice-container--html-php"), model: html_code_model });
 				html_update_notice_view.render();
+
+				html_change_flag = new Code_Settings_Change_Flag_View({el: jQuery("#wp-ace--html-php--changed-flag-container"), model: html_code_model });
+				html_change_flag.render();
 		  }
 
 		  if (jQuery('#wp-ace-css-pre-code-editor').length ) {
@@ -416,11 +433,11 @@ var wpAceInterface = (function() {
 			  css_editor.setTheme(ACE_THEME);
 			  css_editor.getSession().setUseWrapMode(ACE_WRAP_MODE);
 			  css_editor.getSession().setTabSize(ACE_TAB_SIZE);
-			  css_editor.code_has_changed = 0;
+			  //css_editor.code_has_changed = 0;
 			  css_editor.getSession().on('change', function() {
-					css_editor.code_has_changed = 1;
+					//css_editor.code_has_changed = 1;
 					css_code_model.updateChangedStatus();
-					css_code_model.updateCodeChangedStatus();
+					//css_code_model.updateCodeChangedStatus();
 				});
 				css_editor.update_mode = function(mode) {
 					if (mode == 'none') {
@@ -437,7 +454,8 @@ var wpAceInterface = (function() {
 					preprocessor: wpcr_data['wp-ace-css-preprocessor'], 
 					ace_editor : css_editor,
 					post_type_name : wpcr_data['wp-ace-post-type-singular-name'],
-					preprocessed_code_has_errors : (wpcr_data['wp-ace-css-compile-status'] == 'error' ? 1 : 0)	   
+					preprocessed_code_has_errors : (wpcr_data['wp-ace-css-compile-status'] == 'error' ? 1 : 0),
+					code_change_slug : 'wp-ace--css--changed-flag'		   
 				});		  
 				css_tab_label_preprocessor_view = new Tab_Label_View({ el: jQuery("#css-tab-label-preprocessor"), model: css_code_model });
 				css_tab_label_preprocessor_view.render();
@@ -445,9 +463,10 @@ var wpAceInterface = (function() {
 				css_text_status_view.render();
 				css_settings_view = new CSS_Settings_View({ el: jQuery("#wp-ace-tab-content-css"), model: css_code_model }); 
 				css_settings_view.render();
-				css_update_notice_view = new Code_Update_Notice_View({ el: jQuery("#wp-ace__notice-container--css"), model: css_code_model });
-				css_update_notice_view.render();
-
+				
+				css_change_flag = new Code_Settings_Change_Flag_View({ el: jQuery("#wp-ace--css--changed-flag-container"), model: css_code_model });
+				css_change_flag.render();
+				
 		  }
 
 		  if (jQuery('#wp-ace-js-pre-code-editor').length ) {
@@ -455,11 +474,11 @@ var wpAceInterface = (function() {
 			  js_editor.setTheme(ACE_THEME);
 			  js_editor.getSession().setUseWrapMode(ACE_WRAP_MODE);
 			  js_editor.getSession().setTabSize(ACE_TAB_SIZE);
-			  js_editor.code_has_changed = 0;
+			  //js_editor.code_has_changed = 0;
 			  js_editor.getSession().on('change', function() {
-					js_editor.code_has_changed = 1;
+					//js_editor.code_has_changed = 1;
 					js_code_model.updateChangedStatus();
-					js_code_model.updateCodeChangedStatus();
+					//js_code_model.updateCodeChangedStatus();
 				});
 				js_editor.update_mode = function(mode) {
 					if (mode == 'none') {
@@ -477,7 +496,8 @@ var wpAceInterface = (function() {
 					ace_editor : js_editor,
 					jquery_enqueued_status : wpcr_data['wp-ace-css-include-jquery'],
 					post_type_name : wpcr_data['wp-ace-post-type-singular-name'],
-					preprocessed_code_has_errors : (wpcr_data['wp-ace-js-compile-status'] == 'error' ? 1 : 0)	  
+					preprocessed_code_has_errors : (wpcr_data['wp-ace-js-compile-status'] == 'error' ? 1 : 0),
+					code_change_slug : 'wp-ace--js--changed-flag'		  
 				});
 				js_tab_label_preprocessor_view = new Tab_Label_View({ el: jQuery("#js-tab-label-preprocessor"), model: js_code_model });
 				js_tab_label_preprocessor_view.render();
@@ -485,8 +505,10 @@ var wpAceInterface = (function() {
 				js_text_status_view.render();
 				js_settings_view = new JS_Settings_View({ el: jQuery("#wp-ace-tab-content-js"), model: js_code_model });
 				js_settings_view.render();
-				js_update_notice_view = new Code_Update_Notice_View({ el: jQuery("#wp-ace__notice-container--js"), model: js_code_model });
-				js_update_notice_view.render();			  
+				
+				js_change_flag = new Code_Settings_Change_Flag_View({ el: jQuery("#wp-ace--js--changed-flag-container"), model: js_code_model });
+				js_change_flag.render();			  
+		  	
 		  }
 
 
@@ -558,9 +580,9 @@ var wpAceInterface = (function() {
 			jQuery(window).on("beforeunload", function() {
         
         if ((
-        	(typeof html_editor == 'undefined' || html_editor.has_changed) || 
-        	(typeof css_editor == 'undefined' || css_editor.has_changed) || 
-        	(typeof js_editor == 'undefined' || js_editor.has_changed)) && 
+        	(typeof html_editor == 'undefined' || html_code_model.get('has_changed')) || 
+        	(typeof css_editor == 'undefined' || css_code_model.get('has_changed')) || 
+        	(typeof js_editor == 'undefined' || js_code_model.get('has_changed'))) && 
         	!form_submitting )  {
         	return true;
         }
