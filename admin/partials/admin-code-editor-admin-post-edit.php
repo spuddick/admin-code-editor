@@ -369,16 +369,16 @@
 										<div class="checkbox">
 											<label>
 												<input type="checkbox" id="wp-ace-only-display-in-loop" name="wp-ace-only-display-in-loop" class="" value="1" <?php  checked($general_settings->getOnlyDisplayInLoopStatus() ) ?> >
-												<?php _e('inside the loop', 'wrs-admin-code-editor'); ?>
-												<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="<?php _e('Inside the loop description https://codex.wordpress.org/Function_Reference/in_the_loop', 'wrs-admin-code-editor'); ?>" aria-hidden="true"  ></span>									    	
+												<?php _e('Inside the Loop', 'wrs-admin-code-editor'); ?>
+																					    	
 											</label>	
 										</div>
 										
 										<div class="checkbox">
 											<label>
 												<input type="checkbox"  id="wp-ace-only-display-in-main-query" name="wp-ace-only-display-in-main-query" class="" value="1" <?php  checked($general_settings->getOnlyDisplayInMainQueryStatus()) ?> >
-												<?php _e('in main query', 'wrs-admin-code-editor'); ?>
-												<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="<?php _e('Inside main query description https://codex.wordpress.org/Function_Reference/is_main_query', 'wrs-admin-code-editor'); ?>" aria-hidden="true"  ></span>									    	
+												<?php _e('In Main Query', 'wrs-admin-code-editor'); ?>
+																				    	
 											</label>	
 										</div>
 										<input type="hidden" name="wp-ace-last-active-tab" id="wp-ace-last-active-tab" value="<?php echo $general_settings->getActiveAdminTab(); ?>" />									    	
@@ -394,21 +394,21 @@
 												<label>
 													<input type="checkbox"  id="wp-ace-html-php-disable-wpautop" name="wp-ace-html-php-disable-wpautop" class="field-editor-disable-wpautop" value="1" <?php checked($html_php_editor->get_disable_wpautop_status(), '1'); ?> >
 													<?php _e('Disable wpautop', 'wrs-admin-code-editor'); ?> 
-													<span class="glyphicon glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="<?php _e('Automatically wraps in paragraph tag', 'wrs-admin-code-editor'); ?>" aria-hidden="true"  ></span>									    	
+																			    	
 												</label>	
 											</div>
 																							
 											
 											<h5><?php _e('Position', 'wrs-admin-code-editor'); ?></h5>
 											<div class="radio">
-												<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="before" <?php checked($html_php_editor->get_code_output_position(), 'before'); ?> ><?php _e('before post content', 'wrs-admin-code-editor'); ?> </label>
+												<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="before" <?php checked($html_php_editor->get_code_output_position(), 'before'); ?> ><?php _e('Before Post Content', 'wrs-admin-code-editor'); ?> </label>
 											</div>
 											<div class="radio">
-												<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="after" <?php checked($html_php_editor->get_code_output_position(), 'after'); ?> ><?php _e('after post content', 'wrs-admin-code-editor'); ?></label>
+												<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="after" <?php checked($html_php_editor->get_code_output_position(), 'after'); ?> ><?php _e('After Post Content', 'wrs-admin-code-editor'); ?></label>
 											</div>
 											
 											
-											<h5><?php _e('Pre Processor', 'wrs-admin-code-editor'); ?></h5>
+											<h5><?php _e('Preprocessor', 'wrs-admin-code-editor'); ?></h5>
 											<div class="radio">
 												<label class="radio"><input type="radio" <?php checked($html_php_editor->get_preprocessor(), 'none'); ?> value="none" name="wp-ace-html-php-preprocessor" ><?php _e('None', 'wrs-admin-code-editor'); ?></label>
 											</div>
@@ -434,7 +434,7 @@
 						    <div role="tabpanel" class="tab-pane" id="wp-ace-css">
 									<div id="wp-ace-tab-content-css"></div>
 									<script type="text/template" id="tmpl-wp-ace-css">
-										<h5><?php _e('Pre Processor', 'wrs-admin-code-editor'); ?></h5>
+										<h5><?php _e('Preprocessor', 'wrs-admin-code-editor'); ?></h5>
 		
 										<div class="radio">
 											<label class="radio"><input type="radio" <?php checked($css_editor->get_preprocessor(), 'none'); ?> value="none" name="wp-ace-css-preprocessor" ><?php _e('None', 'wrs-admin-code-editor'); ?></label>
@@ -466,7 +466,7 @@
 											</label>	
 										</div>
 
-										<h5><?php _e('Pre Processor', 'wrs-admin-code-editor'); ?></h5>
+										<h5><?php _e('Preprocessor', 'wrs-admin-code-editor'); ?></h5>
 
 										<div class="radio">
 											<label class="radio"><input type="radio" <?php checked($js_editor->get_preprocessor(), 'none'); ?> value="none" name="wp-ace-js-preprocessor" ><?php _e('None', 'wrs-admin-code-editor'); ?></label>

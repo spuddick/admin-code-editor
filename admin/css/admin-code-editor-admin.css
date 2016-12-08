@@ -43,3 +43,6 @@ li#wp-ace__settings-tab {
 
 p.wp-ace__notice {
   margin: 0 !important; }
+
+.wp-ace-bootstrap input[type="radio"], .wp-ace-bootstrap input[type="checkbox"] {
+  margin-top: 0 !important; }

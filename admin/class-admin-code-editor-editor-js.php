@@ -16,7 +16,7 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor
 				$this->keys['host-hash-meta-key'] = '_wp_ace_js_hash';
 				$this->keys['code-id-meta-key'] 	= '_wp_ace_js_code_post_id';
 				$this->keys['global_preprocessor'] 	= 'wp_ace_default_js_preprocessor';
-				$this->keys['has-changed'] = 'wp-ace--js--has-changed';
+				$this->keys['has-changed'] = 'wp-ace--js--changed-flag';
 				$this->post_type = 'wp-ace-js';
 				$this->code_post_name_start = 'wp-ace-js-code-for-';
 				$this->code_post_title_start = 'WP ACE JS code for Post ID: ';

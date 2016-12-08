@@ -407,6 +407,7 @@ class Admin_Code_Editor_Admin {
 		if ( false !== wp_is_post_revision( $post_id ) )
         return;
 
+    // "wp-ace-html", "wp-ace-css", "wp-ace-js" are the post types WP ACE uses to store code types related to a post
 		$wp_ace_code_content_types = array("wp-ace-html", "wp-ace-css", "wp-ace-js");
 		$post_type = get_post_type( $post_id );
 		if ( in_array(get_post_type( $post_id ), $wp_ace_code_content_types) ) {
@@ -430,26 +431,6 @@ class Admin_Code_Editor_Admin {
 			}
 		}
 
-		// TODO: Check if post type is WP ACE enabled
-		/*
-		if (isset($_POST['wp-ace-disabled-templates'])) {
-			$disabled_templates = $_POST['wp-ace-disabled-templates'];
-			update_post_meta($post_id, '_wp_ace_disabled_templates', $disabled_templates );
-		}		
-		if (isset($_POST['wp-ace-only-display-in-loop'])) {
-			$only_display_in_loop = $_POST['wp-ace-only-display-in-loop'];
-			update_post_meta($post_id, '_wp_ace_display_only_in_loop', $only_display_in_loop );
-		}	else {
-			delete_post_meta($post_id, '_wp_ace_display_only_in_loop');
-		}			
-		if (isset($_POST['wp-ace-only-display-in-main-query'])) {
-			$only_display_in_main_query = $_POST['wp-ace-only-display-in-main-query'];
-			update_post_meta($post_id, '_wp_ace_display_only_in_main_query', $only_display_in_main_query );
-		} else {
-			delete_post_meta($post_id, '_wp_ace_display_only_in_loop');
-		}
-		*/
-		
 		
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-admin-code-editor-general.php';
 		$general_settings = new Admin_Code_Editor_General($post_id);
@@ -825,13 +806,13 @@ class Admin_Code_Editor_Admin {
 				
 				<div class="checkbox">
 					<label for="wp-ace--conditional-display--in-the-loop" >
-						<input type="checkbox" id="wp-ace--conditional-display--in-the-loop" name="wp_ace_default_conditional_display[]" value="inside-the-loop" <?php checked( in_array('inside-the-loop', $default_conditional_display  ) ); ?> /><?php _e('Inside the loop', 'wrs-admin-code-editor') ?>
+						<input type="checkbox" id="wp-ace--conditional-display--in-the-loop" name="wp_ace_default_conditional_display[]" value="inside-the-loop" <?php checked( in_array('inside-the-loop', $default_conditional_display  ) ); ?> /><?php _e('Inside the Loop', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>					
 
 				<div class="checkbox">
 					<label for="wp-ace--conditional-display--in-main-query" >
-						<input type="checkbox" id="wp-ace--conditional-display--in-main-query" name="wp_ace_default_conditional_display[]" value="in-main-query"  <?php checked( in_array( 'in-main-query', $default_conditional_display ) ); ?> /><?php _e('In main query', 'wrs-admin-code-editor') ?>
+						<input type="checkbox" id="wp-ace--conditional-display--in-main-query" name="wp_ace_default_conditional_display[]" value="in-main-query"  <?php checked( in_array( 'in-main-query', $default_conditional_display ) ); ?> /><?php _e('In Main Query', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>
 
@@ -1077,7 +1058,7 @@ class Admin_Code_Editor_Admin {
 		);
 		add_settings_field(
 			"wp_ace_default_conditional_display",
-			__('Only display when', 'wrs-admin-code-editor'),
+			__('Only Display When', 'wrs-admin-code-editor'),
 			array(&$this,"display_default_conditional_display_field_element"),
 			"admin-code-editor-options-page", 
 			"general-section"

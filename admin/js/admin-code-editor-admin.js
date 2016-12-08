@@ -89,11 +89,6 @@ var wpAceInterface = (function() {
 		});			
 		
 		var HTML_Code_Model = Code_Model.extend({
-		  defaults : {
-		  	test_var : function() {
-		  		return Math.random();
-		  	}
-		  },
 		  updateCodePosition: function() {
 		    var code_position = jQuery('input[name=wp-ace-html-php-code-position]:checked').val();
 		    this.set({
@@ -284,7 +279,7 @@ var wpAceInterface = (function() {
         console.log('css template: ' + jQuery('#tmpl-wp-ace-css').html().length);
         this.template = _.template(jQuery('#tmpl-wp-ace-css').html());
         jQuery('input[name=wp-ace-css-preprocessor]').trigger('change');
-        this.listenTo(this.model, "change", this.render);
+       
 	    },
 		  preprocessorChange: function(e) {
 		    e.preventDefault();
@@ -311,7 +306,7 @@ var wpAceInterface = (function() {
         this.template = _.template(jQuery('#tmpl-wp-ace-js').html());
         jQuery('input#wp-ace-css-include-jquery').trigger('change');
         jQuery('input[name=wp-ace-js-preprocessor]').trigger('change');
-        this.listenTo(this.model, "change", this.render);
+        
 	    },
 		  includeJqueryChange: function(e) {
 		    e.preventDefault();
