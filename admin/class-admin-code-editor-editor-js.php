@@ -3,15 +3,15 @@ require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-ed
 class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor
 
 {
-    const DEFAULT_PREPROCESSOR = 'none';
-    const DEFAULT_INLCUDE_JQUERY = 1;
+		const DEFAULT_PREPROCESSOR = 'none';
+		const DEFAULT_INLCUDE_JQUERY = 1;
 
-    function __construct($param) {
-      parent::__construct($param);
+		function __construct($param) {
+			parent::__construct($param);
 			if (isset($param['type'])) {
-	      $this->type = $param['type'];
-	      
-	      $this->keys = array();
+				$this->type = $param['type'];
+				
+				$this->keys = array();
 
 				$this->keys['host-hash-meta-key'] = '_wp_ace_js_hash';
 				$this->keys['code-id-meta-key'] 	= '_wp_ace_js_code_post_id';
@@ -21,11 +21,11 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor
 				$this->code_post_name_start = 'wp-ace-js-code-for-';
 				$this->code_post_title_start = 'WP ACE JS code for Post ID: ';
 
-	    }					        
-    }
+			}					        
+		}
 
 
-  public function initialize_from_post_request(){
+	public function initialize_from_post_request(){
 		// called from save hook or ajax request to set variable data
 		$this->pre_code = (empty($_POST['wp-ace-js-pre-code'])) ? ' ' : $_POST['wp-ace-js-pre-code']; 
 		$this->field_height	= sanitize_text_field($_POST['wp-ace-js-field-height']);

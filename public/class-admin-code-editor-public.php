@@ -3,7 +3,7 @@
 /**
  * The public-facing functionality of the plugin.
  *
- * @link       http://example.com
+ * @link       http://webrockstar.net
  * @since      1.0.0
  *
  * @package    Admin_Code_Editor
@@ -18,7 +18,7 @@
  *
  * @package    Admin_Code_Editor
  * @subpackage Admin_Code_Editor/public
- * @author     Your Name <email@example.com>
+ * @author     Your Name <steve@webrockstar.net>
  */
 class Admin_Code_Editor_Public {
 
@@ -106,8 +106,8 @@ class Admin_Code_Editor_Public {
 		$wp_ace_js_output_string = '';
 		if (!empty($wp_ace_js_output)) {
 			foreach ($wp_ace_js_output as $post_id => $wp_ace_js_code) {
-			    // $arr[3] will be updated with each value from $arr...
-			  $wp_ace_js_output_string .= '<script id="wp-ace-javascript--post-'. $post_id .'" >//<![CDATA[' . "\r\n" . $wp_ace_js_code . "\r\n" . '//]]></script>';
+					// $arr[3] will be updated with each value from $arr...
+				$wp_ace_js_output_string .= '<script id="wp-ace-javascript--post-'. $post_id .'" >//<![CDATA[' . "\r\n" . $wp_ace_js_code . "\r\n" . '//]]></script>';
 			}
 
 			echo $wp_ace_js_output_string;			
@@ -119,10 +119,10 @@ class Admin_Code_Editor_Public {
 	/*
 	public function get_html_content() {
 		
-    global $post;
-    $output = '';
+		global $post;
+		$output = '';
 
-    
+		
 		$code_insert_mode = get_post_meta( $post->ID, '_code_insert_mode', true );
 		if (empty($code_insert_mode)) {
 			$code_insert_mode = 'append_bottom';
@@ -130,8 +130,8 @@ class Admin_Code_Editor_Public {
 		
 
 		$output = '';
-		 	
-   	$html_code = get_post_meta( $post->ID, '_html_code', true );
+			
+		$html_code = get_post_meta( $post->ID, '_html_code', true );
 
 		if (!empty($html_code)) {
 			$output .= $html_code;
@@ -143,8 +143,8 @@ class Admin_Code_Editor_Public {
 	*/
 
 	function wp_ace_the_content($content) {
-  	global $post;
-  	$selected_post_types 	= get_option('wpcr_post_types');
+		global $post;
+		$selected_post_types 	= get_option('wpcr_post_types');
 		
 		if ( !in_array($post->post_type, $selected_post_types)) {  
 			return wpautop($content);
@@ -156,24 +156,24 @@ class Admin_Code_Editor_Public {
 
 
 	function insert_ace_code_in_page($content){
-    // The different types of code (HTML, CSS, Javascript) are appended after the regular page content (using the wordpress function the_content() ).
-    // We hook into the 'the_content' filter to acheive this.
+		// The different types of code (HTML, CSS, Javascript) are appended after the regular page content (using the wordpress function the_content() ).
+		// We hook into the 'the_content' filter to acheive this.
 
 		if (current_filter() != 'the_content') {
 			return $content;
 		}
 
-    global $post, $wp_ace_js_output;
+		global $post, $wp_ace_js_output;
 
-    if (post_password_required( $post )) {
-    	return $content;
-    }
+		if (post_password_required( $post )) {
+			return $content;
+		}
 
-    if (empty($wp_ace_js_output)) {
-    	$wp_ace_js_output = array();
-    }
+		if (empty($wp_ace_js_output)) {
+			$wp_ace_js_output = array();
+		}
 
-  	$selected_post_types 	= get_option('wpcr_post_types');
+		$selected_post_types 	= get_option('wpcr_post_types');
 		if ( !in_array($post->post_type, $selected_post_types)) {  
 
 			return $content;
@@ -261,16 +261,16 @@ class Admin_Code_Editor_Public {
 			$html = do_shortcode($html);
 
 			switch ($html_code_insert_position) {
-		    case 'before':
+				case 'before':
 
-				  $content =  $html . $content;
+					$content =  $html . $content;
 
-	        break;
-		    case 'after':
+					break;
+				case 'after':
 
-		    	$content =  $content . $html;
+					$content =  $content . $html;
 
-	        break;
+					break;
 			}
 
 		} 

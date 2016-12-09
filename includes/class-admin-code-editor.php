@@ -6,7 +6,7 @@
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @link       http://example.com
+ * @link       http://webrockstar.net
  * @since      1.0.0
  *
  * @package    Admin_Code_Editor
@@ -25,7 +25,7 @@
  * @since      1.0.0
  * @package    Admin_Code_Editor
  * @subpackage Admin_Code_Editor/includes
- * @author     Your Name <email@example.com>
+ * @author     Your Name <steve@webrockstar.net>
  */
 class Admin_Code_Editor {
 

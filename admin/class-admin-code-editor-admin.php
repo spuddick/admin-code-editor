@@ -3,7 +3,7 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * @link       http://example.com
+ * @link       http://webrockstar.net
  * @since      1.0.0
  *
  * @package    Admin_Code_Editor
@@ -18,7 +18,7 @@
  *
  * @package    Admin_Code_Editor
  * @subpackage Admin_Code_Editor/admin
- * @author     Your Name <email@example.com>
+ * @author     Your Name <steve@webrockstar.net>
  */
 class Admin_Code_Editor_Admin {
 
@@ -60,18 +60,6 @@ class Admin_Code_Editor_Admin {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
-
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Admin_Code_Editor_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Admin_Code_Editor_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
 		
 		wp_enqueue_style( $this->admin_code_editor, 
 			plugin_dir_url( __FILE__ ) . 'css/admin-code-editor-admin.css', 
@@ -121,22 +109,11 @@ class Admin_Code_Editor_Admin {
 	 */
 	public function enqueue_scripts($hook) {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Admin_Code_Editor_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Admin_Code_Editor_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
 		global $post;
 		if ( $hook == 'post-new.php' || $hook == 'post.php' ) {
 			$selected_post_types 	= get_option('wpcr_post_types');
+			if ( in_array($post->post_type, $selected_post_types)) {
 
-			if ( in_array($post->post_type, $selected_post_types)) {  
 				wp_enqueue_script( 'jquery-ui-core' );
 				wp_enqueue_script( 'jquery-ui-resizable' );
 				wp_enqueue_script( 'backbone' ); 
@@ -203,15 +180,10 @@ class Admin_Code_Editor_Admin {
 		}
 	}
 
-
-	function code_editor_add_meta_box() {
-		// add the metabox to posts and pages
-					
+	function code_editor_add_meta_box() {		
 		$selected_post_types 	= get_option('wpcr_post_types');
 		$screens = $selected_post_types;
-
 		foreach ( $screens as $screen ) {
-
 			add_meta_box(
 				'code_box',
 				__( 'WP ACE Code Editor', 'wp-ace-editor' ),
@@ -220,20 +192,12 @@ class Admin_Code_Editor_Admin {
 				'normal',
 				'high'
 			);
-	       
 		}
-
 	}
 
-
-
-	/**
-	 *
-	 * Display WordPress error message if at least one of the HTML, CSS, or JS precode compilation contains an error
-	 *
-	 */
+	// Display WordPress error message if at least one of the HTML, CSS, or JS precode compilation contains an error
 	public function admin_post_error_notice() {
-	  global $post, $pagenow;
+		global $post, $pagenow;
 		$screen = get_current_screen();
 
 		if ( $pagenow == 'post-new.php' || $pagenow == 'post.php' ) {
@@ -258,19 +222,19 @@ class Admin_Code_Editor_Admin {
 				);
 				$js_editor 	= new Admin_Code_Editor_Editor_JS($editor_args);
 
-			  if ( 
-			  	$html_php_editor->get_code_compile_status() == 'error' ||
-			  	$css_editor->get_code_compile_status() == 'error' ||
-			  	$js_editor->get_code_compile_status() == 'error'
-			   ) {
+				if ( 
+					$html_php_editor->get_code_compile_status() == 'error' ||
+					$css_editor->get_code_compile_status() == 'error' ||
+					$js_editor->get_code_compile_status() == 'error'
+				 ) {
 
-				  ?>
-			    <div class="error">
-			      <p> <?php _e('There is an error in the WP ACE Editor Code. <a href="#wp-ace__tabs">See below for more information</a>.', 'wrs-admin-code-editor'); ?> </p>
-			    </div>
-			    <?php
-		  	}
-		  }
+					?>
+					<div class="error">
+						<p> <?php _e('There is an error in the WP ACE Editor Code. <a href="#wp-ace__tabs">See below for more information</a>.', 'wrs-admin-code-editor'); ?> </p>
+					</div>
+					<?php
+				}
+			}
 		}
 	}
 
@@ -280,28 +244,11 @@ class Admin_Code_Editor_Admin {
 	 * @param WP_Post $post The object for the current post/page.
 	 */
 	function code_editor_section_callback( $post ) {
-	
-
 		wp_nonce_field( 'wp-ace-editor-nonce', 'wp-ace-editor-nonce' );
-		/*
-		$disabled_templates 					= get_post_meta($post->ID, '_wp_ace_disabled_templates', true);
-		if (!$disabled_templates ) {
-			$disabled_templates = array();
-		}
-		$only_display_in_loop 				= get_post_meta($post->ID, '_wp_ace_display_only_in_loop', true);
-		$only_display_in_main_query 	= get_post_meta($post->ID, '_wp_ace_display_only_in_main_query', true);
-		$last_active_tab_id 					= get_post_meta($post->ID, '_wp_ace_last_active_tab', true);
-		
-	
-		if (!$last_active_tab_id) {
-			$last_active_tab_id = 'html-edit';
-		}
-		*/
 	
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-admin-code-editor-general.php';
 		$general_settings = new Admin_Code_Editor_General($post->ID);
 		
-
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-html-php.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-css.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-js.php';
@@ -333,15 +280,15 @@ class Admin_Code_Editor_Admin {
 
 	function plugin_update_check() {
 		if (get_site_option( 'wp_ace_plugin_version' ) != $this->version) {
-      $this->plugin_update();
+			$this->plugin_update();
 
-    }
+		}
 	}
 
 
 	function delete_code_posts($postid) {
 		global $post_type; 
-
+		
 		$selected_post_types 	= get_option('wpcr_post_types');
 		if ( !in_array($post_type, $selected_post_types)) {  
 			return;
@@ -373,9 +320,11 @@ class Admin_Code_Editor_Admin {
 				'coffee' => 'CoffeeScript'
 				)
 			);
+
 		update_option( 'wp_ace_supported_preprocessors', $supported_preprocessors);
 		update_option( 'wp_ace_plugin_version', $this->version);
 	}
+
 
 	/**
 	 * When the post is saved, saves our custom data.
@@ -383,11 +332,6 @@ class Admin_Code_Editor_Admin {
 	 * @param int $post_id The ID of the post being saved.
 	 */
 	function code_editor_save( $post_id ) {
-
-		/*
-		 * We need to verify this came from our screen and with proper authorization,
-		 * because the save_post action can be triggered at other times.
-		 */
 
 		// Check if our nonce is set.
 		if ( ! isset( $_POST['wp-ace-editor-nonce'] ) ) {
@@ -405,16 +349,14 @@ class Admin_Code_Editor_Admin {
 		}
 		
 		if ( false !== wp_is_post_revision( $post_id ) )
-        return;
+				return;
 
-    // "wp-ace-html", "wp-ace-css", "wp-ace-js" are the post types WP ACE uses to store code types related to a post
 		$wp_ace_code_content_types = array("wp-ace-html", "wp-ace-css", "wp-ace-js");
 		$post_type = get_post_type( $post_id );
 		if ( in_array(get_post_type( $post_id ), $wp_ace_code_content_types) ) {
 			// since wp_insert_post also calls code_editor_save, we need to check if this is a code content type and exit. 
 			// An infinite loop will occur otherwise. 
 			return;
-
 		}		
 
 		// Check the user's permissions.
@@ -423,15 +365,12 @@ class Admin_Code_Editor_Admin {
 			if ( ! current_user_can( 'edit_page', $post_id ) ) {
 				return;
 			}
-
 		} else {
-
 			if ( ! current_user_can( 'edit_post', $post_id ) ) {
 				return;
 			}
 		}
 
-		
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-admin-code-editor-general.php';
 		$general_settings = new Admin_Code_Editor_General($post_id);
 		$general_settings->updateDataFromPOST(); 
@@ -468,23 +407,14 @@ class Admin_Code_Editor_Admin {
 			$js_editor->initialize_from_post_request();
 			$js_editor->update_code();
 		}
-
-		
-		
-		
-	
 	}
 
-	/**
-	 *
-	 * Revision Handling
-	 *
-	 */
-	
+
+	// Revision Handling
 	function restore_code_revision( $post_id, $revision_id ) {
-		$post     = get_post( $post_id );
-		$revision = get_post( $revision_id );
-		$meta_fields = ['_wp_ace_preprocessor', '_wp_ace_editor_height'];
+		$post     		= get_post( $post_id );
+		$revision 		= get_post( $revision_id );
+		$meta_fields 	= ['_wp_ace_preprocessor', '_wp_ace_editor_height'];
 
 		foreach($meta_fields as $meta_field) {
 			$meta_val  = get_metadata( 'post', $revision->ID, $meta_field, true );
@@ -506,157 +436,151 @@ class Admin_Code_Editor_Admin {
 
 	function code_revision_field__wp_ace_preprocessor( $value, $field ) {
 		global $revision;
-		//return get_metadata( 'post', $revision->ID, $field, true );
 		return $value;
 	}
 
 	function code_revision_field__wp_ace_editor_height( $value, $field ) {
 		global $revision;
-		//return get_metadata( 'post', $revision->ID, $field, true );
 		return $value;
 	}
 
 
-  /**
-   * Create the Notes post type
-   * 
-   * @since 0.1.0
-   */
-  function wp_ace_post_type_init() {
+	/**
+	 * Create the Notes post type
+	 * 
+	 * @since 0.1.0
+	 */
+	function wp_ace_post_type_init() {
 
-    $labels = array(
-      'name'               => _x( 'WP ACE Pre HTML', 'post type general name', 'admin-code-editor' ),
-      'singular_name'      => _x( 'WP ACE Pre HTML', 'post type singular name', 'admin-code-editor' ),
-      'menu_name'          => _x( 'WP ACE Pre HTML', 'admin menu', 'admin-code-editor' ),
-      'name_admin_bar'     => _x( 'WP ACE Pre HTML', 'add new on admin bar', 'admin-code-editor' ),
-      'add_new'            => _x( 'Add New', 'nw-item', 'admin-code-editor' ),
-      'add_new_item'       => __( 'Add New WP ACE Pre HTML', 'admin-code-editor' ),
-      'new_item'           => __( 'New WP ACE Pre HTML', 'admin-code-editor' ),
-      'edit_item'          => __( 'Edit WP ACE Pre HTML', 'admin-code-editor' ),
-      'view_item'          => __( 'View WP ACE Pre HTML', 'admin-code-editor' ),
-      'all_items'          => __( 'All WP ACE Pre HTML', 'admin-code-editor' ),
-      'search_items'       => __( 'Search WP ACE Pre HTML', 'admin-code-editor' ),
-      'parent_item_colon'  => __( 'Parent WP ACE Pre HTML:', 'admin-code-editor' ),
-      'not_found'          => __( 'No WP ACE Pre HTML found.', 'admin-code-editor' ),
-      'not_found_in_trash' => __( 'No WP ACE Pre HTML found in Trash.', 'admin-code-editor' )
-    );
+		$labels = array(
+			'name'               => _x( 'WP ACE Pre HTML', 'post type general name', 'admin-code-editor' ),
+			'singular_name'      => _x( 'WP ACE Pre HTML', 'post type singular name', 'admin-code-editor' ),
+			'menu_name'          => _x( 'WP ACE Pre HTML', 'admin menu', 'admin-code-editor' ),
+			'name_admin_bar'     => _x( 'WP ACE Pre HTML', 'add new on admin bar', 'admin-code-editor' ),
+			'add_new'            => _x( 'Add New', 'nw-item', 'admin-code-editor' ),
+			'add_new_item'       => __( 'Add New WP ACE Pre HTML', 'admin-code-editor' ),
+			'new_item'           => __( 'New WP ACE Pre HTML', 'admin-code-editor' ),
+			'edit_item'          => __( 'Edit WP ACE Pre HTML', 'admin-code-editor' ),
+			'view_item'          => __( 'View WP ACE Pre HTML', 'admin-code-editor' ),
+			'all_items'          => __( 'All WP ACE Pre HTML', 'admin-code-editor' ),
+			'search_items'       => __( 'Search WP ACE Pre HTML', 'admin-code-editor' ),
+			'parent_item_colon'  => __( 'Parent WP ACE Pre HTML:', 'admin-code-editor' ),
+			'not_found'          => __( 'No WP ACE Pre HTML found.', 'admin-code-editor' ),
+			'not_found_in_trash' => __( 'No WP ACE Pre HTML found in Trash.', 'admin-code-editor' )
+		);
 
-    $args = array(
-      'labels'                => $labels,
-      'public'                => false,
-      'publicly_queryable'    => false,
-      'exclude_from_search'   => true,
-      'show_ui'               => false, 
-      'show_in_menu'          => false, 
-      'query_var'             => false,
-      'rewrite'               => false,
-      'capability_type'       => 'post',
-      'has_archive'           => false, 
-      'hierarchical'          => false,
-      'menu_position'         => null,
-      'supports'              => array( 'editor', 'author', 'revisions')
-    ); 
+		$args = array(
+			'labels'                => $labels,
+			'public'                => false,
+			'publicly_queryable'    => false,
+			'exclude_from_search'   => true,
+			'show_ui'               => false, 
+			'show_in_menu'          => false, 
+			'query_var'             => false,
+			'rewrite'               => false,
+			'capability_type'       => 'post',
+			'has_archive'           => false, 
+			'hierarchical'          => false,
+			'menu_position'         => null,
+			'supports'              => array( 'editor', 'author', 'revisions')
+		); 
 
-    register_post_type('wp-ace-html',$args);
-
-
-    $labels = array(
-      'name'               => _x( 'WP ACE Pre CSS', 'post type general name', 'admin-code-editor' ),
-      'singular_name'      => _x( 'WP ACE Pre CSS', 'post type singular name', 'admin-code-editor' ),
-      'menu_name'          => _x( 'WP ACE Pre CSS', 'admin menu', 'admin-code-editor' ),
-      'name_admin_bar'     => _x( 'WP ACE Pre CSS', 'add new on admin bar', 'admin-code-editor' ),
-      'add_new'            => _x( 'Add New', 'nw-item', 'admin-code-editor' ),
-      'add_new_item'       => __( 'Add New WP ACE Pre CSS', 'admin-code-editor' ),
-      'new_item'           => __( 'New WP ACE Pre CSS', 'admin-code-editor' ),
-      'edit_item'          => __( 'Edit WP ACE Pre CSS', 'admin-code-editor' ),
-      'view_item'          => __( 'View WP ACE Pre CSS', 'admin-code-editor' ),
-      'all_items'          => __( 'All WP ACE Pre CSS', 'admin-code-editor' ),
-      'search_items'       => __( 'Search WP ACE Pre CSS', 'admin-code-editor' ),
-      'parent_item_colon'  => __( 'Parent WP ACE Pre CSS:', 'admin-code-editor' ),
-      'not_found'          => __( 'No WP ACE Pre CSS found.', 'admin-code-editor' ),
-      'not_found_in_trash' => __( 'No WP ACE Pre CSS found in Trash.', 'admin-code-editor' )
-    );
-
-    $args = array(
-      'labels'                => $labels,
-      'public'                => false,
-      'publicly_queryable'    => false,
-      'exclude_from_search'   => true,
-      'show_ui'               => false, 
-      'show_in_menu'          => false, 
-      'query_var'             => false,
-      'rewrite'               => false,
-      'capability_type'       => 'post',
-      'has_archive'           => false, 
-      'hierarchical'          => false,
-      'menu_position'         => null,
-      'supports'              => array( 'editor', 'author', 'revisions')
-    ); 
-
-    register_post_type('wp-ace-css',$args);
+		register_post_type('wp-ace-html',$args);
 
 
-    $labels = array(
-      'name'               => _x( 'WP ACE Pre JS', 'post type general name', 'admin-code-editor' ),
-      'singular_name'      => _x( 'WP ACE Pre JS', 'post type singular name', 'admin-code-editor' ),
-      'menu_name'          => _x( 'WP ACE Pre JS', 'admin menu', 'admin-code-editor' ),
-      'name_admin_bar'     => _x( 'WP ACE Pre JS', 'add new on admin bar', 'admin-code-editor' ),
-      'add_new'            => _x( 'Add New', 'nw-item', 'admin-code-editor' ),
-      'add_new_item'       => __( 'Add New WP ACE Pre JS', 'admin-code-editor' ),
-      'new_item'           => __( 'New WP ACE Pre JS', 'admin-code-editor' ),
-      'edit_item'          => __( 'Edit WP ACE Pre JS', 'admin-code-editor' ),
-      'view_item'          => __( 'View WP ACE Pre JS', 'admin-code-editor' ),
-      'all_items'          => __( 'All WP ACE Pre JS', 'admin-code-editor' ),
-      'search_items'       => __( 'Search WP ACE Pre JS', 'admin-code-editor' ),
-      'parent_item_colon'  => __( 'Parent WP ACE Pre JS:', 'admin-code-editor' ),
-      'not_found'          => __( 'No WP ACE Pre JS found.', 'admin-code-editor' ),
-      'not_found_in_trash' => __( 'No WP ACE Pre JS found in Trash.', 'admin-code-editor' )
-    );
+		$labels = array(
+			'name'               => _x( 'WP ACE Pre CSS', 'post type general name', 'admin-code-editor' ),
+			'singular_name'      => _x( 'WP ACE Pre CSS', 'post type singular name', 'admin-code-editor' ),
+			'menu_name'          => _x( 'WP ACE Pre CSS', 'admin menu', 'admin-code-editor' ),
+			'name_admin_bar'     => _x( 'WP ACE Pre CSS', 'add new on admin bar', 'admin-code-editor' ),
+			'add_new'            => _x( 'Add New', 'nw-item', 'admin-code-editor' ),
+			'add_new_item'       => __( 'Add New WP ACE Pre CSS', 'admin-code-editor' ),
+			'new_item'           => __( 'New WP ACE Pre CSS', 'admin-code-editor' ),
+			'edit_item'          => __( 'Edit WP ACE Pre CSS', 'admin-code-editor' ),
+			'view_item'          => __( 'View WP ACE Pre CSS', 'admin-code-editor' ),
+			'all_items'          => __( 'All WP ACE Pre CSS', 'admin-code-editor' ),
+			'search_items'       => __( 'Search WP ACE Pre CSS', 'admin-code-editor' ),
+			'parent_item_colon'  => __( 'Parent WP ACE Pre CSS:', 'admin-code-editor' ),
+			'not_found'          => __( 'No WP ACE Pre CSS found.', 'admin-code-editor' ),
+			'not_found_in_trash' => __( 'No WP ACE Pre CSS found in Trash.', 'admin-code-editor' )
+		);
 
-    $args = array(
-      'labels'                => $labels,
-      'public'                => false,
-      'publicly_queryable'    => false,
-      'exclude_from_search'   => true,
-      'show_ui'               => false, 
-      'show_in_menu'          => false, 
-      'query_var'             => false,
-      'rewrite'               => false,
-      'capability_type'       => 'post',
-      'has_archive'           => false, 
-      'hierarchical'          => false,
-      'menu_position'         => null,
-      'supports'              => array( 'editor', 'author', 'revisions')
-    ); 
+		$args = array(
+			'labels'                => $labels,
+			'public'                => false,
+			'publicly_queryable'    => false,
+			'exclude_from_search'   => true,
+			'show_ui'               => false, 
+			'show_in_menu'          => false, 
+			'query_var'             => false,
+			'rewrite'               => false,
+			'capability_type'       => 'post',
+			'has_archive'           => false, 
+			'hierarchical'          => false,
+			'menu_position'         => null,
+			'supports'              => array( 'editor', 'author', 'revisions')
+		); 
 
-    register_post_type('wp-ace-js',$args);
+		register_post_type('wp-ace-css',$args);
+
+		$labels = array(
+			'name'               => _x( 'WP ACE Pre JS', 'post type general name', 'admin-code-editor' ),
+			'singular_name'      => _x( 'WP ACE Pre JS', 'post type singular name', 'admin-code-editor' ),
+			'menu_name'          => _x( 'WP ACE Pre JS', 'admin menu', 'admin-code-editor' ),
+			'name_admin_bar'     => _x( 'WP ACE Pre JS', 'add new on admin bar', 'admin-code-editor' ),
+			'add_new'            => _x( 'Add New', 'nw-item', 'admin-code-editor' ),
+			'add_new_item'       => __( 'Add New WP ACE Pre JS', 'admin-code-editor' ),
+			'new_item'           => __( 'New WP ACE Pre JS', 'admin-code-editor' ),
+			'edit_item'          => __( 'Edit WP ACE Pre JS', 'admin-code-editor' ),
+			'view_item'          => __( 'View WP ACE Pre JS', 'admin-code-editor' ),
+			'all_items'          => __( 'All WP ACE Pre JS', 'admin-code-editor' ),
+			'search_items'       => __( 'Search WP ACE Pre JS', 'admin-code-editor' ),
+			'parent_item_colon'  => __( 'Parent WP ACE Pre JS:', 'admin-code-editor' ),
+			'not_found'          => __( 'No WP ACE Pre JS found.', 'admin-code-editor' ),
+			'not_found_in_trash' => __( 'No WP ACE Pre JS found in Trash.', 'admin-code-editor' )
+		);
+
+		$args = array(
+			'labels'                => $labels,
+			'public'                => false,
+			'publicly_queryable'    => false,
+			'exclude_from_search'   => true,
+			'show_ui'               => false, 
+			'show_in_menu'          => false, 
+			'query_var'             => false,
+			'rewrite'               => false,
+			'capability_type'       => 'post',
+			'has_archive'           => false, 
+			'hierarchical'          => false,
+			'menu_position'         => null,
+			'supports'              => array( 'editor', 'author', 'revisions')
+		); 
+
+		register_post_type('wp-ace-js',$args);
 
 	} 
 
 
-  function filterDefaultHideonTemplates($hidden_templates) {
-  	if (empty($hidden_templates)) {
-  		$hidden_templates = array();
-  	}  	
+	function filterDefaultHideonTemplates($hidden_templates) {
+		if (empty($hidden_templates)) {
+			$hidden_templates = array();
+		}  	
+		return $hidden_templates;
+	}
 
-  	return $hidden_templates;
-  }
+	function filterDefaultHideCodeEditorTypes($code_editors) {
+		if (empty($code_editors)) {
+			$code_editors = array();
+		}
+		return $code_editors;
+	}
 
-  function filterDefaultHideCodeEditorTypes($code_editors) {
-  	if (empty($code_editors)) {
-  		$code_editors = array();
-  	}
-
-  	return $code_editors;
-  }
-
-  function filterDefaultConditionalDisplay($conditional_display) {
-  	if (empty($conditional_display)) {
-  		$conditional_display = array();
-  	}
-
-  	return $conditional_display;
-  }
+	function filterDefaultConditionalDisplay($conditional_display) {
+		if (empty($conditional_display)) {
+			$conditional_display = array();
+		}
+		return $conditional_display;
+	}
 
 	/**
 	 *
@@ -689,14 +613,12 @@ class Admin_Code_Editor_Admin {
 					<?php
 						do_settings_sections("admin-code-editor-options-page"); 
 						settings_fields("admin-code-editor-settings");
-						     
 						submit_button(); 
 					?>          
 				</form>
 			</div>
 		<?php
 	}
-
 
 
 	/**
@@ -719,11 +641,9 @@ class Admin_Code_Editor_Admin {
 				return ' checked ';
 			}
 		};
-
 		?>
 			<div class="wp-ace-bootstrap">
 				<?php
-
 					foreach ( $post_types as $post_type ) {
 				?>
 				<div class="checkbox">
@@ -733,16 +653,15 @@ class Admin_Code_Editor_Admin {
 				</div>
 				<?php
 				}
-
 				?>
 			</div>
-
 		<?php
 	}
 
+
 	/**
 	 *
-	 * Option field to choose which post types 'custom ratings' are applied to.
+	 * 
 	 *
 	 * @since 1.0.0
 	 */
@@ -752,11 +671,8 @@ class Admin_Code_Editor_Admin {
 		if (empty($default_disabled_template) || !is_array($default_disabled_template) ) {
 			$default_disabled_template = array();
 		} 
-
 		?>
-
 			<div class="wp-ace-bootstrap">
-				
 				<div class="checkbox">
 					<label for="wp-ace__hide-on-front-page-template" >
 						<input type="checkbox" id="wp-ace__hide-on-front-page-template" name="wp_ace_default_disabled_template[]" value="front-page"  <?php checked( in_array('front-page', $default_disabled_template ) ); ?>  /><?php _e('Front Page', 'wrs-admin-code-editor') ?>
@@ -789,7 +705,7 @@ class Admin_Code_Editor_Admin {
 
 	/**
 	 *
-	 * Option field to choose which post types 'custom ratings' are applied to.
+	 * 
 	 *
 	 * @since 1.0.0
 	 */
@@ -799,11 +715,8 @@ class Admin_Code_Editor_Admin {
 		if (empty($default_conditional_display) || !is_array($default_conditional_display) ) {
 			$default_conditional_display = array();
 		} 
-		
 		?>
-
 			<div class="wp-ace-bootstrap">
-				
 				<div class="checkbox">
 					<label for="wp-ace--conditional-display--in-the-loop" >
 						<input type="checkbox" id="wp-ace--conditional-display--in-the-loop" name="wp_ace_default_conditional_display[]" value="inside-the-loop" <?php checked( in_array('inside-the-loop', $default_conditional_display  ) ); ?> /><?php _e('Inside the Loop', 'wrs-admin-code-editor') ?>
@@ -815,15 +728,14 @@ class Admin_Code_Editor_Admin {
 						<input type="checkbox" id="wp-ace--conditional-display--in-main-query" name="wp_ace_default_conditional_display[]" value="in-main-query"  <?php checked( in_array( 'in-main-query', $default_conditional_display ) ); ?> /><?php _e('In Main Query', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>
-
 			</div>
-
 		<?php
 	}
 
+
 	/**
 	 *
-	 * Option field to choose which post types 'custom ratings' are applied to.
+	 * 
 	 *
 	 * @since 1.0.0
 	 */
@@ -833,9 +745,7 @@ class Admin_Code_Editor_Admin {
 		if (empty($default_html_preprocessor) || !is_array($default_html_preprocessor) ) {
 			$default_html_preprocessor = array();
 		} 
-
 		?>
-
 			<div class="wp-ace-bootstrap">
 				
 				<div class="radio">
@@ -857,14 +767,13 @@ class Admin_Code_Editor_Admin {
 				</div>
 
 			</div>
-
 		<?php
 	}
 
 
 	/**
 	 *
-	 * Option field to choose which post types 'custom ratings' are applied to.
+	 * 
 	 *
 	 * @since 1.0.0
 	 */
@@ -886,7 +795,7 @@ class Admin_Code_Editor_Admin {
 
 	/**
 	 *
-	 * Option field to choose which post types 'custom ratings' are applied to.
+	 * 
 	 *
 	 * @since 1.0.0
 	 */
@@ -895,12 +804,10 @@ class Admin_Code_Editor_Admin {
 			
 			<div class="wp-ace-bootstrap">
 				<div class="radio">
-					
 					<label for="wp-ace__default-html-pos-above" >
 						<input type="radio" id="wp-ace__default-html-pos-above" name="wp_ace_default_html_position" value="after" <?php checked('after', get_option('wp_ace_default_html_position') ); ?> /><?php _e('After Content', 'wrs-admin-code-editor') ?></label>
 				</div>
 				<div class="radio">
-					
 					<label for="wp-ace__default-html-pos-below" >
 						<input type="radio" id="wp-ace__default-html-pos-below" name="wp_ace_default_html_position" value="before" <?php checked('before', get_option('wp_ace_default_html_position') ); ?> /><?php _e('Before Content', 'wrs-admin-code-editor') ?></label>
 				</div>
@@ -911,7 +818,7 @@ class Admin_Code_Editor_Admin {
 
 	/**
 	 *
-	 * Option field to choose which post types 'custom ratings' are applied to.
+	 * 
 	 *
 	 * @since 1.0.0
 	 */
@@ -919,67 +826,57 @@ class Admin_Code_Editor_Admin {
 		?>
 
 			<div class="wp-ace-bootstrap">
-					<div class="radio">
-						<label for="wp-ace--default-css-preprocessor--css" >
-							<input type="radio" id="wp-ace--default-css-preprocessor--css" name="wp_ace_default_css_preprocessor" value="none" <?php checked('none', get_option('wp_ace_default_css_preprocessor') ); ?> /><?php _e('None', 'wrs-admin-code-editor') ?>
-						</label>
-					</div>
+				<div class="radio">
+					<label for="wp-ace--default-css-preprocessor--css" >
+						<input type="radio" id="wp-ace--default-css-preprocessor--css" name="wp_ace_default_css_preprocessor" value="none" <?php checked('none', get_option('wp_ace_default_css_preprocessor') ); ?> /><?php _e('None', 'wrs-admin-code-editor') ?>
+					</label>
+				</div>
 
-					<div class="radio">
-						<label for="wp-ace--default-css-preprocessor--less" >
-							<input type="radio" id="wp-ace--default-css-preprocessor--less" name="wp_ace_default_css_preprocessor" value="less" <?php checked('less', get_option('wp_ace_default_css_preprocessor') ); ?>  /><?php _e('LESS', 'wrs-admin-code-editor') ?>
-						</label>
-					</div>
-				
-					<div class="radio">
-						<label for="wp-ace--default-css-preprocessor--scss" >
-							<input type="radio" id="wp-ace--default-css-preprocessor--scss" name="wp_ace_default_css_preprocessor" value="scss" <?php checked('scss', get_option('wp_ace_default_css_preprocessor') ); ?>  /><?php _e('SCSS', 'wrs-admin-code-editor') ?>
-						</label>
-					</div>
+				<div class="radio">
+					<label for="wp-ace--default-css-preprocessor--less" >
+						<input type="radio" id="wp-ace--default-css-preprocessor--less" name="wp_ace_default_css_preprocessor" value="less" <?php checked('less', get_option('wp_ace_default_css_preprocessor') ); ?>  /><?php _e('LESS', 'wrs-admin-code-editor') ?>
+					</label>
+				</div>
 			
-
+				<div class="radio">
+					<label for="wp-ace--default-css-preprocessor--scss" >
+						<input type="radio" id="wp-ace--default-css-preprocessor--scss" name="wp_ace_default_css_preprocessor" value="scss" <?php checked('scss', get_option('wp_ace_default_css_preprocessor') ); ?>  /><?php _e('SCSS', 'wrs-admin-code-editor') ?>
+					</label>
+				</div>
 			</div>
 
 		<?php
 	}
 
+
 	/**
 	 *
-	 * Option field to choose which post types 'custom ratings' are applied to.
+	 * 
 	 *
 	 * @since 1.0.0
 	 */
 	function display_default_js_preprocessors_field_element() {
 		?>
-
 			<div class="wp-ace-bootstrap">
-					<div class="radio">
-						<label for="wp-ace--default-js-preprocessor--none" >
-							<input type="radio" id="wp-ace--default-js-preprocessor--none" name="wp_ace_default_js_preprocessor" value="none" <?php checked('none', get_option('wp_ace_default_js_preprocessor') ); ?>  /><?php _e('None', 'wrs-admin-code-editor') ?>
-						</label>
-					</div>
-					<div class="radio">
-						<label for="wp-ace--default-js-preprocessor--coffee" >
-							<input type="radio" id="wp-ace--default-js-preprocessor--coffee" name="wp_ace_default_js_preprocessor" value="coffee" <?php checked('coffee', get_option('wp_ace_default_js_preprocessor') ); ?>  /><?php _e('CoffeeScript', 'wrs-admin-code-editor') ?>
-						</label>
-					</div>
-					
-					<!-- Stylus is not currently supported in WP ACE -->
-					<!--
-					<div class="radio">
-						<label for="wp-ace__enable-stylus" >
-							<input type="radio" id="wp-ace__enable-stylus" name="wp_ace_default_js_preprocessor" value="stylus"  /><?php _e('Stylus', 'wrs-admin-code-editor') ?>
-						</label>
-					</div>
-					-->
+				<div class="radio">
+					<label for="wp-ace--default-js-preprocessor--none" >
+						<input type="radio" id="wp-ace--default-js-preprocessor--none" name="wp_ace_default_js_preprocessor" value="none" <?php checked('none', get_option('wp_ace_default_js_preprocessor') ); ?>  /><?php _e('None', 'wrs-admin-code-editor') ?>
+					</label>
+				</div>
+				<div class="radio">
+					<label for="wp-ace--default-js-preprocessor--coffee" >
+						<input type="radio" id="wp-ace--default-js-preprocessor--coffee" name="wp_ace_default_js_preprocessor" value="coffee" <?php checked('coffee', get_option('wp_ace_default_js_preprocessor') ); ?>  /><?php _e('CoffeeScript', 'wrs-admin-code-editor') ?>
+					</label>
+				</div>
 			</div>
 
 		<?php
 	}
 
+
 	/**
 	 *
-	 * Option field to choose which post types 'custom ratings' are applied to.
+	 * 
 	 *
 	 * @since 1.0.0
 	 */
@@ -1013,7 +910,6 @@ class Admin_Code_Editor_Admin {
 			$default_disabled_code = array();
 		}
 		?>
-
 			<div class="wp-ace-bootstrap">
 				
 				<div class="checkbox">

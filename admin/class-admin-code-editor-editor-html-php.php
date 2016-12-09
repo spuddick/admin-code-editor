@@ -1,20 +1,20 @@
 <?php 
 require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor.php';
 class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
-  
-  	const DEFAULT_DISABLE_WPAUTOP = 1;
-  	const DEFAULT_PREPROCESSOR = 'none';
-  	const DEFAULT_CODE_OUTPUT_POSITION = 'before';
+	
+		const DEFAULT_DISABLE_WPAUTOP = 1;
+		const DEFAULT_PREPROCESSOR = 'none';
+		const DEFAULT_CODE_OUTPUT_POSITION = 'before';
 
-  	private $wpautop_disabled, $code_output_position;
+		private $wpautop_disabled, $code_output_position;
 
-    function __construct($param) {
-        
-      parent::__construct($param);
-      if (isset($param['type'])) {
-	      $this->type = $param['type'];
-	      
-	      $this->keys = array();
+		function __construct($param) {
+				
+			parent::__construct($param);
+			if (isset($param['type'])) {
+				$this->type = $param['type'];
+				
+				$this->keys = array();
 
 				$this->keys['host-hash-meta-key'] = '_wp_ace_html_php_hash';
 				$this->keys['code-id-meta-key'] 	= '_wp_ace_html_php_code_post_id';
@@ -24,9 +24,9 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 				$this->code_post_name_start = 'wp-ace-html-and-php-code-for-';
 				$this->code_post_title_start = 'WP ACE HTML and PHP code for Post ID: ';
 
-	    }
+			}
 
-    }
+		}
 
 	public function initialize_from_post_request() {
 		// called from save hook or ajax request to set variable data

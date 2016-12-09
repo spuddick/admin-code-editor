@@ -15,26 +15,26 @@ abstract class Admin_Code_Editor_Editor {
 
 	public function __construct($param) {
 	
-    if (isset($param['code-post-id'])) {
-        $this->code_post_id = $param['code-post-id'];
-    }
-    if (isset($param['pre-code'])) {
-        $this->pre_code = $param['pre-code'];
-    }
-    if (isset($param['field-height'])) {
-        $this->field_height = $param['field-height'];
-    }
-    if (isset($param['preprocessor'])) {
-        $this->preprocessor = $param['preprocessor'];
-    }
-    if (isset($param['cursor-position'])) {
-        $this->cursor_position = $param['cursor-position'];
-    }
-    if (isset($param['host-post-id'])) {
-      $this->host_post_id = $param['host-post-id'];
-    } else {
-    	// throw exception
-    }
+		if (isset($param['code-post-id'])) {
+				$this->code_post_id = $param['code-post-id'];
+		}
+		if (isset($param['pre-code'])) {
+				$this->pre_code = $param['pre-code'];
+		}
+		if (isset($param['field-height'])) {
+				$this->field_height = $param['field-height'];
+		}
+		if (isset($param['preprocessor'])) {
+				$this->preprocessor = $param['preprocessor'];
+		}
+		if (isset($param['cursor-position'])) {
+				$this->cursor_position = $param['cursor-position'];
+		}
+		if (isset($param['host-post-id'])) {
+			$this->host_post_id = $param['host-post-id'];
+		} else {
+			// throw exception
+		}
 
 	}
 
@@ -78,10 +78,10 @@ abstract class Admin_Code_Editor_Editor {
 
 			if (empty($this->code_post_id)) {
 				$code_post = array(
-					  'post_name'    	=> 	$this->get_code_name_text(), 
-					  'post_status'   => 	'publish',
-					  'post_type'			=> 	$this->post_type,
-					  'post_title'		=> 	$this->get_code_title_text()
+						'post_name'    	=> 	$this->get_code_name_text(), 
+						'post_status'   => 	'publish',
+						'post_type'			=> 	$this->post_type,
+						'post_title'		=> 	$this->get_code_title_text()
 					);
  
 				$this->code_post_id = wp_insert_post( $code_post );
@@ -199,11 +199,11 @@ abstract class Admin_Code_Editor_Editor {
 				
 					$code_post = array(
 						'ID'           	=> 	$this->get_code_post_id(),
-					  'post_name'    	=> 	$this->code_name_text, 
-					  'post_status'   => 	'publish',
-					  'post_type'			=> 	$this->post_type,
-					  'post_title'		=> 	$this->code_title_text,
-					  'post_content' 	=> 	$this->get_pre_code()
+						'post_name'    	=> 	$this->code_name_text, 
+						'post_status'   => 	'publish',
+						'post_type'			=> 	$this->post_type,
+						'post_title'		=> 	$this->code_title_text,
+						'post_content' 	=> 	$this->get_pre_code()
 					);
  
 					wp_update_post( $code_post );
@@ -211,8 +211,8 @@ abstract class Admin_Code_Editor_Editor {
 				$latest_revision = current(wp_get_post_revisions($this->get_code_post_id()));
 
 				if ($latest_revision) {
-				   // do stuff with the latest revision
-				   // $latest_revision->ID will contain the latest revision
+					 // do stuff with the latest revision
+					 // $latest_revision->ID will contain the latest revision
 					$preprocessor_old = get_post_meta($this->get_code_post_id(), '_wp_ace_preprocessor', true);
 					$editor_height_old = get_post_meta($this->get_code_post_id(), '_wp_ace_editor_height', true);
 					
@@ -264,15 +264,15 @@ abstract class Admin_Code_Editor_Editor {
 		$ret->error_msg = '';
 
 		if (null === $preprocessor) {
-      $preprocessor = $this->get_preprocessor();
-    }
+			$preprocessor = $this->get_preprocessor();
+		}
 
 		if ( empty($pre_code) ) {
 			$ret->status = 'empty';
 		} else {
 			
 			set_error_handler(function ($errno, $errstr, $errfile, $errline ,array $errcontex) {
-			    throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+					throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 			});
 
 			try {
@@ -340,7 +340,7 @@ abstract class Admin_Code_Editor_Editor {
 						// Note our use of ===.  Simply == would not work as expected
 						// because the position of 'a' was the 0th (first) character.
 						if ($render_pos !== false || $partial_pos !== false) {
-						  throw new Exception(__( "WP ACE Editor does not currently support 'render' or 'partials' in HAML. ",  'wrs-admin-code-editor'));
+							throw new Exception(__( "WP ACE Editor does not currently support 'render' or 'partials' in HAML. ",  'wrs-admin-code-editor'));
 						} 
 
 						require_once plugin_dir_path( dirname( __FILE__ ) ) . 'lib/HamlPHP/src/HamlPHP/HamlPHP.php';
@@ -370,34 +370,34 @@ abstract class Admin_Code_Editor_Editor {
 						
 						// Load manually
 						CoffeeScript\Init::load();
-					  // Temporarily writing to hard disk appeared to be to only way to successfully parse the pre code
-				  	$tmpfname = tempnam( wp_upload_dir()['basedir'] .  "/tmp", "wp-ace-coffee");
-				  	$handle = fopen($tmpfname, "w");
+						// Temporarily writing to hard disk appeared to be to only way to successfully parse the pre code
+						$tmpfname = tempnam( wp_upload_dir()['basedir'] .  "/tmp", "wp-ace-coffee");
+						$handle = fopen($tmpfname, "w");
 						fwrite($handle, $pre_code);
 						fseek($handle, 0);
-				    $coffee = file_get_contents($tmpfname);
-					  $js = CoffeeCompiler::compile($coffee, array('filename' => $tmpfname));
-					  fclose($handle);
-					  unlink($tmpfname);
+						$coffee = file_get_contents($tmpfname);
+						$js = CoffeeCompiler::compile($coffee, array('filename' => $tmpfname));
+						fclose($handle);
+						unlink($tmpfname);
 
-					  $ret->compiled_code = trim($js);
+						$ret->compiled_code = trim($js);
 						$ret->status = 'success';	
 						
 					break;
 					case 'none' :
 					
-					  $ret->compiled_code = trim($pre_code);
+						$ret->compiled_code = trim($pre_code);
 						$ret->status = 'success';	
 
 					break;	
 				}
 
 			} catch (ErrorException $e) {
-			  $ret->status = 'error';
-			  $ret->error_msg = __('PHP code compile error: ',  'wrs-admin-code-editor') . $e->getMessage();
+				$ret->status = 'error';
+				$ret->error_msg = __('PHP code compile error: ',  'wrs-admin-code-editor') . $e->getMessage();
 			} catch(Exception $e) {
-			  $ret->status = 'error';
-			  $ret->error_msg = $e->getMessage();
+				$ret->status = 'error';
+				$ret->error_msg = $e->getMessage();
 			}
 			restore_error_handler();
 
