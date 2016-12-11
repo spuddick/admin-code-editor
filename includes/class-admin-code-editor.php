@@ -163,14 +163,14 @@ class Admin_Code_Editor {
 		$this->loader->add_action( 'plugins_loaded', 				$plugin_admin, 'plugin_update_check' );
 		$this->loader->add_action( 'before_delete_post', 		$plugin_admin, 'delete_code_posts' );
 
-		$this->loader->add_filter( 'option_wp_ace_default_disabled_template', 				$plugin_admin, 'filterDefaultHideonTemplates' );
-		$this->loader->add_filter( 'option_wp_ace_default_disabled_code', 		$plugin_admin, 'filterDefaultHideCodeEditorTypes' );
-		$this->loader->add_filter( 'option_wp_ace_default_conditional_display', 		$plugin_admin, 'filterDefaultConditionalDisplay' );
+		$this->loader->add_filter( 'option_wp_ace_default_disabled_template', 	$plugin_admin, 'filterDefaultHideonTemplates' );
+		$this->loader->add_filter( 'option_wp_ace_default_disabled_code', 			$plugin_admin, 'filterDefaultHideCodeEditorTypes' );
+		$this->loader->add_filter( 'option_wp_ace_default_conditional_display', $plugin_admin, 'filterDefaultConditionalDisplay' );
 
-		$this->loader->add_action( 'wp_restore_post_revision', 			$plugin_admin, 'restore_code_revision', 10, 2 );
-		$this->loader->add_filter( '_wp_post_revision_fields', 			$plugin_admin, 'code_revision_fields' );
-		$this->loader->add_filter( '_wp_post_revision_field__wp_ace_html_php_preprocessor', 			$plugin_admin, 'code_revision_field__wp_ace_html_php_preprocessor', 10, 2 );
-		$this->loader->add_filter( '_wp_post_revision_field__wp_ace_html_php_editor_height', 			$plugin_admin, 'code_revision_field__wp_ace_html_php_editor_height', 10, 2 );
+		$this->loader->add_action( 'wp_restore_post_revision', 																$plugin_admin, 'restore_code_revision', 10, 2 );
+		$this->loader->add_filter( '_wp_post_revision_fields', 																$plugin_admin, 'code_revision_fields' );
+		$this->loader->add_filter( '_wp_post_revision_field__wp_ace_html_php_preprocessor', 	$plugin_admin, 'code_revision_field__wp_ace_html_php_preprocessor', 10, 2 );
+		$this->loader->add_filter( '_wp_post_revision_field__wp_ace_html_php_editor_height', 	$plugin_admin, 'code_revision_field__wp_ace_html_php_editor_height', 10, 2 );
 	}
 
 	/**

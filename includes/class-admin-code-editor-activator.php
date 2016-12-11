@@ -23,10 +23,7 @@
 class Admin_Code_Editor_Activator {
 
 	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
-	 *
+	 * Set initial default values
 	 * @since    1.0.0
 	 */
 	public static function activate() {

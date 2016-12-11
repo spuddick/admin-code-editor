@@ -242,6 +242,7 @@ class Admin_Code_Editor_Admin {
 	 * Prints the box content.
 	 * 
 	 * @param WP_Post $post The object for the current post/page.
+	 * @since 1.0.0
 	 */
 	function code_editor_section_callback( $post ) {
 		wp_nonce_field( 'wp-ace-editor-nonce', 'wp-ace-editor-nonce' );
@@ -277,7 +278,11 @@ class Admin_Code_Editor_Admin {
 	
 	}	
 
-
+	/**
+	 *
+	 * Checks plugin version
+	 * @since 1.0.0
+	 */
 	function plugin_update_check() {
 		if (get_site_option( 'wp_ace_plugin_version' ) != $this->version) {
 			$this->plugin_update();
@@ -285,7 +290,11 @@ class Admin_Code_Editor_Admin {
 		}
 	}
 
-
+	/**
+	 * Delete associated code posts (HTML, CSS, JS) when host post is deleted 
+	 * @param int $postid
+	 * @since 1.0.0
+	 */
 	function delete_code_posts($postid) {
 		global $post_type; 
 		
@@ -304,7 +313,10 @@ class Admin_Code_Editor_Admin {
 
 	}
 
-
+	/**
+	 * Set constant settings at plugin activation or update
+	 * @since 1.0.0
+	 */
 	private function plugin_update() {
 		$supported_preprocessors = array(
 			'html' => array(
@@ -330,6 +342,7 @@ class Admin_Code_Editor_Admin {
 	 * When the post is saved, saves our custom data.
 	 *
 	 * @param int $post_id The ID of the post being saved.
+	 * @since 1.0.0
 	 */
 	function code_editor_save( $post_id ) {
 
@@ -410,7 +423,12 @@ class Admin_Code_Editor_Admin {
 	}
 
 
-	// Revision Handling
+	/**
+	 * Revision handling 
+	 * @param int $post_id 
+	 * @param int $revision_id 
+	 * @since 1.0.0
+	 */
 	function restore_code_revision( $post_id, $revision_id ) {
 		$post     		= get_post( $post_id );
 		$revision 		= get_post( $revision_id );
@@ -428,17 +446,37 @@ class Admin_Code_Editor_Admin {
 		// TODO: compile code again from revision
 	}
 
+	/**
+	 * Add certain meta data to revision
+	 * @param array $fields 
+	 * @return array
+	 * @since 1.0.0
+	 */
 	function code_revision_fields( $fields ) {
 		$fields['_wp_ace_preprocessor'] = 'HTML Proprocessor';
 		$fields['_wp_ace_editor_height'] = 'HTML Editor Height';
 		return $fields;
 	}
 
+	/**
+	 * Revision field for preprocessor
+	 * @param type $value 
+	 * @param type $field 
+	 * @return type
+	 * @since 1.0.0
+	 */
 	function code_revision_field__wp_ace_preprocessor( $value, $field ) {
 		global $revision;
 		return $value;
 	}
 
+	/**
+	 * Revision field for editor height
+	 * @param type $value 
+	 * @param type $field 
+	 * @return type
+	 * @since 1.0.0
+	 */
 	function code_revision_field__wp_ace_editor_height( $value, $field ) {
 		global $revision;
 		return $value;
@@ -446,9 +484,9 @@ class Admin_Code_Editor_Admin {
 
 
 	/**
-	 * Create the Notes post type
+	 * Create the code post types for the host post
 	 * 
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	function wp_ace_post_type_init() {
 
@@ -560,7 +598,12 @@ class Admin_Code_Editor_Admin {
 
 	} 
 
-
+	/**
+	 * Explicitly set return value to array when empty
+	 * @param type $hidden_templates 
+	 * @return array
+	 * @since 1.0.0
+	 */
 	function filterDefaultHideonTemplates($hidden_templates) {
 		if (empty($hidden_templates)) {
 			$hidden_templates = array();
@@ -568,6 +611,12 @@ class Admin_Code_Editor_Admin {
 		return $hidden_templates;
 	}
 
+	/**
+	 * Explicitly set return value to array when empty
+	 * @param type $code_editors 
+	 * @return array
+	 * @since 1.0.0
+	 */
 	function filterDefaultHideCodeEditorTypes($code_editors) {
 		if (empty($code_editors)) {
 			$code_editors = array();
@@ -575,6 +624,12 @@ class Admin_Code_Editor_Admin {
 		return $code_editors;
 	}
 
+	/**
+	 * Explicitly set return value to array when empty
+	 * @param type $conditional_display 
+	 * @return array
+	 * @since 1.0.0
+	 */
 	function filterDefaultConditionalDisplay($conditional_display) {
 		if (empty($conditional_display)) {
 			$conditional_display = array();
@@ -623,7 +678,7 @@ class Admin_Code_Editor_Admin {
 
 	/**
 	 *
-	 * Option field to choose which post types 'custom ratings' are applied to.
+	 * Option field to choose which post types WP ACE code editors are applied to.
 	 *
 	 * @since 1.0.0
 	 */
@@ -661,7 +716,7 @@ class Admin_Code_Editor_Admin {
 
 	/**
 	 *
-	 * 
+	 * Option field to display choices to disable code output on certain templates, in accordance with the template hierarchy 
 	 *
 	 * @since 1.0.0
 	 */
@@ -705,7 +760,7 @@ class Admin_Code_Editor_Admin {
 
 	/**
 	 *
-	 * 
+	 * Option field to restrict code output only when 'inside-the-loop' or 'in-main-query' 
 	 *
 	 * @since 1.0.0
 	 */
@@ -735,7 +790,7 @@ class Admin_Code_Editor_Admin {
 
 	/**
 	 *
-	 * 
+	 * Option field to display default CSS preprocessor choices
 	 *
 	 * @since 1.0.0
 	 */
@@ -773,7 +828,7 @@ class Admin_Code_Editor_Admin {
 
 	/**
 	 *
-	 * 
+	 * Option field to display default disable wpautop setting
 	 *
 	 * @since 1.0.0
 	 */
@@ -795,7 +850,7 @@ class Admin_Code_Editor_Admin {
 
 	/**
 	 *
-	 * 
+	 * Option field to display default HTML code output position, in relation to post content
 	 *
 	 * @since 1.0.0
 	 */
@@ -818,7 +873,7 @@ class Admin_Code_Editor_Admin {
 
 	/**
 	 *
-	 * 
+	 * Option field to display default CSS preprocessor 
 	 *
 	 * @since 1.0.0
 	 */
@@ -851,7 +906,7 @@ class Admin_Code_Editor_Admin {
 
 	/**
 	 *
-	 * 
+	 * Option field to display default JS preprocessor
 	 *
 	 * @since 1.0.0
 	 */
@@ -876,7 +931,7 @@ class Admin_Code_Editor_Admin {
 
 	/**
 	 *
-	 * 
+	 * Option field to display default include jQuery on front end setting
 	 *
 	 * @since 1.0.0
 	 */
@@ -899,7 +954,7 @@ class Admin_Code_Editor_Admin {
 
 	/**
 	 *
-	 * Option field to disable certain code types (HTML, CSS, JS)
+	 * Option field to disable certain code types (HTML, CSS, JS) in the code editor area
 	 *
 	 * @since 1.0.0
 	 */
@@ -935,6 +990,12 @@ class Admin_Code_Editor_Admin {
 		<?php
 	}
 
+
+	/**
+	 * Set up WP ACE options page
+	 * 
+	 * @since 1.0.0
+	 */
 	function display_theme_panel_fields() {
 		
 		// Set up subsections for settings page
@@ -997,7 +1058,6 @@ class Admin_Code_Editor_Admin {
 			"html-php-section"
 		);
 
-
 		// CSS settings fields
 		add_settings_field(
 			"wp_ace_default_css_preprocessors",
@@ -1006,7 +1066,6 @@ class Admin_Code_Editor_Admin {
 			"admin-code-editor-options-page", 
 			"css-section"
 		);
-
 
 		// JS settings fields
 		add_settings_field(

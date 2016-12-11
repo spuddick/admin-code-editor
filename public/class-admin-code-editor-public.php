@@ -100,48 +100,30 @@ class Admin_Code_Editor_Public {
 		wp_enqueue_script('jquery'); 
 	}
 
-
+	/**
+	 * Output JavaScript in footer from posts displayed on the current page (from global array)
+	 * @since 1.0.0
+	 */
 	public function insert_script_in_footer() {
 		global $wp_ace_js_output;
 		$wp_ace_js_output_string = '';
+
 		if (!empty($wp_ace_js_output)) {
 			foreach ($wp_ace_js_output as $post_id => $wp_ace_js_code) {
-					// $arr[3] will be updated with each value from $arr...
 				$wp_ace_js_output_string .= '<script id="wp-ace-javascript--post-'. $post_id .'" >//<![CDATA[' . "\r\n" . $wp_ace_js_code . "\r\n" . '//]]></script>';
 			}
-
 			echo $wp_ace_js_output_string;			
 		}
 
-		
 	}
-	
-	/*
-	public function get_html_content() {
-		
-		global $post;
-		$output = '';
 
-		
-		$code_insert_mode = get_post_meta( $post->ID, '_code_insert_mode', true );
-		if (empty($code_insert_mode)) {
-			$code_insert_mode = 'append_bottom';
-		}
-		
-
-		$output = '';
-			
-		$html_code = get_post_meta( $post->ID, '_html_code', true );
-
-		if (!empty($html_code)) {
-			$output .= $html_code;
-		}
-
-		echo do_shortcode($output);
-		
-	}
-	*/
-
+	/**
+	 * A custom filter to apply/not apply the wpautop filter when needed
+	 * 
+	 * @param string $content 
+	 * @return string
+	 * @since 1.0.0 
+	 */
 	function wp_ace_the_content($content) {
 		global $post;
 		$selected_post_types 	= get_option('wpcr_post_types');
@@ -154,7 +136,13 @@ class Admin_Code_Editor_Public {
 
 	}
 
-
+	/**
+	 * Insert WP ACE HTML, CSS, and JavaScript into the page
+	 * 
+	 * @param string $content Post content 
+	 * @return string post content with WP ACE code appended
+	 * @since 1.0.0
+	 */
 	function insert_ace_code_in_page($content){
 		// The different types of code (HTML, CSS, Javascript) are appended after the regular page content (using the wordpress function the_content() ).
 		// We hook into the 'the_content' filter to acheive this.
@@ -182,12 +170,6 @@ class Admin_Code_Editor_Public {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-admin-code-editor-general.php';
 		$general_settings = new Admin_Code_Editor_General($post->ID);
 
-		/*
-		$disabled_templates 					= get_post_meta($post->ID, '_wp_ace_disabled_templates', true);
-		if (!$disabled_templates ) {
-			$disabled_templates = array();
-		}
-		*/
 		if (is_home() && $general_settings->homeTemplateIsDisabled() ) {
 			return $content;
 		}
@@ -201,11 +183,6 @@ class Admin_Code_Editor_Public {
 			return $content;
 		}
 
-		/*
-		$only_display_in_loop 				= get_post_meta($post->ID, '_wp_ace_display_only_in_loop', true);
-		$only_display_in_main_query 	= get_post_meta($post->ID, '_wp_ace_display_only_in_main_query', true);		
-		*/
-	
 		if (!is_main_query()  && $general_settings->getOnlyDisplayInMainQueryStatus()) {
 			return $content;
 		}
@@ -213,34 +190,33 @@ class Admin_Code_Editor_Public {
 			return $content;
 		}
 
-
-		// is private or protected post
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-html-php.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-css.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-editor-editor-js.php';		
+		
 		$editor_args = array(
-			'type' => 'html-php',
-			'host-post-id' => $post->ID
+			'type' 					=> 'html-php',
+			'host-post-id' 	=> $post->ID
 		);
 		$html_php_editor 	= new Admin_Code_Editor_Editor_HTML_PHP($editor_args);
 
 		$editor_args = array(
-			'type' => 'css',
-			'host-post-id' => $post->ID
+			'type' 					=> 'css',
+			'host-post-id' 	=> $post->ID
 		);
 		$css_editor 	= new Admin_Code_Editor_Editor_CSS($editor_args);
 
 		$editor_args = array(
-			'type' => 'js',
-			'host-post-id' => $post->ID
+			'type' 					=> 'js',
+			'host-post-id' 	=> $post->ID
 		);
 		$js_editor 	= new Admin_Code_Editor_Editor_JS($editor_args);
 
 		$wp_ace_css_tag_output = '';
 
 		if (!$general_settings->cssEditorIsDisabled()) {
-			$wp_ace_css_tag_output = '<style id="wp-ace-css--post-' . $post->ID . '" >' . $css_editor->get_css_with_wrapper() . '</style>';
-			$content =  $wp_ace_css_tag_output . $content;
+			$wp_ace_css_tag_output 	= '<style id="wp-ace-css--post-' . $post->ID . '" >' . $css_editor->get_css_with_wrapper() . '</style>';
+			$content 								= $wp_ace_css_tag_output . $content;
 		}
 		
 		if (!$general_settings->jsEditorIsDisabled()) {
@@ -262,20 +238,13 @@ class Admin_Code_Editor_Public {
 
 			switch ($html_code_insert_position) {
 				case 'before':
-
 					$content =  $html . $content;
-
 					break;
 				case 'after':
-
 					$content =  $content . $html;
-
 					break;
 			}
-
 		} 
-
 		return $content;
 	}	
-
 }
