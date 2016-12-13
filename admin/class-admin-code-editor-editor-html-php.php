@@ -63,7 +63,7 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 		} else {
 			$this->wpautop_disabled 			= 0;
 		}
-
+		$this->wpautop_disabled;
 	}
 	
 	/**
@@ -81,8 +81,8 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 	 * @since 1.0.0
 	 */
 	protected function additional_updates() {
-		update_post_meta($this->code_post_id, '_wp_ace_wpautop_is_disabled', $this->get_disable_wpautop_status() );
-		update_post_meta($this->code_post_id, '_wp_ace_code_output_position', $this->get_code_output_position() );
+		update_post_meta($this->get_code_post_id(), '_wp_ace_wpautop_is_disabled', $this->get_disable_wpautop_status() );
+		update_post_meta($this->get_code_post_id(), '_wp_ace_code_output_position', $this->get_code_output_position() );
 	}
 
 	/**
@@ -108,7 +108,7 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 	 */
 	public function get_disable_wpautop_status() {
 		$this->wpautop_is_disabled_status = get_post_meta($this->get_code_post_id(), '_wp_ace_disable_wpautop', true);
-		if (!$this->wpautop_is_disabled_status) {
+		if ($this->wpautop_is_disabled_status == '') {
 			$this->wpautop_is_disabled_status = get_option('wp_ace_default_disable_wpautop', self::DEFAULT_DISABLE_WPAUTOP);
 		}
 		return $this->wpautop_is_disabled_status;		
