@@ -75,6 +75,12 @@ p.wp-ace__notice {
 	margin:0 !important; 
 }
 
+
+// Bootstrap adjustments
 .wp-ace-bootstrap input[type="radio"], .wp-ace-bootstrap input[type="checkbox"] {
 	margin-top:0 !important;
+}
+
+.wp-ace-bootstrap .modal {
+	z-index:99999 !important;
 }
