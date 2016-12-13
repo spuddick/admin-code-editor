@@ -50,8 +50,6 @@ abstract class Admin_Code_Editor_Editor {
 
 	}
 
-	abstract protected 	function get_current_hash();
-	abstract protected 	function get_stored_hash();
 	abstract protected 	function additional_updates();
 	abstract protected 	function get_default_preprocessor();
 	abstract public 		function initialize_from_post_request();
