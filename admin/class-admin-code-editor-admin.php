@@ -424,6 +424,66 @@ class Admin_Code_Editor_Admin {
 
 
 	/**
+	 * Revision handling 
+	 * @param int $post_id 
+	 * @param int $revision_id 
+	 * @since 1.0.0
+	 */
+	function restore_code_revision( $post_id, $revision_id ) {
+		$post     		= get_post( $post_id );
+		$revision 		= get_post( $revision_id );
+		$meta_fields 	= ['_wp_ace_preprocessor', '_wp_ace_editor_height'];
+
+		foreach($meta_fields as $meta_field) {
+			$meta_val  = get_metadata( 'post', $revision->ID, $meta_field, true );
+
+			if ( false !== $meta_val )
+				update_post_meta( $post_id, $meta_field, $meta_val );
+			else
+				delete_post_meta( $post_id, $meta_field );			
+		}
+
+		// TODO: compile code again from revision
+	}
+
+	/**
+	 * Add certain meta data to revision
+	 * @param array $fields 
+	 * @return array
+	 * @since 1.0.0
+	 */
+	function code_revision_fields( $fields ) {
+		$fields['_wp_ace_preprocessor'] = 'HTML Proprocessor';
+		$fields['_wp_ace_editor_height'] = 'HTML Editor Height';
+		return $fields;
+	}
+
+	/**
+	 * Revision field for preprocessor
+	 * @param type $value 
+	 * @param type $field 
+	 * @return type
+	 * @since 1.0.0
+	 */
+	function code_revision_field__wp_ace_preprocessor( $value, $field ) {
+		global $revision;
+		return $value;
+	}
+
+	/**
+	 * Revision field for editor height
+	 * @param type $value 
+	 * @param type $field 
+	 * @return type
+	 * @since 1.0.0
+	 */
+	function code_revision_field__wp_ace_editor_height( $value, $field ) {
+		global $revision;
+		return $value;
+	}
+
+
+	/**
 	 * Create the code post types for the host post
 	 * 
 	 * @since 1.0.0
