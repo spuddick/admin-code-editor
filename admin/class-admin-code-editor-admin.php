@@ -797,27 +797,25 @@ class Admin_Code_Editor_Admin {
 	function display_default_html_preprocessors_field_element() {
 		
 		$default_html_preprocessor =  get_option('wp_ace_default_html_preprocessor');
-		if (empty($default_html_preprocessor) || !is_array($default_html_preprocessor) ) {
-			$default_html_preprocessor = array();
-		} 
+
 		?>
 			<div class="wp-ace-bootstrap">
 				
 				<div class="radio">
 					<label for="wp-ace--default-html-preprocessor--none" >
-						<input type="radio" id="wp-ace--default-html-preprocessor--none" name="wp_ace_default_html_preprocessor" value="none"  <?php checked( in_array( 'none', $default_html_preprocessor ) ); ?>  /><?php _e('None', 'wrs-admin-code-editor') ?>
+						<input type="radio" id="wp-ace--default-html-preprocessor--none" name="wp_ace_default_html_preprocessor" value="none"  <?php checked( 'none', $default_html_preprocessor ); ?>  /><?php _e('None', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>					
 
 				<div class="radio">
 					<label for="wp-ace--default-html-preprocessor--haml" >
-						<input type="radio" id="wp-ace--default-html-preprocessor--haml" name="wp_ace_default_html_preprocessor" value="haml" <?php checked( in_array( 'haml', $default_html_preprocessor ) ); ?>    /><?php _e('HAML', 'wrs-admin-code-editor') ?>
+						<input type="radio" id="wp-ace--default-html-preprocessor--haml" name="wp_ace_default_html_preprocessor" value="haml" <?php checked( 'haml', $default_html_preprocessor ); ?>    /><?php _e('HAML', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>
 
 				<div class="radio">
 					<label for="wp-ace--default-html-preprocessor--markdown" >
-						<input type="radio" id="wp-ace--default-html-preprocessor--markdown" name="wp_ace_default_html_preprocessor" value="markdown"  <?php checked( in_array( 'markdown', $default_html_preprocessor ) ); ?>  /><?php _e('MarkDown', 'wrs-admin-code-editor') ?>
+						<input type="radio" id="wp-ace--default-html-preprocessor--markdown" name="wp_ace_default_html_preprocessor" value="markdown"  <?php checked('markdown', $default_html_preprocessor); ?>  /><?php _e('MarkDown', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>
 
