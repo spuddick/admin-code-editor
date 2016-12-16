@@ -239,7 +239,7 @@ var wpAceInterface = (function() {
 			tagName: 'div',
 			template: '',
 			events: {
-				'change input#wp-ace-css-include-jquery': 'includeJqueryChange',
+				'change input#wp-ace-js-include-jquery': 'includeJqueryChange',
 				'change input[name=wp-ace-js-preprocessor]': 'preprocessorChange'
 			},
 			initialize: function() {

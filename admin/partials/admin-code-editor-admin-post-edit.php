@@ -393,7 +393,7 @@
 										<h5><?php _e('Include Libraries', 'wrs-admin-code-editor'); ?></h5>
 										<div class="checkbox">
 											<label>
-												<input type="checkbox"  id="wp-ace-css-include-jquery" name="wp-ace-css-include-jquery" value="1" <?php checked($js_editor->get_include_jquery_status(), '1'); ?> >
+												<input type="checkbox"  id="wp-ace-js-include-jquery" name="wp-ace-js-include-jquery" value="1" <?php checked($js_editor->get_include_jquery_status(), '1'); ?> >
 												<?php _e('Include jQuery', 'wrs-admin-code-editor'); ?>
 											</label>	
 										</div>

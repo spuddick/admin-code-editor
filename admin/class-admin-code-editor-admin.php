@@ -274,6 +274,7 @@ class Admin_Code_Editor_Admin {
 
 		$preprocessor_options = get_option('wp_ace_supported_preprocessors');
 
+		$html_php_editor->get_disable_wpautop_status();
 		require_once plugin_dir_path( dirname( __FILE__ ) ) .  'admin/partials/admin-code-editor-admin-post-edit.php';
 	
 	}	

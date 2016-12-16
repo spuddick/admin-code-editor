@@ -12,6 +12,8 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor {
 	
 	const DEFAULT_PREPROCESSOR = 'none';
 	const DEFAULT_INLCUDE_JQUERY = 1;
+	
+	private $include_jquery;
 
 	/**
 	 * Constructor
@@ -43,7 +45,12 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor {
 		$this->pre_code 			= (empty($_POST['wp-ace-js-pre-code'])) ? ' ' : $_POST['wp-ace-js-pre-code']; 
 		$this->field_height		= sanitize_text_field($_POST['wp-ace-js-field-height']);
 		$this->preprocessor 	= sanitize_text_field($_POST['wp-ace-js-preprocessor']);
-
+		if (isset($_POST['wp-ace-js-include-jquery'])) {
+			$this->include_jquery 			= 1;
+		} else {
+			$this->include_jquery 			= 0;
+		}
+		$this->include_jquery;
 	}
 
 	/**
@@ -60,22 +67,27 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor {
 	 * @since 1.0.0
 	 */
 	protected function additional_updates() {
-
+		$this->include_jquery;
+		update_post_meta($this->get_code_post_id(), '_wp_ace_default_include_jquery', $this->get_include_jquery_status() );
 	}
 
 	/**
 	 * Get include jQuery status. Currently this function is irrelivent. WP ACE automatically includes jQuery on every front end page. May be fixed in future.
 	 * @return string
+	 * @since 1.0.0
 	 */
 	public function get_include_jquery_status() {
-		$this->include_jquery_status = get_post_meta($this->get_code_post_id(), '_wp_ace_default_include_jquery', true);
-		
-		if (!$this->include_jquery_status) {
-			$this->include_jquery_status = get_option('wp_ace_default_include_jquery', self::DEFAULT_INLCUDE_JQUERY);
+		$this->include_jquery;
+		if ($this->include_jquery === null) {
+			$this->include_jquery = get_post_meta($this->get_code_post_id(), '_wp_ace_default_include_jquery', true);
+			
+			if ($this->include_jquery == '') {
+				$this->include_jquery = get_option('wp_ace_default_include_jquery', self::DEFAULT_INLCUDE_JQUERY);
 
+			}			
 		}
-
-		return $this->include_jquery_status;		
+		$this->include_jquery;
+		return $this->include_jquery;		
 	}
 	
 }
