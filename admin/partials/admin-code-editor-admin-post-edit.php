@@ -57,7 +57,7 @@
 			<?php } ?>
 			<li id="wp-ace__settings-tab" role="" >
 				<a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false"  data-active-modal-tab="wp-ace-general-tab-link"  >
-					<span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <?php _e('Settings', 'wrs-admin-code-editor'); ?>
+					<span class="fa fa-cogs" aria-hidden="true"></span> <?php _e('Settings', 'wrs-admin-code-editor'); ?>
 				</a>
 			</li>
 		</ul>
@@ -82,8 +82,8 @@
 									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu">
-									<li><a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" data-active-modal-tab="wp-ace-html-tab-link" aria-controls="change-settings-modal"><?php _e('Change HTML Settings', 'wrs-admin-code-editor'); ?></a></li>
-									<li><a href='#wp-ace--compiled-html-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false"  ><?php _e('View Compiled HTML', 'wrs-admin-code-editor'); ?></a></li>
+									<li><a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" data-active-modal-tab="wp-ace-html-tab-link" aria-controls="change-settings-modal"><span class="fa fa-cog" aria-hidden="true"></span>  <?php _e('Change HTML Settings', 'wrs-admin-code-editor'); ?></a></li>
+									<li><a href='#wp-ace--compiled-html-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false"  ><span class="fa fa-eye" aria-hidden="true"></span> <?php _e('View Compiled HTML', 'wrs-admin-code-editor'); ?></a></li>
 								</ul>
 							</div>
 						</div>
@@ -138,8 +138,8 @@
 									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu">
-									<li><a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal" data-active-modal-tab="wp-ace-css-tab-link"  ><?php _e('Change CSS Settings', 'wrs-admin-code-editor'); ?></a></li>
-									<li><a href='#wp-ace--compiled-css-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false"  ><?php _e('View Compiled CSS', 'wrs-admin-code-editor'); ?></a></li>
+									<li><a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal" data-active-modal-tab="wp-ace-css-tab-link"  ><span class="fa fa-cog" aria-hidden="true"></span> <?php _e('Change CSS Settings', 'wrs-admin-code-editor'); ?></a></li>
+									<li><a href='#wp-ace--compiled-css-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false"  ><span class="fa fa-eye" aria-hidden="true"></span> <?php _e('View Compiled CSS', 'wrs-admin-code-editor'); ?></a></li>
 								</ul>
 							</div>
 						</div>
@@ -182,8 +182,8 @@
 									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu">
-									<li><a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal"  data-active-modal-tab="wp-ace-javascript-tab-link" ><?php _e('Change Javascript Settings', 'wrs-admin-code-editor'); ?></a></li>
-									<li><a href='#wp-ace--compiled-js-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" ><?php _e('View Compiled JavaScript', 'wrs-admin-code-editor'); ?></a></li>
+									<li><a href='#change-settings-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" aria-controls="change-settings-modal"  data-active-modal-tab="wp-ace-javascript-tab-link" ><span class="fa fa-cog" aria-hidden="true"></span> <?php _e('Change Javascript Settings', 'wrs-admin-code-editor'); ?></a></li>
+									<li><a href='#wp-ace--compiled-js-modal' role="button" data-toggle="modal" data-backdrop="true" aria-expanded="false" ><span class="fa fa-eye" aria-hidden="true"></span> <?php _e('View Compiled JavaScript', 'wrs-admin-code-editor'); ?></a></li>
 								</ul>
 							</div>
 						</div>
@@ -280,7 +280,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title"><?php _e('WP ACE Settings', 'wrs-admin-code-editor'); ?></h4>
+						<h4 class="modal-title"><span class="fa fa-cogs" aria-hidden="true"></span> <?php _e('WP ACE Settings', 'wrs-admin-code-editor'); ?></h4>
 					</div>
 					<div class="modal-body">
 						<div>

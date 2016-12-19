@@ -162,7 +162,7 @@ class Admin_Code_Editor_Admin {
 				$js_editor 	= new Admin_Code_Editor_Editor_JS($editor_args);
 
 				$post_type_obj = get_post_type_object( $post->post_type );
-				$test = $css_editor->get_code_compile_status();
+
 				$wpcr_data = array(
 					'wp-ace-html-php-disable-wpautop' 	=> $html_php_editor->get_disable_wpautop_status(),
 					'wp-ace-html-php-code-position' 		=> $html_php_editor->get_code_output_position(),
@@ -173,8 +173,7 @@ class Admin_Code_Editor_Admin {
 					'wp-ace-post-type-singular-name'		=> $post_type_obj->labels->singular_name,
 					'wp-ace-html-php-compile-status'		=> $html_php_editor->get_code_compile_status(),
 					'wp-ace-css-compile-status'					=> $css_editor->get_code_compile_status(),
-					'wp-ace-js-compile-status'					=> $js_editor->get_code_compile_status(),
-					'post_id'	=> $post->ID
+					'wp-ace-js-compile-status'					=> $js_editor->get_code_compile_status()
 				);
 				wp_localize_script( $this->admin_code_editor, 'wpcr_data', $wpcr_data);      
 			}
