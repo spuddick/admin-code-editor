@@ -15,6 +15,8 @@ var wpAceInterface = (function() {
 		var html_tab_label_preprocessor_view, css_tab_label_preprocessor_view, js_tab_label_preprocessor_view;
 		var html_text_status_view, css_text_status_view, js_text_status_view;
 		var html_settings_view, css_settings_view, js_settings_view;
+		var html_update_notice_view, css_update_notice_view, js_update_notice_view;
+		var html_change_flag, css_change_flag, js_change_flag;
 		var form_submitting = false;
 		
 		// Backbone Models
@@ -39,6 +41,9 @@ var wpAceInterface = (function() {
 			},
 			updateChangedStatus : function(){
 				this.set({has_changed: 1});
+			},
+			updateCodeChangedStatus : function(){
+				this.set({code_has_changed: 1});
 			}
 		});			
 		
@@ -313,6 +318,7 @@ var wpAceInterface = (function() {
 				html_editor.getSession().setTabSize(ACE_TAB_SIZE);
 				html_editor.getSession().on('change', function() {
 					html_code_model.updateChangedStatus();
+					html_code_model.updateCodeChangedStatus();
 				});
 				html_editor.update_mode = function(mode) {
 					if (mode == 'none') {
@@ -358,6 +364,7 @@ var wpAceInterface = (function() {
 				css_editor.getSession().setTabSize(ACE_TAB_SIZE);
 				css_editor.getSession().on('change', function() {
 					css_code_model.updateChangedStatus();
+					css_code_model.updateCodeChangedStatus();
 				});
 				css_editor.update_mode = function(mode) {
 					if (mode == 'none') {
@@ -385,6 +392,8 @@ var wpAceInterface = (function() {
 				css_text_status_view.render();
 				css_settings_view 								= new CSS_Settings_View({ el: jQuery("#wp-ace-tab-content-css"), model: css_code_model }); 
 				css_settings_view.render();
+				css_update_notice_view 						= new Code_Update_Notice_View({ el: jQuery("#wp-ace__notice-container--css"), model: css_code_model });
+				css_update_notice_view.render();
 				css_change_flag 									= new Code_Settings_Change_Flag_View({ el: jQuery("#wp-ace--css--changed-flag-container"), model: css_code_model });
 				css_change_flag.render();
 				
@@ -399,6 +408,7 @@ var wpAceInterface = (function() {
 				js_editor.getSession().setTabSize(ACE_TAB_SIZE);
 				js_editor.getSession().on('change', function() {
 					js_code_model.updateChangedStatus();
+					js_code_model.updateCodeChangedStatus();
 				});
 				js_editor.update_mode = function(mode) {
 					if (mode == 'none') {
@@ -427,6 +437,8 @@ var wpAceInterface = (function() {
 				js_text_status_view.render();
 				js_settings_view 								= new JS_Settings_View({ el: jQuery("#wp-ace-tab-content-js"), model: js_code_model });
 				js_settings_view.render();
+				js_update_notice_view 					= new Code_Update_Notice_View({ el: jQuery("#wp-ace__notice-container--js"), model: js_code_model });
+				js_update_notice_view.render();
 				js_change_flag 									= new Code_Settings_Change_Flag_View({ el: jQuery("#wp-ace--js--changed-flag-container"), model: js_code_model });
 				js_change_flag.render();			  
 				
