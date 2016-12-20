@@ -166,7 +166,7 @@ class Admin_Code_Editor {
 		$this->loader->add_filter( 'option_wp_ace_default_disabled_template', 	$plugin_admin, 'filterDefaultHideonTemplates' );
 		$this->loader->add_filter( 'option_wp_ace_default_disabled_code', 			$plugin_admin, 'filterDefaultHideCodeEditorTypes' );
 		$this->loader->add_filter( 'option_wp_ace_default_conditional_display', $plugin_admin, 'filterDefaultConditionalDisplay' );
-
+		$this->loader->add_filter( 'option_wp_ace_enabled_post_type', 					$plugin_admin, 'filterEnabledPostType' );
 	}
 
 	/**
@@ -183,7 +183,7 @@ class Admin_Code_Editor {
 		// $this->loader->add_action( 'wp_enqueue_scripts', 	$plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', 	$plugin_public, 'enqueue_scripts' );
 		remove_filter('the_content','wpautop');
-		$this->loader->add_filter( 'the_content', 				$plugin_public, 'wp_ace_the_content' );
+		$this->loader->add_filter( 'the_content', 				$plugin_public, 'wp_ace_wpautop' );
 		$this->loader->add_action( 'the_content', 				$plugin_public, 'insert_ace_code_in_page' );
 		$this->loader->add_action( 'wp_footer', 					$plugin_public, 'insert_script_in_footer', 999 );
 	

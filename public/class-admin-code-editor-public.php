@@ -124,9 +124,9 @@ class Admin_Code_Editor_Public {
 	 * @return string
 	 * @since 1.0.0 
 	 */
-	function wp_ace_the_content($content) {
+	function wp_ace_wpautop($content) {
 		global $post;
-		$selected_post_types 	= get_option('wpcr_post_types');
+		$selected_post_types 	= get_option('wp_ace_enabled_post_type');
 		
 		if ( !in_array($post->post_type, $selected_post_types)) {  
 			return wpautop($content);
@@ -161,7 +161,7 @@ class Admin_Code_Editor_Public {
 			$wp_ace_js_output = array();
 		}
 
-		$selected_post_types 	= get_option('wpcr_post_types');
+		$selected_post_types 	= get_option('wp_ace_enabled_post_type');
 		if ( !in_array($post->post_type, $selected_post_types)) {  
 
 			return $content;
@@ -223,14 +223,16 @@ class Admin_Code_Editor_Public {
 			$wp_ace_js_output[$post->ID] = $js_editor->get_compiled_code();
 		}
 		
+		$content = wpautop($content);
+
 		if (!$general_settings->htmlEditorIsDisabled()) {
 			$html_code_insert_position 	= $html_php_editor->get_code_output_position();
 			$wp_autop_disable_status 		= $html_php_editor->get_disable_wpautop_status();
-			$html 											= $html_php_editor->get_compiled_code();
+			$html 											= "\r\n" . $html_php_editor->get_compiled_code();
 			
 			$html = '<div class="wp-ace--post-'. $post->ID .'">' . $html . '</div>';
 
-			$content = wpautop($content);
+			
 			if (!$wp_autop_disable_status) {
 				$html = wpautop($html);
 			}

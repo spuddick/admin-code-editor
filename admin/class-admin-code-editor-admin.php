@@ -579,6 +579,19 @@ class Admin_Code_Editor_Admin {
 	}
 
 	/**
+	 * Explicitly set return value to array when empty
+	 * @param type $conditional_display 
+	 * @return array
+	 * @since 1.0.0
+	 */
+	function filterEnabledPostType($enabled_post_type) {
+		if (empty($enabled_post_type)) {
+			$enabled_post_type = array();
+		}
+		return $enabled_post_type;		
+	}
+
+	/**
 	 *
 	 * Add options page for Admin Code Editor Settings
 	 *
