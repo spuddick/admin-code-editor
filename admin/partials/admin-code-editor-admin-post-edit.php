@@ -302,6 +302,22 @@
 							<div class="tab-content">
 								<div role="tabpanel" class="tab-pane active" id="wp-ace-general">
 									<div class="form-group">
+										<h5><?php _e('Only display when:', 'wrs-admin-code-editor'); ?> </h5>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" id="wp-ace-only-display-in-loop" name="wp-ace-only-display-in-loop" class="" value="1" <?php  checked($general_settings->getOnlyDisplayInLoopStatus() ) ?> >
+												<?php _e('Inside the Loop', 'wrs-admin-code-editor'); ?>									
+											</label>	
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox"  id="wp-ace-only-display-in-main-query" name="wp-ace-only-display-in-main-query" class="" value="1" <?php  checked($general_settings->getOnlyDisplayInMainQueryStatus()) ?> >
+												<?php _e('In Main Query', 'wrs-admin-code-editor'); ?>									
+											</label>	
+										</div>
+										<input type="hidden" name="wp-ace-last-active-tab" id="wp-ace-last-active-tab" value="<?php echo $general_settings->getActiveAdminTab(); ?>" />									    
+									</div>									
+									<div class="form-group">
 										<h5><?php _e('Do not display WP ACE code on the following templates:', 'wrs-admin-code-editor'); ?> </h5>
 										<div class="checkbox">
 											<label><input type="checkbox" name="wp-ace-disabled-templates[]" <?php if ($general_settings->frontPageTemplateIsDisabled()) { echo 'checked'; } ?> value="front-page" ><?php _e('Front Page', 'wrs-admin-code-editor'); ?> </label>
@@ -316,41 +332,12 @@
 											<label><input type="checkbox" name="wp-ace-disabled-templates[]" <?php if ($general_settings->searchTemplateIsDisabled()) { echo 'checked'; }?> value="search-results" ><?php _e('Search Results', 'wrs-admin-code-editor'); ?></label>
 										</div>
 									</div>
-									<div class="form-group">
-										<h5><?php _e('Only display WP ACE code when:', 'wrs-admin-code-editor'); ?> </h5>
-										<div class="checkbox">
-											<label>
-												<input type="checkbox" id="wp-ace-only-display-in-loop" name="wp-ace-only-display-in-loop" class="" value="1" <?php  checked($general_settings->getOnlyDisplayInLoopStatus() ) ?> >
-												<?php _e('Inside the Loop', 'wrs-admin-code-editor'); ?>									
-											</label>	
-										</div>
-										<div class="checkbox">
-											<label>
-												<input type="checkbox"  id="wp-ace-only-display-in-main-query" name="wp-ace-only-display-in-main-query" class="" value="1" <?php  checked($general_settings->getOnlyDisplayInMainQueryStatus()) ?> >
-												<?php _e('In Main Query', 'wrs-admin-code-editor'); ?>									
-											</label>	
-										</div>
-										<input type="hidden" name="wp-ace-last-active-tab" id="wp-ace-last-active-tab" value="<?php echo $general_settings->getActiveAdminTab(); ?>" />									    
-									</div>
+
 								</div>
 								<div role="tabpanel" class="tab-pane" id="wp-ace-html">
 									<div id="wp-ace-tab-content-html"></div>
 									<script type="text/template" id="tmpl-wp-ace-html">
 										<div>
-											<h5><?php _e('Automatic Paragraphs', 'wrs-admin-code-editor'); ?></h5>
-											<div class="checkbox">
-												<label>
-													<input type="checkbox"  id="wp-ace-html-php-disable-wpautop" name="wp-ace-html-php-disable-wpautop" class="field-editor-disable-wpautop" value="1" <?php checked($html_php_editor->get_disable_wpautop_status(), '1'); ?> >
-													<?php _e('Disable wpautop', 'wrs-admin-code-editor'); ?> 								
-												</label>	
-											</div>
-											<h5><?php _e('Position', 'wrs-admin-code-editor'); ?></h5>
-											<div class="radio">
-												<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="before" <?php checked($html_php_editor->get_code_output_position(), 'before'); ?> ><?php _e('Before Post Content', 'wrs-admin-code-editor'); ?> </label>
-											</div>
-											<div class="radio">
-												<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="after" <?php checked($html_php_editor->get_code_output_position(), 'after'); ?> ><?php _e('After Post Content', 'wrs-admin-code-editor'); ?></label>
-											</div>
 											<h5><?php _e('Preprocessor', 'wrs-admin-code-editor'); ?></h5>
 											<div class="radio">
 												<label class="radio"><input type="radio" <?php checked($html_php_editor->get_preprocessor(), 'none'); ?> value="none" name="wp-ace-html-php-preprocessor" ><?php _e('None', 'wrs-admin-code-editor'); ?></label>
@@ -364,6 +351,20 @@
 													<?php
 												}
 											?>
+											<h5><?php _e('Position', 'wrs-admin-code-editor'); ?></h5>
+											<div class="radio">
+												<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="after" <?php checked($html_php_editor->get_code_output_position(), 'after'); ?> ><?php _e('After Post Content', 'wrs-admin-code-editor'); ?></label>
+											</div>												
+											<div class="radio">
+												<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="before" <?php checked($html_php_editor->get_code_output_position(), 'before'); ?> ><?php _e('Before Post Content', 'wrs-admin-code-editor'); ?> </label>
+											</div>									
+											<h5><?php _e('Automatic Paragraphs', 'wrs-admin-code-editor'); ?></h5>
+											<div class="checkbox">
+												<label>
+													<input type="checkbox"  id="wp-ace-html-php-disable-wpautop" name="wp-ace-html-php-disable-wpautop" class="field-editor-disable-wpautop" value="1" <?php checked($html_php_editor->get_disable_wpautop_status(), '1'); ?> >
+													<?php _e('Disable wpautop', 'wrs-admin-code-editor'); ?> 								
+												</label>	
+											</div>
 										</div>	
 									</script>
 									<div id="wp-ace--html-php--changed-flag-container"></div>
@@ -390,13 +391,6 @@
 								<div role="tabpanel" class="tab-pane" id="wp-ace-javascript">
 									<div id="wp-ace-tab-content-js"></div>
 									<script type="text/template" id="tmpl-wp-ace-js">
-										<h5><?php _e('Include Libraries', 'wrs-admin-code-editor'); ?></h5>
-										<div class="checkbox">
-											<label>
-												<input type="checkbox"  id="wp-ace-js-include-jquery" name="wp-ace-js-include-jquery" value="1" <?php checked($js_editor->get_include_jquery_status(), '1'); ?> >
-												<?php _e('Include jQuery', 'wrs-admin-code-editor'); ?>
-											</label>	
-										</div>
 										<h5><?php _e('Preprocessor', 'wrs-admin-code-editor'); ?></h5>
 										<div class="radio">
 											<label class="radio"><input type="radio" <?php checked($js_editor->get_preprocessor(), 'none'); ?> value="none" name="wp-ace-js-preprocessor" ><?php _e('None', 'wrs-admin-code-editor'); ?></label>
@@ -409,7 +403,14 @@
 													</div>
 												<?php
 											}
-										?>
+										?>										
+										<h5><?php _e('Include Libraries', 'wrs-admin-code-editor'); ?></h5>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox"  id="wp-ace-js-include-jquery" name="wp-ace-js-include-jquery" value="1" <?php checked($js_editor->get_include_jquery_status(), '1'); ?> >
+												<?php _e('Include jQuery', 'wrs-admin-code-editor'); ?>
+											</label>	
+										</div>
 									</script>
 									<div id="wp-ace--js--changed-flag-container"></div>
 								</div>

@@ -111,7 +111,7 @@ class Admin_Code_Editor_Admin {
 
 		global $post;
 		if ( $hook == 'post-new.php' || $hook == 'post.php' ) {
-			$selected_post_types 	= get_option('wpcr_post_types');
+			$selected_post_types 	= get_option('wp_ace_enabled_post_type');
 			if ( in_array($post->post_type, $selected_post_types)) {
 
 				wp_enqueue_script( 'jquery-ui-core' );
@@ -181,7 +181,7 @@ class Admin_Code_Editor_Admin {
 	}
 
 	function code_editor_add_meta_box() {		
-		$selected_post_types 	= get_option('wpcr_post_types');
+		$selected_post_types 	= get_option('wp_ace_enabled_post_type');
 		$screens = $selected_post_types;
 		foreach ( $screens as $screen ) {
 			add_meta_box(
@@ -201,7 +201,7 @@ class Admin_Code_Editor_Admin {
 		$screen = get_current_screen();
 
 		if ( $pagenow == 'post-new.php' || $pagenow == 'post.php' ) {
-			$selected_post_types 	= get_option('wpcr_post_types');
+			$selected_post_types 	= get_option('wp_ace_enabled_post_type');
 
 			if ( in_array($post->post_type, $selected_post_types)) { 
 				$editor_args = array(
@@ -299,7 +299,7 @@ class Admin_Code_Editor_Admin {
 	function delete_code_posts($postid) {
 		global $post_type; 
 		
-		$selected_post_types 	= get_option('wpcr_post_types');
+		$selected_post_types 	= get_option('wp_ace_enabled_post_type');
 		if ( !in_array($post_type, $selected_post_types)) {  
 			return;
 		}
@@ -683,13 +683,13 @@ class Admin_Code_Editor_Admin {
 
 				<div class="checkbox">
 					<label for="wp-ace__hide-on-archive-template" >
-						<input type="checkbox" id="wp-ace__hide-on-archive-template" name="wp_ace_default_disabled_template[]" value="archive"  <?php checked( in_array('archive', $default_disabled_template ) ); ?>  /><?php _e('Archives', 'wrs-admin-code-editor') ?>
+						<input type="checkbox" id="wp-ace__hide-on-archive-template" name="wp_ace_default_disabled_template[]" value="archives"  <?php checked( in_array('archives', $default_disabled_template ) ); ?>  /><?php _e('Archives', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>					
 
 				<div class="checkbox">
 					<label for="wp-ace__hide-on-search-template" >
-						<input type="checkbox" id="wp-ace__hide-on-search-template" name="wp_ace_default_disabled_template[]" value="search"  <?php checked( in_array('search',  $default_disabled_template ) ); ?>  /><?php _e('Search Results', 'wrs-admin-code-editor') ?>
+						<input type="checkbox" id="wp-ace__hide-on-search-template" name="wp_ace_default_disabled_template[]" value="search-results"  <?php checked( in_array('search-results',  $default_disabled_template ) ); ?>  /><?php _e('Search Results', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>
 
@@ -825,16 +825,14 @@ class Admin_Code_Editor_Admin {
 						<input type="radio" id="wp-ace--default-css-preprocessor--css" name="wp_ace_default_css_preprocessor" value="none" <?php checked('none', get_option('wp_ace_default_css_preprocessor') ); ?> /><?php _e('None', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>
-
-				<div class="radio">
-					<label for="wp-ace--default-css-preprocessor--less" >
-						<input type="radio" id="wp-ace--default-css-preprocessor--less" name="wp_ace_default_css_preprocessor" value="less" <?php checked('less', get_option('wp_ace_default_css_preprocessor') ); ?>  /><?php _e('LESS', 'wrs-admin-code-editor') ?>
-					</label>
-				</div>
-			
 				<div class="radio">
 					<label for="wp-ace--default-css-preprocessor--scss" >
 						<input type="radio" id="wp-ace--default-css-preprocessor--scss" name="wp_ace_default_css_preprocessor" value="scss" <?php checked('scss', get_option('wp_ace_default_css_preprocessor') ); ?>  /><?php _e('SCSS', 'wrs-admin-code-editor') ?>
+					</label>
+				</div>
+				<div class="radio">
+					<label for="wp-ace--default-css-preprocessor--less" >
+						<input type="radio" id="wp-ace--default-css-preprocessor--less" name="wp_ace_default_css_preprocessor" value="less" <?php checked('less', get_option('wp_ace_default_css_preprocessor') ); ?>  /><?php _e('LESS', 'wrs-admin-code-editor') ?>
 					</label>
 				</div>
 			</div>
@@ -971,7 +969,7 @@ class Admin_Code_Editor_Admin {
 			__('Hide Code Editor Types', 'wrs-admin-code-editor'),
 			array(&$this,"display_default_hide_code_types_field_element"),
 			"admin-code-editor-options-page", 
-			"general-section"
+			"enable-section"
 		);
 
 		// HTML settings fields
