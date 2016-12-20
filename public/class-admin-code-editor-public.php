@@ -228,7 +228,7 @@ class Admin_Code_Editor_Public {
 		if (!$general_settings->htmlEditorIsDisabled()) {
 			$html_code_insert_position 	= $html_php_editor->get_code_output_position();
 			$wp_autop_disable_status 		= $html_php_editor->get_disable_wpautop_status();
-			$html 											= "\r\n" . $html_php_editor->get_compiled_code();
+			$html 											= $html_php_editor->get_compiled_code();
 			
 			$html = '<div class="wp-ace--post-'. $post->ID .'">' . $html . '</div>';
 
