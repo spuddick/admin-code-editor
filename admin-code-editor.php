@@ -9,7 +9,7 @@
  * @wordpress-plugin
  * Plugin Name:       Admin Code Editor
  * Plugin URI:        
- * Description:       Easily add additional HTML, CSS, and JS to a post. The specially made code editor makes writing code fast and painless. Supports common preprocessors (SCSS, HAML, CoffeeScript, etc). Compiles server side.  
+ * Description:       Easily add additional HTML, CSS, and JS to a post. Features colour highlighted text, line numbers, tab indents, and more. SCSS, LESS,  support too. 
  * Version:           1.0.0
  * Author:            Steve Puddick
  * Author URI:        http://webrockstar.net/
