@@ -24,6 +24,7 @@ var wpAceInterface = (function() {
 			defaults : {
 				code_has_changed 							: 0,
 				has_changed 									: 0,
+				preprocessor_has_changed			: 0,
 				preprocessed_code_has_errors 	: 0,
 				preprocessor_nicename_map 		: '',
 				preprocessor_nicename 				: ''
@@ -38,6 +39,7 @@ var wpAceInterface = (function() {
 				this.set({
 					preprocessor_nicename: this.get('preprocessor_nicename_map')[new_mode]
 				});
+				this.set({preprocessor_has_changed: 1});
 			},
 			updateChangedStatus : function(){
 				this.set({has_changed: 1});

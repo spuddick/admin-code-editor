@@ -164,7 +164,6 @@ class Admin_Code_Editor_Admin {
 				$post_type_obj = get_post_type_object( $post->post_type );
 
 				$wpcr_data = array(
-					'wp-ace-html-php-disable-wpautop' 	=> $html_php_editor->get_disable_wpautop_status(),
 					'wp-ace-html-php-code-position' 		=> $html_php_editor->get_code_output_position(),
 					'wp-ace-html-php-preprocessor' 			=> $html_php_editor->get_preprocessor(),
 					'wp-ace-css-preprocessor' 					=> $css_editor->get_preprocessor(),
@@ -274,7 +273,6 @@ class Admin_Code_Editor_Admin {
 
 		$preprocessor_options = get_option('wp_ace_supported_preprocessors');
 
-		$html_php_editor->get_disable_wpautop_status();
 		require_once plugin_dir_path( dirname( __FILE__ ) ) .  'admin/partials/admin-code-editor-admin-post-edit.php';
 	
 	}	
@@ -777,29 +775,6 @@ class Admin_Code_Editor_Admin {
 		<?php
 	}
 
-
-	/**
-	 *
-	 * Option field to display default disable wpautop setting
-	 *
-	 * @since 1.0.0
-	 */
-	function display_default_disable_wpautop_field_element() {
-		?>
-
-			<div class="wp-ace-bootstrap">
-				
-				<div class="checkbox">
-					<label for="wp_ace_default_disable_wpautop" >
-						<input type="checkbox" id="wp_ace_default_disable_wpautop" name="wp_ace_default_disable_wpautop" value="1" <?php checked('1', get_option('wp_ace_default_disable_wpautop') ); ?> /><?php _e('Disable wpautop', 'wrs-admin-code-editor') ?>
-					</label>
-				</div>					
-
-			</div>
-
-		<?php
-	}
-
 	/**
 	 *
 	 * Option field to display default HTML code output position, in relation to post content
@@ -811,13 +786,14 @@ class Admin_Code_Editor_Admin {
 			
 			<div class="wp-ace-bootstrap">
 				<div class="radio">
+					<label for="wp-ace__default-html-pos-below" >
+						<input type="radio" id="wp-ace__default-html-pos-below" name="wp_ace_default_html_position" value="before" <?php checked('before', get_option('wp_ace_default_html_position') ); ?> /><?php _e('Before Content', 'wrs-admin-code-editor') ?></label>
+				</div>				
+				<div class="radio">
 					<label for="wp-ace__default-html-pos-above" >
 						<input type="radio" id="wp-ace__default-html-pos-above" name="wp_ace_default_html_position" value="after" <?php checked('after', get_option('wp_ace_default_html_position') ); ?> /><?php _e('After Content', 'wrs-admin-code-editor') ?></label>
 				</div>
-				<div class="radio">
-					<label for="wp-ace__default-html-pos-below" >
-						<input type="radio" id="wp-ace__default-html-pos-below" name="wp_ace_default_html_position" value="before" <?php checked('before', get_option('wp_ace_default_html_position') ); ?> /><?php _e('Before Content', 'wrs-admin-code-editor') ?></label>
-				</div>
+
 			</div>
 
 		<?php
@@ -1000,13 +976,6 @@ class Admin_Code_Editor_Admin {
 			"admin-code-editor-options-page", 
 			"html-php-section"
 		);
-		add_settings_field(
-			"wp_ace_default_disable_wpautop",
-			__('Disable wpautop', 'wrs-admin-code-editor'),
-			array(&$this,"display_default_disable_wpautop_field_element"),
-			"admin-code-editor-options-page", 
-			"html-php-section"
-		);
 
 		// CSS settings fields
 		add_settings_field(
@@ -1040,7 +1009,6 @@ class Admin_Code_Editor_Admin {
 
 		register_setting("admin-code-editor-settings", "wp_ace_default_html_preprocessor");
 		register_setting("admin-code-editor-settings", "wp_ace_default_html_position");
-		register_setting("admin-code-editor-settings", "wp_ace_default_disable_wpautop");
 
 		register_setting("admin-code-editor-settings", "wp_ace_default_css_preprocessor");
 

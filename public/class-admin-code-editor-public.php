@@ -146,7 +146,8 @@ class Admin_Code_Editor_Public {
 	function insert_ace_code_in_page($content){
 		// The different types of code (HTML, CSS, Javascript) are appended after the regular page content (using the wordpress function the_content() ).
 		// We hook into the 'the_content' filter to acheive this.
-
+		
+		$content = wpautop($content);
 		if (current_filter() != 'the_content') {
 			return $content;
 		}
@@ -223,19 +224,12 @@ class Admin_Code_Editor_Public {
 			$wp_ace_js_output[$post->ID] = $js_editor->get_compiled_code();
 		}
 		
-		$content = wpautop($content);
 
 		if (!$general_settings->htmlEditorIsDisabled()) {
 			$html_code_insert_position 	= $html_php_editor->get_code_output_position();
-			$wp_autop_disable_status 		= $html_php_editor->get_disable_wpautop_status();
-			$html 											= "\r\n" . $html_php_editor->get_compiled_code();
+			$html 											= $html_php_editor->get_compiled_code();
 			
 			$html = '<div class="wp-ace--post-'. $post->ID .'">' . $html . '</div>';
-
-			
-			if (!$wp_autop_disable_status) {
-				$html = wpautop($html);
-			}
 			$html = do_shortcode($html);
 
 			switch ($html_code_insert_position) {

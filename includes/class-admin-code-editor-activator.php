@@ -30,7 +30,6 @@ class Admin_Code_Editor_Activator {
 		add_option( 'wp_ace_enabled_post_type', array('post', 'page'));
 		add_option( 'wp_ace_default_conditional_display', array('inside-the-loop', 'in-main-query'));
 		add_option( 'wp_ace_default_include_jquery', 1);
-		add_option( 'wp_ace_default_disable_wpautop', 1);
 		add_option( 'wp_ace_default_html_position', 'before');
 		add_option( 'wp_ace_default_html_preprocessor', 'none');
 		add_option( 'wp_ace_default_css_preprocessor', 'scss');

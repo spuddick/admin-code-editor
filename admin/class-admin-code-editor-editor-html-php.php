@@ -10,7 +10,6 @@ require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-ed
  */
 class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 	
-	const DEFAULT_DISABLE_WPAUTOP 			= 1;
 	const DEFAULT_PREPROCESSOR 					= 'none';
 	const DEFAULT_CODE_OUTPUT_POSITION 	= 'before';
 
@@ -58,11 +57,6 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 		if (isset($_POST['wp-ace-html-php-code-position'])) {
 			$this->code_output_position 	= sanitize_text_field($_POST['wp-ace-html-php-code-position']);
 		}
-		if (isset($_POST['wp-ace-html-php-disable-wpautop'])) {
-			$this->wpautop_is_disabled_status 			= sanitize_text_field($_POST['wp-ace-html-php-disable-wpautop']);
-		} else {
-			$this->wpautop_is_disabled_status 			= 0;
-		}
 
 		$this->code_output_position;
 	}
@@ -82,7 +76,7 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 	 * @since 1.0.0
 	 */
 	protected function additional_updates() {
-		update_post_meta($this->get_code_post_id(), '_wp_ace_wpautop_is_disabled', $this->get_disable_wpautop_status() );
+
 		update_post_meta($this->get_code_post_id(), '_wp_ace_code_output_position', $this->get_code_output_position() );
 	}
 
@@ -102,22 +96,6 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 		return $this->code_output_position;
 	}
 
-	/**
-	 * Gets the disabled status of wpautop for the HTML code 
-	 * @return string
-	 * @since 1.0.0
-	 */
-	public function get_disable_wpautop_status() {
-
-		if ($this->wpautop_is_disabled_status === null) {
-			$this->wpautop_is_disabled_status = get_post_meta($this->get_code_post_id(), '_wp_ace_wpautop_is_disabled', true);
-			$this->wpautop_is_disabled_status;
-			if ($this->wpautop_is_disabled_status == '') {
-				$this->wpautop_is_disabled_status = get_option('wp_ace_default_disable_wpautop', self::DEFAULT_DISABLE_WPAUTOP);
-			}
-		}
-		return $this->wpautop_is_disabled_status;		
-	}
 
 }
 

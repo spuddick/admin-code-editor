@@ -11,6 +11,13 @@
 			<?php echo sprintf( __('%1$s code has changed. Publish/Update %2$s to view latest compiled code.', 'wrs-admin-code-editor'), '<%= preprocessor_nicename %>', '<%= post_type_name %>' ); ?>
 			</span>
 		</p>
+	<% } else if (preprocessor_has_changed) { %>
+		<p class="wp-ace__notice wp-ace__notice--info text-warning" >
+			<span class="fa fa-info-circle" aria-hidden="true"></span>
+			<span class="wp-ace__notice__text" >
+			<?php echo sprintf( __('Preprocessor has changed to %1$s. The following compiled code may not reflect the current preprocessed code.', 'wrs-admin-code-editor'), '<%= preprocessor_nicename %>'); ?>
+			</span>
+		</p>
 	<% } else if (preprocessed_code_has_errors) { %>
 		<p class="wp-ace__notice wp-ace__notice--info text-danger" >
 			<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
@@ -107,12 +114,7 @@
 									<% } else if (output_position == 'after') { %>
 										<?php _e('Positioned <strong>after post content</strong>', 'wrs-admin-code-editor'); ?>.
 									<% } %>
-									
-									<% if (wpautop_status) { %>
-										<?php _e('wpautop <strong>enabled</strong>', 'wrs-admin-code-editor'); ?>.
-									<% } else { %>
-										<?php _e('wpautop <strong>disabled</strong>', 'wrs-admin-code-editor'); ?>.
-									<% } %>
+
 								</script>
 							</div>
 						</div>
@@ -286,7 +288,7 @@
 						<div>
 							<!-- Nav tabs -->
 							<ul class="nav nav-tabs" role="tablist">
-								<li role="presentation" class="active"><a href="#wp-ace-general" id="wp-ace-general-tab-link" aria-controls="wp-ace-general" role="tab" data-toggle="tab"><?php _e('General', 'wrs-admin-code-editor'); ?></a></li>
+								
 								<?php if (!$general_settings->htmlEditorIsDisabled()) { ?>
 									<li role="presentation"><a href="#wp-ace-html" id="wp-ace-html-tab-link"  aria-controls="wp-ace-html" role="tab" data-toggle="tab"><?php _e('HTML', 'wrs-admin-code-editor'); ?></a></li>
 								<?php } ?>
@@ -295,7 +297,8 @@
 								<?php } ?>	
 								<?php if (!$general_settings->jsEditorIsDisabled()) { ?>
 									<li role="presentation"><a href="#wp-ace-javascript" id="wp-ace-javascript-tab-link"  aria-controls="wp-ace-javascript" role="tab" data-toggle="tab"><?php _e('JavaScript', 'wrs-admin-code-editor'); ?></a></li>
-								<?php } ?>	
+								<?php } ?>
+								<li role="presentation" class="active pull-right"><a href="#wp-ace-general" id="wp-ace-general-tab-link" aria-controls="wp-ace-general" role="tab" data-toggle="tab"><?php _e('General', 'wrs-admin-code-editor'); ?></a></li>	
 							</ul>
 
 							<!-- Tab panes -->
@@ -353,18 +356,12 @@
 											?>
 											<h5><?php _e('Position', 'wrs-admin-code-editor'); ?></h5>
 											<div class="radio">
+												<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="before" <?php checked($html_php_editor->get_code_output_position(), 'before'); ?> ><?php _e('Before Post Content', 'wrs-admin-code-editor'); ?> </label>
+											</div>	
+											<div class="radio">
 												<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="after" <?php checked($html_php_editor->get_code_output_position(), 'after'); ?> ><?php _e('After Post Content', 'wrs-admin-code-editor'); ?></label>
 											</div>												
-											<div class="radio">
-												<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="before" <?php checked($html_php_editor->get_code_output_position(), 'before'); ?> ><?php _e('Before Post Content', 'wrs-admin-code-editor'); ?> </label>
-											</div>									
-											<h5><?php _e('Automatic Paragraphs', 'wrs-admin-code-editor'); ?></h5>
-											<div class="checkbox">
-												<label>
-													<input type="checkbox"  id="wp-ace-html-php-disable-wpautop" name="wp-ace-html-php-disable-wpautop" class="field-editor-disable-wpautop" value="1" <?php checked($html_php_editor->get_disable_wpautop_status(), '1'); ?> >
-													<?php _e('Disable wpautop', 'wrs-admin-code-editor'); ?> 								
-												</label>	
-											</div>
+																			
 										</div>	
 									</script>
 									<div id="wp-ace--html-php--changed-flag-container"></div>
@@ -418,7 +415,16 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal"><?php _e('Close', 'wrs-admin-code-editor'); ?></button>
+						<?php if (current_user_can('manage_options')) { ?>
+							<a href="<?php menu_page_url( 'admin-code-editor-options-page', true ); ?>" type="button" class="btn btn-default pull-left" >
+								<span class="fa fa-sliders" aria-hidden="true"></span>
+								<?php _e('Manage Default Settings', 'wrs-admin-code-editor'); ?>
+							</a>
+						<?php } ?>
+						<button type="button" class="btn btn-default" data-dismiss="modal">
+							<span class="fa fa-times" aria-hidden="true"></span>
+							<?php _e('Close', 'wrs-admin-code-editor'); ?>
+						</button>
 					</div>
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal-dialog -->
