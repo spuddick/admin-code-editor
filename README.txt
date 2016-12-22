@@ -70,6 +70,21 @@ See the [WordPress Conditional Tags](https://codex.wordpress.org/Conditional_Tag
 
 Running the compiled Bootstrap CSS through another round of preprocessing. On this additional round, the CSS is simply wrapped in an additional tag to isolate all the styles to the WP ACE components. A few adjustments were still needed.
 
+= I am using jQuery in my JavaScript code and I am getting an "Uncaught TypeError: $ is not a function" error. How do I fix this?  =
+
+WP ACE Editor includes the jQuery file that comes with your current version of WordPress. This ensures that your website is always using an up to date version of jQuery when you update. But, this file also sets jQuery to "No Conflict" mode to prevent jQuery from conflicting with other JavaScript libraries. The use of the '$' is what is causing the problem. You can solve this by replacing '$' with 'jQuery' in your code. Anothe approach is to put the line `$ = jQuery.noConflict(true);` at the top of your JavaScript code. This will allow you to continue to use '$' in your code. 
+
+= I can see errors in my code but I do not see any error notification in the WP ACE Editor interface. What is going on? =
+
+WP ACE Editor may not highlight all errors in your code or state all preprocessor compilation errors. It is best practice to inspect your code on the front end of your website with a tool such as Chrome Inspector to verify there are no errors.
+
+= I have entered some CSS but it is not being applied to elements outside of my HTML code. What is going on? =
+
+WP ACE Editor has been designed to isolate all CSS styling to only elements within the WP ACE HTML editor. 
+
+= When I preview my post I don't see the recent updates to my code. What is going on? =
+
+At the current moment, previewing a post will not show updates to your WP ACE Editor code. In order to see updates, you will need to update or publish the post.  
 
 == Screenshots ==
 
@@ -90,9 +105,4 @@ Running the compiled Bootstrap CSS through another round of preprocessing. On th
 * Initial Release
 
 
-== Additional Notes ==
-
-* Depending on preprocessor used, may not always show compilation errors
-* Previewing a post will not show the latest code changes
-* All CSS is isolated to effect only the WP ACE Editor HTML
 
