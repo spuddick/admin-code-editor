@@ -86,6 +86,10 @@ WP ACE Editor has been designed to isolate all CSS styling to only elements with
 
 At the current moment, previewing a post will not show updates to your WP ACE Editor code. In order to see updates, you will need to update or publish the post.  
 
+= How can I include external scripts and styles in WP ACE Editor? =
+
+At the current moment there is not an elegant way of doing this. However, you can include scripts using the `<script>` tag in the HTML code area.  
+
 == Screenshots ==
 
 1. The WP ACE HTML, CSS, and JavaScript is output below the regular post content
