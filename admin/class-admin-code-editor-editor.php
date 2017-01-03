@@ -16,7 +16,7 @@ abstract class Admin_Code_Editor_Editor {
 
 	const DEFAULT_EDITOR_HEIGHT = 400;
 
-	protected  $code_post_title, $keys, $post_type, $code_post_name_start, $code_post_title_start, $stored_hash, $current_hash;
+	protected $code_post_title, $keys, $post_type, $code_post_name_start, $code_post_title_start, $stored_hash, $current_hash;
 	protected $host_post_id, $code_post_id, $pre_code, $field_height, $preprocessor, $cursor_position;
 	protected $pre_code_compile_error_msg, $pre_code_compile_status, $compiled_code;
 
@@ -29,18 +29,6 @@ abstract class Admin_Code_Editor_Editor {
 	
 		if (isset($param['code-post-id'])) {
 				$this->code_post_id = $param['code-post-id'];
-		}
-		if (isset($param['pre-code'])) {
-				$this->pre_code = $param['pre-code'];
-		}
-		if (isset($param['field-height'])) {
-				$this->field_height = $param['field-height'];
-		}
-		if (isset($param['preprocessor'])) {
-				$this->preprocessor = $param['preprocessor'];
-		}
-		if (isset($param['cursor-position'])) {
-				$this->cursor_position = $param['cursor-position'];
 		}
 		if (isset($param['host-post-id'])) {
 			$this->host_post_id = $param['host-post-id'];
@@ -108,9 +96,7 @@ abstract class Admin_Code_Editor_Editor {
 		if (empty($this->preprocessor)) {
 			$this->preprocessor = get_post_meta($this->get_code_post_id(), '_wp_ace_preprocessor', true);
 			if (!$this->preprocessor) {
-				$temp1 = $this->keys['global_preprocessor'];
-				$temp2 = $this->get_default_preprocessor();
-				$temp3 = get_option($this->keys['global_preprocessor'], $this->get_default_preprocessor());
+
 				$this->preprocessor = get_option($this->keys['global_preprocessor'], $this->get_default_preprocessor());
 			}
 		}
@@ -129,7 +115,7 @@ abstract class Admin_Code_Editor_Editor {
 				return;
 			}
 		}
-		return $this->compiled_code;
+		return wp_kses_post($this->compiled_code);
 	}
 
 	/**
@@ -433,5 +419,26 @@ abstract class Admin_Code_Editor_Editor {
 			restore_error_handler();
 		}
 		return $ret;
+	}
+
+	protected function filterEditorHeight($height) {
+		$temp_field_height = intval($height);
+		if ($temp_field_height < 0) {
+			$temp_field_height = 1;
+		} elseif ($temp_field_height > 4000) {
+			$temp_field_height = DEFAULT_EDITOR_HEIGHT;
+		}
+
+		return $temp_field_height;
+	}
+
+	protected function preprocessorIsValid($preprocessor_slug, $preprocessor_type) {
+		$all_supported_preprocessors = get_option( 'wp_ace_supported_preprocessors', true);
+		$supported_preprocessors = array_keys($all_supported_preprocessors[$preprocessor_type]);
+		if (in_array($preprocessor_slug, $supported_preprocessors) || ($preprocessor_slug == $preprocessor_type)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

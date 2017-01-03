@@ -13,7 +13,8 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 	private $css_with_wrapper;
 
 	const DEFAULT_PREPROCESSOR = 'none';
-	
+
+
 	/**
 	 * Constructor
 	 * @param array $param set of values passed to parent constructor 
@@ -42,8 +43,15 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 	 */
 	public function initialize_from_post_request(){
 		$this->pre_code = (empty($_POST['wp-ace-css-pre-code'])) ? ' ' : $_POST['wp-ace-css-pre-code']; 
-		$this->field_height	= sanitize_text_field($_POST['wp-ace-css-field-height']);
-		$this->preprocessor = sanitize_text_field($_POST['wp-ace-css-preprocessor']);
+		
+		$this->field_height	= $this->filterEditorHeight($_POST['wp-ace-css-field-height']);
+		
+		if ($this->preprocessorIsValid($_POST['wp-ace-css-preprocessor'])) {
+			$this->preprocessor = $_POST['wp-ace-css-preprocessor'];
+		} else {
+			$this->preprocessor = self::DEFAULT_PREPROCESSOR;
+		}
+		
 	}
 	
 	/**
@@ -52,7 +60,14 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 	 * @since 1.0.0
 	 */
 	protected function get_default_preprocessor() {
-		return get_option('wp_ace_default_css_preprocessor', self::DEFAULT_PREPROCESSOR);
+		$temp_preprocessor = get_option('wp_ace_default_css_preprocessor', self::DEFAULT_PREPROCESSOR);
+		
+		if (preprocessorIsValid($temp_preprocessor)) {
+			return $temp_preprocessor;
+		} else {
+			return self::DEFAULT_PREPROCESSOR;
+		}		
+		
 	}
 	
 	/**
@@ -64,7 +79,7 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 		if (empty($this->css_with_wrapper)) {
 			$this->css_with_wrapper = get_post_meta($this->get_code_post_id(), '_wp_ace_compiled_css_with_wrapper', true);
 		}
-		return $this->css_with_wrapper; 		
+		return wp_kses_post($this->css_with_wrapper); 		
 	}
 
 	/**

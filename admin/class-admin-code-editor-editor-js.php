@@ -10,8 +10,8 @@ require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-ed
  */
 class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor {
 	
-	const DEFAULT_PREPROCESSOR = 'none';
-	const DEFAULT_INLCUDE_JQUERY = 1;
+	const DEFAULT_PREPROCESSOR 		= 'none';
+	const DEFAULT_INLCUDE_JQUERY 	= 1;
 	
 	private $include_jquery;
 
@@ -43,14 +43,20 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor {
 	public function initialize_from_post_request(){
 
 		$this->pre_code 			= (empty($_POST['wp-ace-js-pre-code'])) ? ' ' : $_POST['wp-ace-js-pre-code']; 
-		$this->field_height		= sanitize_text_field($_POST['wp-ace-js-field-height']);
-		$this->preprocessor 	= sanitize_text_field($_POST['wp-ace-js-preprocessor']);
+		$this->field_height		= $this->filterEditorHeight($_POST['wp-ace-js-field-height']);
+		
+		if ($this->preprocessorIsValid($_POST['wp-ace-js-preprocessor'])) {
+			$this->preprocessor = $_POST['wp-ace-js-preprocessor'];
+		} else {
+			$this->preprocessor = self::DEFAULT_PREPROCESSOR;
+		}
+
 		if (isset($_POST['wp-ace-js-include-jquery'])) {
 			$this->include_jquery 			= 1;
 		} else {
 			$this->include_jquery 			= 0;
 		}
-		$this->include_jquery;
+
 	}
 
 	/**
@@ -86,8 +92,12 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor {
 
 			}			
 		}
-		$this->include_jquery;
-		return $this->include_jquery;		
+		if (intval($this->include_jquery) == 1 || intval($this->include_jquery) == 0 ) {
+			return $this->include_jquery;
+		} else {
+			return self::DEFAULT_INLCUDE_JQUERY;
+		}
+				
 	}
 	
 }
