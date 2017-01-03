@@ -7,6 +7,7 @@ class Admin_Code_Editor_General
     private static $DEFAULT_HIDE_ON_TEMPLATES 			= array();
     private static $DEFAULT_HIDE_CODE_EDITOR_TYPES 	= array();
     private static $DEFAULT_ACTIVE_ADMIN_TAB 				= 'html-edit';
+    private static $ALLOWABLE_DISABLED_TEMPLATES 		= array('front-page', 'home', 'archives', 'search-results');
 
     private $post_id, $disabled_templates, $only_display_in_main_query, $only_display_in_loop, $hide_code_editor_types, $active_admin_tab;
 

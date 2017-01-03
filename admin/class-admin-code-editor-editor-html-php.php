@@ -10,8 +10,9 @@ require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-ed
  */
 class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 	
-	const DEFAULT_PREPROCESSOR 					= 'none';
-	const DEFAULT_CODE_OUTPUT_POSITION 	= 'before';
+	const DEFAULT_PREPROCESSOR 								= 'none';
+	const DEFAULT_CODE_OUTPUT_POSITION 				= 'before';
+	private static $ALLOWABLE_OUTPUT_POSITION = array('before', 'after');
 
 	private $wpautop_is_disabled_status, $code_output_position;
 
