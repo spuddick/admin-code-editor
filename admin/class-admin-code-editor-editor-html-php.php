@@ -47,21 +47,21 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 	public function initialize_from_post_request() {
 		
 		if (isset($_POST['wp-ace-html-php-pre-code'])) {
-			$this->pre_code 							= (empty($_POST['wp-ace-html-php-pre-code'])) ? ' ' : $_POST['wp-ace-html-php-pre-code']; 
+			$this->pre_code = (empty($_POST['wp-ace-html-php-pre-code'])) ? ' ' : wp_kses_post($_POST['wp-ace-html-php-pre-code']); 
 		}
 		if (isset($_POST['wp-ace-html-php-field-height'])) {
-			$this->field_height						= self::filterEditorHeight($_POST['wp-ace-html-php-field-height']);
+			$this->field_height	= self::filterEditorHeight($_POST['wp-ace-html-php-field-height']);
 		}
 		if (isset($_POST['wp-ace-html-php-preprocessor'])) {
 			if (self::preprocessorIsValid($_POST['wp-ace-html-php-preprocessor'], 'html')) {
-				$this->preprocessor = $_POST['wp-ace-html-php-preprocessor'];
+				$this->preprocessor = sanitize_text_field($_POST['wp-ace-html-php-preprocessor']);
 			} else {
 				$this->preprocessor = self::DEFAULT_PREPROCESSOR;
 			}
 		}
 		if (isset($_POST['wp-ace-html-php-code-position'])) {
 			if (self::isValidOutputPosition($_POST['wp-ace-html-php-code-position'])) {
-				$this->code_output_position = $_POST['wp-ace-html-php-code-position'];
+				$this->code_output_position = sanitize_text_field($_POST['wp-ace-html-php-code-position']);
 			} else {
 				$this->code_output_position = self::DEFAULT_CODE_OUTPUT_POSITION;
 			}

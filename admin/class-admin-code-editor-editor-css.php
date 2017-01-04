@@ -47,7 +47,7 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 		$this->field_height	= self::filterEditorHeight($_POST['wp-ace-css-field-height']);
 		
 		if (self::preprocessorIsValid($_POST['wp-ace-css-preprocessor'],'css')) {
-			$this->preprocessor = $_POST['wp-ace-css-preprocessor'];
+			$this->preprocessor = sanitize_text_field($_POST['wp-ace-css-preprocessor']);
 		} else {
 			$this->preprocessor = self::DEFAULT_PREPROCESSOR;
 		}

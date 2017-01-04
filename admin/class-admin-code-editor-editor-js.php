@@ -46,7 +46,7 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor {
 		$this->field_height		= self::filterEditorHeight($_POST['wp-ace-js-field-height']);
 		
 		if (self::preprocessorIsValid($_POST['wp-ace-js-preprocessor'], 'js')) {
-			$this->preprocessor = $_POST['wp-ace-js-preprocessor'];
+			$this->preprocessor = sanitize_text_field($_POST['wp-ace-js-preprocessor']);
 		} else {
 			$this->preprocessor = self::DEFAULT_PREPROCESSOR;
 		}
