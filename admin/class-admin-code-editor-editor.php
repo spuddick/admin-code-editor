@@ -272,6 +272,8 @@ abstract class Admin_Code_Editor_Editor {
 
 	/**
 	 * Function to compile all the various code from the supported preprocessors
+	 * 
+	 * @since 1.0.0
 	 * @param string $pre_code 
 	 * @param string|null $preprocessor 
 	 * @return object contains compiled code, status, and any error message generated during compilation

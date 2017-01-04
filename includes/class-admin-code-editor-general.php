@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Class to handle general settings not directly related to HTML, CSS, or JS
+ *
+ * @since      1.0.0
+ *
+ * @package    Admin_Code_Editor
+ * @subpackage Admin_Code_Editor/admin
+ */
 class Admin_Code_Editor_General {
 	private static $DEFAULT_ONLY_DISPLAY_WHEN 			= array('inside-the-loop', 'in-main-query');
 	private static $DEFAULT_HIDE_ON_TEMPLATES 			= array();
@@ -17,6 +25,10 @@ class Admin_Code_Editor_General {
 
 	}
 
+	/**
+	 * Update general settings values from POST data during post save action
+	 * @since 1.0.0
+	 */
 	public function updateDataFromPOST() {
 
 		// update disabled templates
@@ -63,6 +75,12 @@ class Admin_Code_Editor_General {
 		
 	}
 
+	/**
+	 * Get the disabled templates for the post
+	 *
+	 * @since  1.0.0 
+	 * @return array disabled templates
+	 */
 	public function getDisabledTemplates() {
 		
 		if ($this->disabled_templates === null) {
