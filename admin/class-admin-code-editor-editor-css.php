@@ -44,9 +44,9 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 	public function initialize_from_post_request(){
 		$this->pre_code = (empty($_POST['wp-ace-css-pre-code'])) ? ' ' : $_POST['wp-ace-css-pre-code']; 
 		
-		$this->field_height	= $this->filterEditorHeight($_POST['wp-ace-css-field-height']);
+		$this->field_height	= self::filterEditorHeight($_POST['wp-ace-css-field-height']);
 		
-		if ($this->preprocessorIsValid($_POST['wp-ace-css-preprocessor'])) {
+		if (self::preprocessorIsValid($_POST['wp-ace-css-preprocessor'],'css')) {
 			$this->preprocessor = $_POST['wp-ace-css-preprocessor'];
 		} else {
 			$this->preprocessor = self::DEFAULT_PREPROCESSOR;
@@ -62,7 +62,7 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 	protected function get_default_preprocessor() {
 		$temp_preprocessor = get_option('wp_ace_default_css_preprocessor', self::DEFAULT_PREPROCESSOR);
 		
-		if (preprocessorIsValid($temp_preprocessor)) {
+		if (self::preprocessorIsValid($temp_preprocessor, 'css')) {
 			return $temp_preprocessor;
 		} else {
 			return self::DEFAULT_PREPROCESSOR;

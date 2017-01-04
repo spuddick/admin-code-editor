@@ -50,17 +50,17 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 			$this->pre_code 							= (empty($_POST['wp-ace-html-php-pre-code'])) ? ' ' : $_POST['wp-ace-html-php-pre-code']; 
 		}
 		if (isset($_POST['wp-ace-html-php-field-height'])) {
-			$this->field_height						= $this->filterEditorHeight($_POST['wp-ace-html-php-field-height']);
+			$this->field_height						= self::filterEditorHeight($_POST['wp-ace-html-php-field-height']);
 		}
 		if (isset($_POST['wp-ace-html-php-preprocessor'])) {
-			if ($this->preprocessorIsValid($_POST['wp-ace-html-php-preprocessor'])) {
+			if (self::preprocessorIsValid($_POST['wp-ace-html-php-preprocessor'], 'html')) {
 				$this->preprocessor = $_POST['wp-ace-html-php-preprocessor'];
 			} else {
 				$this->preprocessor = self::DEFAULT_PREPROCESSOR;
 			}
 		}
 		if (isset($_POST['wp-ace-html-php-code-position'])) {
-			if (isValidOutputPosition($_POST['wp-ace-html-php-code-position'])) {
+			if (self::isValidOutputPosition($_POST['wp-ace-html-php-code-position'])) {
 				$this->code_output_position = $_POST['wp-ace-html-php-code-position'];
 			} else {
 				$this->code_output_position = self::DEFAULT_CODE_OUTPUT_POSITION;
@@ -76,8 +76,14 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 	 * @since 1.0.0
 	 */
 	protected function get_default_preprocessor() {
-		return get_option('wp_ace_default_html_preprocessor', self::DEFAULT_PREPROCESSOR);
 
+		$temp_preprocessor = get_option('wp_ace_default_html_preprocessor', self::DEFAULT_PREPROCESSOR);
+		
+		if (self::preprocessorIsValid($temp_preprocessor, 'html')) {
+			return $temp_preprocessor;
+		} else {
+			return self::DEFAULT_PREPROCESSOR;
+		}		
 	}
 
 	/**
@@ -101,7 +107,7 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 				$this->code_output_position = get_option( 'wp_ace_default_html_position', self::DEFAULT_CODE_OUTPUT_POSITION);
 			}
 		}
-		if (isValidOutputPosition($this->code_output_position)) {
+		if (self::isValidOutputPosition($this->code_output_position)) {
 			return $this->code_output_position;
 		} else {
 			return self::DEFAULT_CODE_OUTPUT_POSITION;
@@ -110,7 +116,7 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 	}
 
 
-	private function isValidOutputPosition($position) {
+	private static function isValidOutputPosition($position) {
 		if (in_array($position, self::$ALLOWABLE_OUTPUT_POSITION)) {
 			return true;
 		} else {

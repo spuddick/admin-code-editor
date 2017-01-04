@@ -43,9 +43,9 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor {
 	public function initialize_from_post_request(){
 
 		$this->pre_code 			= (empty($_POST['wp-ace-js-pre-code'])) ? ' ' : $_POST['wp-ace-js-pre-code']; 
-		$this->field_height		= $this->filterEditorHeight($_POST['wp-ace-js-field-height']);
+		$this->field_height		= self::filterEditorHeight($_POST['wp-ace-js-field-height']);
 		
-		if ($this->preprocessorIsValid($_POST['wp-ace-js-preprocessor'])) {
+		if (self::preprocessorIsValid($_POST['wp-ace-js-preprocessor'], 'js')) {
 			$this->preprocessor = $_POST['wp-ace-js-preprocessor'];
 		} else {
 			$this->preprocessor = self::DEFAULT_PREPROCESSOR;
@@ -65,7 +65,15 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor {
 	 * @since 1.0.0
 	 */
 	protected function get_default_preprocessor() {
-		return get_option('wp_ace_default_js_preprocessor', self::DEFAULT_PREPROCESSOR);
+
+		$temp_preprocessor = get_option('wp_ace_default_js_preprocessor', self::DEFAULT_PREPROCESSOR);
+		
+		if (self::preprocessorIsValid($temp_preprocessor, 'js')) {
+			return $temp_preprocessor;
+		} else {
+			return self::DEFAULT_PREPROCESSOR;
+		}		
+
 	}
 
 	/**

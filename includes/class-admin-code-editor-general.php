@@ -6,7 +6,7 @@ class Admin_Code_Editor_General {
 	private static $DEFAULT_HIDE_CODE_EDITOR_TYPES 	= array();
 	private static $DEFAULT_ACTIVE_ADMIN_TAB 				= 'html-edit';
 	private static $ALLOWABLE_DISABLED_TEMPLATES 		= array('front-page', 'home', 'archives', 'search-results');
-	private static $ALLOWABLE_ACTIVE_TAB_IDS 				= array('html-edit', 'css-edit', 'js-edit' );
+	private static $ALLOWABLE_ACTIVE_TAB_IDS 				= array('html-edit', 'css-edit', 'javascript-edit' );
 	private static $ALLOWABLE_CODE_TYPES 						= array('html', 'css', 'js');
 
 	private $post_id, $disabled_templates, $only_display_in_main_query, $only_display_in_loop, $hide_code_editor_types, $active_admin_tab;
@@ -23,7 +23,7 @@ class Admin_Code_Editor_General {
 		if (isset($_POST['wp-ace-disabled-templates'])) {
 			$temp_disabled_templates = $_POST['wp-ace-disabled-templates'];
 			
-			if ($this->inAllowableDisabledTemplates($temp_disabled_templates)) {
+			if (self::inAllowableDisabledTemplates($temp_disabled_templates)) {
 				$this->disabled_templates = $temp_disabled_templates;
 				update_post_meta($this->post_id, '_wp_ace_disabled_templates', $this->disabled_templates );
 			} else {
@@ -55,10 +55,10 @@ class Admin_Code_Editor_General {
 		}
 
 		// update 'last active tab' status
-		if (in_array($_POST['wp-ace-last-active-tab'], $ALLOWABLE_ACTIVE_TAB_IDS )) {
+		if (in_array($_POST['wp-ace-last-active-tab'], self::$ALLOWABLE_ACTIVE_TAB_IDS )) {
 			update_post_meta($this->post_id, '_wp_ace_last_active_tab', $_POST['wp-ace-last-active-tab'] );
 		} else {
-			update_post_meta($this->post_id, '_wp_ace_last_active_tab', $DEFAULT_ACTIVE_ADMIN_TAB );
+			update_post_meta($this->post_id, '_wp_ace_last_active_tab', self::$DEFAULT_ACTIVE_ADMIN_TAB );
 		}
 		
 	}
@@ -70,7 +70,7 @@ class Admin_Code_Editor_General {
 			if ($temp_disabled_templates == '') {
 				$temp_disabled_templates = get_option('wp_ace_default_disabled_template', self::$DEFAULT_HIDE_ON_TEMPLATES);
 			}
-			if ($this->inAllowableDisabledTemplates($temp_disabled_templates)) {
+			if (self::inAllowableDisabledTemplates($temp_disabled_templates)) {
 				$this->disabled_templates = $temp_disabled_templates;
 			} else {
 				$this->disabled_templates = array();
@@ -158,7 +158,7 @@ class Admin_Code_Editor_General {
 		if ($this->hide_code_editor_types === null) {
 			
 			$temp_disabled_code_types = get_option('wp_ace_default_disabled_code', self::$DEFAULT_HIDE_CODE_EDITOR_TYPES );
-			if ($this->inAllowableDisabledCodeTypes($temp_disabled_code_types)) {
+			if (self::inAllowableDisabledCodeTypes($temp_disabled_code_types)) {
 				$this->hide_code_editor_types = $temp_disabled_code_types;
 			} else {
 				$this->hide_code_editor_types = array();
@@ -212,7 +212,7 @@ class Admin_Code_Editor_General {
 
 	}
 
-	private function inAllowableDisabledTemplates($templates) {
+	private static function inAllowableDisabledTemplates($templates) {
 		
 		if (is_array($templates)) {
 			$invalid_template_found = 0;
@@ -234,7 +234,7 @@ class Admin_Code_Editor_General {
 	}
 
 
-	private function inAllowableDisabledCodeTypes($code_types) {
+	private static function inAllowableDisabledCodeTypes($code_types) {
 		
 		if (is_array($code_types)) {
 			$invalid_code_type_found = 0;

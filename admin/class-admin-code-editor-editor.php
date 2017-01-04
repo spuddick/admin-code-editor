@@ -421,18 +421,18 @@ abstract class Admin_Code_Editor_Editor {
 		return $ret;
 	}
 
-	protected function filterEditorHeight($height) {
+	protected static function filterEditorHeight($height) {
 		$temp_field_height = intval($height);
 		if ($temp_field_height < 0) {
 			$temp_field_height = 1;
 		} elseif ($temp_field_height > 4000) {
-			$temp_field_height = DEFAULT_EDITOR_HEIGHT;
+			$temp_field_height = self::DEFAULT_EDITOR_HEIGHT;
 		}
 
 		return $temp_field_height;
 	}
 
-	protected function preprocessorIsValid($preprocessor_slug, $preprocessor_type) {
+	protected static function preprocessorIsValid($preprocessor_slug, $preprocessor_type) {
 		$all_supported_preprocessors = get_option( 'wp_ace_supported_preprocessors', true);
 		$supported_preprocessors = array_keys($all_supported_preprocessors[$preprocessor_type]);
 		if (in_array($preprocessor_slug, $supported_preprocessors) || ($preprocessor_slug == $preprocessor_type)) {
