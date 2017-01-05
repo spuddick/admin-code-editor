@@ -41,7 +41,7 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor {
 	 * @since 1.0.0
 	 */
 	public function initialize_from_post_request(){
-
+		$_POST['wp-ace-js-pre-code'];
 		$this->pre_code 			= (empty($_POST['wp-ace-js-pre-code'])) ? ' ' : self::sanitizeJS($_POST['wp-ace-js-pre-code']); 
 		$this->field_height		= self::filterEditorHeight($_POST['wp-ace-js-field-height']);
 		
@@ -111,7 +111,7 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor {
 
 	private static function sanitizeJS($js) {
 		$filtered_js = wp_check_invalid_utf8( $js, true );
-		$filtered_js = preg_replace("<\s*\/\s*script\s*>", '', $filtered_js);
+		$filtered_js = preg_replace("/<\s*\/\s*script\s*>/i", '', $filtered_js);
 
 		return $filtered_js;
 	}
