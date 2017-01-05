@@ -42,12 +42,12 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 	 * @since 1.0.0
 	 */
 	public function initialize_from_post_request(){
-		$this->pre_code = (empty($_POST['wp-ace-css-pre-code'])) ? ' ' : $_POST['wp-ace-css-pre-code']; 
+		$this->pre_code = (empty($_POST['wp-ace-css-pre-code'])) ? ' ' : sanitizeCSS($_POST['wp-ace-css-pre-code']); 
 		
 		$this->field_height	= self::filterEditorHeight($_POST['wp-ace-css-field-height']);
 		
 		if (self::preprocessorIsValid($_POST['wp-ace-css-preprocessor'],'css')) {
-			$this->preprocessor = sanitize_text_field($_POST['wp-ace-css-preprocessor']);
+			$this->preprocessor = sanitize_key($_POST['wp-ace-css-preprocessor']);
 		} else {
 			$this->preprocessor = self::DEFAULT_PREPROCESSOR;
 		}
@@ -93,9 +93,17 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 
 		switch ($compiled->status) {
 			case 'success':
-				update_post_meta($this->get_code_post_id(), '_wp_ace_compiled_css_with_wrapper', $compiled->compiled_code );
+				update_post_meta($this->get_code_post_id(), '_wp_ace_compiled_css_with_wrapper', sanitizeCSS($compiled->compiled_code) );
 			break;
 		}
+	}
+
+
+	private static function sanitizeCSS($css) {
+		$filtered_css = wp_check_invalid_utf8( $css, true );
+		$filtered_css = preg_replace("<\s*\/\s*style\s*>", '', $filtered_css);
+
+		return $filtered_css;
 	}
  
 }

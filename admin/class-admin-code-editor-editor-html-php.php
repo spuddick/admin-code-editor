@@ -54,7 +54,7 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 		}
 		if (isset($_POST['wp-ace-html-php-preprocessor'])) {
 			if (self::preprocessorIsValid($_POST['wp-ace-html-php-preprocessor'], 'html')) {
-				$this->preprocessor = sanitize_text_field($_POST['wp-ace-html-php-preprocessor']);
+				$this->preprocessor = sanitize_key($_POST['wp-ace-html-php-preprocessor']);
 			} else {
 				$this->preprocessor = self::DEFAULT_PREPROCESSOR;
 			}

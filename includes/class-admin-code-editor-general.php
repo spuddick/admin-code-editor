@@ -59,7 +59,7 @@ class Admin_Code_Editor_General {
 
 		// update 'only display in main query' status
 		if (isset($_POST['wp-ace-only-display-in-main-query'])) {
-			$this->only_display_in_main_query = $_POST['wp-ace-only-display-in-main-query'];
+			$this->only_display_in_main_query = true;
 			update_post_meta($this->post_id, '_wp_ace_display_only_in_main_query', 1);
 		} else {
 			$this->only_display_in_main_query = false;
