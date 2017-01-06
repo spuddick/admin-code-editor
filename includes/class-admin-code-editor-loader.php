@@ -19,7 +19,7 @@
  *
  * @package    Admin_Code_Editor
  * @subpackage Admin_Code_Editor/includes
- * @author     Your Name <steve@webrockstar.net>
+ * @author     Steve Puddick <steve@webrockstar.net>
  */
 class Admin_Code_Editor_Loader {
 
