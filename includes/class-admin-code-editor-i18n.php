@@ -6,7 +6,7 @@
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
- * @link       http://example.com
+ * @link       http://webrockstar.net
  * @since      1.0.0
  *
  * @package    Admin_Code_Editor
@@ -22,7 +22,7 @@
  * @since      1.0.0
  * @package    Admin_Code_Editor
  * @subpackage Admin_Code_Editor/includes
- * @author     Your Name <email@example.com>
+ * @author     Steve Puddick <steve@webrockstar.net>
  */
 class Admin_Code_Editor_i18n {
 

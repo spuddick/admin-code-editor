@@ -1,4 +1,51 @@
-/**
- * All of the CSS for your admin-specific functionality should be
- * included in this file.
- */
+li#wp-ace__settings-tab {
+  float: right;
+  border: none !important; }
+  li#wp-ace__settings-tab:hover, li#wp-ace__settings-tab:focus {
+    background: none; }
+  li#wp-ace__settings-tab a {
+    background-color: none !important;
+    border: none !important; }
+    li#wp-ace__settings-tab a:hover, li#wp-ace__settings-tab a:focus {
+      background: none; }
+
+.wp-ace__tab-panel-inner {
+  padding: 10px; }
+
+.wp-ace-bootstrap .alert.wp-ace__alert--empty {
+  box-shadow: none;
+  -webkit-box-shadow: none; }
+
+.wp-ace-compiled-code-display .ace_content {
+  opacity: 0.85; }
+
+.wp-ace__notice .fa {
+  padding-right: 2px;
+  font-size: 125%; }
+
+.wp-ace-bootstrap .nav-tabs a.bg-danger {
+  background-color: #f2dede; }
+  .wp-ace-bootstrap .nav-tabs a.bg-danger:hover, .wp-ace-bootstrap .nav-tabs a.bg-danger:focus {
+    background-color: #e4b9b9; }
+
+.wp-ace-bootstrap .nav-tabs > li.active > a.bg-danger,
+.wp-ace-bootstrap .nav-tabs > li.active > a.bg-danger:hover,
+.wp-ace-bootstrap .nav-tabs > li.active > a.bg-danger:focus {
+  background-color: #f2dede; }
+
+.wp-ace__tab-panel-inner__header {
+  display: flex;
+  -webkit-display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  align-content: flex-start; }
+
+p.wp-ace__notice {
+  margin: 0 !important; }
+
+.wp-ace-bootstrap input[type="radio"], .wp-ace-bootstrap input[type="checkbox"] {
+  margin-top: 0 !important; }
+
+.wp-ace-bootstrap .modal {
+  z-index: 99999 !important; }

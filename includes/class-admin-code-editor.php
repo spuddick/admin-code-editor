@@ -6,7 +6,7 @@
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @link       http://example.com
+ * @link       http://webrockstar.net
  * @since      1.0.0
  *
  * @package    Admin_Code_Editor
@@ -25,7 +25,7 @@
  * @since      1.0.0
  * @package    Admin_Code_Editor
  * @subpackage Admin_Code_Editor/includes
- * @author     Your Name <email@example.com>
+ * @author     Steve Puddick <steve@webrockstar.net>
  */
 class Admin_Code_Editor {
 
@@ -154,12 +154,19 @@ class Admin_Code_Editor {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'init',                  $plugin_admin, 'wp_ace_post_type_init');
-		$this->loader->add_action( 'add_meta_boxes', 		$plugin_admin, 'code_editor_add_meta_box' );
-		$this->loader->add_action( 'save_post', 			$plugin_admin, 'code_editor_save' );
-		//$this->loader->add_action( 'default_hidden_meta_boxes', $plugin_admin, 'hide_code_meta_box' );
-		//$this->loader->add_action( 'admin_notices', 				$plugin_admin, 'sass_compile_notice' );
-		$this->loader->add_action( 'admin_menu', 			$plugin_admin, 'options_menu' );
-		$this->loader->add_action( 'admin_init', 			$plugin_admin, 'display_theme_panel_fields' );
+		$this->loader->add_action( 'add_meta_boxes', 				$plugin_admin, 'code_editor_add_meta_box' );
+		$this->loader->add_action( 'save_post', 						$plugin_admin, 'code_editor_save' );
+		$this->loader->add_action( 'admin_notices', 				$plugin_admin, 'admin_post_error_notice' );
+		$this->loader->add_action( 'admin_menu', 						$plugin_admin, 'options_menu' );
+		$this->loader->add_action( 'admin_init', 						$plugin_admin, 'display_theme_panel_fields' );
+		
+		$this->loader->add_action( 'plugins_loaded', 				$plugin_admin, 'plugin_update_check' );
+		$this->loader->add_action( 'before_delete_post', 		$plugin_admin, 'delete_code_posts' );
+
+		$this->loader->add_filter( 'option_wp_ace_default_disabled_template', 	$plugin_admin, 'filterDefaultHideonTemplates' );
+		$this->loader->add_filter( 'option_wp_ace_default_disabled_code', 			$plugin_admin, 'filterDefaultHideCodeEditorTypes' );
+		$this->loader->add_filter( 'option_wp_ace_default_conditional_display', $plugin_admin, 'filterDefaultConditionalDisplay' );
+		$this->loader->add_filter( 'option_wp_ace_enabled_post_type', 					$plugin_admin, 'filterEnabledPostType' );
 	}
 
 	/**
@@ -174,11 +181,11 @@ class Admin_Code_Editor {
 		$plugin_public = new Admin_Code_Editor_Public( $this->get_admin_code_editor(), $this->get_version() );
 
 		// $this->loader->add_action( 'wp_enqueue_scripts', 	$plugin_public, 'enqueue_styles' );
-		// $this->loader->add_action( 'wp_enqueue_scripts', 	$plugin_public, 'enqueue_scripts' );
-
-		// $this->loader->add_action( 'the_content', 				$plugin_public, 'append_code_to_content' );
-		// $this->loader->add_action( 'wp_footer', 					$plugin_public, 'insert_script_in_footer' );
-		// $this->loader->add_action( 'wp_head', 						$plugin_public, 'insert_script_in_head' );
+		$this->loader->add_action( 'wp_enqueue_scripts', 	$plugin_public, 'enqueue_scripts' );
+		remove_filter('the_content','wpautop');
+		$this->loader->add_filter( 'the_content', 				$plugin_public, 'wp_ace_wpautop' );
+		$this->loader->add_action( 'the_content', 				$plugin_public, 'insert_ace_code_in_page' );
+		$this->loader->add_action( 'wp_footer', 					$plugin_public, 'insert_script_in_footer', 999 );
 	
 	}
 
