@@ -115,7 +115,7 @@ abstract class Admin_Code_Editor_Editor {
 				return;
 			}
 		}
-		return wp_kses_post($this->compiled_code);
+		return $this->compiled_code;
 	}
 
 	/**
