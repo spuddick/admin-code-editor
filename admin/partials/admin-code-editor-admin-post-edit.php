@@ -282,7 +282,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title"><span class="fa fa-cogs" aria-hidden="true"></span> <?php _e('WP ACE Settings', 'wrs-admin-code-editor'); ?></h4>
+						<h4 class="modal-title"><span class="fa fa-cogs" aria-hidden="true"></span> <?php _e('Admin Code Editor Settings', 'wrs-admin-code-editor'); ?></h4>
 					</div>
 					<div class="modal-body">
 						<div>
@@ -321,7 +321,7 @@
 										<input type="hidden" name="wp-ace-last-active-tab" id="wp-ace-last-active-tab" value="<?php echo $general_settings->getActiveAdminTab(); ?>" />									    
 									</div>									
 									<div class="form-group">
-										<h5><?php _e('Do not display WP ACE code on the following templates:', 'wrs-admin-code-editor'); ?> </h5>
+										<h5><?php _e('Do not display Admin Code Editor code on the following templates:', 'wrs-admin-code-editor'); ?> </h5>
 										<div class="checkbox">
 											<label><input type="checkbox" name="wp-ace-disabled-templates[]" <?php if ($general_settings->frontPageTemplateIsDisabled()) { echo 'checked'; } ?> value="front-page" ><?php _e('Front Page', 'wrs-admin-code-editor'); ?> </label>
 										</div>
