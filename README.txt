@@ -23,6 +23,7 @@ The built in WordPress content editor provides a ‘text’ tab that can be used
 * shortcodes can be placed within the HTML code
 * Ability to disable code output on templates (home, front-page, search, etc)
 * Ability to place code output above or below normal post content on the front end
+* Resizable code windows
 
 Admin Code Editor also supports server side compilation of various popular preprocessors including: SCSS, LESS, HAML, MarkDown, and CoffeeScript. Here are some highlights related to the server side compilation of preprocessor code:
 
@@ -95,7 +96,7 @@ At the current moment there is not an elegant way of doing this. However, you ca
 
 1. The Admin Code Editor HTML, CSS, and JavaScript is output below the regular post content
 2. Specify the default settings for the Admin Code Editor here
-3. The Admin Code Editor HTML Editor. In this screenshot the search functionality is active.
+3. The Admin Code Editor HTML Editor. 
 4. The Admin Code Editor CSS Editor. In this screenshot SCSS is being used as the preprocessor and an error is currently being displayed.
 5. The Admin Code Editor JavaScript Editor.
 6. Settings modal window with the General tab active.
