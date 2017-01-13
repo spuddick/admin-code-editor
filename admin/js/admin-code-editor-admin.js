@@ -505,12 +505,18 @@ var wpAceInterface = (function() {
 				js_display.setReadOnly(true);
 			}	  
 
-
-
-			// Proper tab activation in modal display
 			jQuery('#change-settings-modal').on('show.bs.modal', function (e) {
+				// Proper tab activation in modal display
 				var $clicked_anchor = jQuery(e.relatedTarget);
 				jQuery('#' + $clicked_anchor.data('active-modal-tab')).tab('show');
+
+				// adjust WordPress interface z-indexes for modal
+				jQuery('body').addClass('wp-ace-modal-active');
+			});
+
+			jQuery('#change-settings-modal').on('hide.bs.modal', function (e) {
+			  // adjust WordPress interface z-indexes for modal
+				jQuery('body').removeClass('wp-ace-modal-active');
 			})
 
 			// Notice if leaving page without saving

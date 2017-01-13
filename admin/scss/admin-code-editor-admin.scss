@@ -75,6 +75,12 @@ p.wp-ace__notice {
 	margin:0 !important; 
 }
 
+// when settings modal is active
+.wp-ace-modal-active #adminmenuwrap,
+.wp-ace-modal-active #wpadminbar {
+	z-index:1 !important;
+}
+
 
 // Bootstrap adjustments
 .wp-ace-bootstrap input[type="radio"], .wp-ace-bootstrap input[type="checkbox"] {
