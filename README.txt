@@ -3,7 +3,7 @@ Contributors: stevepuddick
 Tags: code, editor, html, css, javascript
 Requires at least: 4.5
 Tested up to: 4.7
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,7 +23,7 @@ The built in WordPress content editor provides a ‘text’ tab that can be used
 * shortcodes can be placed within the HTML code
 * Ability to disable code output on templates (home, front-page, search, etc)
 * Ability to place code output above or below normal post content on the front end
-* Resizable code windows
+* Resizable code windows (click and drag bottom of code window)
 
 Admin Code Editor also supports server side compilation of various popular preprocessors including: SCSS, LESS, HAML, MarkDown, and CoffeeScript. Here are some highlights related to the server side compilation of preprocessor code:
 
@@ -106,6 +106,11 @@ At the current moment there is not an elegant way of doing this. However, you ca
 
 
 == Changelog ==
+
+= 1.0.1 =
+* Fix: HTML special characters encoding in JavaScript and CSS code, producing errors in compiled code on front end
+* Fix: Proper risizing of code editor windows
+* Fix: Proper CSS z-index for WordPress sidebar/top menu when Admin Code Editor modal is active  
 
 = 1.0.0 =
 * Initial Release

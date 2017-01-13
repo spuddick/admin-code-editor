@@ -10,7 +10,7 @@
  * Plugin Name:       Admin Code Editor
  * Plugin URI:        
  * Description:       Easily add additional HTML, CSS, and JS to a post. Features colour highlighted text, line numbers, tab indents, and more. SCSS, LESS support too. 
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            Steve Puddick
  * Author URI:        http://webrockstar.net/
  * License:           GPL-2.0+
