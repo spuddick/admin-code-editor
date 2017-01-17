@@ -111,7 +111,7 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor {
 
 	private static function sanitizeJS($js) {
 		$filtered_js = wp_check_invalid_utf8( $js, true );
-		$filtered_js = preg_replace("/<\s*\/\s*script\s*>/i", '', $filtered_js);
+		$filtered_js = preg_replace("/<\s*\/\s*script\s*.*>/i", '', $filtered_js);
 
 		return $filtered_js;
 	}

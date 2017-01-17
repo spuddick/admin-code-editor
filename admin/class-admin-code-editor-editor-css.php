@@ -101,7 +101,7 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 
 	private static function sanitizeCSS($css) {
 		$filtered_css = wp_check_invalid_utf8( $css, true );
-		$filtered_css = preg_replace("/<\s*\/\s*style\s*>/i", '', $filtered_css);
+		$filtered_css = preg_replace("/<\s*\/\s*style\s*.*>/i", '', $filtered_css);
 
 		return $filtered_css;
 	}
