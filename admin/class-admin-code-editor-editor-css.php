@@ -79,7 +79,7 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 		if (empty($this->css_with_wrapper)) {
 			$this->css_with_wrapper = get_post_meta($this->get_code_post_id(), '_wp_ace_compiled_css_with_wrapper', true);
 		}
-		return wp_kses_post($this->css_with_wrapper); 		
+		return $this->css_with_wrapper; 		
 	}
 
 	/**
@@ -101,7 +101,7 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 
 	private static function sanitizeCSS($css) {
 		$filtered_css = wp_check_invalid_utf8( $css, true );
-		$filtered_css = preg_replace("/<\s*\/\s*style\s*>/i", '', $filtered_css);
+		$filtered_css = preg_replace("/<\s*\/\s*style\s*.*>/i", '', $filtered_css);
 
 		return $filtered_css;
 	}

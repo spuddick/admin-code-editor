@@ -185,7 +185,7 @@ class Admin_Code_Editor_Admin {
 		foreach ( $screens as $screen ) {
 			add_meta_box(
 				'code_box',
-				__( 'WP ACE Code Editor', 'wp-ace-editor' ),
+				__( 'Admin Code Editor', 'wp-ace-editor' ),
 				array(&$this,'code_editor_section_callback'),
 				$screen, 
 				'normal',
@@ -229,7 +229,7 @@ class Admin_Code_Editor_Admin {
 
 					?>
 					<div class="error">
-						<p> <?php _e('There is an error in the WP ACE Editor Code. <a href="#wp-ace__tabs">See below for more information</a>.', 'wrs-admin-code-editor'); ?> </p>
+						<p> <?php _e('There is an error in the Admin Code Editor Code. <a href="#wp-ace__tabs">See below for more information</a>.', 'wrs-admin-code-editor'); ?> </p>
 					</div>
 					<?php
 				}
@@ -430,20 +430,20 @@ class Admin_Code_Editor_Admin {
 	function wp_ace_post_type_init() {
 
 		$labels = array(
-			'name'               => _x( 'WP ACE Pre HTML', 'post type general name', 'admin-code-editor' ),
-			'singular_name'      => _x( 'WP ACE Pre HTML', 'post type singular name', 'admin-code-editor' ),
-			'menu_name'          => _x( 'WP ACE Pre HTML', 'admin menu', 'admin-code-editor' ),
-			'name_admin_bar'     => _x( 'WP ACE Pre HTML', 'add new on admin bar', 'admin-code-editor' ),
+			'name'               => _x( 'Admin Code Editor Pre HTML', 'post type general name', 'admin-code-editor' ),
+			'singular_name'      => _x( 'Admin Code Editor Pre HTML', 'post type singular name', 'admin-code-editor' ),
+			'menu_name'          => _x( 'Admin Code Editor Pre HTML', 'admin menu', 'admin-code-editor' ),
+			'name_admin_bar'     => _x( 'Admin Code Editor Pre HTML', 'add new on admin bar', 'admin-code-editor' ),
 			'add_new'            => _x( 'Add New', 'nw-item', 'admin-code-editor' ),
-			'add_new_item'       => __( 'Add New WP ACE Pre HTML', 'admin-code-editor' ),
-			'new_item'           => __( 'New WP ACE Pre HTML', 'admin-code-editor' ),
-			'edit_item'          => __( 'Edit WP ACE Pre HTML', 'admin-code-editor' ),
-			'view_item'          => __( 'View WP ACE Pre HTML', 'admin-code-editor' ),
-			'all_items'          => __( 'All WP ACE Pre HTML', 'admin-code-editor' ),
-			'search_items'       => __( 'Search WP ACE Pre HTML', 'admin-code-editor' ),
-			'parent_item_colon'  => __( 'Parent WP ACE Pre HTML:', 'admin-code-editor' ),
-			'not_found'          => __( 'No WP ACE Pre HTML found.', 'admin-code-editor' ),
-			'not_found_in_trash' => __( 'No WP ACE Pre HTML found in Trash.', 'admin-code-editor' )
+			'add_new_item'       => __( 'Add New Admin Code Editor Pre HTML', 'admin-code-editor' ),
+			'new_item'           => __( 'New Admin Code Editor Pre HTML', 'admin-code-editor' ),
+			'edit_item'          => __( 'Edit Admin Code Editor Pre HTML', 'admin-code-editor' ),
+			'view_item'          => __( 'View Admin Code Editor Pre HTML', 'admin-code-editor' ),
+			'all_items'          => __( 'All Admin Code Editor Pre HTML', 'admin-code-editor' ),
+			'search_items'       => __( 'Search Admin Code Editor Pre HTML', 'admin-code-editor' ),
+			'parent_item_colon'  => __( 'Parent Admin Code Editor Pre HTML:', 'admin-code-editor' ),
+			'not_found'          => __( 'No Admin Code Editor Pre HTML found.', 'admin-code-editor' ),
+			'not_found_in_trash' => __( 'No Admin Code Editor Pre HTML found in Trash.', 'admin-code-editor' )
 		);
 
 		$args = array(
@@ -466,20 +466,20 @@ class Admin_Code_Editor_Admin {
 
 
 		$labels = array(
-			'name'               => _x( 'WP ACE Pre CSS', 'post type general name', 'admin-code-editor' ),
-			'singular_name'      => _x( 'WP ACE Pre CSS', 'post type singular name', 'admin-code-editor' ),
-			'menu_name'          => _x( 'WP ACE Pre CSS', 'admin menu', 'admin-code-editor' ),
-			'name_admin_bar'     => _x( 'WP ACE Pre CSS', 'add new on admin bar', 'admin-code-editor' ),
+			'name'               => _x( 'Admin Code Editor Pre CSS', 'post type general name', 'admin-code-editor' ),
+			'singular_name'      => _x( 'Admin Code Editor Pre CSS', 'post type singular name', 'admin-code-editor' ),
+			'menu_name'          => _x( 'Admin Code Editor Pre CSS', 'admin menu', 'admin-code-editor' ),
+			'name_admin_bar'     => _x( 'Admin Code Editor Pre CSS', 'add new on admin bar', 'admin-code-editor' ),
 			'add_new'            => _x( 'Add New', 'nw-item', 'admin-code-editor' ),
-			'add_new_item'       => __( 'Add New WP ACE Pre CSS', 'admin-code-editor' ),
-			'new_item'           => __( 'New WP ACE Pre CSS', 'admin-code-editor' ),
-			'edit_item'          => __( 'Edit WP ACE Pre CSS', 'admin-code-editor' ),
-			'view_item'          => __( 'View WP ACE Pre CSS', 'admin-code-editor' ),
-			'all_items'          => __( 'All WP ACE Pre CSS', 'admin-code-editor' ),
-			'search_items'       => __( 'Search WP ACE Pre CSS', 'admin-code-editor' ),
-			'parent_item_colon'  => __( 'Parent WP ACE Pre CSS:', 'admin-code-editor' ),
-			'not_found'          => __( 'No WP ACE Pre CSS found.', 'admin-code-editor' ),
-			'not_found_in_trash' => __( 'No WP ACE Pre CSS found in Trash.', 'admin-code-editor' )
+			'add_new_item'       => __( 'Add New Admin Code Editor Pre CSS', 'admin-code-editor' ),
+			'new_item'           => __( 'New Admin Code Editor Pre CSS', 'admin-code-editor' ),
+			'edit_item'          => __( 'Edit Admin Code Editor Pre CSS', 'admin-code-editor' ),
+			'view_item'          => __( 'View Admin Code Editor Pre CSS', 'admin-code-editor' ),
+			'all_items'          => __( 'All Admin Code Editor Pre CSS', 'admin-code-editor' ),
+			'search_items'       => __( 'Search Admin Code Editor Pre CSS', 'admin-code-editor' ),
+			'parent_item_colon'  => __( 'Parent Admin Code Editor Pre CSS:', 'admin-code-editor' ),
+			'not_found'          => __( 'No Admin Code Editor Pre CSS found.', 'admin-code-editor' ),
+			'not_found_in_trash' => __( 'No Admin Code Editor Pre CSS found in Trash.', 'admin-code-editor' )
 		);
 
 		$args = array(
@@ -501,20 +501,20 @@ class Admin_Code_Editor_Admin {
 		register_post_type('wp-ace-css',$args);
 
 		$labels = array(
-			'name'               => _x( 'WP ACE Pre JS', 'post type general name', 'admin-code-editor' ),
-			'singular_name'      => _x( 'WP ACE Pre JS', 'post type singular name', 'admin-code-editor' ),
-			'menu_name'          => _x( 'WP ACE Pre JS', 'admin menu', 'admin-code-editor' ),
-			'name_admin_bar'     => _x( 'WP ACE Pre JS', 'add new on admin bar', 'admin-code-editor' ),
+			'name'               => _x( 'Admin Code Editor Pre JS', 'post type general name', 'admin-code-editor' ),
+			'singular_name'      => _x( 'Admin Code Editor Pre JS', 'post type singular name', 'admin-code-editor' ),
+			'menu_name'          => _x( 'Admin Code Editor Pre JS', 'admin menu', 'admin-code-editor' ),
+			'name_admin_bar'     => _x( 'Admin Code Editor Pre JS', 'add new on admin bar', 'admin-code-editor' ),
 			'add_new'            => _x( 'Add New', 'nw-item', 'admin-code-editor' ),
-			'add_new_item'       => __( 'Add New WP ACE Pre JS', 'admin-code-editor' ),
-			'new_item'           => __( 'New WP ACE Pre JS', 'admin-code-editor' ),
-			'edit_item'          => __( 'Edit WP ACE Pre JS', 'admin-code-editor' ),
-			'view_item'          => __( 'View WP ACE Pre JS', 'admin-code-editor' ),
-			'all_items'          => __( 'All WP ACE Pre JS', 'admin-code-editor' ),
-			'search_items'       => __( 'Search WP ACE Pre JS', 'admin-code-editor' ),
-			'parent_item_colon'  => __( 'Parent WP ACE Pre JS:', 'admin-code-editor' ),
-			'not_found'          => __( 'No WP ACE Pre JS found.', 'admin-code-editor' ),
-			'not_found_in_trash' => __( 'No WP ACE Pre JS found in Trash.', 'admin-code-editor' )
+			'add_new_item'       => __( 'Add New Admin Code Editor Pre JS', 'admin-code-editor' ),
+			'new_item'           => __( 'New Admin Code Editor Pre JS', 'admin-code-editor' ),
+			'edit_item'          => __( 'Edit Admin Code Editor Pre JS', 'admin-code-editor' ),
+			'view_item'          => __( 'View Admin Code Editor Pre JS', 'admin-code-editor' ),
+			'all_items'          => __( 'All Admin Code Editor Pre JS', 'admin-code-editor' ),
+			'search_items'       => __( 'Search Admin Code Editor Pre JS', 'admin-code-editor' ),
+			'parent_item_colon'  => __( 'Parent Admin Code Editor Pre JS:', 'admin-code-editor' ),
+			'not_found'          => __( 'No Admin Code Editor Pre JS found.', 'admin-code-editor' ),
+			'not_found_in_trash' => __( 'No Admin Code Editor Pre JS found in Trash.', 'admin-code-editor' )
 		);
 
 		$args = array(

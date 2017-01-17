@@ -355,6 +355,17 @@ var wpAceInterface = (function() {
 				html_update_notice_view.render();
 				html_change_flag 									= new Code_Settings_Change_Flag_View({el: jQuery("#wp-ace--html-php--changed-flag-container"), model: html_code_model });
 				html_change_flag.render();
+
+				// Resizable ACE code editors 
+				jQuery('#wp-ace-html-php-pre-code-editor').resizable({
+					ghost: true,
+					handles: "s",
+					stop: function( event, ui ) {
+						html_editor.resize();
+						height = ui.element.height();
+						ui.element.siblings('.field-height').val(height);
+					}
+				});
 			}
 
 			if (jQuery('#wp-ace-css-pre-code-editor').length ) {
@@ -398,7 +409,18 @@ var wpAceInterface = (function() {
 				css_update_notice_view.render();
 				css_change_flag 									= new Code_Settings_Change_Flag_View({ el: jQuery("#wp-ace--css--changed-flag-container"), model: css_code_model });
 				css_change_flag.render();
-				
+
+				// Resizable ACE code editors 
+				jQuery('#wp-ace-css-pre-code-editor').resizable({
+					ghost: true,
+					handles: "s",
+					stop: function( event, ui ) {
+						css_editor.resize();
+						height = ui.element.height();
+						ui.element.siblings('.field-height').val(height);
+					}
+				});
+	
 			}
 
 			if (jQuery('#wp-ace-js-pre-code-editor').length ) {
@@ -443,7 +465,18 @@ var wpAceInterface = (function() {
 				js_update_notice_view.render();
 				js_change_flag 									= new Code_Settings_Change_Flag_View({ el: jQuery("#wp-ace--js--changed-flag-container"), model: js_code_model });
 				js_change_flag.render();			  
-				
+
+				// Resizable ACE code editors 
+				jQuery('#wp-ace-js-pre-code-editor').resizable({
+					ghost: true,
+					handles: "s",
+					stop: function( event, ui ) {
+						js_editor.resize();
+						height = ui.element.height();
+						ui.element.siblings('.field-height').val(height);
+					}
+				});
+
 			}
 
 			// ACE compiled code display
@@ -472,22 +505,18 @@ var wpAceInterface = (function() {
 				js_display.setReadOnly(true);
 			}	  
 
-			// Resizable ACE code editors 
-			jQuery('.code-content').resizable({
-				ghost: true,
-				handles: "s",
-				stop: function( event, ui ) {
-					html_editor.resize();
-					
-					height = ui.element.height();
-					ui.element.siblings('.field-height').val(height);
-				}
-			});
-
-			// Proper tab activation in modal display
 			jQuery('#change-settings-modal').on('show.bs.modal', function (e) {
+				// Proper tab activation in modal display
 				var $clicked_anchor = jQuery(e.relatedTarget);
 				jQuery('#' + $clicked_anchor.data('active-modal-tab')).tab('show');
+
+				// adjust WordPress interface z-indexes for modal
+				jQuery('body').addClass('wp-ace-modal-active');
+			});
+
+			jQuery('#change-settings-modal').on('hide.bs.modal', function (e) {
+			  // adjust WordPress interface z-indexes for modal
+				jQuery('body').removeClass('wp-ace-modal-active');
 			})
 
 			// Notice if leaving page without saving
