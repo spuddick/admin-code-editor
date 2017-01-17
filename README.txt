@@ -3,7 +3,7 @@ Contributors: stevepuddick
 Tags: code, editor, html, css, javascript
 Requires at least: 4.5
 Tested up to: 4.7
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,6 +110,10 @@ At the current moment there is not an elegant way of doing this. However, you ca
 
 
 == Changelog ==
+
+= 1.0.2 =
+* Fix: Stricter regex to filter out attempted closing of &lt;style&gt; and &lt;script&gt; tags in code
+* Fix: Some important special characters encoded in CSS filtered output
 
 = 1.0.1 =
 * Fix: HTML special characters encoding in JavaScript and CSS code, producing errors in compiled code on front end
