@@ -13,7 +13,11 @@ Easily add additional HTML, CSS, and JS to a post. Features colour highlighted t
 
 Easily add additional HTML, CSS, and JavaScript to post, page, or other custom post type. 
 
-The built in WordPress content editor provides a ‘text’ tab that can be used to enter HTML and even CSS and JavaScript when wrapped in a &lt;style&gt; or &lt;script&gt; tag. This approach has many limitations and drawbacks. Admin Code Editor addresses these issues and adds additional features. Here are the key highlights:
+The built in WordPress content editor provides a ‘text’ tab that can be used to enter HTML and even CSS and JavaScript when wrapped in a &lt;style&gt; or &lt;script&gt; tag. This approach has many limitations and drawbacks. Admin Code Editor addresses these issues and adds additional features. 
+
+[youtube https://www.youtube.com/watch?v=2ezFdHuEBD8]
+
+Here are the key highlights:
 
 * Code is highlighted with various colours according to the code type specified. This looks similar to popular desktop code editors such as Sublime Text, PhpStorm, or Coda. It makes reading code much easier
 * Line numbers
