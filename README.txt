@@ -111,6 +111,7 @@ At the current moment there is not an elegant way of doing this. However, you ca
 == Changelog ==
 
 = 1.1.0 =
+* Fix: jQuery toggle display
 * Fix: Update ACE Editor (https://ace.c9.io/) to latest version.  Fixes 'jumping' to top of page when editor is right clicked
 * Change: Remove wp_kses_post filtering on HTML content to allow for more flexible/versitile HTML code
 
