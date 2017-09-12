@@ -1,9 +1,9 @@
 === Admin Code Editor ===
 Contributors: stevepuddick
-Tags: code, editor, html, css, javascript
+Tags: code, editor, html, css, javascript, admin, post
 Requires at least: 4.5
-Tested up to: 4.7
-Stable tag: 1.0.2
+Tested up to: 4.8
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,7 +48,6 @@ Thanks to the various open source tools and technologies that has made the creat
 * [HamlPHP](https://github.com/hamlphp/HamlPHP)
 * [WordPress Plugin Boilerplate](https://github.com/DevinVinson/WordPress-Plugin-Boilerplate)
 
-Note: Admin Code Editor was previously named WP ACE Editor
 
 == Installation ==
 
@@ -110,6 +109,10 @@ At the current moment there is not an elegant way of doing this. However, you ca
 
 
 == Changelog ==
+
+= 1.1.0 =
+* Fix: Update ACE Editor (https://ace.c9.io/) to latest version.  Fixes 'jumping' to top of page when editor is right clicked
+* Change: Remove wp_kses_post filtering on HTML content to allow for more flexible/versitile HTML code
 
 = 1.0.2 =
 * Fix: Stricter regex to filter out attempted closing of &lt;style&gt; and &lt;script&gt; tags in code
