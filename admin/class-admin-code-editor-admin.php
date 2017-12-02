@@ -131,7 +131,14 @@ class Admin_Code_Editor_Admin {
 					array('jquery'), 
 					filemtime(plugin_dir_path( __FILE__ ) . 'js/bootstrap.min.js')
 				);
-
+				/*
+				wp_enqueue_script( 
+					'wp-ace-bootstrap2-js',
+					plugin_dir_url( __FILE__ ) . 'js/bootstrap.min.js' , 
+					array('jquery'), 
+					filemtime(plugin_dir_path( __FILE__ ) . 'js/bootstrap.min.js')
+				);
+				*/
 				wp_enqueue_script( 
 					$this->admin_code_editor, 
 					plugin_dir_url( __FILE__ ) . 'js/admin-code-editor-admin.js', 

@@ -103,7 +103,7 @@ var wpAceInterface = (function() {
 
 			updateIncludeJqueryStatus: function() {
 				var status = 0;
-				if (jQuery('input#wp-ace-css-include-jquery').is(":checked")) {
+				if (jQuery('input#wp-ace-js-include-jquery').is(":checked")) {
 					status = 1;
 				} 
 				this.set({
@@ -448,7 +448,7 @@ var wpAceInterface = (function() {
 				js_code_model = new JS_Code_Model({ 
 					preprocessor 									: wpcr_data['wp-ace-js-preprocessor'], 
 					ace_editor 										: js_editor,
-					jquery_enqueued_status 				: wpcr_data['wp-ace-css-include-jquery'],
+					jquery_enqueued_status 				: wpcr_data['wp-ace-js-include-jquery'],
 					post_type_name 								: wpcr_data['wp-ace-post-type-singular-name'],
 					preprocessed_code_has_errors 	: (wpcr_data['wp-ace-js-compile-status'] == 'error' ? 1 : 0),
 					code_change_slug 							: 'wp-ace--js--changed-flag'		  
