@@ -47,8 +47,7 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 	public function initialize_from_post_request() {
 		
 		if (isset($_POST['wp-ace-html-php-pre-code'])) {
-			//$this->pre_code = (empty($_POST['wp-ace-html-php-pre-code'])) ? ' ' : wp_kses_post($_POST['wp-ace-html-php-pre-code']); 
-			$this->pre_code = $_POST['wp-ace-html-php-pre-code'];
+			$this->pre_code = (empty($_POST['wp-ace-html-php-pre-code'])) ? ' ' : $_POST['wp-ace-html-php-pre-code']; 
 		}
 		if (isset($_POST['wp-ace-html-php-field-height'])) {
 			$this->field_height	= self::filterEditorHeight($_POST['wp-ace-html-php-field-height']);
