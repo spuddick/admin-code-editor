@@ -10,10 +10,10 @@ require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-code-ed
  */
 class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 		
-	private $css_with_wrapper;
+	private $css_with_wrapper, $isolation_mode;
 
 	const DEFAULT_PREPROCESSOR = 'none';
-
+	const DEFAULT_ISOLATION_MODE = 'html-editor';
 
 	/**
 	 * Constructor
@@ -30,6 +30,7 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 			$this->keys['host-hash-meta-key'] 	= '_wp_ace_css_hash';
 			$this->keys['code-id-meta-key'] 		= '_wp_ace_css_code_post_id';
 			$this->keys['global_preprocessor'] 	= 'wp_ace_default_css_preprocessor';
+			$this->keys['global_isolation_mode']= 'wp_ace_default_css_isolation_mode';
 			$this->keys['has-changed'] 					= 'wp-ace--css--changed-flag';
 			$this->post_type 										= 'wp-ace-css';
 			$this->code_post_name_start 				= 'wp-ace-css-code-for-';
@@ -43,7 +44,7 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 	 */
 	public function initialize_from_post_request(){
 		$this->pre_code = (empty($_POST['wp-ace-css-pre-code'])) ? ' ' : self::sanitizeCSS($_POST['wp-ace-css-pre-code']); 
-		
+		$this->isolation_mode	= self::filterIsolationMode($_POST['wp-ace-css-isolation-mode']);
 		$this->field_height	= self::filterEditorHeight($_POST['wp-ace-css-field-height']);
 		
 		if (self::preprocessorIsValid($_POST['wp-ace-css-preprocessor'],'css')) {
@@ -96,6 +97,8 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 				update_post_meta($this->get_code_post_id(), '_wp_ace_compiled_css_with_wrapper', self::sanitizeCSS($compiled->compiled_code) );
 			break;
 		}
+
+		update_post_meta($this->get_code_post_id(), '_wp_ace_code_css_isolation_mode', $this->get_isolation_mode() );
 	}
 
 
@@ -113,15 +116,33 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 	 * @since 
 	 */
 	public function get_isolation_mode() {
-		/*
-		if (empty($this->css_with_wrapper)) {
-			$this->css_with_wrapper = get_post_meta($this->get_code_post_id(), '_wp_ace_compiled_css_with_wrapper', true);
+		
+		if (empty($this->isolation_mode)) {
+			$this->isolation_mode = get_post_meta($this->get_code_post_id(), '_wp_ace_code_css_isolation_mode', true);
+			if (!$this->isolation_mode) {
+				$this->isolation_mode = get_option($this->keys['global_isolation_mode'], self::DEFAULT_ISOLATION_MODE);
+			}
 		}
-		return $this->css_with_wrapper;
-		*/
-		return 'html-editor';
+		return $this->isolation_mode;
+
 	}
  
+
+	protected static function filterIsolationMode($raw_mode) {
+		$allowable_modes = array(
+			'full-web-page',
+			'page-content-plus-html-editor',
+			'html-editor'
+		);
+
+		if (in_array($raw_mode, $allowable_modes)) {
+			return $raw_mode;
+		} else {
+			return 'html-editor';
+		}
+
+	}
+
 }
 
 ?>

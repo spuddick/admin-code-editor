@@ -840,6 +840,41 @@ class Admin_Code_Editor_Admin {
 
 	/**
 	 *
+	 * Option field to display default CSS isolation mode
+	 *
+	 * @since 
+	 */
+	function display_default_css_isolation_mode_field_element() {
+		
+		$isolation_mode = get_option('wp_ace_default_css_isolation_mode');
+		if (!$isolation_mode) {
+			$isolation_mode = 'html-editor';
+		}
+		?>
+
+			<div class="wp-ace-bootstrap">
+				<div class="radio">
+					<label for="wp-ace--default-css-isolation-mode--full-web-page" >
+						<input type="radio" id="wp-ace--default-css-isolation-mode--full-web-page" name="wp_ace_default_css_isolation_mode" value="full-web-page" <?php checked('full-web-page', get_option('wp_ace_default_css_isolation_mode') ); ?> /><?php _e('Full Web Page', 'wrs-admin-code-editor') ?>
+					</label>
+				</div>
+				<div class="radio">
+					<label for="wp-ace--default-css-isolation-mode--page-content-plus-html-editor" >
+						<input type="radio" id="wp-ace--default-css-isolation-mode--page-content-plus-html-editor" name="wp_ace_default_css_isolation_mode" value="page-content-plus-html-editor" <?php checked('page-content-plus-html-editor', get_option('wp_ace_default_css_isolation_mode') ); ?>  /><?php _e('Page Content + HTML Editor', 'wrs-admin-code-editor') ?>
+					</label>
+				</div>
+				<div class="radio">
+					<label for="wp-ace--default-css-isolation-mode--html-editor" >
+						<input type="radio" id="wp-ace--default-css-isolation-mode--html-editor" name="wp_ace_default_css_isolation_mode" value="html-editor" <?php checked('html-editor', $isolation_mode); ?>  /><?php _e('HTML Editor', 'wrs-admin-code-editor') ?>
+					</label>
+				</div>
+			</div>
+
+		<?php
+	}
+
+	/**
+	 *
 	 * Option field to display default JS preprocessor
 	 *
 	 * @since 1.0.0
@@ -990,6 +1025,13 @@ class Admin_Code_Editor_Admin {
 			"wp_ace_default_css_preprocessors",
 			__('Preprocessor', 'wrs-admin-code-editor'),
 			array(&$this,"display_default_css_preprocessors_field_element"),
+			"admin-code-editor-options-page", 
+			"css-section"
+		);
+		add_settings_field(
+			"wp_ace_default_css_isolation_mode",
+			__('Isolation Mode', 'wrs-admin-code-editor'),
+			array(&$this,"display_default_css_isolation_mode_field_element"),
 			"admin-code-editor-options-page", 
 			"css-section"
 		);
