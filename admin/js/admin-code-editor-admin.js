@@ -83,7 +83,12 @@ var wpAceInterface = (function() {
 		_.extend(HTML_Code_Model.prototype.defaults, Code_Model.prototype.defaults);
 		
 		var CSS_Code_Model = Code_Model.extend({
-
+			updateIsolationMode: function() {
+				var isolation_mode = jQuery('input[name=wp-ace-css-isolation-mode]:checked').val();
+				this.set({
+					isolation_mode : isolation_mode
+				});
+			},
 			initialize: function(){
 				this.set({
 					preprocessor_nicename_map : {
@@ -224,7 +229,8 @@ var wpAceInterface = (function() {
 			tagName: 'div',
 			template: '',
 			events: {
-				'change input[name=wp-ace-css-preprocessor]': 'preprocessorChange'
+				'change input[name=wp-ace-css-preprocessor]': 'preprocessorChange',
+				'change input[name=wp-ace-css-isolation-mode]': 'isolationModeChange'
 			},
 			initialize: function() {
 				this.template = _.template(jQuery('#tmpl-wp-ace-css').html());
@@ -233,6 +239,11 @@ var wpAceInterface = (function() {
 			preprocessorChange: function(e) {
 				e.preventDefault();
 				this.model.updatePreprocessor(jQuery(e.currentTarget));
+				this.model.updateChangedStatus();
+			},
+			isolationModeChange: function(e) {
+				e.preventDefault();
+				this.model.updateIsolationMode();
 				this.model.updateChangedStatus();
 			},
 			render: function() {
@@ -395,7 +406,8 @@ var wpAceInterface = (function() {
 					ace_editor 										: css_editor,
 					post_type_name 								: wpcr_data['wp-ace-post-type-singular-name'],
 					preprocessed_code_has_errors 	: (wpcr_data['wp-ace-css-compile-status'] == 'error' ? 1 : 0),
-					code_change_slug 							: 'wp-ace--css--changed-flag'		   
+					code_change_slug 							: 'wp-ace--css--changed-flag',
+					isolation_mode 								: wpcr_data['wp-ace-css-isolation-mode']		   
 				});
 
 				// Backbone CSS view set up		  

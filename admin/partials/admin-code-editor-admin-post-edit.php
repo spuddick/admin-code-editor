@@ -159,6 +159,13 @@
 									<% } else { %>
 										<?php echo sprintf( __('Preprocessing with %1$s', 'wrs-admin-code-editor'), '<strong><%= preprocessor_nicename %></strong>'); ?>.
 									<% } %>
+									<% if (isolation_mode == 'full-web-page') { %>
+										<?php _e('CSS applied to <strong>full web page</strong> (no isolation)', 'wrs-admin-code-editor'); ?>.
+									<% } else if (isolation_mode == 'page-content-plus-html-editor'){ %>
+										<?php _e('CSS isolated to <strong>editor content and HTML code</strong>', 'wrs-admin-code-editor'); ?>.
+									<% } else if (isolation_mode == 'html-editor'){ %>
+										<?php _e('CSS isolated to <strong>HTML code</strong>', 'wrs-admin-code-editor'); ?>.
+									<% } %>
 								</script>
 							</div>
 						</div>
@@ -382,6 +389,20 @@
 												<?php
 											}
 										?>
+
+										<div class="form-group">
+											<h5><?php _e('Isolation Mode', 'wrs-admin-code-editor'); ?> </h5>
+											<div class="radio">
+												<label class="radio"><input type="radio" <?php checked($css_editor->get_isolation_mode(), 'full-web-page'); ?> value="full-web-page" name="wp-ace-css-isolation-mode" ><?php _e('Full Web Page', 'wrs-admin-code-editor'); ?></label>
+											</div>
+											<div class="radio">
+												<label class="radio"><input type="radio" <?php checked($css_editor->get_isolation_mode(), 'page-content-plus-html-editor'); ?> value="page-content-plus-html-editor" name="wp-ace-css-isolation-mode" ><?php _e('Page Content + HTML Editor', 'wrs-admin-code-editor'); ?></label>
+											</div>
+											<div class="radio">
+												<label class="radio"><input type="radio" <?php checked($css_editor->get_isolation_mode(), 'html-editor'); ?> value="html-editor" name="wp-ace-css-isolation-mode" ><?php _e('HTML Editor', 'wrs-admin-code-editor'); ?></label>
+											</div>
+										</div>
+
 									</script>
 									<div id="wp-ace--css--changed-flag-container"></div>
 								</div>

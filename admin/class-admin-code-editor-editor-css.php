@@ -105,6 +105,22 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 
 		return $filtered_css;
 	}
+
+
+	/**
+	 * 
+	 * @return isolation mode of CSS
+	 * @since 
+	 */
+	public function get_isolation_mode() {
+		/*
+		if (empty($this->css_with_wrapper)) {
+			$this->css_with_wrapper = get_post_meta($this->get_code_post_id(), '_wp_ace_compiled_css_with_wrapper', true);
+		}
+		return $this->css_with_wrapper;
+		*/
+		return 'html-editor';
+	}
  
 }
 
