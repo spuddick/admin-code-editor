@@ -176,6 +176,11 @@ abstract class Admin_Code_Editor_Editor {
 		return $this->pre_code_compile_error_msg;	
 	}
 
+
+	protected function additional_revision_data_store($latest_revision_id) {
+
+	}
+
 	/**
 	 * Called when post is saved. Will return true if the code or code settings has changed. 
 	 * This is used to prevent uneccessary saving and compilation of code and code settings if nothing has changed.
@@ -234,7 +239,8 @@ abstract class Admin_Code_Editor_Editor {
 				$editor_height_old = get_post_meta($this->get_code_post_id(), '_wp_ace_editor_height', true);
 				
 				add_metadata( 'post', $latest_revision->ID, '_wp_ace_preprocessor', $preprocessor_old );
-				add_metadata( 'post', $latest_revision->ID, '_wp_ace_editor_height', $editor_height_old );					   
+				add_metadata( 'post', $latest_revision->ID, '_wp_ace_editor_height', $editor_height_old );
+				$this->additional_revision_data_store($latest_revision->ID);					   
 			}
 		}
 			

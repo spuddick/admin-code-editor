@@ -89,16 +89,45 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 	 */
 	protected function additional_updates() {
 
-		$compiled_code_with_wrapper =  '.wp-ace--post-' . $this->host_post_id . ' { ' . $this->get_compiled_code() . ' } ';
-		$compiled = $this->compile($compiled_code_with_wrapper, 'scss');
+		$isolation_mode = $this->get_isolation_mode();
+		switch($isolation_mode) {
+			case 'full-page':
 
-		switch ($compiled->status) {
-			case 'success':
-				update_post_meta($this->get_code_post_id(), '_wp_ace_compiled_css_with_wrapper', self::sanitizeCSS($compiled->compiled_code) );
+				update_post_meta($this->get_code_post_id(), '_wp_ace_compiled_css_with_wrapper', self::sanitizeCSS($this->get_compiled_code()) );
+
+			break;
+			case 'page-content-plus-html-editor':
+				$compiled_code_with_wrapper =  '.wp-ace--outer-post-' . $this->host_post_id . ' { ' . $this->get_compiled_code() . ' } ';
+				$compiled = $this->compile($compiled_code_with_wrapper, 'scss');
+
+				switch ($compiled->status) {
+					case 'success':
+						update_post_meta($this->get_code_post_id(), '_wp_ace_compiled_css_with_wrapper', self::sanitizeCSS($compiled->compiled_code) );
+					break;
+				}	
+
+			break;
+			case 'html-editor':
+				$compiled_code_with_wrapper =  '.wp-ace--post-' . $this->host_post_id . ' { ' . $this->get_compiled_code() . ' } ';
+				$compiled = $this->compile($compiled_code_with_wrapper, 'scss');
+
+				switch ($compiled->status) {
+					case 'success':
+						update_post_meta($this->get_code_post_id(), '_wp_ace_compiled_css_with_wrapper', self::sanitizeCSS($compiled->compiled_code) );
+					break;
+				}				
+
 			break;
 		}
 
+
 		update_post_meta($this->get_code_post_id(), '_wp_ace_code_css_isolation_mode', $this->get_isolation_mode() );
+	}
+
+
+	protected function additional_revision_data_store($latest_revision_id) {
+		$isolation_mode_old = get_post_meta($this->get_code_post_id(), '_wp_ace_code_css_isolation_mode', true);
+		add_metadata( 'post', $latest_revision_id, '_wp_ace_code_css_isolation_mode', $isolation_mode_old );
 	}
 
 
