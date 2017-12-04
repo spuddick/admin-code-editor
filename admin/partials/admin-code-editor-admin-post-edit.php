@@ -222,7 +222,7 @@
 				</div>
 			<?php } ?>  
 		</div>  
-
+		<p class="wp-ace--web-rockstar--callout" ><small>Admin Code Editor is built by <a href='https://webrockstar.net'>webrockstar.net</a>. If you find this plugin useful, please consider <a href='#'>giving a rating</a>. Thanks.</small></p>
 		<div class="modal fade" tabindex="-1" role="dialog" id="wp-ace--compiled-html-modal" >
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">

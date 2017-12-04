@@ -53,3 +53,9 @@ p.wp-ace__notice {
 
 .wp-ace-bootstrap .modal {
   z-index: 99999 !important; }
+
+.wp-ace-bootstrap .wp-ace--web-rockstar--callout {
+  margin: 0 20px;
+  opacity: 0.8;
+  border-top: 1px solid #ccc;
+  padding-top: 3px; }
