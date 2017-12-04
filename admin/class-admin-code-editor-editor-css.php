@@ -91,7 +91,7 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 
 		$isolation_mode = $this->get_isolation_mode();
 		switch($isolation_mode) {
-			case 'full-page':
+			case 'full-web-page':
 
 				update_post_meta($this->get_code_post_id(), '_wp_ace_compiled_css_with_wrapper', self::sanitizeCSS($this->get_compiled_code()) );
 
