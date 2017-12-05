@@ -59,3 +59,27 @@ p.wp-ace__notice {
   opacity: 0.8;
   border-top: 1px solid #ccc;
   padding-top: 3px; }
+
+.wp-ace-bootstrap .settings-page-form h1 {
+  font-size: 1.5rem; }
+
+.wp-ace-bootstrap .settings-page-form h2 {
+  font-size: 1rem; }
+
+.wp-ace-bootstrap #wp-ace--settings-page-plugin-callout {
+  margin-top: 2rem; }
+
+.wp-ace-bootstrap .wp-ace__plugin-promo-item {
+  margin-bottom: 2rem; }
+  .wp-ace-bootstrap .wp-ace__plugin-promo-item:last-child {
+    margin-bottom: 0; }
+  .wp-ace-bootstrap .wp-ace__plugin-promo-item .wp-ace__plugin-promo-item__banner {
+    width: 100%;
+    height: 100px;
+    background-size: cover; }
+    .wp-ace-bootstrap .wp-ace__plugin-promo-item .wp-ace__plugin-promo-item__banner#promo-banner--notes-widget-wrapper {
+      background-image: url(../images/notes-widet-wrapper-promo.jpg); }
+    .wp-ace-bootstrap .wp-ace__plugin-promo-item .wp-ace__plugin-promo-item__banner#promo-banner--wp-notes-widget {
+      background-image: url(../images/wp-notes-widget-promo.jpg); }
+    .wp-ace-bootstrap .wp-ace__plugin-promo-item .wp-ace__plugin-promo-item__banner#promo-banner--custom-ratings {
+      background-image: url(../images/custom-ratings-promo.jpg); }

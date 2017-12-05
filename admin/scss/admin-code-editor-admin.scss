@@ -97,7 +97,46 @@ p.wp-ace__notice {
 	  opacity: 0.8;
 	  border-top: 1px solid #ccc;
 	  padding-top: 3px;
+	}
 
+	.settings-page-form {
+		h1 {
+			font-size: 1.5rem;
+		}
+		h2 {
+			font-size: 1rem;
+		}
+	}
+
+	#wp-ace--settings-page-plugin-callout {
+		margin-top:2rem;
 	}	
+
+	.wp-ace__plugin-promo-item {
+		margin-bottom: 2rem;
+		&:last-child {
+			margin-bottom: 0;
+		}
+		.wp-ace__plugin-promo-item__banner {
+		  width:100%;
+		  height: 100px;
+		  background-size: cover;
+
+		  &#promo-banner--notes-widget-wrapper {
+		    background-image: url(../images/notes-widet-wrapper-promo.jpg);
+		  }
+		  
+		  &#promo-banner--wp-notes-widget {
+		    background-image: url(../images/wp-notes-widget-promo.jpg);
+		  }
+		  
+		  &#promo-banner--custom-ratings {
+		    background-image: url(../images/custom-ratings-promo.jpg);
+		  }
+
+		}		
+	}
+
+
 }
 

@@ -621,18 +621,9 @@ class Admin_Code_Editor_Admin {
 	 * @since 1.0.0 
 	 */
 	function admin_code_editor_settings_page() {
-		?>
-			<div class="wrap">
-				<h1><?php _e('Admin Code Editor Settings', 'admin-code-editor'); ?></h1>
-				<form method="post" action="options.php">
-					<?php
-						do_settings_sections("admin-code-editor-options-page"); 
-						settings_fields("admin-code-editor-settings");
-						submit_button(); 
-					?>          
-				</form>
-			</div>
-		<?php
+		
+		require plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/admin-settings-page.php';
+
 	}
 
 
