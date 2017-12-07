@@ -367,8 +367,17 @@
 											</div>	
 											<div class="radio">
 												<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="after" <?php checked($html_php_editor->get_code_output_position(), 'after'); ?> ><?php _e('After Post Content', 'wrs-admin-code-editor'); ?></label>
-											</div>												
-																			
+											</div>
+
+											<h5><?php _e('Allow Searchable HTML', 'wrs-admin-code-editor'); ?></h5>
+											<div class="checkbox">
+												<label>
+													<input type="checkbox"  id="wp-ace-js-allow-searchable-html" name="wp-ace-js-allow-searchable-html" value="1" <?php checked($html_php_editor->get_allow_searchable_html_status(), '1'); ?> >
+													<?php _e('Yes', 'wrs-admin-code-editor'); ?> <br />
+													<?php _e('Creates a hidden meta field containing the tag-stripped HTML, which can be used by extended search plugins', 'wrs-admin-code-editor') ?>
+												</label>	
+											</div>
+
 										</div>	
 									</script>
 									<div id="wp-ace--html-php--changed-flag-container"></div>

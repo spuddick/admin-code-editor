@@ -798,6 +798,31 @@ class Admin_Code_Editor_Admin {
 		<?php
 	}	
 
+
+	/**
+	 *
+	 * Option field to display default setting to create filtered HTML meta data for post, for searching
+	 *
+	 * @since 
+	 */
+	function display_default_html_allow_searchable_html() {
+		?>
+
+			<div class="wp-ace-bootstrap">
+				
+				<div class="checkbox">
+					<label for="wp_ace_default_allow_searchable_html" >
+						<input type="checkbox" id="wp_ace_default_allow_searchable_html" name="wp_ace_default_allow_searchable_html" value="1"  <?php checked('1', get_option('wp_ace_default_allow_searchable_html') ); ?>  /><?php _e('Allow Searchable HTML', 'wrs-admin-code-editor') ?> <br />
+								<small><?php _e('Creates a hidden meta field containing the tag-stripped HTML, which can be used by extended search plugins', 'wrs-admin-code-editor') ?></small>
+					</label>
+				</div>					
+
+			</div>
+
+		<?php
+	}
+
+
 	/**
 	 *
 	 * Option field to display default CSS preprocessor 
@@ -1010,6 +1035,13 @@ class Admin_Code_Editor_Admin {
 			"admin-code-editor-options-page", 
 			"html-php-section"
 		);
+		add_settings_field(
+			"wp_ace_default_html_allow_searchable_html",
+			__('Allow Searchable HTML', 'wrs-admin-code-editor'),
+			array(&$this,"display_default_html_allow_searchable_html"),
+			"admin-code-editor-options-page", 
+			"html-php-section"
+		);
 
 		// CSS settings fields
 		add_settings_field(
@@ -1050,7 +1082,7 @@ class Admin_Code_Editor_Admin {
 
 		register_setting("admin-code-editor-settings", "wp_ace_default_html_preprocessor");
 		register_setting("admin-code-editor-settings", "wp_ace_default_html_position");
-
+		register_setting("admin-code-editor-settings", "wp_ace_default_allow_searchable_html");
 		register_setting("admin-code-editor-settings", "wp_ace_default_css_preprocessor");
 
 		register_setting("admin-code-editor-settings", "wp_ace_default_js_preprocessor");

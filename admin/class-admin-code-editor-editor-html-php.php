@@ -86,6 +86,12 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 		}		
 	}
 
+	public function get_allow_searchable_html_status() {
+
+	
+	}
+
+
 	/**
 	 * During post save, update fields specific to HTML code
 	 * @since 1.0.0
