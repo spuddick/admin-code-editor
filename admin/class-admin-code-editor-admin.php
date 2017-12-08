@@ -173,6 +173,7 @@ class Admin_Code_Editor_Admin {
 				$wpcr_data = array(
 					'wp-ace-html-php-code-position' 		=> $html_php_editor->get_code_output_position(),
 					'wp-ace-html-php-preprocessor' 			=> $html_php_editor->get_preprocessor(),
+					'wp-ace-html-php-allow-searchable-html' => $html_php_editor->get_allow_searchable_html_status(),
 					'wp-ace-css-preprocessor' 					=> $css_editor->get_preprocessor(),
 					'wp-ace-js-include-jquery' 					=> $js_editor->get_include_jquery_status(),
 					'wp-ace-css-isolation-mode' 				=> $css_editor->get_isolation_mode(),

@@ -115,6 +115,12 @@
 										<?php _e('Positioned <strong>after post content</strong>', 'wrs-admin-code-editor'); ?>.
 									<% } %>
 
+									<% if (allow_searchable_html) { %>	
+										<?php _e('Meta field created to <strong>allow for searchable HTML</strong>', 'wrs-admin-code-editor'); ?>.
+									<% } else { %>
+										<?php _e('<strong>HTML is not searchable</strong>', 'wrs-admin-code-editor'); ?>.
+									<% } %>
+
 								</script>
 							</div>
 						</div>
@@ -372,7 +378,7 @@
 											<h5><?php _e('Allow Searchable HTML', 'wrs-admin-code-editor'); ?></h5>
 											<div class="checkbox">
 												<label>
-													<input type="checkbox"  id="wp-ace-js-allow-searchable-html" name="wp-ace-js-allow-searchable-html" value="1" <?php checked($html_php_editor->get_allow_searchable_html_status(), '1'); ?> >
+													<input type="checkbox"  id="wp-ace-html-allow-searchable-html" name="wp-ace-html-allow-searchable-html" value="1" <?php checked($html_php_editor->get_allow_searchable_html_status(), '1'); ?> >
 													<?php _e('Yes', 'wrs-admin-code-editor'); ?> <br />
 													<?php _e('Creates a hidden meta field containing the tag-stripped HTML, which can be used by extended search plugins', 'wrs-admin-code-editor') ?>
 												</label>	

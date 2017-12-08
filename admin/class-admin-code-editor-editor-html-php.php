@@ -12,9 +12,10 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 	
 	const DEFAULT_PREPROCESSOR 								= 'none';
 	const DEFAULT_CODE_OUTPUT_POSITION 				= 'before';
+	const DEFAULT_ALLOW_SEARCHABLE_HTML 			= true;
 	private static $ALLOWABLE_OUTPUT_POSITION = array('before', 'after');
 
-	private $wpautop_is_disabled_status, $code_output_position;
+	private $wpautop_is_disabled_status, $code_output_position, $allow_searchable_html;
 
 	/**
 	 * Constructor
@@ -87,7 +88,12 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 	}
 
 	public function get_allow_searchable_html_status() {
-
+		if (!$this->allow_searchable_html) {
+			$this->allow_searchable_html = get_post_meta($this->get_code_post_id(), '_wp_ace_html_allow_searchable_html', true);
+			if (!$this->allow_searchable_html) {
+				$this->allow_searchable_html = get_option( 'wp_ace_default_allow_searchable_html', self::DEFAULT_ALLOW_SEARCHABLE_HTML);
+			}
+		}
 	
 	}
 
