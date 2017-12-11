@@ -379,8 +379,9 @@
 											<div class="checkbox">
 												<label>
 													<input type="checkbox"  id="wp-ace-html-allow-searchable-html" name="wp-ace-html-allow-searchable-html" value="1" <?php checked($html_php_editor->get_allow_searchable_html_status(), '1'); ?> >
-													<?php _e('Yes', 'wrs-admin-code-editor'); ?> <br />
-													<?php _e('Creates a hidden meta field containing the tag-stripped HTML, which can be used by extended search plugins', 'wrs-admin-code-editor') ?>
+													<?php _e('Yes', 'wrs-admin-code-editor'); ?> 
+													
+													<a href="#" data-toggle="tooltip" data-placement="right" data-html="true" title="<?php _e('Creates a hidden meta field containing the tag-stripped HTML, which can be used by extended search plugins', 'wrs-admin-code-editor') ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
 												</label>	
 											</div>
 
@@ -408,13 +409,22 @@
 										<div class="form-group">
 											<h5><?php _e('Isolation Mode', 'wrs-admin-code-editor'); ?> </h5>
 											<div class="radio">
-												<label class="radio"><input type="radio" <?php checked($css_editor->get_isolation_mode(), 'full-web-page'); ?> value="full-web-page" name="wp-ace-css-isolation-mode" ><?php _e('Full Web Page', 'wrs-admin-code-editor'); ?></label>
+												<label class="radio"><input type="radio" <?php checked($css_editor->get_isolation_mode(), 'full-web-page'); ?> value="full-web-page" name="wp-ace-css-isolation-mode" ><?php _e('Full Web Page', 'wrs-admin-code-editor'); ?>
+													<a href="#" data-toggle="tooltip" data-placement="right" data-html="true" title="<?php _e('Full web page info', 'wrs-admin-code-editor') ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+												</label>
+												
 											</div>
 											<div class="radio">
-												<label class="radio"><input type="radio" <?php checked($css_editor->get_isolation_mode(), 'page-content-plus-html-editor'); ?> value="page-content-plus-html-editor" name="wp-ace-css-isolation-mode" ><?php _e('Page Content + HTML Editor', 'wrs-admin-code-editor'); ?></label>
+												<label class="radio"><input type="radio" <?php checked($css_editor->get_isolation_mode(), 'page-content-plus-html-editor'); ?> value="page-content-plus-html-editor" name="wp-ace-css-isolation-mode" ><?php _e('Page Content + HTML Editor', 'wrs-admin-code-editor'); ?>
+												<a href="#" data-toggle="tooltip" data-placement="right" data-html="true" title="<?php _e('Page Content + HTML Editor info', 'wrs-admin-code-editor') ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+												</label>
+												
 											</div>
 											<div class="radio">
-												<label class="radio"><input type="radio" <?php checked($css_editor->get_isolation_mode(), 'html-editor'); ?> value="html-editor" name="wp-ace-css-isolation-mode" ><?php _e('HTML Editor', 'wrs-admin-code-editor'); ?></label>
+												<label class="radio"><input type="radio" <?php checked($css_editor->get_isolation_mode(), 'html-editor'); ?> value="html-editor" name="wp-ace-css-isolation-mode" ><?php _e('HTML Editor', 'wrs-admin-code-editor'); ?>
+												<a href="#" data-toggle="tooltip" data-placement="right" data-html="true" title="<?php _e('HTML Editor Info', 'wrs-admin-code-editor') ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+												</label>
+												
 											</div>
 										</div>
 

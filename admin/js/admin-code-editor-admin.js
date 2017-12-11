@@ -602,4 +602,6 @@ var wpAceInterface = (function() {
 jQuery(document).ready(function(){
 	wpAceInterface.init();
 	wpAceInterface.setInputMappingListeners();
+
+	jQuery('[data-toggle="tooltip"]').tooltip(); 
 });
