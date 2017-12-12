@@ -91,6 +91,12 @@ p.wp-ace__notice {
 	z-index:99999 !important;
 }
 
+a[data-toggle="tooltip"] {
+  i.fa {
+  	font-size:17px;
+  }
+}
+
 .wp-ace-bootstrap {
 	.wp-ace--web-rockstar--callout {
 		margin:0 20px;
