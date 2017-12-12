@@ -828,8 +828,12 @@ class Admin_Code_Editor_Admin {
 				
 				<div class="checkbox">
 					<label for="wp_ace_default_allow_searchable_html" >
-						<input type="checkbox" id="wp_ace_default_allow_searchable_html" name="wp_ace_default_allow_searchable_html" value="1"  <?php checked('1', get_option('wp_ace_default_allow_searchable_html') ); ?>  /><?php _e('Allow Searchable HTML', 'wrs-admin-code-editor') ?> 
-						 <a href="#" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<?php _e('Creates a hidden meta field containing the tag-stripped HTML, which can be used by extended search plugins', 'wrs-admin-code-editor'); ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+						<input type="checkbox" id="wp_ace_default_allow_searchable_html" name="wp_ace_default_allow_searchable_html" value="1"  <?php checked('1', get_option('wp_ace_default_allow_searchable_html') ); ?>  /><?php _e('Allow Searchable HTML', 'wrs-admin-code-editor') ?>
+							<?php
+
+								$title_text = sprintf( __('Creates a hidden meta field %1$s containing the tag-stripped HTML, which can be used by extended search plugins', 'wrs-admin-code-editor'), '<em>_wp_ace_html_searchable</em>' );
+							?> 
+						 <a href="#" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<?php echo $title_text; ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
 					</label>
 				</div>					
 
@@ -888,19 +892,19 @@ class Admin_Code_Editor_Admin {
 				<div class="radio">
 					<label for="wp-ace--default-css-isolation-mode--full-web-page" >
 						<input type="radio" id="wp-ace--default-css-isolation-mode--full-web-page" name="wp_ace_default_css_isolation_mode" value="full-web-page" <?php checked('full-web-page', get_option('wp_ace_default_css_isolation_mode') ); ?> /><?php _e('Full Web Page', 'wrs-admin-code-editor') ?> 
-						<a href="#" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<?php _e('Isolation Mode Tooltip Text', 'wrs-admin-code-editor'); ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+						<a href="#" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<?php _e('CSS will be applied to entire webpage', 'wrs-admin-code-editor'); ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
 					</label>
 				</div>
 				<div class="radio">
 					<label for="wp-ace--default-css-isolation-mode--page-content-plus-html-editor" >
 						<input type="radio" id="wp-ace--default-css-isolation-mode--page-content-plus-html-editor" name="wp_ace_default_css_isolation_mode" value="page-content-plus-html-editor" <?php checked('page-content-plus-html-editor', get_option('wp_ace_default_css_isolation_mode') ); ?>  /><?php _e('Post Content + HTML Editor', 'wrs-admin-code-editor') ?>
-						<a href="#" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<?php _e('Isolation Mode Tooltip Text', 'wrs-admin-code-editor'); ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+						<a href="#" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<?php _e('CSS will be isolated to WordPress post content and Code Editor HTML', 'wrs-admin-code-editor'); ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
 					</label>
 				</div>
 				<div class="radio">
 					<label for="wp-ace--default-css-isolation-mode--html-editor" >
 						<input type="radio" id="wp-ace--default-css-isolation-mode--html-editor" name="wp_ace_default_css_isolation_mode" value="html-editor" <?php checked('html-editor', $isolation_mode); ?>  /><?php _e('HTML Editor', 'wrs-admin-code-editor') ?>
-						<a href="#" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<?php _e('Isolation Mode Tooltip Text', 'wrs-admin-code-editor'); ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+						<a href="#" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<?php _e('CSS will be isolated to Code Editor HTML', 'wrs-admin-code-editor'); ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
 					</label>
 				</div>
 			</div>

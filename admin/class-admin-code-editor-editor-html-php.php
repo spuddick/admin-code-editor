@@ -98,7 +98,7 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 
 	public function get_allow_searchable_html_status() {
 		if (is_null($this->allow_searchable_html)) {
-			$this->allow_searchable_html = get_post_meta($this->get_code_post_id(), '_wp_ace_html_allow_searchable_html', true);
+			$this->allow_searchable_html = get_post_meta($this->get_code_post_id(), '_wp_ace_html_searchable', true);
 			if (!$this->allow_searchable_html) {
 				$this->allow_searchable_html = get_option( 'wp_ace_default_allow_searchable_html', self::DEFAULT_ALLOW_SEARCHABLE_HTML);
 			}
@@ -115,7 +115,7 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 
 		update_post_meta($this->get_code_post_id(), '_wp_ace_code_output_position', $this->get_code_output_position() );
 
-		update_post_meta($this->get_code_post_id(), '_wp_ace_html_allow_searchable_html', $this->get_allow_searchable_html_status());
+		update_post_meta($this->get_code_post_id(), '_wp_ace_html_searchable', $this->get_allow_searchable_html_status());
 
 		if ($this->get_allow_searchable_html_status()) {
 			$compiled_code = $this->get_compiled_code();	
