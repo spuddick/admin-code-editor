@@ -245,6 +245,7 @@ class Admin_Code_Editor_Public {
 			$wp_ace_css_tag_output 	= '<style id="wp-ace-css--post-' . $post->ID . '" >' . $css_editor->get_css_with_wrapper() . '</style>';
 			$content 								= $wp_ace_css_tag_output . $content;
 		}
+		wp_reset_postdata();
 		return $content;
 	}	
 }

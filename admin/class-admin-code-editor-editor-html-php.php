@@ -96,6 +96,12 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 		}		
 	}
 
+
+	/**
+	 * Get the HTML Searchable Status
+	 * @since new_version
+	 * @return  boolean HTML searchable status flag
+	 */
 	public function get_allow_searchable_html_status() {
 		if (is_null($this->allow_searchable_html)) {
 			$this->allow_searchable_html = get_post_meta($this->get_code_post_id(), '_wp_ace_html_searchable', true);
@@ -146,6 +152,11 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 	}
 
 
+	/**
+	 * Check to see if output position value is within allowable values
+	 * @return boolean
+	 * @since 1.0.0
+	 */
 	private static function isValidOutputPosition($position) {
 		if (in_array($position, self::$ALLOWABLE_OUTPUT_POSITION)) {
 			return true;

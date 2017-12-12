@@ -203,6 +203,12 @@ class Admin_Code_Editor_Admin {
 		}
 	}
 
+
+	/**
+	 * Register code editor meta box
+	 *
+	 * @since    1.0.0
+	 */
 	function code_editor_add_meta_box() {		
 		$selected_post_types 	= get_option('wp_ace_enabled_post_type');
 		$screens = $selected_post_types;
@@ -218,7 +224,12 @@ class Admin_Code_Editor_Admin {
 		}
 	}
 
-	// Display WordPress error message if at least one of the HTML, CSS, or JS precode compilation contains an error
+
+	/**
+	 * Display WordPress error message if at least one of the HTML, CSS, or JS precode compilation contains an error
+	 *
+	 * @since    1.0.0
+	 */
 	public function admin_post_error_notice() {
 		global $post, $pagenow;
 		$screen = get_current_screen();
@@ -878,7 +889,7 @@ class Admin_Code_Editor_Admin {
 	 *
 	 * Option field to display default CSS isolation mode
 	 *
-	 * @since 
+	 * @since new_version
 	 */
 	function display_default_css_isolation_mode_field_element() {
 		
