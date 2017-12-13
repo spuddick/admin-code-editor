@@ -168,9 +168,9 @@
 									<% if (isolation_mode == 'full-web-page') { %>
 										<?php _e('CSS applied to <strong>full web page</strong> (no isolation)', 'wrs-admin-code-editor'); ?>.
 									<% } else if (isolation_mode == 'page-content-plus-html-editor'){ %>
-										<?php _e('CSS isolated to <strong>editor content and HTML code</strong>', 'wrs-admin-code-editor'); ?>.
+										<?php _e('CSS isolated to <strong>post content and HTML editor code</strong>', 'wrs-admin-code-editor'); ?>.
 									<% } else if (isolation_mode == 'html-editor'){ %>
-										<?php _e('CSS isolated to <strong>HTML code</strong>', 'wrs-admin-code-editor'); ?>.
+										<?php _e('CSS isolated to <strong>HTML editor code</strong>', 'wrs-admin-code-editor'); ?>.
 									<% } %>
 								</script>
 							</div>
@@ -378,7 +378,7 @@
 											<h5><?php _e('Allow Searchable HTML', 'wrs-admin-code-editor'); ?> </h5>
 											<div class="checkbox">
 												<label>
-													<input type="checkbox"  id="wp-ace-html-allow-searchable-html" name="wp-ace-html-allow-searchable-html" value="1" <?php checked($html_php_editor->get_allow_searchable_html_status(), '1'); ?> >
+													<input type="checkbox"  id="wp-ace-html-php-allow-searchable-html" name="wp-ace-html-php-allow-searchable-html" value="1" <?php checked($html_php_editor->get_allow_searchable_html_status(), '1'); ?> >
 													<?php _e('Yes', 'wrs-admin-code-editor'); ?> 
 													<?php
 
@@ -418,12 +418,12 @@
 												</label>
 											</div>
 											<div class="radio">
-												<label class="radio"><input type="radio" <?php checked($css_editor->get_isolation_mode(), 'page-content-plus-html-editor'); ?> value="page-content-plus-html-editor" name="wp-ace-css-isolation-mode" ><?php _e('Post Content + HTML Editor', 'wrs-admin-code-editor'); ?>
+												<label class="radio"><input type="radio" <?php checked($css_editor->get_isolation_mode(), 'page-content-plus-html-editor'); ?> value="page-content-plus-html-editor" name="wp-ace-css-isolation-mode" ><?php _e('Post Content + HTML Editor Code', 'wrs-admin-code-editor'); ?>
 												 <a href="#" data-toggle="tooltip" data-placement="right" data-html="true" title="<?php _e('CSS will be isolated to WordPress post content and Code Editor HTML', 'wrs-admin-code-editor'); ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
 												</label>
 											</div>
 											<div class="radio">
-												<label class="radio"><input type="radio" <?php checked($css_editor->get_isolation_mode(), 'html-editor'); ?> value="html-editor" name="wp-ace-css-isolation-mode" ><?php _e('HTML Editor', 'wrs-admin-code-editor'); ?>
+												<label class="radio"><input type="radio" <?php checked($css_editor->get_isolation_mode(), 'html-editor'); ?> value="html-editor" name="wp-ace-css-isolation-mode" ><?php _e('HTML Editor Code', 'wrs-admin-code-editor'); ?>
 												 <a href="#" data-toggle="tooltip" data-placement="right" data-html="true" title="<?php _e('CSS will be isolated to Code Editor HTML', 'wrs-admin-code-editor'); ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
 												</label>
 											</div>

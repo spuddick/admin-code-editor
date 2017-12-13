@@ -69,8 +69,8 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 			}
 		}
 
-		if (isset($_POST['wp-ace-html-allow-searchable-html'])) {
-			if ($_POST['wp-ace-html-allow-searchable-html']) {
+		if (isset($_POST['wp-ace-html-php-allow-searchable-html'])) {
+			if ($_POST['wp-ace-html-php-allow-searchable-html']) {
 				$this->allow_searchable_html = 1;
 			} else {
 				$this->allow_searchable_html = 0;
@@ -105,7 +105,7 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 	public function get_allow_searchable_html_status() {
 		if (is_null($this->allow_searchable_html)) {
 			$this->allow_searchable_html = get_post_meta($this->get_code_post_id(), '_wp_ace_html_searchable', true);
-			if (!$this->allow_searchable_html) {
+			if (is_null($this->allow_searchable_html) || !strlen($this->allow_searchable_html) ) {
 				$this->allow_searchable_html = get_option( 'wp_ace_default_allow_searchable_html', self::DEFAULT_ALLOW_SEARCHABLE_HTML);
 			}
 		}

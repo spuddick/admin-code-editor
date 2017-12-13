@@ -52,6 +52,7 @@ var wpAceInterface = (function() {
 		var HTML_Code_Model = Code_Model.extend({
 			updateCodePosition: function() {
 				var code_position = jQuery('input[name=wp-ace-html-php-code-position]:checked').val();
+				console.log('updating code position status'); 
 				this.set({
 					output_position : code_position
 				});
@@ -67,9 +68,10 @@ var wpAceInterface = (function() {
 			},
 			updateAllowSearchableHTMLStatus: function() {
 				var status = 0;
-				if (jQuery('input#wp-ace-html-allow-searchable-html').is(":checked")) {
+				if (jQuery('input#wp-ace-html-php-allow-searchable-html').is(":checked")) {
 					status = 1;
-				} 
+				}
+				console.log('updating searchable status'); 
 				this.set({
 					allow_searchable_html : status
 				});
@@ -204,14 +206,17 @@ var wpAceInterface = (function() {
 				'change input[name=wp-ace-html-php-code-position]'	: 'codePositionChange',
 				'change input#wp-ace-html-php-disable-wpautop'			: 'disableWPautopChange',
 				'change input[name=wp-ace-html-php-preprocessor]'		: 'preprocessorChange',
-				'change input[name=wp-ace-html-allow-searchable-html]'		: 'searchableHTMLChange'
+				'change input[name=wp-ace-html-php-allow-searchable-html]'		: 'searchableHTMLChange'
 			},
 			initialize: function() {
 				console.log('html template: ' + jQuery('#tmpl-wp-ace-html').html().length);
 				this.template = _.template(jQuery('#tmpl-wp-ace-html').html());
 				jQuery('input[name=wp-ace-html-php-preprocessor]').trigger('change');
 				jQuery('input#wp-ace-html-php-disable-wpautop').trigger('change');
-				jQuery('input[name=wp-ace-html-php-preprocessor]').trigger('change');
+				jQuery('input[name=wp-ace-html-php-allow-searchable-html]').trigger('change');
+
+				console.log('checkbox: ' + jQuery('input[name=wp-ace-html-php-allow-searchable-html]').length);
+				console.log('preprocessor: ' + jQuery('input[name=wp-ace-html-php-preprocessor]').length);
 			},
 			codePositionChange: function(e) {
 				e.preventDefault();
@@ -232,6 +237,7 @@ var wpAceInterface = (function() {
 				e.preventDefault();
 				this.model.updateAllowSearchableHTMLStatus();
 				this.model.updateChangedStatus();
+				console.log('in searchable change');
 			},
 			render: function() {
 				this.$el.html(this.template(this.model.attributes));
@@ -365,7 +371,7 @@ var wpAceInterface = (function() {
 					ace_editor 										: html_editor,
 					output_position 							: wpcr_data['wp-ace-html-php-code-position'],
 					wpautop_status 								: wpcr_data['wp-ace-html-php-disable-wpautop'],
-					allow_searchable_html 				: wpcr_data['wp-ace-html-php-allow-searchable-html'],
+					allow_searchable_html 				: parseInt(wpcr_data['wp-ace-html-php-allow-searchable-html']),
 					post_type_name 								: wpcr_data['wp-ace-post-type-singular-name'],
 					preprocessed_code_has_errors 	: (wpcr_data['wp-ace-html-php-compile-status'] == 'error' ? 1 : 0),
 					code_change_slug 							: 'wp-ace--html-php--changed-flag'	 
@@ -391,6 +397,7 @@ var wpAceInterface = (function() {
 						html_editor.resize();
 						height = ui.element.height();
 						ui.element.siblings('.field-height').val(height);
+						html_code_model.updateChangedStatus();
 					}
 				});
 			}
@@ -446,6 +453,7 @@ var wpAceInterface = (function() {
 						css_editor.resize();
 						height = ui.element.height();
 						ui.element.siblings('.field-height').val(height);
+						css_code_model.updateChangedStatus();
 					}
 				});
 	
@@ -502,6 +510,7 @@ var wpAceInterface = (function() {
 						js_editor.resize();
 						height = ui.element.height();
 						ui.element.siblings('.field-height').val(height);
+						js_code_model.updateChangedStatus();
 					}
 				});
 
