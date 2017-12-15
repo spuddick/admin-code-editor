@@ -842,7 +842,7 @@ class Admin_Code_Editor_Admin {
 						<input type="checkbox" id="wp_ace_default_allow_searchable_html" name="wp_ace_default_allow_searchable_html" value="1"  <?php checked('1', get_option('wp_ace_default_allow_searchable_html') ); ?>  /><?php _e('Allow Searchable HTML', 'wrs-admin-code-editor') ?>
 							<?php
 
-								$title_text = sprintf( __('Creates a hidden meta field %1$s containing the tag-stripped HTML, which can be used by extended search plugins', 'wrs-admin-code-editor'), '<em>_wp_ace_html_searchable</em>' );
+								$title_text = sprintf( __('Creates a hidden meta field %1$s containing the tag-stripped HTML, which can be used by extended search plugins', 'wrs-admin-code-editor'), '<em>_wp_ace_html_php_filtered_html</em>' );
 							?> 
 						 <a href="#" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<?php echo $title_text; ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
 					</label>
