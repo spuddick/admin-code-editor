@@ -1,6 +1,6 @@
 === Admin Code Editor ===
 Contributors: stevepuddick
-Tags: code, editor, html, css, javascript, admin, post
+Tags: code, editor, html, css, javascript, admin, post, code, sass, scss, less
 Requires at least: 4.5
 Tested up to: 4.9
 Stable tag: 1.1.0
@@ -28,6 +28,10 @@ Here are the key highlights:
 * Ability to disable code output on templates (home, front-page, search, etc)
 * Ability to place code output above or below normal post content on the front end
 * Resizable code windows (click and drag bottom of code window)
+
+**New in 1.3.0**
+
+* 
 
 Admin Code Editor also supports server side compilation of various popular preprocessors including: SCSS, LESS, HAML, MarkDown, and CoffeeScript. Here are some highlights related to the server side compilation of preprocessor code:
 
