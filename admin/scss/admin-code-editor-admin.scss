@@ -17,7 +17,7 @@ li#wp-ace__settings-tab {
 }
 
 .wp-ace__tab-panel-inner {
-	padding:10px;
+	padding:0 0 10px 0;
 }
 
 .wp-ace-bootstrap .alert.wp-ace__alert--empty {
@@ -99,7 +99,7 @@ a[data-toggle="tooltip"] {
 
 .wp-ace-bootstrap {
 	.wp-ace--web-rockstar--callout {
-		margin:0 20px;
+		margin:0 10px;
 	  opacity: 0.8;
 	  border-top: 1px solid #ccc;
 	  padding-top: 3px;
