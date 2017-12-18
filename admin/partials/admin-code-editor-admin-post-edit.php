@@ -115,6 +115,12 @@
 										<?php _e('Positioned <strong>after post content</strong>', 'wrs-admin-code-editor'); ?>.
 									<% } %>
 
+									<% if (allow_searchable_html) { %>	
+										<?php _e('Meta field created to <strong>allow for searchable HTML</strong>', 'wrs-admin-code-editor'); ?>.
+									<% } else { %>
+										<?php _e('<strong>HTML is not searchable</strong>', 'wrs-admin-code-editor'); ?>.
+									<% } %>
+
 								</script>
 							</div>
 						</div>
@@ -158,6 +164,13 @@
 										<?php _e('No CSS Preprocessor selected', 'wrs-admin-code-editor'); ?>.
 									<% } else { %>
 										<?php echo sprintf( __('Preprocessing with %1$s', 'wrs-admin-code-editor'), '<strong><%= preprocessor_nicename %></strong>'); ?>.
+									<% } %>
+									<% if (isolation_mode == 'full-web-page') { %>
+										<?php _e('CSS applied to <strong>full web page</strong> (no isolation)', 'wrs-admin-code-editor'); ?>.
+									<% } else if (isolation_mode == 'page-content-plus-html-editor'){ %>
+										<?php _e('CSS isolated to <strong>post content and HTML editor code</strong>', 'wrs-admin-code-editor'); ?>.
+									<% } else if (isolation_mode == 'html-editor'){ %>
+										<?php _e('CSS isolated to <strong>HTML editor code</strong>', 'wrs-admin-code-editor'); ?>.
 									<% } %>
 								</script>
 							</div>
@@ -215,7 +228,7 @@
 				</div>
 			<?php } ?>  
 		</div>  
-
+		<p class="wp-ace--web-rockstar--callout" ><small>Admin Code Editor is built by <a href='https://webrockstar.net?utm_source=admin-code-editor-plugin&utm_medium=editor-footer' target="_blank">webrockstar.net</a>. If you find this plugin useful, please consider <a href='https://wordpress.org/plugins/admin-code-editor/#reviews' target="_blank">giving a rating</a>. Thanks.</small></p>
 		<div class="modal fade" tabindex="-1" role="dialog" id="wp-ace--compiled-html-modal" >
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
@@ -360,8 +373,22 @@
 											</div>	
 											<div class="radio">
 												<label class="radio"><input type="radio" name="wp-ace-html-php-code-position" value="after" <?php checked($html_php_editor->get_code_output_position(), 'after'); ?> ><?php _e('After Post Content', 'wrs-admin-code-editor'); ?></label>
-											</div>												
-																			
+											</div>
+
+											<h5><?php _e('Allow Searchable HTML', 'wrs-admin-code-editor'); ?> </h5>
+											<div class="checkbox">
+												<label>
+													<input type="checkbox"  id="wp-ace-html-php-allow-searchable-html" name="wp-ace-html-php-allow-searchable-html" value="1" <?php checked($html_php_editor->get_allow_searchable_html_status(), '1'); ?> >
+													<?php _e('Yes', 'wrs-admin-code-editor'); ?> 
+													<?php
+
+														$title_text = sprintf( __('Creates a hidden meta field %1$s containing the tag-stripped HTML, which can be used by extended search plugins', 'wrs-admin-code-editor'), '<em>_wp_ace_html_php_filtered_html</em>' );
+													?> 
+
+													<a href="#" data-toggle="tooltip" data-placement="right" data-html="true" title="<?php echo $title_text; ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+												</label>	
+											</div>
+
 										</div>	
 									</script>
 									<div id="wp-ace--html-php--changed-flag-container"></div>
@@ -382,6 +409,26 @@
 												<?php
 											}
 										?>
+
+										<div class="form-group">
+											<h5><?php _e('Isolation Mode', 'wrs-admin-code-editor'); ?></h5>
+											<div class="radio">
+												<label class="radio"><input type="radio" <?php checked($css_editor->get_isolation_mode(), 'full-web-page'); ?> value="full-web-page" name="wp-ace-css-isolation-mode" ><?php _e('Full Web Page', 'wrs-admin-code-editor'); ?>
+												 <a href="#" data-toggle="tooltip" data-placement="right" data-html="true" title="<?php _e('CSS will be applied to entire webpage', 'wrs-admin-code-editor'); ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+												</label>
+											</div>
+											<div class="radio">
+												<label class="radio"><input type="radio" <?php checked($css_editor->get_isolation_mode(), 'page-content-plus-html-editor'); ?> value="page-content-plus-html-editor" name="wp-ace-css-isolation-mode" ><?php _e('Post Content + HTML Editor Code', 'wrs-admin-code-editor'); ?>
+												 <a href="#" data-toggle="tooltip" data-placement="right" data-html="true" title="<?php _e('CSS will be isolated to WordPress post content and Code Editor HTML', 'wrs-admin-code-editor'); ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+												</label>
+											</div>
+											<div class="radio">
+												<label class="radio"><input type="radio" <?php checked($css_editor->get_isolation_mode(), 'html-editor'); ?> value="html-editor" name="wp-ace-css-isolation-mode" ><?php _e('HTML Editor Code', 'wrs-admin-code-editor'); ?>
+												 <a href="#" data-toggle="tooltip" data-placement="right" data-html="true" title="<?php _e('CSS will be isolated to Code Editor HTML', 'wrs-admin-code-editor'); ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+												</label>
+											</div>
+										</div>
+
 									</script>
 									<div id="wp-ace--css--changed-flag-container"></div>
 								</div>

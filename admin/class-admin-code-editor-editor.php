@@ -176,6 +176,11 @@ abstract class Admin_Code_Editor_Editor {
 		return $this->pre_code_compile_error_msg;	
 	}
 
+
+	protected function additional_revision_data_store($latest_revision_id) {
+
+	}
+
 	/**
 	 * Called when post is saved. Will return true if the code or code settings has changed. 
 	 * This is used to prevent uneccessary saving and compilation of code and code settings if nothing has changed.
@@ -234,7 +239,8 @@ abstract class Admin_Code_Editor_Editor {
 				$editor_height_old = get_post_meta($this->get_code_post_id(), '_wp_ace_editor_height', true);
 				
 				add_metadata( 'post', $latest_revision->ID, '_wp_ace_preprocessor', $preprocessor_old );
-				add_metadata( 'post', $latest_revision->ID, '_wp_ace_editor_height', $editor_height_old );					   
+				add_metadata( 'post', $latest_revision->ID, '_wp_ace_editor_height', $editor_height_old );
+				$this->additional_revision_data_store($latest_revision->ID);					   
 			}
 		}
 			
@@ -269,6 +275,7 @@ abstract class Admin_Code_Editor_Editor {
 
 		return;
 	}
+
 
 	/**
 	 * Function to compile all the various code from the supported preprocessors
@@ -423,6 +430,14 @@ abstract class Admin_Code_Editor_Editor {
 		return $ret;
 	}
 
+
+	/**
+	 * Filter the editor height to an allowable range
+	 * 
+	 * @since 1.0.0
+	 * @param string $height editor height 
+	 * @return string|int filtered editor height
+	 */
 	protected static function filterEditorHeight($height) {
 		$temp_field_height = intval($height);
 		if ($temp_field_height < 0) {
@@ -434,6 +449,15 @@ abstract class Admin_Code_Editor_Editor {
 		return $temp_field_height;
 	}
 
+
+	/**
+	 * Determine if the preprocessor value is allowable
+	 * 
+	 * @since 1.0.0
+	 * @param string the preprocessor 
+	 * @param string the type of code the preprocessor is for (HTML, CSS, JavaScript)
+	 * @return boolean whether the preprocessor is an allowable value for preprocessor type
+	 */
 	protected static function preprocessorIsValid($preprocessor_slug, $preprocessor_type) {
 		$all_supported_preprocessors = get_option( 'wp_ace_supported_preprocessors', true);
 		$supported_preprocessors = array_keys($all_supported_preprocessors[$preprocessor_type]);

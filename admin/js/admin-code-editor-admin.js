@@ -52,6 +52,7 @@ var wpAceInterface = (function() {
 		var HTML_Code_Model = Code_Model.extend({
 			updateCodePosition: function() {
 				var code_position = jQuery('input[name=wp-ace-html-php-code-position]:checked').val();
+				console.log('updating code position status'); 
 				this.set({
 					output_position : code_position
 				});
@@ -63,6 +64,16 @@ var wpAceInterface = (function() {
 				} 
 				this.set({
 					wpautop_status : status
+				});
+			},
+			updateAllowSearchableHTMLStatus: function() {
+				var status = 0;
+				if (jQuery('input#wp-ace-html-php-allow-searchable-html').is(":checked")) {
+					status = 1;
+				}
+				console.log('updating searchable status'); 
+				this.set({
+					allow_searchable_html : status
 				});
 			},
 			initialize: function(){
@@ -83,7 +94,12 @@ var wpAceInterface = (function() {
 		_.extend(HTML_Code_Model.prototype.defaults, Code_Model.prototype.defaults);
 		
 		var CSS_Code_Model = Code_Model.extend({
-
+			updateIsolationMode: function() {
+				var isolation_mode = jQuery('input[name=wp-ace-css-isolation-mode]:checked').val();
+				this.set({
+					isolation_mode : isolation_mode
+				});
+			},
 			initialize: function(){
 				this.set({
 					preprocessor_nicename_map : {
@@ -189,14 +205,18 @@ var wpAceInterface = (function() {
 			events: {
 				'change input[name=wp-ace-html-php-code-position]'	: 'codePositionChange',
 				'change input#wp-ace-html-php-disable-wpautop'			: 'disableWPautopChange',
-				'change input[name=wp-ace-html-php-preprocessor]'		: 'preprocessorChange'
+				'change input[name=wp-ace-html-php-preprocessor]'		: 'preprocessorChange',
+				'change input[name=wp-ace-html-php-allow-searchable-html]'		: 'searchableHTMLChange'
 			},
 			initialize: function() {
 				console.log('html template: ' + jQuery('#tmpl-wp-ace-html').html().length);
 				this.template = _.template(jQuery('#tmpl-wp-ace-html').html());
 				jQuery('input[name=wp-ace-html-php-preprocessor]').trigger('change');
 				jQuery('input#wp-ace-html-php-disable-wpautop').trigger('change');
-				jQuery('input[name=wp-ace-html-php-preprocessor]').trigger('change');
+				jQuery('input[name=wp-ace-html-php-allow-searchable-html]').trigger('change');
+
+				console.log('checkbox: ' + jQuery('input[name=wp-ace-html-php-allow-searchable-html]').length);
+				console.log('preprocessor: ' + jQuery('input[name=wp-ace-html-php-preprocessor]').length);
 			},
 			codePositionChange: function(e) {
 				e.preventDefault();
@@ -213,6 +233,12 @@ var wpAceInterface = (function() {
 				this.model.updatePreprocessor(jQuery(e.currentTarget));
 				this.model.updateChangedStatus();
 			},
+			searchableHTMLChange: function(e) {
+				e.preventDefault();
+				this.model.updateAllowSearchableHTMLStatus();
+				this.model.updateChangedStatus();
+				console.log('in searchable change');
+			},
 			render: function() {
 				this.$el.html(this.template(this.model.attributes));
 				return this;
@@ -224,7 +250,8 @@ var wpAceInterface = (function() {
 			tagName: 'div',
 			template: '',
 			events: {
-				'change input[name=wp-ace-css-preprocessor]': 'preprocessorChange'
+				'change input[name=wp-ace-css-preprocessor]': 'preprocessorChange',
+				'change input[name=wp-ace-css-isolation-mode]': 'isolationModeChange'
 			},
 			initialize: function() {
 				this.template = _.template(jQuery('#tmpl-wp-ace-css').html());
@@ -233,6 +260,11 @@ var wpAceInterface = (function() {
 			preprocessorChange: function(e) {
 				e.preventDefault();
 				this.model.updatePreprocessor(jQuery(e.currentTarget));
+				this.model.updateChangedStatus();
+			},
+			isolationModeChange: function(e) {
+				e.preventDefault();
+				this.model.updateIsolationMode();
 				this.model.updateChangedStatus();
 			},
 			render: function() {
@@ -339,6 +371,7 @@ var wpAceInterface = (function() {
 					ace_editor 										: html_editor,
 					output_position 							: wpcr_data['wp-ace-html-php-code-position'],
 					wpautop_status 								: wpcr_data['wp-ace-html-php-disable-wpautop'],
+					allow_searchable_html 				: parseInt(wpcr_data['wp-ace-html-php-allow-searchable-html']),
 					post_type_name 								: wpcr_data['wp-ace-post-type-singular-name'],
 					preprocessed_code_has_errors 	: (wpcr_data['wp-ace-html-php-compile-status'] == 'error' ? 1 : 0),
 					code_change_slug 							: 'wp-ace--html-php--changed-flag'	 
@@ -364,6 +397,7 @@ var wpAceInterface = (function() {
 						html_editor.resize();
 						height = ui.element.height();
 						ui.element.siblings('.field-height').val(height);
+						html_code_model.updateChangedStatus();
 					}
 				});
 			}
@@ -395,7 +429,8 @@ var wpAceInterface = (function() {
 					ace_editor 										: css_editor,
 					post_type_name 								: wpcr_data['wp-ace-post-type-singular-name'],
 					preprocessed_code_has_errors 	: (wpcr_data['wp-ace-css-compile-status'] == 'error' ? 1 : 0),
-					code_change_slug 							: 'wp-ace--css--changed-flag'		   
+					code_change_slug 							: 'wp-ace--css--changed-flag',
+					isolation_mode 								: wpcr_data['wp-ace-css-isolation-mode']		   
 				});
 
 				// Backbone CSS view set up		  
@@ -418,6 +453,7 @@ var wpAceInterface = (function() {
 						css_editor.resize();
 						height = ui.element.height();
 						ui.element.siblings('.field-height').val(height);
+						css_code_model.updateChangedStatus();
 					}
 				});
 	
@@ -474,6 +510,7 @@ var wpAceInterface = (function() {
 						js_editor.resize();
 						height = ui.element.height();
 						ui.element.siblings('.field-height').val(height);
+						js_code_model.updateChangedStatus();
 					}
 				});
 
@@ -507,8 +544,8 @@ var wpAceInterface = (function() {
 
 			jQuery('#change-settings-modal').on('show.bs.modal', function (e) {
 				// Proper tab activation in modal display
-				var $clicked_anchor = jQuery(e.relatedTarget);
-				jQuery('#' + $clicked_anchor.data('active-modal-tab')).tab('show');
+				//var $clicked_anchor = jQuery(e.relatedTarget);
+				//jQuery('#' + $clicked_anchor.data('active-modal-tab')).tab('show');
 
 				// adjust WordPress interface z-indexes for modal
 				jQuery('body').addClass('wp-ace-modal-active');
@@ -570,8 +607,50 @@ var wpAceInterface = (function() {
 		};
 })();
 
+initAceTabListeners = function() {
+	jQuery( "#wp-ace__tabs a" ).click(function( event ) {
+		var link_href = jQuery(this).attr('href');
+		console.log('in tabs event handler');
+		switch(link_href) {
+			case '#html-edit':
+				jQuery('#change-settings-modal a[href="#wp-ace-html"]').tab('show');
+				console.log('#html-edit clicked');
+			break;
+			case '#css-edit':
+				jQuery('#change-settings-modal a[href="#wp-ace-css"]').tab('show');
+				console.log('#css-edit clicked');
+			break;
+			case '#javascript-edit':
+				jQuery('#change-settings-modal a[href="#wp-ace-javascript"]').tab('show');
+				console.log('#javascript-edit clicked');
+			break;
+		}
+	});	
+
+	jQuery( "#change-settings-modal .nav-tabs a" ).click(function( event ) {
+		var link_href = jQuery(this).attr('href');
+		switch(link_href) {
+			case '#wp-ace-html':
+				jQuery('#wp-ace__tabs a[href="#html-edit"]').tab('show');
+
+			break;
+			case '#wp-ace-css':
+				jQuery('#wp-ace__tabs a[href="#css-edit"]').tab('show');
+
+			break;
+			case '#wp-ace-javascript':
+				jQuery('#wp-ace__tabs a[href="#javascript-edit"]').tab('show');
+
+			break;
+		}
+	});	
+};
 
 jQuery(document).ready(function(){
 	wpAceInterface.init();
 	wpAceInterface.setInputMappingListeners();
+
+	initAceTabListeners();
+
+	jQuery('[data-toggle="tooltip"]').tooltip(); 
 });

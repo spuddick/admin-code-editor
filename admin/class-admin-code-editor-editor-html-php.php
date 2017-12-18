@@ -12,9 +12,10 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 	
 	const DEFAULT_PREPROCESSOR 								= 'none';
 	const DEFAULT_CODE_OUTPUT_POSITION 				= 'before';
+	const DEFAULT_ALLOW_SEARCHABLE_HTML 			= 1;
 	private static $ALLOWABLE_OUTPUT_POSITION = array('before', 'after');
 
-	private $wpautop_is_disabled_status, $code_output_position;
+	private $wpautop_is_disabled_status, $code_output_position, $allow_searchable_html;
 
 	/**
 	 * Constructor
@@ -30,6 +31,7 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 			$this->keys 												= array();
 			$this->keys['host-hash-meta-key'] 	= '_wp_ace_html_php_hash';
 			$this->keys['code-id-meta-key'] 		= '_wp_ace_html_php_code_post_id';
+			$this->keys['filtered-html-meta-key'] 		= '_wp_ace_html_php_filtered_html';
 			$this->keys['global_preprocessor'] 	= 'wp_ace_default_html_preprocessor';
 			$this->keys['has-changed'] 					= 'wp-ace--html-php--changed-flag';
 			$this->post_type 										= 'wp-ace-html';
@@ -47,8 +49,7 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 	public function initialize_from_post_request() {
 		
 		if (isset($_POST['wp-ace-html-php-pre-code'])) {
-			//$this->pre_code = (empty($_POST['wp-ace-html-php-pre-code'])) ? ' ' : wp_kses_post($_POST['wp-ace-html-php-pre-code']); 
-			$this->pre_code = $_POST['wp-ace-html-php-pre-code'];
+			$this->pre_code = (empty($_POST['wp-ace-html-php-pre-code'])) ? ' ' : $_POST['wp-ace-html-php-pre-code']; 
 		}
 		if (isset($_POST['wp-ace-html-php-field-height'])) {
 			$this->field_height	= self::filterEditorHeight($_POST['wp-ace-html-php-field-height']);
@@ -68,7 +69,15 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 			}
 		}
 
-		$this->code_output_position;
+		if (isset($_POST['wp-ace-html-php-allow-searchable-html'])) {
+			if ($_POST['wp-ace-html-php-allow-searchable-html']) {
+				$this->allow_searchable_html = 1;
+			} else {
+				$this->allow_searchable_html = 0;
+			}
+		} else {
+			$this->allow_searchable_html = 0;
+		}
 	}
 	
 	/**
@@ -87,6 +96,23 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 		}		
 	}
 
+
+	/**
+	 * Get the HTML Searchable Status
+	 * @since new_version
+	 * @return  boolean HTML searchable status flag
+	 */
+	public function get_allow_searchable_html_status() {
+		if (is_null($this->allow_searchable_html)) {
+			$this->allow_searchable_html = get_post_meta($this->get_code_post_id(), '_wp_ace_html_searchable', true);
+			if (is_null($this->allow_searchable_html) || !strlen($this->allow_searchable_html) ) {
+				$this->allow_searchable_html = get_option( 'wp_ace_default_allow_searchable_html', self::DEFAULT_ALLOW_SEARCHABLE_HTML);
+			}
+		}
+		return $this->allow_searchable_html;
+	}
+
+
 	/**
 	 * During post save, update fields specific to HTML code
 	 * @since 1.0.0
@@ -94,6 +120,15 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 	protected function additional_updates() {
 
 		update_post_meta($this->get_code_post_id(), '_wp_ace_code_output_position', $this->get_code_output_position() );
+
+		update_post_meta($this->get_code_post_id(), '_wp_ace_html_searchable', $this->get_allow_searchable_html_status());
+
+		if ($this->get_allow_searchable_html_status()) {
+			$compiled_code = $this->get_compiled_code();	
+			update_post_meta($this->host_post_id, $this->keys['filtered-html-meta-key'], strip_tags($compiled_code) );
+		} else {
+			delete_post_meta($this->host_post_id, $this->keys['filtered-html-meta-key']);	
+		}
 	}
 
 	/**
@@ -117,6 +152,11 @@ class Admin_Code_Editor_Editor_HTML_PHP extends Admin_Code_Editor_Editor {
 	}
 
 
+	/**
+	 * Check to see if output position value is within allowable values
+	 * @return boolean
+	 * @since 1.0.0
+	 */
 	private static function isValidOutputPosition($position) {
 		if (in_array($position, self::$ALLOWABLE_OUTPUT_POSITION)) {
 			return true;

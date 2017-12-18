@@ -173,8 +173,10 @@ class Admin_Code_Editor_Admin {
 				$wpcr_data = array(
 					'wp-ace-html-php-code-position' 		=> $html_php_editor->get_code_output_position(),
 					'wp-ace-html-php-preprocessor' 			=> $html_php_editor->get_preprocessor(),
+					'wp-ace-html-php-allow-searchable-html' => $html_php_editor->get_allow_searchable_html_status(),
 					'wp-ace-css-preprocessor' 					=> $css_editor->get_preprocessor(),
-					'wp-ace-css-include-jquery' 				=> $js_editor->get_include_jquery_status(),
+					'wp-ace-js-include-jquery' 					=> $js_editor->get_include_jquery_status(),
+					'wp-ace-css-isolation-mode' 				=> $css_editor->get_isolation_mode(),
 					'wp-ace-js-preprocessor' 						=> $js_editor->get_preprocessor(),
 					'wp-ace-post-type-singular-name'		=> $post_type_obj->labels->singular_name,
 					'wp-ace-html-php-compile-status'		=> $html_php_editor->get_code_compile_status(),
@@ -183,9 +185,30 @@ class Admin_Code_Editor_Admin {
 				);
 				wp_localize_script( $this->admin_code_editor, 'wpcr_data', $wpcr_data);      
 			}
+		} elseif ($hook == 'settings_page_admin-code-editor-options-page' ) {
+			
+			wp_enqueue_script( 
+				'wp-ace-bootstrap-js',
+				plugin_dir_url( __FILE__ ) . 'js/bootstrap.min.js' , 
+				array('jquery'), 
+				filemtime(plugin_dir_path( __FILE__ ) . 'js/bootstrap.min.js')
+			);
+
+			wp_enqueue_script( 
+				'wp-ace-settings-js', 
+				plugin_dir_url( __FILE__ ) . 'js/admin-code-editor-settings.js', 
+				array( 'jquery', 'wp-ace-bootstrap-js' ), 
+				filemtime(plugin_dir_path( __FILE__ ) . 'js/admin-code-editor-settings.js')
+			);
 		}
 	}
 
+
+	/**
+	 * Register code editor meta box
+	 *
+	 * @since    1.0.0
+	 */
 	function code_editor_add_meta_box() {		
 		$selected_post_types 	= get_option('wp_ace_enabled_post_type');
 		$screens = $selected_post_types;
@@ -201,7 +224,12 @@ class Admin_Code_Editor_Admin {
 		}
 	}
 
-	// Display WordPress error message if at least one of the HTML, CSS, or JS precode compilation contains an error
+
+	/**
+	 * Display WordPress error message if at least one of the HTML, CSS, or JS precode compilation contains an error
+	 *
+	 * @since    1.0.0
+	 */
 	public function admin_post_error_notice() {
 		global $post, $pagenow;
 		$screen = get_current_screen();
@@ -620,18 +648,9 @@ class Admin_Code_Editor_Admin {
 	 * @since 1.0.0 
 	 */
 	function admin_code_editor_settings_page() {
-		?>
-			<div class="wrap">
-				<h1><?php _e('Admin Code Editor Settings', 'admin-code-editor'); ?></h1>
-				<form method="post" action="options.php">
-					<?php
-						do_settings_sections("admin-code-editor-options-page"); 
-						settings_fields("admin-code-editor-settings");
-						submit_button(); 
-					?>          
-				</form>
-			</div>
-		<?php
+		
+		require plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/admin-settings-page.php';
+
 	}
 
 
@@ -806,6 +825,35 @@ class Admin_Code_Editor_Admin {
 		<?php
 	}	
 
+
+	/**
+	 *
+	 * Option field to display default setting to create filtered HTML meta data for post, for searching
+	 *
+	 * @since 
+	 */
+	function display_default_html_allow_searchable_html() {
+		?>
+
+			<div class="wp-ace-bootstrap">
+				
+				<div class="checkbox">
+					<label for="wp_ace_default_allow_searchable_html" >
+						<input type="checkbox" id="wp_ace_default_allow_searchable_html" name="wp_ace_default_allow_searchable_html" value="1"  <?php checked('1', get_option('wp_ace_default_allow_searchable_html') ); ?>  /><?php _e('Allow Searchable HTML', 'wrs-admin-code-editor') ?>
+							<?php
+
+								$title_text = sprintf( __('Creates a hidden meta field %1$s containing the tag-stripped HTML, which can be used by extended search plugins', 'wrs-admin-code-editor'), '<em>_wp_ace_html_php_filtered_html</em>' );
+							?> 
+						 <a href="#" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<?php echo $title_text; ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+					</label>
+				</div>					
+
+			</div>
+
+		<?php
+	}
+
+
 	/**
 	 *
 	 * Option field to display default CSS preprocessor 
@@ -836,6 +884,44 @@ class Admin_Code_Editor_Admin {
 		<?php
 	}
 
+
+	/**
+	 *
+	 * Option field to display default CSS isolation mode
+	 *
+	 * @since new_version
+	 */
+	function display_default_css_isolation_mode_field_element() {
+		
+		$isolation_mode = get_option('wp_ace_default_css_isolation_mode');
+		if (!$isolation_mode) {
+			$isolation_mode = 'html-editor';
+		}
+		?>
+
+			<div class="wp-ace-bootstrap">
+				<div class="radio">
+					<label for="wp-ace--default-css-isolation-mode--full-web-page" >
+						<input type="radio" id="wp-ace--default-css-isolation-mode--full-web-page" name="wp_ace_default_css_isolation_mode" value="full-web-page" <?php checked('full-web-page', get_option('wp_ace_default_css_isolation_mode') ); ?> /><?php _e('Full Web Page', 'wrs-admin-code-editor') ?> 
+						<a href="#" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<?php _e('CSS will be applied to entire webpage', 'wrs-admin-code-editor'); ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+					</label>
+				</div>
+				<div class="radio">
+					<label for="wp-ace--default-css-isolation-mode--page-content-plus-html-editor" >
+						<input type="radio" id="wp-ace--default-css-isolation-mode--page-content-plus-html-editor" name="wp_ace_default_css_isolation_mode" value="page-content-plus-html-editor" <?php checked('page-content-plus-html-editor', get_option('wp_ace_default_css_isolation_mode') ); ?>  /><?php _e('Post Content + HTML Editor Code', 'wrs-admin-code-editor') ?>
+						<a href="#" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<?php _e('CSS will be isolated to WordPress post content and Code Editor HTML', 'wrs-admin-code-editor'); ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+					</label>
+				</div>
+				<div class="radio">
+					<label for="wp-ace--default-css-isolation-mode--html-editor" >
+						<input type="radio" id="wp-ace--default-css-isolation-mode--html-editor" name="wp_ace_default_css_isolation_mode" value="html-editor" <?php checked('html-editor', $isolation_mode); ?>  /><?php _e('HTML Editor Code', 'wrs-admin-code-editor') ?>
+						<a href="#" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<?php _e('CSS will be isolated to Code Editor HTML', 'wrs-admin-code-editor'); ?>"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+					</label>
+				</div>
+			</div>
+
+		<?php
+	}
 
 	/**
 	 *
@@ -924,6 +1010,18 @@ class Admin_Code_Editor_Admin {
 	}
 
 
+	function update_field_wp_ace_default_allow_searchable_html( $new_value, $old_value ) {
+		if (empty($new_value)) {
+			$new_value = 0;
+		}
+		return $new_value;
+	}
+
+
+	function init_option_filtering() {
+		add_filter( 'pre_update_option_wp_ace_default_allow_searchable_html', array(&$this,'update_field_wp_ace_default_allow_searchable_html'), 10, 2 );
+	}
+
 	/**
 	 * Set up WP ACE options page
 	 * 
@@ -983,12 +1081,26 @@ class Admin_Code_Editor_Admin {
 			"admin-code-editor-options-page", 
 			"html-php-section"
 		);
+		add_settings_field(
+			"wp_ace_default_html_allow_searchable_html",
+			__('Allow Searchable HTML', 'wrs-admin-code-editor'),
+			array(&$this,"display_default_html_allow_searchable_html"),
+			"admin-code-editor-options-page", 
+			"html-php-section"
+		);
 
 		// CSS settings fields
 		add_settings_field(
 			"wp_ace_default_css_preprocessors",
 			__('Preprocessor', 'wrs-admin-code-editor'),
 			array(&$this,"display_default_css_preprocessors_field_element"),
+			"admin-code-editor-options-page", 
+			"css-section"
+		);
+		add_settings_field(
+			"wp_ace_default_css_isolation_mode",
+			__('Isolation Mode', 'wrs-admin-code-editor')  ,
+			array(&$this,"display_default_css_isolation_mode_field_element"),
 			"admin-code-editor-options-page", 
 			"css-section"
 		);
@@ -1016,8 +1128,10 @@ class Admin_Code_Editor_Admin {
 
 		register_setting("admin-code-editor-settings", "wp_ace_default_html_preprocessor");
 		register_setting("admin-code-editor-settings", "wp_ace_default_html_position");
+		register_setting("admin-code-editor-settings", "wp_ace_default_allow_searchable_html");
 
 		register_setting("admin-code-editor-settings", "wp_ace_default_css_preprocessor");
+		register_setting("admin-code-editor-settings", "wp_ace_default_css_isolation_mode");
 
 		register_setting("admin-code-editor-settings", "wp_ace_default_js_preprocessor");
 		register_setting("admin-code-editor-settings", "wp_ace_default_include_jquery");

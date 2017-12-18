@@ -69,7 +69,7 @@ class Admin_Code_Editor {
 	public function __construct() {
 
 		$this->admin_code_editor = 'admin-code-editor';
-		$this->version = '1.1.0';
+		$this->version = '1.3.0';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -159,6 +159,7 @@ class Admin_Code_Editor {
 		$this->loader->add_action( 'admin_notices', 				$plugin_admin, 'admin_post_error_notice' );
 		$this->loader->add_action( 'admin_menu', 						$plugin_admin, 'options_menu' );
 		$this->loader->add_action( 'admin_init', 						$plugin_admin, 'display_theme_panel_fields' );
+		$this->loader->add_action( 'admin_init', 						$plugin_admin, 'init_option_filtering' );
 		
 		$this->loader->add_action( 'plugins_loaded', 				$plugin_admin, 'plugin_update_check' );
 		$this->loader->add_action( 'before_delete_post', 		$plugin_admin, 'delete_code_posts' );
