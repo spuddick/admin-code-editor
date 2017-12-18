@@ -276,6 +276,7 @@ abstract class Admin_Code_Editor_Editor {
 		return;
 	}
 
+
 	/**
 	 * Function to compile all the various code from the supported preprocessors
 	 * 
@@ -429,6 +430,14 @@ abstract class Admin_Code_Editor_Editor {
 		return $ret;
 	}
 
+
+	/**
+	 * Filter the editor height to an allowable range
+	 * 
+	 * @since 1.0.0
+	 * @param string $height editor height 
+	 * @return string|int filtered editor height
+	 */
 	protected static function filterEditorHeight($height) {
 		$temp_field_height = intval($height);
 		if ($temp_field_height < 0) {
@@ -440,6 +449,15 @@ abstract class Admin_Code_Editor_Editor {
 		return $temp_field_height;
 	}
 
+
+	/**
+	 * Determine if the preprocessor value is allowable
+	 * 
+	 * @since 1.0.0
+	 * @param string the preprocessor 
+	 * @param string the type of code the preprocessor is for (HTML, CSS, JavaScript)
+	 * @return boolean whether the preprocessor is an allowable value for preprocessor type
+	 */
 	protected static function preprocessorIsValid($preprocessor_slug, $preprocessor_type) {
 		$all_supported_preprocessors = get_option( 'wp_ace_supported_preprocessors', true);
 		$supported_preprocessors = array_keys($all_supported_preprocessors[$preprocessor_type]);

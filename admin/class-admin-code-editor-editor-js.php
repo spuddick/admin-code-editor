@@ -108,7 +108,13 @@ class Admin_Code_Editor_Editor_JS extends Admin_Code_Editor_Editor {
 				
 	}
 	
-
+	/**
+	 * Filter the editor height to an allowable range
+	 * 
+	 * @since 1.0.0
+	 * @param string $height editor height 
+	 * @return string|int filtered editor height
+	 */
 	private static function sanitizeJS($js) {
 		$filtered_js = wp_check_invalid_utf8( $js, true );
 		$filtered_js = preg_replace("/<\s*\/\s*script\s*.*>/i", '', $filtered_js);
