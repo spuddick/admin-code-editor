@@ -1,9 +1,9 @@
 === Admin Code Editor ===
 Contributors: stevepuddick
-Tags: code, editor, html, css, javascript, admin, post
+Tags: code, editor, html, css, javascript, admin, post, code, sass, scss, less
 Requires at least: 4.5
 Tested up to: 4.9
-Stable tag: 1.1.0
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,6 +28,12 @@ Here are the key highlights:
 * Ability to disable code output on templates (home, front-page, search, etc)
 * Ability to place code output above or below normal post content on the front end
 * Resizable code windows (click and drag bottom of code window)
+
+**New in 1.3.0**
+
+* update preprocessors to latest versions
+* allow HTML code to be queried in WordPress website searches
+* creation of CSS 'isolation modes' to apply CSS to the HTML code, post content, or full webpage
 
 Admin Code Editor also supports server side compilation of various popular preprocessors including: SCSS, LESS, HAML, MarkDown, and CoffeeScript. Here are some highlights related to the server side compilation of preprocessor code:
 
@@ -95,6 +101,11 @@ At the current moment, previewing a post will not show updates to your Admin Cod
 
 At the current moment there is not an elegant way of doing this. However, you can include scripts using the `<script>` tag in the HTML code area.  
 
+= How can I make my HTML code searchable? =
+
+First, ensure the "Allow Searchable HTML" has been set to "Yes". The "HTML tag stripped" version of the HTML code will now be present in the `_wp_ace_html_php_filtered_html` meta data for that post. Many popular entended search plugins (or a custom implementation) can now utilize this meta data for search results.  
+
+
 == Screenshots ==
 
 1. The Admin Code Editor HTML, CSS, and JavaScript is output below the regular post content
@@ -109,6 +120,13 @@ At the current moment there is not an elegant way of doing this. However, you ca
 
 
 == Changelog ==
+
+= 1.3.0 =
+* Add: update preprocessors to latest versions
+* Add: allow HTML code to be queried in WordPress website searches
+* Add: creation of CSS 'isolation modes' to apply CSS to the HTML code, post content, or full webpage
+* Fix: code properly saves empty value after completely removing all previous code
+* Change: improve usability of tab switching in editor interface
 
 = 1.1.0 =
 * Fix: jQuery toggle display

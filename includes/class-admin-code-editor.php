@@ -69,7 +69,7 @@ class Admin_Code_Editor {
 	public function __construct() {
 
 		$this->admin_code_editor = 'admin-code-editor';
-		$this->version = '1.1.0';
+		$this->version = '1.3.0';
 
 		$this->load_dependencies();
 		$this->set_locale();

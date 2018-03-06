@@ -124,13 +124,20 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 		update_post_meta($this->get_code_post_id(), '_wp_ace_code_css_isolation_mode', $this->get_isolation_mode() );
 	}
 
-
+	/**
+	 * Store isolation mode in revision data
+	 * @since 1.3.0
+	 */
 	protected function additional_revision_data_store($latest_revision_id) {
 		$isolation_mode_old = get_post_meta($this->get_code_post_id(), '_wp_ace_code_css_isolation_mode', true);
 		add_metadata( 'post', $latest_revision_id, '_wp_ace_code_css_isolation_mode', $isolation_mode_old );
 	}
 
-
+	/**
+	 * Strip out any style tags from the HTML body
+	 * @since 1.0.0
+	 * @return string HTML code with <style> tags removed
+	 */
 	private static function sanitizeCSS($css) {
 		$filtered_css = wp_check_invalid_utf8( $css, true );
 		$filtered_css = preg_replace("/<\s*\/\s*style\s*.*>/i", '', $filtered_css);
@@ -140,9 +147,10 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 
 
 	/**
+	 * Get the CSS isolation mode of the post
 	 * 
-	 * @return isolation mode of CSS
-	 * @since 
+	 * @since 1.3.0
+	 * @return string the CSS isolation mode
 	 */
 	public function get_isolation_mode() {
 		
@@ -155,8 +163,14 @@ class Admin_Code_Editor_Editor_CSS extends Admin_Code_Editor_Editor {
 		return $this->isolation_mode;
 
 	}
- 
 
+ 
+	/**
+	 * Enforces allowable isolation mode values
+	 * 
+	 * @return isolation mode of CSS within context of allowable values
+	 * @since 1.3.0
+	 */
 	protected static function filterIsolationMode($raw_mode) {
 		$allowable_modes = array(
 			'full-web-page',

@@ -544,8 +544,8 @@ var wpAceInterface = (function() {
 
 			jQuery('#change-settings-modal').on('show.bs.modal', function (e) {
 				// Proper tab activation in modal display
-				var $clicked_anchor = jQuery(e.relatedTarget);
-				jQuery('#' + $clicked_anchor.data('active-modal-tab')).tab('show');
+				//var $clicked_anchor = jQuery(e.relatedTarget);
+				//jQuery('#' + $clicked_anchor.data('active-modal-tab')).tab('show');
 
 				// adjust WordPress interface z-indexes for modal
 				jQuery('body').addClass('wp-ace-modal-active');
@@ -607,10 +607,50 @@ var wpAceInterface = (function() {
 		};
 })();
 
+initAceTabListeners = function() {
+	jQuery( "#wp-ace__tabs a" ).click(function( event ) {
+		var link_href = jQuery(this).attr('href');
+		console.log('in tabs event handler');
+		switch(link_href) {
+			case '#html-edit':
+				jQuery('#change-settings-modal a[href="#wp-ace-html"]').tab('show');
+				console.log('#html-edit clicked');
+			break;
+			case '#css-edit':
+				jQuery('#change-settings-modal a[href="#wp-ace-css"]').tab('show');
+				console.log('#css-edit clicked');
+			break;
+			case '#javascript-edit':
+				jQuery('#change-settings-modal a[href="#wp-ace-javascript"]').tab('show');
+				console.log('#javascript-edit clicked');
+			break;
+		}
+	});	
+
+	jQuery( "#change-settings-modal .nav-tabs a" ).click(function( event ) {
+		var link_href = jQuery(this).attr('href');
+		switch(link_href) {
+			case '#wp-ace-html':
+				jQuery('#wp-ace__tabs a[href="#html-edit"]').tab('show');
+
+			break;
+			case '#wp-ace-css':
+				jQuery('#wp-ace__tabs a[href="#css-edit"]').tab('show');
+
+			break;
+			case '#wp-ace-javascript':
+				jQuery('#wp-ace__tabs a[href="#javascript-edit"]').tab('show');
+
+			break;
+		}
+	});	
+};
 
 jQuery(document).ready(function(){
 	wpAceInterface.init();
 	wpAceInterface.setInputMappingListeners();
+
+	initAceTabListeners();
 
 	jQuery('[data-toggle="tooltip"]').tooltip(); 
 });
