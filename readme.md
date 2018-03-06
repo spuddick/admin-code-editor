@@ -90,15 +90,15 @@ At the current moment there is not an elegant way of doing this. However, you ca
 
 ## Screenshots
 
-[The Admin Code Editor HTML, CSS, and JavaScript is output below the regular post content.](https://webrockstar.net/wp-content/uploads/2018/03/screenshot-1.png)
-[Specify the default settings for the Admin Code Editor here.](https://webrockstar.net/wp-content/uploads/2018/03/screenshot-2.png)
-[The Admin Code Editor HTML Editor.](https://webrockstar.net/wp-content/uploads/2018/03/screenshot-3.png)
-[The Admin Code Editor CSS Editor. In this screenshot SCSS is being used as the preprocessor and an error is currently being displayed.](https://webrockstar.net/wp-content/uploads/2018/03/screenshot-4.png)
-[The Admin Code Editor JavaScript Editor.](https://webrockstar.net/wp-content/uploads/2018/03/screenshot-5.png)
-[Settings modal window with the General tab active.](https://webrockstar.net/wp-content/uploads/2018/03/screenshot-6.png)
-[Settings modal window with the HTML tab active.](https://webrockstar.net/wp-content/uploads/2018/03/screenshot-7.png)
-[Settings modal window with the CSS tab active.](https://webrockstar.net/wp-content/uploads/2018/03/screenshot-8.png)
-[Settings modal window with the JavaScript tab active.](https://webrockstar.net/wp-content/uploads/2018/03/screenshot-9.png)
+![The Admin Code Editor HTML, CSS, and JavaScript is output below the regular post content.](https://webrockstar.net/wp-content/uploads/2018/03/screenshot-1.png)
+![Specify the default settings for the Admin Code Editor here.](https://webrockstar.net/wp-content/uploads/2018/03/screenshot-2.png)
+![The Admin Code Editor HTML Editor.](https://webrockstar.net/wp-content/uploads/2018/03/screenshot-3.png)
+![The Admin Code Editor CSS Editor. In this screenshot SCSS is being used as the preprocessor and an error is currently being displayed.](https://webrockstar.net/wp-content/uploads/2018/03/screenshot-4.png)
+![The Admin Code Editor JavaScript Editor.](https://webrockstar.net/wp-content/uploads/2018/03/screenshot-5.png)
+![Settings modal window with the General tab active.](https://webrockstar.net/wp-content/uploads/2018/03/screenshot-6.png)
+![Settings modal window with the HTML tab active.](https://webrockstar.net/wp-content/uploads/2018/03/screenshot-7.png)
+![Settings modal window with the CSS tab active.](https://webrockstar.net/wp-content/uploads/2018/03/screenshot-8.png)
+![Settings modal window with the JavaScript tab active.](https://webrockstar.net/wp-content/uploads/2018/03/screenshot-9.png)
 
 
 ## Changelog 
