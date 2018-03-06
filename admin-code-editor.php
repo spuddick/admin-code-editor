@@ -8,8 +8,8 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Admin Code Editor
- * Plugin URI:        
- * Description:       Easily add additional HTML, CSS, and JS to a post. Features colour highlighted text, line numbers, tab indents, and more. SCSS, LESS support too. 
+ * Plugin URI:
+ * Description:       Easily add additional HTML, CSS, and JS to a post. Features colour highlighted text, line numbers, tab indents, and more. SCSS, LESS support too.
  * Version:           1.1.0
  * Author:            Steve Puddick
  * Author URI:        http://webrockstar.net/
@@ -17,6 +17,7 @@
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       wrd-admin-code-editor
  * Domain Path:       /languages
+ *
  */
 
 // If this file is called directly, abort.
