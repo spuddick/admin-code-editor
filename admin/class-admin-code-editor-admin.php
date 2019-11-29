@@ -406,6 +406,10 @@ class Admin_Code_Editor_Admin {
 			return;
 		}		
 
+		if ( ! current_user_can( 'unfiltered_html') ) {
+			return;
+		}
+
 		// Check the user's permissions.
 		if ( isset( $_POST['post_type'] ) && 'page' == $_POST['post_type'] ) {
 
